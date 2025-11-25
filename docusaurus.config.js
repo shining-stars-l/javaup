@@ -104,9 +104,9 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'java',
+            sidebarId: 'Java面经',
             position: 'left',
-            label: 'Java',
+            label: 'Java面经',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
@@ -164,7 +164,7 @@ const config = {
       prism: {
         theme: prismThemes.github,
         darkTheme: prismThemes.dracula,
-        additionalLanguages: ['java', 'properties', 'yaml'],
+        additionalLanguages: ['java', 'properties', 'yaml', 'lua'],
       },
     }),
 };
