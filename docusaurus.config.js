@@ -116,6 +116,12 @@ const config = {
             position: 'left',
             label: 'Java相关',
           },
+          {
+            type: 'docSidebar',
+            sidebarId: '数据库相关',
+            position: 'left',
+            label: '数据库相关',
+          },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
             href: 'https://github.com/shining-stars-l/javaup',
