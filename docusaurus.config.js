@@ -106,9 +106,15 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'Java面经',
+            sidebarId: '开发工具相关',
             position: 'left',
-            label: 'Java面经',
+            label: '开发工具相关',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'Java相关',
+            position: 'left',
+            label: 'Java相关',
           },
           {to: '/blog', label: 'Blog', position: 'left'},
           {
