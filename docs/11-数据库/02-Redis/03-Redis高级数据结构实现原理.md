@@ -1,6 +1,7 @@
 ---
 slug: /database/redis/data-structures
 ---
+# Redis高级数据结构实现原理
 
 ## Hash结构的底层实现
 

@@ -1,6 +1,7 @@
 ---
 slug: /database/redis/memory-management
 ---
+# Redis内存管理与优化策略
 
 ## Redis内存管理策略
 
@@ -8,7 +9,11 @@ Redis作为内存数据库,合理的内存管理对于系统稳定运行至关�
 
 ### 过期策略 - 如何删除过期Key
 
-Redis通过设置过期时间来控制键值对的生命周期,相关命令包括:
+#### Key过期机制概述
+
+Redis 通过设置过期时间来控制键值对的生命周期。但需要注意的是，**Redis 中的 Key 过期后并不一定会立即删除**。这是 Redis 在性能和内存之间做出的权衡设计。
+
+**过期时间设置方式：**
 
 ```java
 // 设置过期时间的几种方式
@@ -16,6 +21,54 @@ EXPIRE key 3600              // 设置3600秒后过期
 EXPIREAT key 1735689600      // 设置到指定时间戳过期
 SETEX session:token 1800 "abc123"  // 创建时直接设置过期时间
 PERSIST key                  // 移除过期时间
+
+// Redis 6.2+ 支持的选项
+EXPIRE key 3600 NX    // 仅当Key没有过期时间时才设置
+EXPIRE key 3600 XX    // 仅当Key已有过期时间时才更新
+EXPIRE key 3600 GT    // 仅当新过期时间大于当前值时才更新
+EXPIRE key 3600 LT    // 仅当新过期时间小于当前值时才更新
+```
+
+**过期时间的特性：**
+
+1. **覆盖行为**：使用 `SET`、`GETSET` 等命令覆盖 Key 的值会清除过期时间
+2. **保留行为**：使用 `INCR`、`LPUSH`、`HSET` 等修改命令不会影响过期时间
+3. **重命名转移**：使用 `RENAME` 命令时，过期时间会转移到新的 Key 名上
+4. **负值删除**：设置负数或过去的时间戳会立即删除 Key（触发 `del` 事件而非 `expired` 事件）
+
+```java
+// 电商会话管理示例
+public class SessionManager {
+    
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+    
+    /**
+     * 创建用户会话，设置30分钟过期
+     */
+    public void createSession(String userId, String sessionData) {
+        String key = "session:user:" + userId;
+        redisTemplate.opsForValue().set(key, sessionData, Duration.ofMinutes(30));
+    }
+    
+    /**
+     * 用户活跃时刷新会话过期时间
+     */
+    public void refreshSession(String userId) {
+        String key = "session:user:" + userId;
+        // 重新设置30分钟过期时间
+        redisTemplate.expire(key, Duration.ofMinutes(30));
+    }
+    
+    /**
+     * 更新会话数据（不影响过期时间）
+     */
+    public void updateSessionData(String userId, String field, String value) {
+        String key = "session:user:" + userId;
+        // 使用HSET修改，过期时间保持不变
+        redisTemplate.opsForHash().put(key, field, value);
+    }
+}
 ```
 
 #### 惰性删除策略
@@ -92,12 +145,272 @@ graph TD
 
 #### 组合策略
 
-**Redis同时使用惰性删除和定期删除:**
+**Redis 同时使用惰性删除和定期删除两种策略：**
 
-- 惰性删除: 访问时保证返回的一定不是过期数据
-- 定期删除: 定期清理未被访问的过期数据
+- **惰性删除（被动过期）**：访问时保证返回的一定不是过期数据
+- **定期删除（主动过期）**：定期清理未被访问的过期数据
 
-这种组合在CPU开销和内存占用之间取得了良好平衡。
+这种组合在 CPU 开销和内存占用之间取得了良好平衡。
+
+#### Key 过期了一定会立即删除吗？
+
+**答案是：不一定！**
+
+Redis 的过期删除机制决定了过期的 Key 并不会立即被删除，主要有以下原因：
+
+**1. 惰性删除的延迟性**
+
+被动过期策略下，只有当客户端访问某个 Key 时才会检查是否过期。如果一个 Key 过期后从未被访问，它会一直占用内存，直到被主动删除策略清理。
+
+```java
+// 场景示例：用户验证码
+// T0: 设置验证码，5分钟过期
+SET sms:code:13800138000 "123456" EX 300
+
+// T1 (5分钟后): 验证码已过期
+// 但如果用户从未使用验证码，这个Key会继续占用内存
+
+// T2 (10分钟后): 主动删除策略扫描到才被清理
+// 这期间，过期的Key一直占用着内存空间
+```
+
+**2. 主动删除的采样机制**
+
+Redis 的主动删除不会一次性检查所有过期 Key，而是通过采样机制分批处理：
+
+```mermaid
+graph TB
+    A[定时任务每100ms触发] --> B[随机抽取20个过期Key]
+    B --> C[删除已过期的Key]
+    C --> D{过期Key比例>25%?}
+    D -->|是| B
+    D -->|否| E[等待下次触发]
+    F{执行时间>25ms?} --> E
+    
+    C --> F
+    
+    style C fill:#ff6347,stroke:#000,stroke-width:2px,color:#fff
+    style D fill:#9370db,stroke:#000,stroke-width:2px,color:#fff
+    style E fill:#32cd32,stroke:#000,stroke-width:2px,color:#fff
+    style F fill:#ffa500,stroke:#000,stroke-width:2px,color:#000
+```
+
+**主动删除的执行流程：**
+
+1. Redis 每秒执行 10 次过期扫描（每 100ms 一次）
+2. 从设置了过期时间的 Key 集合中随机抽取 20 个 Key
+3. 删除这 20 个 Key 中所有已过期的 Key
+4. 如果已过期的 Key 占比超过 25%，重复步骤 2
+5. 如果执行时间超过 25ms，退出循环，等待下次执行
+
+**这种机制的影响：**
+
+```java
+// 极端场景：100万个Key同时过期
+
+// T0: 批量设置Key，都在1小时后过期
+for (int i = 0; i < 1000000; i++) {
+    jedis.setex("temp:key:" + i, 3600, "data");
+}
+
+// T1 (1小时后): 100万个Key全部过期
+// 但主动删除每次只抽取20个Key检查
+// 即使一直满足25%的条件，也需要很多轮次才能全部删除
+
+// 计算：假设每次都过期25%以上
+// 第1轮：删除约5个（20个中的25%）
+// 第2轮：继续删除约5个
+// ...
+// 需要数百万次循环才能删除完
+
+// 这期间：
+// 1. 过期的Key继续占用内存
+// 2. 主线程被删除任务占用
+// 3. 正常业务请求被阻塞
+```
+
+**3. 过期精度的限制**
+
+```java
+// Redis的过期精度说明
+
+// Redis 2.4及之前：精度为0-1秒
+// 即Key可能在过期后最多1秒才被检测到
+
+// Redis 2.6及之后：精度为0-1毫秒
+// 精度提升，但仍不是立即删除
+
+// 实际场景
+SET order:lock:12345 "locked" PX 100  // 100毫秒过期
+
+// 100ms后，Key过期
+// 但可能在101ms时才被检测到并删除
+// 这1ms的延迟在高并发场景下可能导致问题
+```
+
+#### 过期删除的策略对比
+
+**主动删除 vs 被动删除**
+
+| 对比维度 | 主动删除 | 被动删除 |
+|---------|---------|----------|
+| 删除时机 | 定期扫描，主动清理 | 访问时检查，被动清理 |
+| CPU开销 | 占用CPU进行定期扫描 | 几乎无额外CPU开销 |
+| 内存占用 | 及时释放内存 | 可能导致内存泄漏 |
+| 访问延迟 | 可能因大量删除阻塞 | 访问时删除有轻微延迟 |
+| 适用场景 | 内存敏感场景 | CPU敏感场景 |
+
+**主动删除的优点：**
+
+1. **及时释放内存**：定期清理过期 Key，避免内存被长时间占用
+2. **避免内存泄漏**：即使 Key 永不被访问，也会被定期清理
+3. **更好的资源利用**：保持内存使用率在合理范围内
+
+**主动删除的缺点：**
+
+1. **增加系统开销**：定期扫描消耗 CPU 资源
+2. **可能导致延迟**：大量 Key 同时过期时，删除操作占用主线程，阻塞正常请求
+3. **性能波动**：删除高峰期可能导致 Redis 性能下降
+
+**被动删除的优点：**
+
+1. **减少系统开销**：不需要定期扫描，节省 CPU 资源
+2. **按需删除**：只在访问时删除，避免不必要的操作
+3. **性能稳定**：不会因为批量删除导致性能波动
+
+**被动删除的缺点：**
+
+1. **内存占用高**：过期但未访问的 Key 会一直占用内存
+2. **可能内存泄漏**：如果大量 Key 过期后永不被访问，内存会持续增长
+3. **依赖访问**：必须等待访问才能清理，不够主动
+
+#### 配置过期删除行为
+
+**被动删除策略**无需额外配置，当你设置 Key 的过期时间（TTL）时，Redis 会自动处理。
+
+**主动删除策略**可以通过配置文件调整行为：
+
+```nginx
+# redis.conf 配置
+
+# 每秒执行的定时器频率（默认10，即每100ms执行一次）
+# 增加该值可以提高主动删除的频率
+hz 10
+
+# Redis的最大内存限制
+# 设置合适的最大内存，确保内存不足时触发删除
+maxmemory 4gb
+
+# 内存淘汰策略（与过期删除配合使用）
+maxmemory-policy allkeys-lru
+```
+
+```java
+// 电商系统配置示例
+public class RedisConfiguration {
+    
+    /**
+     * 配置建议：
+     * 1. hz设置为10-20之间（默认10）
+     *    - 过低：过期Key清理不及时
+     *    - 过高：CPU开销增大
+     * 
+     * 2. maxmemory设置为物理内存的70%
+     *    - 预留30%给系统和其他进程
+     * 
+     * 3. maxmemory-policy根据业务选择
+     *    - 纯缓存：allkeys-lru
+     *    - 部分持久化：volatile-lru
+     */
+    public void configureRedis() {
+        // 通过配置文件或命令行设置
+        // maxmemory 4gb
+        // hz 10
+    }
+}
+```
+
+**配置调优建议：**
+
+```bash
+# 场景1：内存敏感型（如缓存服务器）
+maxmemory 8gb
+hz 15                    # 提高删除频率
+maxmemory-policy allkeys-lru
+
+# 场景2：性能敏感型（如实时计数）
+maxmemory 16gb           # 提供充足内存
+hz 10                    # 标准频率
+maxmemory-policy volatile-lru
+
+# 场景3：混合场景
+maxmemory 12gb
+hz 12                    # 适度提高
+maxmemory-policy allkeys-lfu  # 保留热点数据
+```
+
+#### 过期删除与持久化
+
+**AOF 持久化中的过期处理：**
+
+```java
+// 当Key过期被删除时，Redis会在AOF文件中追加一条DEL命令
+
+// T0: 设置Key
+SET user:session:10086 "data" EX 60
+
+// T1 (60秒后): Key过期被删除
+// AOF文件中会追加：
+DEL user:session:10086
+
+// 这样保证了AOF重放时的一致性
+```
+
+**主从复制中的过期处理：**
+
+```mermaid
+graph LR
+    M[Master节点] -->|Key过期| D[生成DEL命令]
+    D -->|同步| S1[Slave节点1]
+    D -->|同步| S2[Slave节点2]
+    D -->|同步| S3[Slave节点3]
+    
+    S1 -.不会独立删除.-> W1[等待Master的DEL]
+    S2 -.不会独立删除.-> W2[等待Master的DEL]
+    S3 -.不会独立删除.-> W3[等待Master的DEL]
+    
+    style M fill:#32cd32,stroke:#000,stroke-width:2px,color:#fff
+    style D fill:#ff6347,stroke:#000,stroke-width:2px,color:#fff
+    style S1 fill:#1e90ff,stroke:#000,stroke-width:2px,color:#fff
+    style S2 fill:#1e90ff,stroke:#000,stroke-width:2px,color:#fff
+    style S3 fill:#1e90ff,stroke:#000,stroke-width:2px,color:#fff
+```
+
+**主从过期机制的特点：**
+
+1. **从节点不独立删除**：从节点连接到主节点时，不会独立删除过期 Key，而是等待主节点的 `DEL` 命令
+2. **保持完整状态**：从节点仍然维护过期时间的完整状态信息
+3. **主节点提升**：当从节点被提升为主节点时，它会独立执行过期删除，完全具备主节点的功能
+4. **一致性保证**：这种机制保证了主从之间的数据一致性，避免了时钟不同步导致的问题
+
+```java
+// 主从场景示例
+
+// Master节点
+SET cache:product:10001 "商品数据" EX 3600
+
+// 3600秒后，Key在Master上过期
+// Master执行删除，并生成DEL命令
+
+// Slave节点
+// 收到Master的DEL命令后才删除
+// 而不是自己检测到过期就删除
+
+// 好处：
+// 1. 避免主从时钟不一致导致的问题
+// 2. 保证数据一致性
+// 3. 简化从节点逻辑
+```
 
 ### 大批量Key过期引发的性能问题
 

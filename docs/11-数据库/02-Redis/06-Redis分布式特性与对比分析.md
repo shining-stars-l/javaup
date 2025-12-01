@@ -1,6 +1,7 @@
 ---
 slug: /database/redis/distributed-features
 ---
+# Redis分布式特性与对比分析
 
 ## Redis在CAP理论中的定位
 

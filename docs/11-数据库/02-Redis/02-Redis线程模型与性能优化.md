@@ -1,6 +1,7 @@
 ---
 slug: /database/redis/threading-model
 ---
+# Redis线程模型与性能优化
 
 ## Redis的线程模型演进
 

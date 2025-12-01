@@ -1,6 +1,7 @@
 ---
 slug: /database/redis/core-data-types
 ---
+# Redis核心数据类型与底层实现
 
 ## Redis支持的核心数据类型
 
