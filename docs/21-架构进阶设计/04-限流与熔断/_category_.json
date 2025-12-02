@@ -1,0 +1,6 @@
+{
+  "label": "限流与熔断",
+  "position": 4,
+  "collapsed": false,
+  "link": { "type": "generated-index", "slug": "/architecture/rate-limiting" }
+}

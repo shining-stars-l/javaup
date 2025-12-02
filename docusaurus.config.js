@@ -135,6 +135,12 @@ const config = {
             label: '框架中间件相关',
           },
           {
+            type: 'docSidebar',
+            sidebarId: '架构进阶设计',
+            position: 'left',
+            label: '架构进阶设计',
+          },
+          {
             href: 'https://github.com/shining-stars-l/javaup',
             label: 'GitHub',
             position: 'right',

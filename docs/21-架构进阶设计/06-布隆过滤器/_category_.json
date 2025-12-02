@@ -1,0 +1,6 @@
+{
+  "label": "布隆过滤器",
+  "position": 6,
+  "collapsed": false,
+  "link": { "type": "generated-index", "slug": "/architecture/bloom-filter" }
+}

@@ -1,0 +1,6 @@
+{
+  "label": "分布式事务",
+  "position": 7,
+  "collapsed": false,
+  "link": { "type": "generated-index", "slug": "/architecture/distributed-transaction" }
+}
