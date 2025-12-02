@@ -1,6 +1,7 @@
 ---
 slug: /optimization/sharding/algorithms
 ---
+# 分片算法与ShardingJDBC路由策略
 
 ## 分表算法核心原则
 

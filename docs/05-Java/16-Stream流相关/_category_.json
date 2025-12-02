@@ -1,0 +1,8 @@
+{
+  "label": "Stream流相关",
+  "position": 16,
+  "link": {
+    "type": "generated-index",
+    "slug": "/java/stream"
+  }
+}
