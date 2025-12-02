@@ -1,0 +1,9 @@
+{
+  "label": "设计模式",
+  "position": 10,
+  "collapsed": true,
+  "link": {
+    "type": "generated-index",
+    "slug": "/java/design-pattern"
+  }
+}
