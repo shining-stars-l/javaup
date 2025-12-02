@@ -141,6 +141,12 @@ const config = {
             label: '架构进阶设计',
           },
           {
+            type: 'docSidebar',
+            sidebarId: '问题解决与性能优化',
+            position: 'left',
+            label: '问题解决与性能优化',
+          },
+          {
             href: 'https://github.com/shining-stars-l/javaup',
             label: 'GitHub',
             position: 'right',
