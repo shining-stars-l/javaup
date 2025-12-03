@@ -822,6 +822,187 @@ Set<String> top10 = jedis.zrevrange("game:leaderboard", 0, 9);
 Long rank = jedis.zrevrank("game:leaderboard", "player002") + 1;
 ```
 
+### 同分排序问题与解决方案
+
+在实际的排行榜场景中，经常会遇到多个用户分数相同的情况。Redis 的 ZSet 默认在分数相同时按照 **member 的字典序** 排列，而不是按照时间顺序。这在业务上往往不合理。
+
+**常见业务需求：**
+- 分数相同时，先达到该分数的用户排名更靠前
+- 分数相同时，后达到该分数的用户排名更靠前（活跃度优先）
+
+**解决思路：复合分数设计**
+
+将 score 设计为浮点数，整数部分表示实际得分，小数部分表示时间戳的变体：
+
+```
+score = 实际得分 + (1 - 时间戳/1e13)
+```
+
+这样可以保证：
+1. 得分高的排在前面（整数部分决定）
+2. 得分相同时，时间戳越小（越早），计算出的 score 越大，排名越靠前
+
+```mermaid
+graph TB
+    subgraph 分数计算原理
+        Score([实际得分: 100]):::score --> Calc[计算复合分数]
+        Time([时间戳: 1708746590000]):::time --> Calc
+        
+        Calc --> Formula["100 + (1 - 1708746590000/1e13)"]
+        Formula --> Result(["score = 100.82912534100"]):::result
+    end
+    
+    subgraph 同分排序示例
+        P1(["\u7528\u6237A: 100\u5206<br/>时间戳小<br/>score大"]):::first
+        P2(["\u7528\u6237B: 100\u5206<br/>时间戳大<br/>score小"]):::second
+        
+        P1 --> Rank1(["\u6392\u540d\u7b2c1"]):::rank
+        P2 --> Rank2(["\u6392\u540d\u7b2c2"]):::rank
+    end
+    
+    classDef score fill:#4A90E2,stroke:none,color:#fff,rx:15,ry:15
+    classDef time fill:#50C878,stroke:none,color:#fff,rx:15,ry:15
+    classDef result fill:#9370DB,stroke:none,color:#fff,rx:8,ry:8
+    classDef first fill:#FF8C00,stroke:none,color:#fff,rx:8,ry:8
+    classDef second fill:#20B2AA,stroke:none,color:#fff,rx:8,ry:8
+    classDef rank fill:#32CD32,stroke:none,color:#fff,rx:15,ry:15
+```
+
+**Java 实现：**
+
+```java
+import redis.clients.jedis.Jedis;
+
+/**
+ * 支持同分时间排序的排行榜服务
+ */
+public class TimeAwareLeaderboardService {
+    
+    private final Jedis jedis;
+    private static final String LEADERBOARD_KEY = "game:leaderboard:season1";
+    
+    // 时间戳除数，确保结果在小数部分
+    private static final double TIME_DIVISOR = 1e13;
+    
+    public TimeAwareLeaderboardService(Jedis jedis) {
+        this.jedis = jedis;
+    }
+    
+    /**
+     * 添加或更新用户得分
+     * 同分时，先达到该分数的用户排名更靠前
+     * 
+     * @param userId 用户ID
+     * @param score 实际得分
+     */
+    public void addScore(String userId, int score) {
+        long timestamp = System.currentTimeMillis();
+        
+        // 计算复合分数：整数部分为得分，小数部分为时间反向值
+        // (1 - timestamp/1e13) 确保时间越早，小数部分越大
+        double compositeScore = score + (1 - timestamp / TIME_DIVISOR);
+        
+        jedis.zadd(LEADERBOARD_KEY, compositeScore, userId);
+    }
+    
+    /**
+     * 获取用户的实际得分（去除时间戳部分）
+     */
+    public int getActualScore(String userId) {
+        Double compositeScore = jedis.zscore(LEADERBOARD_KEY, userId);
+        
+        if (compositeScore == null) {
+            return 0;
+        }
+        
+        // 取整数部分作为实际得分
+        return (int) Math.floor(compositeScore);
+    }
+    
+    /**
+     * 获取用户排名（从1开始）
+     */
+    public Long getUserRank(String userId) {
+        Long rank = jedis.zrevrank(LEADERBOARD_KEY, userId);
+        return rank != null ? rank + 1 : null;
+    }
+    
+    /**
+     * 获取 Top N 排行榜
+     */
+    public List<LeaderboardEntry> getTopN(int n) {
+        Set<Tuple> tuples = jedis.zrevrangeWithScores(LEADERBOARD_KEY, 0, n - 1);
+        
+        List<LeaderboardEntry> result = new ArrayList<>();
+        int rank = 1;
+        
+        for (Tuple tuple : tuples) {
+            String userId = tuple.getElement();
+            int actualScore = (int) Math.floor(tuple.getScore());
+            
+            result.add(new LeaderboardEntry(rank++, userId, actualScore));
+        }
+        
+        return result;
+    }
+    
+    /**
+     * 排行榜条目
+     */
+    @Data
+    @AllArgsConstructor
+    public static class LeaderboardEntry {
+        private int rank;
+        private String userId;
+        private int score;
+    }
+}
+```
+
+**使用示例：**
+
+```java
+public class LeaderboardDemo {
+    public static void main(String[] args) throws InterruptedException {
+        Jedis jedis = new Jedis("localhost", 6379);
+        TimeAwareLeaderboardService leaderboard = new TimeAwareLeaderboardService(jedis);
+        
+        // 模拟两个用户先后达到相同分数
+        leaderboard.addScore("player_001", 100);
+        Thread.sleep(100);  // 等待100毫秒
+        leaderboard.addScore("player_002", 100);
+        
+        // 查询排名
+        System.out.println("player_001 排名: " + leaderboard.getUserRank("player_001"));  // 1
+        System.out.println("player_002 排名: " + leaderboard.getUserRank("player_002"));  // 2
+        
+        // 先达到100分的player_001排名更靠前
+        
+        // 获取Top 10
+        List<LeaderboardEntry> top10 = leaderboard.getTopN(10);
+        for (LeaderboardEntry entry : top10) {
+            System.out.printf("第%d名: %s - %d分%n", 
+                entry.getRank(), entry.getUserId(), entry.getScore());
+        }
+    }
+}
+```
+
+**另一种场景：后来者优先**
+
+如果业务需求是分数相同时，**后达到该分数的用户排名更靠前**（体现活跃度），只需调整公式：
+
+```java
+// 后来者优先：时间戳越大，排名越靠前
+double compositeScore = score + (timestamp / TIME_DIVISOR);
+```
+
+**注意事项：**
+
+1. **时间戳精度**：毫秒级时间戳（13位数字）除以 `1e13` 后得到的小数可以完整表示
+2. **分数范围**：Redis 的 score 是 64 位浮点数，有效精度约 15-16 位，需确保得分和时间戳不会超过精度限制
+3. **查询还原**：显示得分时需要取整数部分，去除时间戳影响
+
 ### 状态统计：Bitmap（数据量大时推荐）
 
 ```java

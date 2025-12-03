@@ -333,6 +333,13 @@ graph TB
         E --> G
     end
     
+    style C fill:#98FB98
+    style E fill:#87CEEB
+    style F fill:#FFB6C1
+```
+
+```mermaid
+graph TB
     subgraph "解锁流程"
         H[请求解锁] --> I{是否当前线程持有?}
         I -->|是| J{重入次数是否>1?}
@@ -340,10 +347,7 @@ graph TB
         J -->|是| L[重入次数-1]
         J -->|否| M[删除锁 DEL]
     end
-    
-    style C fill:#98FB98
-    style E fill:#87CEEB
-    style F fill:#FFB6C1
+
     style M fill:#DDA0DD
 ```
 
@@ -822,6 +826,380 @@ int ttlMillis = 10000;  // 锁的有效期10秒
 int clockDriftSafety = 1000;  // 预留1秒的安全边界
 int actualTTL = ttlMillis - clockDriftSafety;  // 实际使用9秒
 ```
+
+## 分布式锁的降级策略
+
+在生产环境中，Redis 基本都是集群部署，具有较高的可用性保障。但在极端情况下，Redis 仍可能出现不可用，导致无法加锁和解锁，业务流程被卡住。此时需要通过降级策略来保证系统的基本可用性。
+
+### 降级策略总览
+
+```mermaid
+graph TB
+    Request([加锁请求]):::request --> Check{Redis是否可用?}
+    
+    Check -->|可用| RedisLock([Redis分布式锁]):::redis
+    Check -->|不可用| Fallback{降级策略}
+    
+    Fallback --> LocalLock([Java本地锁]):::local
+    Fallback --> ZKLock([Zookeeper锁]):::zk
+    Fallback --> DBLock([数据库锁]):::db
+    
+    RedisLock --> Success([继续业务流程]):::success
+    LocalLock --> Success
+    ZKLock --> Success
+    DBLock --> Success
+    
+    classDef request fill:#4A90E2,stroke:none,color:#fff,rx:15,ry:15
+    classDef redis fill:#50C878,stroke:none,color:#fff,rx:8,ry:8
+    classDef local fill:#FF8C00,stroke:none,color:#fff,rx:8,ry:8
+    classDef zk fill:#9370DB,stroke:none,color:#fff,rx:8,ry:8
+    classDef db fill:#20B2AA,stroke:none,color:#fff,rx:8,ry:8
+    classDef success fill:#32CD32,stroke:none,color:#fff,rx:15,ry:15
+```
+
+### 方案一：降级为本地锁
+
+当 Redis 不可用时，可以将分布式锁降级为 Java 本地锁（如 `ReentrantLock` 或 `synchronized`），确保程序在**单机模式**下仍能正常工作。
+
+**适用场景：**
+- 可以牢牲一致性，保证可用性
+- 底层有其他防并发手段兜底（如乐观锁、数据库唯一索引等）
+
+```java
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.ConcurrentHashMap;
+
+/**
+ * 支持降级的分布式锁
+ */
+public class DegradableDistributedLock {
+    
+    private final RedissonClient redissonClient;
+    
+    // 本地锁缓存：每个lockKey对应一个本地锁
+    private final ConcurrentHashMap<String, Lock> localLocks = new ConcurrentHashMap<>();
+    
+    // 重试参数
+    private static final int RETRY_COUNT = 3;
+    private static final long RETRY_DELAY_MS = 100;
+    
+    public DegradableDistributedLock(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+    }
+    
+    /**
+     * 获取锁：优先使用Redis，失败后降级到本地锁
+     */
+    public LockResult tryLock(String lockKey, long waitTimeMs, long leaseTimeMs) {
+        boolean redisLocked = false;
+        
+        // 尝试获取Redis分布式锁（带重试）
+        for (int i = 0; i < RETRY_COUNT; i++) {
+            try {
+                RLock rLock = redissonClient.getLock(lockKey);
+                redisLocked = rLock.tryLock(waitTimeMs, leaseTimeMs, TimeUnit.MILLISECONDS);
+                
+                if (redisLocked) {
+                    return new LockResult(LockType.REDIS, rLock, null);
+                }
+                break;  // 获取失败但Redis可用，直接返回
+                
+            } catch (Exception e) {
+                log.warn("Redis锁获取异常，尝试重试... 次数: {}", i + 1);
+                
+                if (i < RETRY_COUNT - 1) {
+                    try {
+                        Thread.sleep(RETRY_DELAY_MS);
+                    } catch (InterruptedException ie) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
+            }
+        }
+        
+        // Redis不可用，降级到本地锁
+        log.warn("Redis锁不可用，使用本地锁降级");
+        
+        Lock localLock = localLocks.computeIfAbsent(lockKey, k -> new ReentrantLock());
+        
+        try {
+            boolean localLocked = localLock.tryLock(waitTimeMs, TimeUnit.MILLISECONDS);
+            
+            if (localLocked) {
+                return new LockResult(LockType.LOCAL, null, localLock);
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        
+        return new LockResult(LockType.NONE, null, null);
+    }
+    
+    /**
+     * 释放锁
+     */
+    public void unlock(LockResult lockResult) {
+        if (lockResult == null || lockResult.getLockType() == LockType.NONE) {
+            return;
+        }
+        
+        try {
+            if (lockResult.getLockType() == LockType.REDIS && lockResult.getRedisLock() != null) {
+                lockResult.getRedisLock().unlock();
+            } else if (lockResult.getLockType() == LockType.LOCAL && lockResult.getLocalLock() != null) {
+                lockResult.getLocalLock().unlock();
+            }
+        } catch (Exception e) {
+            log.error("释放锁异常", e);
+        }
+    }
+    
+    /**
+     * 锁类型枚举
+     */
+    public enum LockType {
+        REDIS,   // Redis分布式锁
+        LOCAL,   // 本地锁
+        NONE     // 未获取到锁
+    }
+    
+    /**
+     * 锁结果封装
+     */
+    @Data
+    @AllArgsConstructor
+    public static class LockResult {
+        private LockType lockType;
+        private RLock redisLock;
+        private Lock localLock;
+        
+        public boolean isLocked() {
+            return lockType != LockType.NONE;
+        }
+    }
+}
+```
+
+**使用示例：**
+
+```java
+@Service
+public class OrderService {
+    
+    @Autowired
+    private DegradableDistributedLock distributedLock;
+    
+    public void processOrder(String orderId) {
+        String lockKey = "order:lock:" + orderId;
+        
+        LockResult lockResult = distributedLock.tryLock(lockKey, 5000, 30000);
+        
+        if (!lockResult.isLocked()) {
+            throw new BusinessException("获取锁失败，请稍后重试");
+        }
+        
+        try {
+            // 执行业务逻辑
+            doProcessOrder(orderId);
+            
+        } finally {
+            distributedLock.unlock(lockResult);
+        }
+    }
+}
+```
+
+**本地锁降级的局限性：**
+
+本地锁只能保证单机进程内的互斥，无法实现跨实例的全局互斥。因此只适用于以下场景：
+- 底层有其他防并发机制兜底（如数据库乐观锁、唯一索引等）
+- 业务可以容忍短时间内的重复执行
+
+### 方案二：降级为其他分布式锁
+
+如果业务对一致性要求较高，不能牢牲全局互斥，可以将 Redis 锁降级为其他分布式锁方案，如 Zookeeper 或数据库锁。
+
+| 降级方案 | 优点 | 缺点 |
+|---------|------|------|
+| Zookeeper锁 | 保持全局互斥，强一致性 | 需额外维护ZK集群，复杂度高 |
+| 数据库锁 | 无需额外组件，实现简单 | 性能较低，可能成为瓶颈 |
+| 本地锁 | 简单高效 | 无法跨实例互斥 |
+
+```java
+/**
+ * 多策略分布式锁
+ * 支持多级降级：Redis -> Zookeeper -> 数据库 -> 本地锁
+ */
+public class MultiStrategyDistributedLock {
+    
+    private final RedissonClient redissonClient;
+    private final CuratorFramework curatorClient;  // ZK客户端
+    private final JdbcTemplate jdbcTemplate;
+    
+    /**
+     * 获取锁，按优先级尝试不同策略
+     */
+    public boolean tryLockWithFallback(String lockKey, long timeout, TimeUnit unit) {
+        // 策略一：Redis分布式锁
+        if (tryRedisLock(lockKey, timeout, unit)) {
+            currentLockType.set(LockType.REDIS);
+            return true;
+        }
+        
+        log.warn("Redis锁不可用，尝试Zookeeper锁");
+        
+        // 策略二：Zookeeper分布式锁
+        if (tryZookeeperLock(lockKey, timeout, unit)) {
+            currentLockType.set(LockType.ZOOKEEPER);
+            return true;
+        }
+        
+        log.warn("Zookeeper锁不可用，尝试数据库锁");
+        
+        // 策略三：数据库分布式锁
+        if (tryDatabaseLock(lockKey, timeout, unit)) {
+            currentLockType.set(LockType.DATABASE);
+            return true;
+        }
+        
+        return false;
+    }
+    
+    private boolean tryRedisLock(String lockKey, long timeout, TimeUnit unit) {
+        try {
+            RLock lock = redissonClient.getLock(lockKey);
+            return lock.tryLock(timeout, unit);
+        } catch (Exception e) {
+            log.error("Redis锁异常: {}", e.getMessage());
+            return false;
+        }
+    }
+    
+    private boolean tryZookeeperLock(String lockKey, long timeout, TimeUnit unit) {
+        try {
+            InterProcessMutex zkLock = new InterProcessMutex(
+                curatorClient, "/locks/" + lockKey);
+            return zkLock.acquire(timeout, unit);
+        } catch (Exception e) {
+            log.error("Zookeeper锁异常: {}", e.getMessage());
+            return false;
+        }
+    }
+    
+    private boolean tryDatabaseLock(String lockKey, long timeout, TimeUnit unit) {
+        try {
+            long expireTime = System.currentTimeMillis() + unit.toMillis(timeout);
+            
+            // 插入锁记录（利用唯一索引保证互斥）
+            String sql = "INSERT INTO distributed_lock (lock_key, owner, expire_time) " +
+                         "VALUES (?, ?, ?) " +
+                         "ON DUPLICATE KEY UPDATE " +
+                         "owner = IF(expire_time < NOW(), VALUES(owner), owner), " +
+                         "expire_time = IF(expire_time < NOW(), VALUES(expire_time), expire_time)";
+            
+            int rows = jdbcTemplate.update(sql, lockKey, getOwnerId(), 
+                new Timestamp(expireTime));
+            
+            return rows > 0;
+            
+        } catch (Exception e) {
+            log.error("数据库锁异常: {}", e.getMessage());
+            return false;
+        }
+    }
+    
+    private String getOwnerId() {
+        return ManagementFactory.getRuntimeMXBean().getName() + ":" + 
+               Thread.currentThread().getId();
+    }
+}
+```
+
+### 降级开关机制
+
+为了实现灵活的降级控制，需要在代码中预留开关，支持手动或自动触发降级：
+
+```java
+/**
+ * 分布式锁降级开关
+ * 支持配置中心动态推送
+ */
+@Component
+public class LockDegradationSwitch {
+    
+    // 配置中心动态配置
+    @Value("${distributed.lock.use-redis:true}")
+    private volatile boolean useRedisLock;
+    
+    /**
+     * 配置更新监听
+     */
+    @NacosValue(value = "${distributed.lock.use-redis:true}", autoRefreshed = true)
+    public void setUseRedisLock(boolean useRedisLock) {
+        this.useRedisLock = useRedisLock;
+        log.info("分布式锁配置更新: useRedisLock={}", useRedisLock);
+    }
+    
+    public boolean isUseRedisLock() {
+        return useRedisLock;
+    }
+}
+
+/**
+ * 使用示例：基于开关选择锁策略
+ */
+@Service
+public class LockableBusinessService {
+    
+    @Autowired
+    private LockDegradationSwitch degradationSwitch;
+    
+    @Autowired
+    private RedissonClient redissonClient;
+    
+    private final ConcurrentHashMap<String, Lock> localLocks = new ConcurrentHashMap<>();
+    
+    public void executeWithLock(String resourceId, Runnable task) {
+        String lockKey = "business:lock:" + resourceId;
+        
+        if (degradationSwitch.isUseRedisLock()) {
+            // 使用Redis分布式锁
+            RLock lock = redissonClient.getLock(lockKey);
+            try {
+                if (lock.tryLock(10, 30, TimeUnit.SECONDS)) {
+                    try {
+                        task.run();
+                    } finally {
+                        lock.unlock();
+                    }
+                }
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        } else {
+            // 使用本地锁降级
+            Lock localLock = localLocks.computeIfAbsent(lockKey, k -> new ReentrantLock());
+            localLock.lock();
+            try {
+                task.run();
+            } finally {
+                localLock.unlock();
+            }
+        }
+    }
+}
+```
+
+### 降级策略选型建议
+
+| 业务场景 | 推荐降级策略 | 理由 |
+|---------|------------|------|
+| 库存扣减 | Redis → 数据库乐观锁 | 数据库版本号可保证最终一致性 |
+| 订单创建 | Redis → 数据库唯一索引 | 订单号唯一索引可防止重复 |
+| 幂等操作 | Redis → 本地锁 | 幂等性保证重复执行无影响 |
+| 资金操作 | Redis → Zookeeper | 资金场景对一致性要求最高 |
+| 普通业务 | Redis → 本地锁 | 简单高效，可接受短暂不一致 |
 
 ## 使用Redisson简化分布式锁实现
 

@@ -466,3 +466,407 @@ def add_user_points(user_id, points):
 6. 故障转移事件
 
 通过完善的监控体系，可以及时发现和处理集群异常，保障 Redis 集群的稳定运行。
+
+## 故障应急处理机制
+
+即使做了充分的高可用部署，Redis 仍可能因各种原因出现不可用。作为开发人员，需要提前设计好故障应急方案，确保系统在 Redis 故障时仍能提供一定程度的服务。
+
+### 故障检测与监控
+
+发现 Redis 故障是应急处理的第一步，需要建立多层次的监控体系：
+
+```mermaid
+graph TB
+    subgraph 监控层次
+        L1[基础设施监控]:::infra
+        L2[Redis服务监控]:::service
+        L3[业务指标监控]:::business
+    end
+    
+    L1 --> M1[服务器存活检测]
+    L1 --> M2[网络连通性检测]
+    L1 --> M3[端口可达性检测]
+    
+    L2 --> M4[Redis进程状态]
+    L2 --> M5[内存使用率]
+    L2 --> M6[连接数监控]
+    L2 --> M7[主从同步延迟]
+    
+    L3 --> M8[缓存命中率]
+    L3 --> M9[操作成功率]
+    L3 --> M10[响应时间P99]
+    
+    M9 --> A{成功率<95%?}
+    M10 --> B{P99>100ms?}
+    
+    A -->|是| C[触发告警]
+    B -->|是| C
+    C --> D[启动应急预案]
+    
+    classDef infra fill:#4A90E2,stroke:none,color:#fff,rx:8,ry:8
+    classDef service fill:#50C878,stroke:none,color:#fff,rx:8,ry:8
+    classDef business fill:#9370DB,stroke:none,color:#fff,rx:8,ry:8
+```
+
+**监控指标配置示例：**
+
+```java
+/**
+ * Redis健康检查服务
+ * 用于监控Redis服务状态并触发告警
+ */
+@Service
+public class RedisHealthCheckService {
+    
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    
+    @Autowired
+    private AlertService alertService;
+    
+    // 连续失败次数阈值
+    private static final int FAILURE_THRESHOLD = 3;
+    private AtomicInteger failureCount = new AtomicInteger(0);
+    
+    /**
+     * 定时健康检查，每5秒执行一次
+     */
+    @Scheduled(fixedRate = 5000)
+    public void healthCheck() {
+        try {
+            long startTime = System.currentTimeMillis();
+            
+            // 执行PING命令检测连通性
+            String result = redisTemplate.execute((RedisCallback<String>) 
+                connection -> connection.ping());
+            
+            long responseTime = System.currentTimeMillis() - startTime;
+            
+            if ("PONG".equals(result)) {
+                failureCount.set(0);
+                
+                // 检查响应时间是否异常
+                if (responseTime > 100) {
+                    alertService.warn("Redis响应缓慢: " + responseTime + "ms");
+                }
+            } else {
+                handleFailure("Redis返回异常响应: " + result);
+            }
+            
+        } catch (Exception e) {
+            handleFailure("Redis连接异常: " + e.getMessage());
+        }
+    }
+    
+    private void handleFailure(String reason) {
+        int currentFailures = failureCount.incrementAndGet();
+        
+        if (currentFailures >= FAILURE_THRESHOLD) {
+            // 触发告警并启动降级
+            alertService.critical("Redis服务不可用: " + reason);
+            triggerDegradation();
+        }
+    }
+    
+    private void triggerDegradation() {
+        // 触发降级开关
+        DegradationSwitch.enableFallback();
+    }
+}
+```
+
+### 限流与降级策略
+
+当 Redis 故障时，如果请求直接打到数据库，可能导致数据库被压垮。此时需要结合限流和降级来保护系统：
+
+```mermaid
+graph TB
+    Request([用户请求]):::request --> Check{Redis是否可用?}
+    
+    Check -->|可用| Redis([Redis缓存]):::redis
+    Check -->|不可用| Limit{限流检查}
+    
+    Redis --> Response([正常响应]):::success
+    
+    Limit -->|通过| DB([数据库]):::db
+    Limit -->|拒绝| Reject([返回降级响应]):::reject
+    
+    DB --> Response
+    
+    classDef request fill:#4A90E2,stroke:none,color:#fff,rx:15,ry:15
+    classDef redis fill:#50C878,stroke:none,color:#fff,rx:8,ry:8
+    classDef db fill:#9370DB,stroke:none,color:#fff,rx:8,ry:8
+    classDef success fill:#32CD32,stroke:none,color:#fff,rx:15,ry:15
+    classDef reject fill:#FF6B6B,stroke:none,color:#fff,rx:15,ry:15
+```
+
+**降级策略实现：**
+
+```java
+/**
+ * 商品服务 - 包含Redis降级逻辑
+ */
+@Service
+public class ProductService {
+    
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    
+    @Autowired
+    private ProductMapper productMapper;
+    
+    @Autowired
+    private RateLimiter rateLimiter;
+    
+    /**
+     * 获取商品详情 - 带降级逻辑
+     */
+    public ProductVO getProductDetail(Long productId) {
+        String cacheKey = "product:detail:" + productId;
+        
+        // 检查是否需要降级
+        if (!DegradationSwitch.isRedisAvailable()) {
+            return getProductWithDegradation(productId);
+        }
+        
+        try {
+            // 尝试从Redis获取
+            ProductVO product = (ProductVO) redisTemplate.opsForValue().get(cacheKey);
+            
+            if (product != null) {
+                return product;
+            }
+            
+            // 缓存未命中，查询数据库
+            product = productMapper.selectById(productId);
+            
+            if (product != null) {
+                // 写入缓存，设置随机过期时间避免雪崩
+                int expireSeconds = 3600 + ThreadLocalRandom.current().nextInt(600);
+                redisTemplate.opsForValue().set(cacheKey, product, 
+                    Duration.ofSeconds(expireSeconds));
+            }
+            
+            return product;
+            
+        } catch (Exception e) {
+            // Redis异常，触发降级
+            log.warn("Redis访问异常，启用降级: {}", e.getMessage());
+            return getProductWithDegradation(productId);
+        }
+    }
+    
+    /**
+     * 降级处理：限流后查询数据库
+     */
+    private ProductVO getProductWithDegradation(Long productId) {
+        // 限流检查：每秒最多100个请求
+        if (!rateLimiter.tryAcquire("product:query", 100)) {
+            // 限流生效，返回降级响应
+            throw new DegradationException("系统繁忙，请稍后重试");
+        }
+        
+        // 限流通过，直接查询数据库
+        return productMapper.selectById(productId);
+    }
+}
+
+/**
+ * 降级开关 - 支持手动和自动切换
+ */
+public class DegradationSwitch {
+    
+    // 可通过配置中心动态推送
+    private static volatile boolean redisAvailable = true;
+    
+    public static boolean isRedisAvailable() {
+        return redisAvailable;
+    }
+    
+    public static void enableFallback() {
+        redisAvailable = false;
+        log.warn("Redis降级开关已开启");
+    }
+    
+    public static void disableFallback() {
+        redisAvailable = true;
+        log.info("Redis降级开关已关闭");
+    }
+}
+```
+
+### 主备切换与热备方案
+
+除了应用层的降级策略，在架构层面也应该做好备份：
+
+```mermaid
+graph TB
+    subgraph 主备架构
+        Primary([主Redis集群]):::primary
+        Standby([备Redis集群]):::standby
+        
+        Primary -.->|数据同步| Standby
+    end
+    
+    App([应用服务]):::app
+    
+    App -->|正常访问| Primary
+    Primary -->|故障| Switch{故障转移}
+    Switch --> Standby
+    App -.->|切换后访问| Standby
+    
+    classDef primary fill:#50C878,stroke:none,color:#fff,rx:15,ry:15
+    classDef standby fill:#4A90E2,stroke:none,color:#fff,rx:15,ry:15
+    classDef app fill:#9370DB,stroke:none,color:#fff,rx:8,ry:8
+```
+
+**热备方案的实现方式：**
+
+| 方案 | 原理 | 优点 | 缺点 |
+|------|------|------|------|
+| 主从复制 | Slave实时同步Master数据 | 实现简单，延迟低 | 需手动切换 |
+| 哨兵模式 | 自动检测故障并切换 | 自动故障转移 | 切换期间短暂不可用 |
+| 异构备份 | 备份到MongoDB/Tair等 | 架构多样性强 | 数据格式需转换 |
+| 双写策略 | 同时写入主备集群 | 切换无感知 | 一致性保证复杂 |
+
+### 本地缓存兜底
+
+当 Redis 完全不可用且限流过于严格影响用户体验时，可考虑使用本地缓存作为兜底方案：
+
+```java
+/**
+ * 多级缓存服务
+ * L1: 本地缓存 (Caffeine)
+ * L2: 分布式缓存 (Redis)
+ */
+@Service
+public class MultiLevelCacheService {
+    
+    // 本地缓存：最大10000条，10分钟过期
+    private final Cache<String, Object> localCache = Caffeine.newBuilder()
+        .maximumSize(10000)
+        .expireAfterWrite(10, TimeUnit.MINUTES)
+        .build();
+    
+    @Autowired
+    private RedisTemplate<String, Object> redisTemplate;
+    
+    /**
+     * 获取缓存：优先本地缓存 -> Redis -> 数据源
+     */
+    public <T> T get(String key, Class<T> clazz, Supplier<T> dataLoader) {
+        // L1: 尝试本地缓存
+        Object localValue = localCache.getIfPresent(key);
+        if (localValue != null) {
+            return clazz.cast(localValue);
+        }
+        
+        // L2: 尝试Redis（如果可用）
+        if (DegradationSwitch.isRedisAvailable()) {
+            try {
+                Object redisValue = redisTemplate.opsForValue().get(key);
+                if (redisValue != null) {
+                    // 回填本地缓存
+                    localCache.put(key, redisValue);
+                    return clazz.cast(redisValue);
+                }
+            } catch (Exception e) {
+                log.warn("Redis访问失败，使用本地缓存兜底");
+            }
+        }
+        
+        // 从数据源加载
+        T data = dataLoader.get();
+        
+        if (data != null) {
+            // 写入本地缓存
+            localCache.put(key, data);
+            
+            // 尝试写入Redis
+            if (DegradationSwitch.isRedisAvailable()) {
+                try {
+                    redisTemplate.opsForValue().set(key, data, Duration.ofHours(1));
+                } catch (Exception e) {
+                    log.warn("Redis写入失败: {}", e.getMessage());
+                }
+            }
+        }
+        
+        return data;
+    }
+}
+```
+
+**本地缓存的注意事项：**
+
+1. **数据一致性问题**：多实例部署时，本地缓存之间无法同步，可能导致数据不一致
+2. **内存占用控制**：需要合理设置缓存容量上限，避免OOM
+3. **适用场景**：更适合读多写少、对一致性要求不高的数据
+4. **过期时间**：本地缓存的过期时间应设置得较短，减少不一致窗口
+
+### 应急预案体系
+
+在大型系统中，应该建立完整的预案体系，实现故障与预案的关联：
+
+```mermaid
+graph LR
+    subgraph 故障类型
+        F1([Redis主节点宕机]):::fault
+        F2([Redis集群不可用]):::fault
+        F3([Redis性能下降]):::fault
+    end
+    
+    subgraph 预案动作
+        A1([触发主从切换]):::action
+        A2([开启全量降级]):::action
+        A3([开启限流保护]):::action
+    end
+    
+    F1 --> A1
+    F2 --> A2
+    F3 --> A3
+    
+    A2 --> R1([通知值班人员])
+    A2 --> R2([切换到备用集群])
+    A2 --> R3([启用本地缓存])
+    
+    classDef fault fill:#FF6B6B,stroke:none,color:#fff,rx:15,ry:15
+    classDef action fill:#4A90E2,stroke:none,color:#fff,rx:15,ry:15
+```
+
+**预案配置示例：**
+
+```yaml
+# 应急预案配置
+redis:
+  emergency:
+    # Redis不可用时的降级策略
+    degradation:
+      enabled: true
+      # 降级开关：可通过配置中心动态修改
+      switch-key: redis.fallback.enabled
+    
+    # 限流配置
+    rate-limit:
+      # 降级后的QPS限制
+      qps: 100
+      # 限流后的返回策略：reject/default
+      strategy: default
+    
+    # 本地缓存配置
+    local-cache:
+      enabled: true
+      max-size: 10000
+      expire-minutes: 5
+    
+    # 告警配置
+    alert:
+      # 连续失败多少次触发告警
+      failure-threshold: 3
+      # 告警接收人
+      receivers:
+        - oncall@company.com
+        - ops-group@company.com
+```
+
+通过完善的应急预案体系，可以在 Redis 故障时快速响应，将影响降到最低。核心思想是：**提前做好设计，而不是等故障发生时临时处理**。
