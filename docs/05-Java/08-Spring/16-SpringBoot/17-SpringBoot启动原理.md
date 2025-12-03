@@ -1,7 +1,7 @@
 ---
 slug: /java/spring/springboot-startup
 ---
-# SpringBoot启动原理.
+# SpringBoot启动原理
 
 ## SpringBoot启动流程
 

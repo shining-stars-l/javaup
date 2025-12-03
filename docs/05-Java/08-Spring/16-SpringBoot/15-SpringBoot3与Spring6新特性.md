@@ -379,7 +379,7 @@ mvn -Pnative native:compile
 FROM ghcr.io/graalvm/graalvm-ce:ol8-java17 as builder
 
 WORKDIR /app
-COPY . .
+COPY .. .
 RUN ./mvnw -Pnative native:compile
 
 FROM scratch
