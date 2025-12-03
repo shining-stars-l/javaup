@@ -10,8 +10,8 @@ import {themes as prismThemes} from 'prism-react-renderer';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'JavaUp',
-  tagline: 'Dinosaurs are cool',
+  title: 'JavaUp 技术&实战',
+  tagline: '亮点十足的实战项目，已经帮助超多的小伙伴在技术上实现了up！拿到了offer！',
   favicon: 'img/favicon.ico',
   // 激活 mermaid
   markdown: {
@@ -45,23 +45,27 @@ const config = {
       }),
     ],
   ],
+
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: 'https://javuap.chat',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+
+  // Handle broken links
+  onBrokenLinks: 'warn', // 'throw' | 'log' | 'warn' | 'ignore'
+  onBrokenMarkdownLinks: 'warn',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'javaUp', // Usually your GitHub org/user name.
   projectName: 'javaUp', // Usually your repo name.
 
-  onBrokenLinks: 'warn', // 'throw' | 'log' | 'warn' | 'ignore'
 
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
@@ -78,18 +82,15 @@ const config = {
       ({
         docs: {
           routeBasePath: "/",
-          //文档页面顶部的"面包屑导航"
+          //文档页面顶部的"面包屑导航"（比如 首页 > 大麦 > 项目概要介绍 > 当前文档）。
           //默认打开
           breadcrumbs: true,
           //打开折叠功能（显示箭头）
           sidebarCollapsible: true,
-          //第一次渲染时展开，而不是折叠
+          //第一次渲染时展开类别，而不是折叠
           sidebarCollapsed: false,
           sidebarPath: './sidebars.js',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // 关闭"Edit this page"链接：不配置 editUrl 即可
         },
         blog: {
           showReadingTime: true,
@@ -97,10 +98,7 @@ const config = {
             type: ['rss', 'atom'],
             xslt: true,
           },
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          // 关闭"Edit this page"链接：不配置 editUrl 即可
           // Useful options to enforce blogging best practices
           onInlineTags: 'warn',
           onInlineAuthors: 'warn',
@@ -113,32 +111,64 @@ const config = {
     ],
   ],
 
+  plugins: [
+    function baiduAnalyticsPlugin() {
+      return {
+        name: 'baidu-analytics-plugin',
+        injectHtmlTags() {
+          return {
+            headTags: [
+              {
+                tagName: 'script',
+                innerHTML: `
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?5caf2a5b30be867073f28af7ed2b3026";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+                `,
+              },
+            ],
+          };
+        },
+        getClientModules() {
+          return [require.resolve('./src/baidu-analytics-client.js')];
+        },
+      };
+    },
+  ],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
-      colorMode: {
-        respectPrefersColorScheme: true,
-      },
+      image: 'img/logo.png',
       navbar: {
-        title: 'JavaUp',
+        title: 'JavaUp 技术&实战',
         logo: {
-          alt: 'My Site Logo',
+          alt: 'JavaUP Logo',
           src: 'img/logo.png',
         },
         items: [
+          // {
+          //   type: 'docSidebar',
+          //   sidebarId: 'techniqueSharingSidebar',
+          //   position: 'left',
+          //   label: '技术分享讲解',
+          // },
           {
             type: 'docSidebar',
-            sidebarId: '开发工具相关',
+            sidebarId: '开发工具',
             position: 'left',
-            label: '开发工具相关',
+            label: '开发工具',
           },
           {
             type: 'docSidebar',
-            sidebarId: '系统基础内功',
+            sidebarId: '基础内功',
             position: 'left',
-            label: '系统基础内功',
+            label: '基础内功',
           },
           {
             type: 'docSidebar',
@@ -148,79 +178,101 @@ const config = {
           },
           {
             type: 'docSidebar',
-            sidebarId: '数据库相关',
+            sidebarId: '数据库',
             position: 'left',
-            label: '数据库相关',
+            label: '数据库',
           },
           {
             type: 'docSidebar',
-            sidebarId: '框架中间件相关',
+            sidebarId: '框架中间件',
             position: 'left',
-            label: '框架中间件相关',
+            label: '框架中间件',
           },
           {
             type: 'docSidebar',
-            sidebarId: '架构进阶设计',
+            sidebarId: '进阶设计与性能优化',
             position: 'left',
-            label: '架构进阶设计',
+            label: '进阶设计与性能优化',
+          },
+          {
+            type: 'dropdown',
+            label: '👍 实战项目介绍',
+            position: 'left',
+            items: [
+              {
+                type: 'docSidebar',
+                sidebarId: 'hmdpPlusSidebar',
+                label: '黑马点评升级版 (解决各种疑难杂症)',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: 'daMaiSidebar',
+                label: '大麦 (解决各种高并发问题)',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: 'daMaiAiSidebar',
+                label: '大麦AI (带你玩转各种AI实战)',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: 'linkFlowSidebar',
+                label: 'link-flow (灵活切换请求的流量)',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: 'dockDataCenterSidebar',
+                label: 'dock-data-center (数据收集的灵活适配)',
+              },
+            ],
           },
           {
             type: 'docSidebar',
-            sidebarId: '问题解决与性能优化',
+            sidebarId: 'howToStudySidebar',
             position: 'left',
-            label: '问题解决与性能优化',
+            label: '📚️ 如何学习',
           },
           {
-            href: 'https://github.com/shining-stars-l/javaup',
-            label: 'GitHub',
+            type: 'doc',
+            docId: '如何学习/学习介绍/领取优惠券提醒！',
+            position: 'left',
+            label: '💰 优惠券领取',
+          },
+          {
+            type: 'dropdown',
+            label: '仓库地址',
             position: 'right',
+            items: [
+              {
+                label: 'Gitee',
+                href: 'https://gitee.com/java-up-up',
+              },
+              {
+                label: 'GitHub',
+                href: 'https://github.com/shining-stars-l/javaup',
+              },
+            ],
+          },
+          {
+            type: 'dropdown',
+            label: '视频学习',
+            position: 'right',
+            items: [
+              {
+                label: 'B站',
+                href: 'https://space.bilibili.com/265605735',
+              },
+              {
+                label: '抖音',
+                href: 'https://v.douyin.com/GqOL-QOUVaE/ 1@8.com :7pm',
+              },
+            ],
           },
         ],
       },
       footer: {
         style: 'light',
-        // links: [
-        //   {
-        //     title: 'Docs',
-        //     items: [
-        //       {
-        //         label: 'Tutorial',
-        //         to: '/docs/intro',
-        //       },
-        //     ],
-        //   },
-        //   {
-        //     title: 'Community',
-        //     items: [
-        //       {
-        //         label: 'Stack Overflow',
-        //         href: 'https://stackoverflow.com/questions/tagged/docusaurus',
-        //       },
-        //       {
-        //         label: 'Discord',
-        //         href: 'https://discordapp.com/invite/docusaurus',
-        //       },
-        //       {
-        //         label: 'X',
-        //         href: 'https://x.com/docusaurus',
-        //       },
-        //     ],
-        //   },
-        //   {
-        //     title: 'More',
-        //     items: [
-        //       {
-        //         label: 'Blog',
-        //         to: '/blog',
-        //       },
-        //       {
-        //         label: 'GitHub',
-        //         href: 'https://github.com/facebook/docusaurus',
-        //       },
-        //     ],
-        //   },
-        // ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        copyright: `Copyright © ${new Date().getFullYear()} 阿星不是程序员 <a href="https://beian.miit.gov.cn/" target="_blank">京ICP备2024068560号-1</a> <a href="https://beian.mps.gov.cn/#/query/webSearch" target="_blank">京公网安备11011402054112号</a>`,
       },
       prism: {
         theme: prismThemes.github,

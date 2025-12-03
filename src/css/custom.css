@@ -25,64 +25,76 @@
   --ifm-color-primary-lightest: #b3c2fb;
 }
 
-/* ========== 侧边栏分类目录样式 ========== */
-
-/* 
- * 一级目录样式（如：集合、并发多线程）
- */
-.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link {
-  font-weight: 900;                      /* 字体粗细: 400正常 500中等 600半粗 700粗体 800特粗 900最粗 */
-  font-size: 1.25em;                     /* 字体大小: 1em=正常, 1.1em=稍大, 1.2em=较大 */
-  color: #444444;                        /* 字体颜色: #000黑色 #333深灰 #666中灰 #999浅灰 */
-  background-color: rgba(0, 0, 0, 0.04); /* 背景色: 最后一个值是透明度 0-1 */
-  border-radius: 4px;                    /* 圆角: 0=直角 4px=小圆角 8px=大圆角 */
-  padding: 6px 8px;                      /* 内边距: 上下 左右 */
-  margin: 2px 0;                         /* 外边距: 上下 左右 */
+/* Responsive iframe for markdown-embedded videos */
+.bilibili-video-container {
+  position: relative;
+  width: 100%;
+  /* 16:9 ratio */
+  padding-top: 56.25%;
+  margin: 1rem 0;
 }
 
-/* 
- * 二级目录样式（如：HashMap相关、ConcurrentHashMap相关）
- */
-.theme-doc-sidebar-item-category .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link {
-  font-weight: 750;                      /* 字体粗细: 比一级目录稍细 */
-  font-size: 1.10em;                     /* 字体大小: 比一级目录稍小 */
-  color: #555555;                        /* 字体颜色: 比一级目录稍浅 */
-  background-color: rgba(0, 0, 0, 0.02); /* 背景色: 比一级目录更淡 */
-  border-radius: 4px;
-  padding: 5px 8px;
-  margin: 2px 0;
+.bilibili-video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
-/* 暗色模式 - 一级目录 */
-[data-theme='dark'] .theme-doc-sidebar-menu > .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link {
-  color: #ffffff;                         /* 暗色模式字体颜色 */
-  background-color: rgba(255, 255, 255, 0.08);
-}
-
-/* 暗色模式 - 二级目录 */
-[data-theme='dark'] .theme-doc-sidebar-item-category .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link {
-  color: #dddddd;
-  background-color: rgba(255, 255, 255, 0.04);
-}
-
-/* 
- * 一级目录前的图标（实心三角形 ▶）
- */
-.theme-doc-sidebar-menu > .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link::before {
-  content: '▶';                          /* 图标内容: ▶实心 ▷空心 ■方块 ●圆点 */
-  margin-right: 4px;                      /* 图标与文字的间距 */
-  font-size: 0.85em;                      /* 图标大小 */
-  vertical-align: middle;                 /* 垂直居中 */
-  color: var(--ifm-color-primary);        /* 图标颜色: 使用主题色 */
-}
-
-/* 
- * 二级目录前的图标（空心三角形 ▷）
- */
-.theme-doc-sidebar-item-category .theme-doc-sidebar-item-category > .menu__list-item-collapsible > .menu__link::before {
-  content: '▷';                          /* 空心三角形，与一级目录区分 */
-  margin-right: 4px;
-  font-size: 0.85em;
+/* Sidebar badge component: place a small label to the right of sidebar item text */
+.sidebar-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
   vertical-align: middle;
-  color: var(--ifm-color-primary-light);  /* 使用浅一点的主题色 */
+  font-weight: 600;
+}
+
+/* Default variant: label badge (can be overridden per theme) */
+.sidebar-badge--new {
+  background-color: #f59e0b; /* amber */
+  color: #ffffff;
+}
+
+/* Optional attention variant in teal, if needed in future */
+.sidebar-badge--tip {
+  background-color: #0ea5a5; /* teal */
+  color: #ffffff;
+}
+
+/* Hook for Docusaurus sidebar item labels: append pseudo element text */
+/* Usage: assign the doc frontmatter sidebar_class_name: has-new-badge */
+/* Some versions add class to <a>, some to <li>; support both */
+.menu__link.has-new-badge::after,
+.menu__list-item.has-new-badge > .menu__link::after {
+  content: '重磅🚀';
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #f59e0b;
+  color: #fff;
+}
+
+/* Upgrade badge style with different color and emoji */
+/* Usage: assign the doc frontmatter sidebar_class_name: has-upgrade-badge */
+.menu__link.has-upgrade-badge::after,
+.menu__list-item.has-upgrade-badge > .menu__link::after {
+  content: '升级⚡';
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #10b981; /* emerald green */
+  color: #fff;
 }

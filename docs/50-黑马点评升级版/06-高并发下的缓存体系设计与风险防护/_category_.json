@@ -1,0 +1,10 @@
+{
+  "label": "缓存体系设计与风险防护",
+  "position": 6,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "高并发下的缓存体系设计与风险防护",
+    "slug": "/hmdp-plus/cache-architecture"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "label": "分库分表的设计",
+  "position": 5,
+  "collapsed": false,
+  "link": {
+    "type": "generated-index",
+    "description": "分库分表的设计",
+    "slug": "/hmdp-plus/sharding"
+  }
+}

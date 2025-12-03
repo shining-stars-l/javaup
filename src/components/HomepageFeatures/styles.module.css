@@ -1,40 +1,11 @@
 .features {
   display: flex;
   align-items: center;
-  padding: 4rem 0;
+  padding: 2rem 0;
   width: 100%;
-  background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 100%);
 }
 
-.featureTitle {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-  color: #2e3440;
-}
-
-.featureDescription {
-  font-size: 1rem;
-  line-height: 1.8;
-  color: #4c566a;
-  text-align: left;
-}
-
-.featureDescription strong {
-  color: #5e81ac;
-  font-weight: 600;
-}
-
-/* 响应式布局 */
-@media screen and (max-width: 996px) {
-  .features {
-    padding: 2rem 0;
-  }
-  
-  .featureTitle {
-    font-size: 1.3rem;
-  }
-  
-  .featureDescription {
-    font-size: 0.95rem;
-  }
+.featureSvg {
+  height: 200px;
+  width: 200px;
 }

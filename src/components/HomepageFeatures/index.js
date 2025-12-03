@@ -4,73 +4,46 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: '📚 全面系统的知识体系',
+    title: 'Easy to Use',
+    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        涵盖 <strong>Java 基础、集合、并发、JVM</strong> 等核心知识，
-        以及 <strong>Spring、SpringBoot、MySQL、Redis</strong> 等主流技术栈，
-        还包括 <strong>分布式、微服务、Kafka、Dubbo、Zookeeper、RocketMQ、RabbitMQ</strong> 等框架中间件，
-        从基础到进阶，构建完整的 Java 技术知识图谱。
+        Docusaurus was designed from the ground up to be easily installed and
+        used to get your website up and running quickly.
       </>
     ),
   },
   {
-    title: '🎯 面试必备的八股文',
+    title: 'Focus on What Matters',
+    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        精心整理各大互联网公司高频面试题，深入浅出地讲解每个知识点。
-        不仅是面试题库，更是实战技能提升的指南。
-        帮助你快速掌握面试要点，自信应对技术面试。
+        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
+        ahead and move your docs into the <code>docs</code> directory.
       </>
     ),
   },
   {
-    title: '🔧 开发工具全掌握',
+    title: 'Powered by React',
+    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        详细介绍 <strong>Maven、Git、Docker</strong> 等必备开发工具的使用方法和最佳实践。
-        让你不仅会用，更能用好，提升开发效率，规范开发流程。
-      </>
-    ),
-  },
-  {
-    title: '📊 数据库与缓存',
-    description: (
-      <>
-        深入讲解 <strong>MySQL</strong> 的索引优化、事务管理、锁机制等核心知识，
-        以及 <strong>Redis</strong> 的数据结构、持久化、集群方案等，
-        让你掌握高性能应用的核心技能。
-      </>
-    ),
-  },
-  {
-    title: '☁️ 分布式与微服务',
-    description: (
-      <>
-        系统化学习分布式系统设计理论和微服务架构最佳实践。
-        涵盖服务治理、配置中心、链路追踪、限流降级等关键技术，
-        助你构建高可用、高性能的分布式系统。
-      </>
-    ),
-  },
-  {
-    title: '🐛 问题排查与调优',
-    description: (
-      <>
-        分享实际开发中常见的问题排查思路和性能调优方法。
-        包括 <strong>JVM 调优、网络排查、系统监控</strong> 等实战技能，
-        让你具备解决复杂问题的能力。
+        Extend or customize your website layout by reusing React. Docusaurus can
+        be extended while reusing the same header and footer.
       </>
     ),
   },
 ];
 
-function Feature({title, description}) {
+function Feature({Svg, title, description}) {
   return (
     <div className={clsx('col col--4')}>
+      <div className="text--center">
+        <Svg className={styles.featureSvg} role="img" />
+      </div>
       <div className="text--center padding-horiz--md">
-        <Heading as="h3" className={styles.featureTitle}>{title}</Heading>
-        <p className={styles.featureDescription}>{description}</p>
+        <Heading as="h3">{title}</Heading>
+        <p>{description}</p>
       </div>
     </div>
   );

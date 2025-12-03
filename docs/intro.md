@@ -1,47 +1,82 @@
+# 欢迎来到阿星的技术分享网站
+
+欢迎来到我的技术分享平台！这里汇聚了丰富的实战项目经验、深度技术解析和完整的学习路径。
+
+## 🚀 实战项目介绍
+
+### 大麦 (高并发实战)
+一个完整的高并发票务系统，涵盖了从用户注册到订单支付的全流程业务实现。
+- **技术栈**：Spring Boot、Spring Cloud、Redis、Elasticsearch、MySQL
+- **核心亮点**：高并发购票、分布式锁、缓存策略、分库分表
+- [开始学习 →](/damai/overview/project-intro)
+
+### 大麦AI (AI实战项目)
+基于Spring AI框架的智能对话系统，集成了RAG检索和向量数据库。
+- **技术栈**：Spring AI、向量数据库、RAG、大模型API
+- **核心亮点**：智能对话、文档检索、上下文记忆、Function Calling
+- [开始学习 →](/damai-ai/overview/project-intro)
+
+### link-flow (流量切换系统)
+微服务架构下的流量路由和负载均衡系统，支持蓝绿发布、灰度发布等部署策略。
+- **技术栈**：Spring Cloud LoadBalancer、Gateway、Nacos
+- **核心亮点**：动态路由、版本控制、权重分配、服务过滤
+- [开始学习 →](/link-flow/business-intro/getting-started-overview)
+
+### dock-data-center (数据中台系统)
+动态数据源、基于MQ的增量汇总、可靠消息记录和对账、指标规则引擎等重磅功能。
+- **技术栈**：SpringBoot、Redis、Mysql、Kafka
+- **核心亮点**：动态数据源、规则化指标、MQ 驱动的增量汇总、可靠消息与对账闭环
+- [开始学习 →](/dock-data-center/business-intro/info)
+
+## 📚 技术分享讲解
+
+深入解析主流技术框架的核心原理和最佳实践：
+
+- **Spring生态系列**：Spring Boot、Spring Cloud、Spring事务等源码分析
+- **微服务架构**：Nacos、Sentinel、Skywalking、Ribbon等组件详解
+- **并发编程**：线程池、锁机制、并发工具类的深度剖析
+- **中间件技术**：Redis、Elasticsearch、消息队列等实战应用
+- **网络编程**：Netty、NIO、Reactor模式等底层原理
+
+[查看全部技术分享 →](/tech-sharing/springcloud-details/feignribbonhystrix)
+
+## 🎯 学习路径
+
+### 适合人群
+- **Java开发工程师**：希望提升技术深度和项目经验
+- **应届毕业生**：需要实战项目经验和面试准备
+- **技术转型者**：想要系统学习微服务和分布式技术
+
+### 学习建议
+1. **选择项目**：根据自己的技术栈和兴趣选择合适的实战项目
+2. **理论结合实践**：先学习相关技术分享，再动手实践项目
+3. **循序渐进**：从基础功能开始，逐步深入核心技术
+4. **总结沉淀**：学习过程中做好笔记，形成自己的技术体系
+
+## 💡 核心特色
+
+### ✨ 真实项目经验
+所有项目都来源于实际生产环境，不是简单的Demo，具有完整的业务逻辑和技术架构。
+
+### 🔍 深度技术解析
+不仅讲解如何使用，更重要的是解释为什么这样设计，帮助理解技术本质。
+
+### 📖 完整学习资料
+每个项目都配有详细的文档说明、视频讲解和源码注释。
+
+### 🎯 面试导向
+所有内容都以提升面试竞争力为目标，帮助你在技术面试中脱颖而出。
+
+## 🤝 如何开始
+
+1. **浏览项目介绍**：了解各个项目的技术栈和核心功能
+2. **选择学习路径**：根据自己的需求选择合适的项目开始学习
+3. **加入学习社群**：获取更多学习资源和答疑支持
+
+[开始你的学习之旅 →](/how-to-study/intro/full-service)
+
 ---
-sidebar_position: 1
----
 
-# Tutorial Intro
+> 💪 **相信自己，持续学习，技术改变命运！**
 
-Let's discover **Docusaurus in less than 5 minutes**.
-
-## Getting Started
-
-Get started by **creating a new site**.
-
-Or **try Docusaurus immediately** with **[docusaurus.new](https://docusaurus.new)**.
-
-### What you'll need
-
-- [Node.js](https://nodejs.org/en/download/) version 20.0 or above:
-  - When installing Node.js, you are recommended to check all checkboxes related to dependencies.
-
-## Generate a new site
-
-Generate a new Docusaurus site using the **classic template**.
-
-The classic template will automatically be added to your project after you run the command:
-
-```bash
-npm init docusaurus@latest my-website classic
-```
-
-You can type this command into Command Prompt, Powershell, Terminal, or any other integrated terminal of your code editor.
-
-The command also installs all necessary dependencies you need to run Docusaurus.
-
-## Start your site
-
-Run the development server:
-
-```bash
-cd my-website
-npm run start
-```
-
-The `cd` command changes the directory you're working with. In order to work with your newly created Docusaurus site, you'll need to navigate the terminal there.
-
-The `npm run start` command builds your website locally and serves it through a development server, ready for you to view at http://localhost:3000/.
-
-Open `docs/intro.md` (this page) and edit some lines: the site **reloads automatically** and displays your changes.
+如果在学习过程中遇到任何问题，欢迎随时交流讨论。让我们一起在技术的道路上不断前进！

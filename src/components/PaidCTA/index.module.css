@@ -1,0 +1,48 @@
+.wrapper {
+  margin: 2rem 0 0;
+  display: flex;
+  justify-content: center;
+  padding: 0 1rem; /* 避免小屏两侧被裁切 */
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.15rem 1.75rem; /* 更大内边距 */
+  border-radius: 12px;
+  font-weight: 800;
+  font-size: 1.25rem;       /* 更大字号 */
+  text-decoration: none;
+  background: var(--ifm-color-primary);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+  transform: scale(1);
+  transition: transform .16s ease, box-shadow .16s ease, opacity .16s ease;
+  min-width: 360px;         /* 最小宽度更大 */
+  width: clamp(360px, 60%, 560px);
+  text-align: center;
+  letter-spacing: 0.2px;
+}
+
+.cta:hover {
+  text-decoration: none;
+  transform: translateY(-1px) scale(1.06);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18);
+  opacity: .95;
+  filter: brightness(1.03);
+}
+
+.cta:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+}
+
+@media screen and (max-width: 576px) {
+  .cta {
+    width: 100%;
+    min-width: 0;
+  }
+}
+
+

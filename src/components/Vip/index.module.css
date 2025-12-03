@@ -1,0 +1,63 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  display: flex;
+  align-items: center; /* 垂直居中，避免超出需要滚动 */
+  justify-content: center;
+}
+
+.wrapper {
+  background: #fff;
+  width: min(685px, 94vw); /* 弹层基础宽度（主旋钮）：数值越大整体越大；常用 520–820px */
+  max-width: 110vw;
+  max-height: 100vh; /* 限制高度，保证一屏展示；如出现滚动可下调到 92–96vh */
+  border-radius: 12px;
+  padding: 16px 0; /* 上下内边距：可微调视觉呼吸感，左右由 .content 控制 */
+  overflow: hidden;
+}
+
+.title {
+  text-align: center;
+  font-weight: 700;
+  font-size: clamp(12px, 1.1vw + 5px, 20px); /* 标题字号：clamp(最小, 随视口变化, 最大) */
+  margin: 0 18px 8px;
+}
+
+.content {
+  padding: 6px 12px 12px 12px; /* 内容左右内边距：减小可缩小左右空白（建议 8–20px） */
+  font-size: clamp(12px, 0.7vw + 5px, 14px); /* 正文字号：整体阅读尺寸（可 12–18px 起） */
+  line-height: 1.65; /* 行高：提升可读性（建议 1.6–1.8） */
+}
+
+.content p { margin: 6px 0; }
+
+.highlight { color: #008cff; font-weight: 700; }
+.emphasis { color: #f00; font-weight: 700; }
+
+.qr {
+  display: block;
+  margin: 8px auto 0 auto;
+  max-width: 88%; /* 二维码宽度占内容区比例：增大能减少左右留白（常用 80–92%） */
+  max-height: 40vh; /* 二维码高度上限（相对视口）：避免超出一屏（常用 34–44vh） */
+  height: auto;
+}
+
+.link { color: var(--ifm-color-primary); font-weight: 700; text-decoration: none; }
+.link:hover { text-decoration: underline; }
+
+.centerNotice { text-align: center; margin: 6px 0; }
+
+/* 移除两栏布局，保留单列 */
+.steps { margin-top: 10px; text-align: center; font-size: clamp(11px, 0.62vw + 5px, 12px); /* 步骤文字字号 */ }
+
+@media screen and (max-width: 768px) {
+  .wrapper { width: 94vw; max-height: 88vh; /* 如需更紧凑，可调到 82–88vh */ }
+  .qr { max-width: 86%; max-height: 38vh; /* 移动端二维码占比：适当放大以便扫码 */ }
+}
+
+@media screen and (max-width: 480px) {
+  .qr { max-width: 88%; max-height: 36vh; /* 小屏二维码占比：适当放大但控制高度 */ }
+}
+
