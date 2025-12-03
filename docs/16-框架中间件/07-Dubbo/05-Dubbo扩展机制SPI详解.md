@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/05-Dubbo扩展机制SPI详解
+slug: /framework/dubbo/spi-extension
 ---
 # Dubbo扩展机制SPI详解
 

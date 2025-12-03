@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/04-Hystrix熔断与容错机制详解
+slug: /framework/springcloud/hystrix-circuit-breaker
 ---
 # Hystrix熔断与容错机制详解
 

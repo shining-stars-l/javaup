@@ -1,5 +1,5 @@
 ---
-slug: /framework/rabbitmq/01-RabbitMQ架构与工作模式
+slug: /framework/rabbitmq/architecture-work-mode
 ---
 # RabbitMQ架构与工作模式
 

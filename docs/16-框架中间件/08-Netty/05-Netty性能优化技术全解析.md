@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/05-Netty性能优化技术全解析
+slug: /framework/netty/performance-optimization
 ---
 # Netty性能优化技术全解析
 

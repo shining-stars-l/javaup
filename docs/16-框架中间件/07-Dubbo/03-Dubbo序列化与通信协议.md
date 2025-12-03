@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/03-Dubbo序列化与通信协议
+slug: /framework/dubbo/serialization-protocol
 ---
 # Dubbo序列化与通信协议
 

@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/01-Netty核心架构与线程模型
+slug: /framework/netty/core-architecture
 ---
 # Netty核心架构与线程模型
 

@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/07-Nacos配置中心实现原理与通信机制
+slug: /framework/springcloud/nacos-config-center
 ---
 # Nacos配置中心实现原理与通信机制
 

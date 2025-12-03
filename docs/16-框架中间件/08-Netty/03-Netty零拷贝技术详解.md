@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/03-Netty零拷贝技术详解
+slug: /framework/netty/zero-copy
 ---
 # Netty零拷贝技术详解
 

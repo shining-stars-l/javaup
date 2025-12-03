@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/02-API网关技术选型与对比
+slug: /framework/springcloud/api-gateway
 ---
 # API网关技术选型与对比
 

@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/06-Dubbo高级特性与应用
+slug: /framework/dubbo/advanced-features
 ---
 # Dubbo高级特性与应用
 

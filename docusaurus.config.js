@@ -20,7 +20,31 @@ const config = {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-  themes: ['@docusaurus/theme-mermaid'],
+  themes: [
+    '@docusaurus/theme-mermaid',
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      /** @type {import("@easyops-cn/docusaurus-search-local").PluginOptions} */
+      ({
+        // 开发模式下也启用搜索
+        hashed: true,
+        // 搜索中文内容
+        language: ['en', 'zh'],
+        // 高亮搜索结果
+        highlightSearchTermsOnTargetPage: true,
+        // 搜索结果数量限制
+        searchResultLimits: 10,
+        // 索引文档
+        indexDocs: true,
+        // 索引博客
+        indexBlog: true,
+        // 索引页面
+        indexPages: false,
+        // 文档路由基础路径
+        docsRouteBasePath: '/',
+      }),
+    ],
+  ],
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
   future: {
     v4: true, // Improve compatibility with the upcoming Docusaurus v4

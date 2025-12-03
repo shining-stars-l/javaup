@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/04-Dubbo负载均衡与服务治理
+slug: /framework/dubbo/load-balance-governance
 ---
 # Dubbo负载均衡与服务治理
 

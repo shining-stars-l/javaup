@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/03-Eureka核心机制深度解析
+slug: /framework/springcloud/eureka-mechanism
 ---
 # Eureka核心机制深度解析
 

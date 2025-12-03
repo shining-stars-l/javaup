@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/01-RPC与Dubbo基础概念
+slug: /framework/dubbo/rpc-basic
 ---
 # RPC与Dubbo基础概念
 

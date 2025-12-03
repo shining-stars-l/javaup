@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/01-SpringCloud核心概念与架构
+slug: /framework/springcloud/core-architecture
 ---
 # SpringCloud核心概念与架构
 

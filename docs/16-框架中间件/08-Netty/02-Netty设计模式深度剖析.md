@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/02-Netty设计模式深度剖析
+slug: /framework/netty/design-patterns
 ---
 # Netty设计模式深度剖析
 

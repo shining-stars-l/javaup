@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/05-Nacos架构与核心功能详解
+slug: /framework/springcloud/nacos-architecture
 ---
 # Nacos架构与核心功能详解
 

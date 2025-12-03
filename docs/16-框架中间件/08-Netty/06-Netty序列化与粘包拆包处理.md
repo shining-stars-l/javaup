@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/06-Netty序列化与粘包拆包处理
+slug: /framework/netty/serialization-sticky-packet
 ---
 # Netty序列化与粘包拆包处理
 

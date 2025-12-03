@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/06-Nacos服务注册与发现机制深度剖析
+slug: /framework/springcloud/nacos-service-discovery
 ---
 # Nacos架构与核心功能详解
 

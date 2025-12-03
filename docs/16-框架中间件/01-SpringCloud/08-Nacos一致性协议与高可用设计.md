@@ -1,5 +1,5 @@
 ---
-slug: /framework/springcloud/08-Nacos一致性协议与高可用设计
+slug: /framework/springcloud/nacos-consistency-ha
 ---
 # Nacos一致性协议与高可用设计
 

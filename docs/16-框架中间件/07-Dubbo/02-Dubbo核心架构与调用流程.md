@@ -1,5 +1,5 @@
 ---
-slug: /framework/dubbo/02-Dubbo核心架构与调用流程
+slug: /framework/dubbo/core-architecture
 ---
 # Dubbo核心架构与调用流程
 

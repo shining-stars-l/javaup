@@ -1,5 +1,5 @@
 ---
-slug: /framework/netty/04-ByteBuf核心机制与内存管理
+slug: /framework/netty/bytebuf-memory
 ---
 # ByteBuf核心机制与内存管理
 
