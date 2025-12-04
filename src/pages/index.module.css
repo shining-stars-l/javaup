@@ -16,11 +16,12 @@
 /* Hero Section */
 .hero {
   position: relative;
-  min-height: 80vh;
+  min-height: 50vh;
   display: flex;
   align-items: center;
   background: transparent;
   overflow: hidden;
+  padding: 3rem 0;
 }
 
 .heroBackground { display: none; }
@@ -50,7 +51,7 @@
 .heroTitle {
   font-size: clamp(3rem, 4.2vw + 0.4rem, 5.5rem);
   font-weight: 900;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0;
   line-height: 1.15;
   text-align: center;
   letter-spacing: -0.5px;
@@ -375,7 +376,7 @@
 
 @media screen and (max-width: 996px) {
   .hero {
-    min-height: 60vh;
+    min-height: 40vh;
     padding: 2rem 0;
   }
 
@@ -627,4 +628,290 @@
   .showcaseText { max-width: 520px; }
   .showcaseImage { height: auto; max-height: 60vh; object-fit: contain; }
   .showcaseSection { padding: 4rem 0; }
+}
+
+/* =====================
+   超级八股文区块样式
+   ===================== */
+.baguSection {
+  padding: 5rem 0;
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* 滞后动效 */
+.baguSection .baguHeader,
+.baguSection .baguFeatures,
+.baguSection .baguModules,
+.baguSection .baguActions {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+.baguSection.isVisible .baguFeatures { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+.baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+.baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
+
+.baguHeader {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.baguTitle {
+  font-size: clamp(2.5rem, 4vw + 0.5rem, 4.5rem);
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.baguSubtitle {
+  font-size: clamp(1.1rem, 1vw + 0.6rem, 1.4rem);
+  color: #475569;
+  line-height: 1.8;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.baguHighlight {
+  color: #ff6b6b;
+  font-weight: 700;
+  position: relative;
+}
+
+.baguHighlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  border-radius: 2px;
+}
+
+/* 八股文特色展示 */
+.baguFeatures {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+}
+
+.baguFeatureItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.baguFeatureItem:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.baguFeatureIcon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.baguFeatureItem strong {
+  display: block;
+  font-size: 1rem;
+  color: #0f172a;
+  margin-bottom: 0.25rem;
+}
+
+.baguFeatureItem p {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 知识模块卡片 */
+.baguModules {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.25rem;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+}
+
+.baguModuleCard {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem 1rem;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border-top: 4px solid var(--accent-color, #4ecdc4);
+  position: relative;
+  overflow: hidden;
+}
+
+.baguModuleCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(var(--accent-color-rgb, 78,205,196),0.05) 100%);
+  pointer-events: none;
+}
+
+.baguModuleCard:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+}
+
+.baguModuleIcon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+.baguModuleTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem 0;
+}
+
+.baguModuleDesc {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 八股文按钮 */
+.baguActions {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+
+.baguBtn {
+  padding: 1rem 2.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+.baguBtn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+}
+
+.baguBtnOutline {
+  background: white;
+  border: 2px solid #4ecdc4;
+  color: #0f172a;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.baguBtnOutline:hover {
+  background: #f8fafc;
+  border-color: #45b7d1;
+}
+
+/* 实战项目分隔区 */
+.projectsDivider {
+  padding: 4rem 0 3rem;
+  background: linear-gradient(180deg, #f8fafc 0%, #fafafa 100%);
+  text-align: center;
+}
+
+.dividerTitle {
+  font-size: clamp(2.5rem, 4vw + 0.5rem, 4.5rem);
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 1rem;
+}
+
+.dividerDesc {
+  font-size: clamp(1.2rem, 1.1vw + 0.6rem, 1.6rem);
+  color: #475569;
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.dividerHighlight {
+  color: #ff6b6b;
+  font-weight: 700;
+  position: relative;
+}
+
+.dividerHighlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  border-radius: 2px;
+}
+
+/* 响应式适配 - 八股文区块 */
+@media screen and (max-width: 1200px) {
+  .baguModules {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .baguFeatures {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .baguModules {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .baguModules {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .baguSection {
+    padding: 4rem 0;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .baguFeatures {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .baguModules {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+  .baguModuleCard {
+    padding: 1.25rem 0.75rem;
+  }
+  .baguModuleIcon {
+    font-size: 2rem;
+  }
+  .baguBtn {
+    padding: 0.9rem 1.8rem;
+    font-size: 1.05rem;
+  }
+  .projectsDivider {
+    padding: 3rem 0 2rem;
+  }
 }

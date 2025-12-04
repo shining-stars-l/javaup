@@ -4,7 +4,17 @@ import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 import Layout from '@theme/Layout';
 import Heading from '@theme/Heading';
 import styles from './index.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
+// 超级八股文知识模块配置
+const baguModules = [
+  { icon: '☕', title: 'Java核心', desc: '基础语法、集合、IO、并发编程、JVM等', color: '#ff6b6b' },
+  { icon: '🗄️', title: '数据库', desc: 'MySQL索引/事务/调优、Redis深度剖析', color: '#4ecdc4' },
+  { icon: '🌐', title: '框架中间件', desc: 'Spring全家桶、MQ、ES、Netty等', color: '#45b7d1' },
+  { icon: '🚀', title: '分布式架构', desc: '微服务、分库分表、分布式事务等', color: '#96ceb4' },
+  { icon: '💻', title: '基础内功', desc: '操作系统、网络协议、数据结构', color: '#feca57' },
+  { icon: '🎯', title: '方案设计', desc: '秒杀系统、缓存设计、限流熔断', color: '#ff9ff3' },
+];
 
 // 项目数据配置
 const projects = [
@@ -99,101 +109,121 @@ const projects = [
   },
 ];
 
-function AnimatedTitle() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  
-  const titleVariations = [
-    { icon: '⚡', prefix: '掌握', highlight: '高并发技术', suffix: '轻松搞定项目难题' },
-    { icon: '🤖', prefix: '构建', highlight: 'AI智能系统', suffix: '快速上手前沿技术' },
-    { icon: '💫', prefix: '优化请求', highlight: '流量切换', suffix: '秒级部署生产环境' },
-    { icon: '📊', prefix: '打造', highlight: '数据中台', suffix: '沉淀数据资产增长' },
-    { icon: '💡', prefix: '提升', highlight: '架构能力', suffix: '事半功倍解决方案' }
-  ];
+// 超级八股文介绍区块
+function BaguSection() {
+  const sectionRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setIsTransitioning(true);
-      
-      setTimeout(() => {
-        setCurrentIndex((prev) => (prev + 1) % titleVariations.length);
-        setIsTransitioning(false);
-      }, 300);
-      
-    }, 4000);
-
-    return () => clearInterval(interval);
+    const el = sectionRef.current;
+    if (!el) return;
+    if (typeof window !== 'undefined' && !('IntersectionObserver' in window)) {
+      el.classList.add(styles.isVisible);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            el.classList.add(styles.isVisible);
+            io.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.15, root: null, rootMargin: '0px 0px -10% 0px' }
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
 
-  const currentVariation = titleVariations[currentIndex];
-
   return (
-    <div className={styles.titleContainer}>
-      <Heading as="h1" className={styles.heroTitle}>
-        <div className={styles.titleBlock}>
-          <div className={styles.titleIcon}>{currentVariation.icon}</div>
-          <div className={styles.titleText}>
-            <div className={styles.titleLine}>
-              <span
-                className={clsx(styles.titleAnimated, {
-                  [styles.titleTransition]: isTransitioning,
-                })}
-              >
-                {currentVariation.prefix}
-              </span><span 
-                className={clsx(styles.titleHighlight, {
-                  [styles.titleTransition]: isTransitioning
-                })}
-              >
-                {currentVariation.highlight}
-              </span>
+    <section ref={sectionRef} className={styles.baguSection}>
+      <div className="container">
+        <div className={styles.baguHeader}>
+          <Heading as="h2" className={styles.baguTitle}>
+            📚 超级八股文系列
+          </Heading>
+          <p className={styles.baguSubtitle}>
+            不只是概念背诵，更是<strong>深度原理剖析</strong> + <strong>代码示例</strong> + <strong>流程图解</strong><br/>
+            做到<span className={styles.baguHighlight}>知其然，更知其所以然</span>
+          </p>
+        </div>
+        
+        <div className={styles.baguFeatures}>
+          <div className={styles.baguFeatureItem}>
+            <span className={styles.baguFeatureIcon}>🔍</span>
+            <div>
+              <strong>技术深度详解</strong>
+              <p>层层递进，从基础到底层原理</p>
             </div>
-            <div className={styles.titleLine}>
-              <span 
-                className={clsx(styles.titleAnimated, {
-                  [styles.titleTransition]: isTransitioning
-                })}
-              >
-                {currentVariation.suffix}
-              </span>
+          </div>
+          <div className={styles.baguFeatureItem}>
+            <span className={styles.baguFeatureIcon}>💻</span>
+            <div>
+              <strong>丰富代码示例</strong>
+              <p>每个知识点配套实战代码</p>
+            </div>
+          </div>
+          <div className={styles.baguFeatureItem}>
+            <span className={styles.baguFeatureIcon}>📊</span>
+            <div>
+              <strong>清晰流程图解</strong>
+              <p>可视化展示复杂流程</p>
+            </div>
+          </div>
+          <div className={styles.baguFeatureItem}>
+            <span className={styles.baguFeatureIcon}>🎯</span>
+            <div>
+              <strong>面试导向设计</strong>
+              <p>直击高频考点，快速捕捉重点</p>
             </div>
           </div>
         </div>
-      </Heading>
-    </div>
-  );
-}
 
-function HeroSection() {
-  const {siteConfig} = useDocusaurusContext();
-  
-  return (
-    <section className={styles.hero}>
-      <div className={styles.heroBackground}>
-        <div className={styles.heroPattern}></div>
-      </div>
-      <div className="container">
-        <div className={styles.heroContent}>
-          <AnimatedTitle />
-          <p className={styles.heroSubtitle}>
-            <span className={styles.nowrap}>
-              从 <span className={styles.subtitleHighlight}>高并发架构</span> 到 <span className={styles.subtitleHighlight}>数据中台</span> 与 <span className={styles.subtitleHighlight}>AI智能分析</span>
-              <br/>
-              从 <span className={styles.subtitleHighlight}>流量切换</span> 到 <span className={styles.subtitleHighlight}>微服务治理</span> 与 <span className={styles.subtitleHighlight}>可观测性</span>
-            </span>
-            <br/>
-            每个项目都是 <span className={styles.subtitleHighlight}>生产级别</span> 的可落地开源方案
-          </p>
-          <div className={styles.heroButtons}>
-            <Link
-              className={clsx('button button--primary button--lg', styles.heroButton)}
-              to="/how-to-study/intro/full-service">
-              🎯 开始学习
-            </Link>
-          </div>
+        <div className={styles.baguModules}>
+          {baguModules.map((mod, idx) => (
+            <div 
+              key={idx} 
+              className={styles.baguModuleCard}
+              style={{ '--accent-color': mod.color }}
+            >
+              <span className={styles.baguModuleIcon}>{mod.icon}</span>
+              <h3 className={styles.baguModuleTitle}>{mod.title}</h3>
+              <p className={styles.baguModuleDesc}>{mod.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className={styles.baguActions}>
+          <Link
+            className={clsx('button button--primary button--lg', styles.baguBtn)}
+            to="/how-to-study/intro/full-service">
+            🎯 开始学习
+          </Link>
+          <Link
+            className={clsx('button button--outline button--lg', styles.baguBtn, styles.baguBtnOutline)}
+            to="/how-to-study/intro/super-baguwen">
+            📖 查看超级八股文全部内容
+          </Link>
         </div>
       </div>
     </section>
+  );
+}
+
+// 实战项目分隔区块
+function ProjectsDivider() {
+  return (
+    <div className={styles.projectsDivider}>
+      <div className="container">
+        <Heading as="h2" className={styles.dividerTitle}>
+          🛠️ 实战项目展示
+        </Heading>
+        <p className={styles.dividerDesc}>
+          <span className={styles.dividerHighlight}>实战项目</span> 提供生产级别的可落地方案<br/>
+          理论与实践结合，助你 <span className={styles.dividerHighlight}>快速进阶</span>
+        </p>
+      </div>
+    </div>
   );
 }
 
@@ -366,11 +396,17 @@ export default function Home() {
   
   return (
     <Layout
-      title="Java技术实战项目集合"
-      description="高并发架构、AI智能分析、流量切换等生产级项目实战教程">
+      title="Java技术知识库与实战项目"
+      description="超级八股文知识体系 + 高并发架构、AI智能分析等生产级项目实战教程">
       <div className="home-page">
-        <HeroSection />
         <main>
+          {/* 超级八股文介绍 */}
+          <BaguSection />
+          
+          {/* 实战项目分隔 */}
+          <ProjectsDivider />
+          
+          {/* 实战项目展示 */}
           {projects.map((project, index) => (
             <ShowcaseSection
               key={project.id}
