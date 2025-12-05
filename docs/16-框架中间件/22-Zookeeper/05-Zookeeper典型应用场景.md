@@ -94,9 +94,6 @@ sequenceDiagram
     ZK->>C3: 通知前一个节点删除
     C3->>ZK: 检查是否为最小节点
     ZK-->>C3: 是最小节点,获取锁成功
-    
-    style C1 fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
-    style ZK fill:#66b3ff,stroke:#333,stroke-width:2px,rx:15,ry:15
 ```
 
 **核心思想**

@@ -514,15 +514,12 @@ public class PaymentFactory {
 
 ```mermaid
 graph TB
-    A[依赖注入注解] --> B[@Autowired]
-    A --> C[@Resource]
+    A[依赖注入注解] --> B["@Autowired"]
+    A --> C["@Resource"]
     B --> D[byType优先]
     B --> E[Spring提供]
     C --> F[byName优先]
     C --> G[JDK提供]
-    
-    style B fill:#b3d9ff,rx:10,ry:10
-    style C fill:#ffffcc,rx:10,ry:10
 ```
 
 **@Autowired**:

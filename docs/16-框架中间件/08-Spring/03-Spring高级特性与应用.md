@@ -456,13 +456,10 @@ graph LR
     A[JVM关闭信号] --> B[ShutdownHook]
     B --> C[调用DisposableBean.destroy]
     B --> D[调用destroy-method]
-    B --> E[调用@PreDestroy方法]
+    B --> E["调用@PreDestroy方法"]
     C --> F[容器销毁]
     D --> F
     E --> F
-    
-    style B fill:#b3d9ff,rx:10,ry:10
-    style F fill:#ffffcc,rx:10,ry:10
 ```
 
 ### 使用方式

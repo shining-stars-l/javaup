@@ -73,9 +73,6 @@ sequenceDiagram
     WM-->>Server: 注册成功
     Server-->>ZkWM: 返回确认
     ZkWM-->>App: 注册完成
-    
-    style ZkWM fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
-    style WM fill:#66b3ff,stroke:#333,stroke-width:2px,rx:15,ry:15
 ```
 
 **详细步骤**
@@ -117,9 +114,6 @@ sequenceDiagram
     end
     
     WM->>WM: 自动注销Watcher
-    
-    style WM fill:#66b3ff,stroke:#333,stroke-width:2px,rx:15,ry:15
-    style ZkWM fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
 ```
 
 **详细步骤**
