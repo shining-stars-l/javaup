@@ -8,12 +8,12 @@ import { useEffect, useRef } from 'react';
 
 // 超级八股文知识模块配置
 const baguModules = [
-  { icon: '☕', title: 'Java核心', desc: '基础语法、集合、IO、并发编程、JVM等', color: '#ff6b6b' },
-  { icon: '🗄️', title: '数据库', desc: 'MySQL索引/事务/调优、Redis深度剖析', color: '#4ecdc4' },
-  { icon: '🌐', title: '框架中间件', desc: 'Spring全家桶、MQ、ES、Netty等', color: '#45b7d1' },
-  { icon: '🚀', title: '分布式架构', desc: '微服务、分库分表、分布式事务等', color: '#96ceb4' },
-  { icon: '💻', title: '基础内功', desc: '操作系统、网络协议、数据结构', color: '#feca57' },
-  { icon: '🎯', title: '方案设计', desc: '秒杀系统、缓存设计、限流熔断', color: '#ff9ff3' },
+  { icon: '☕', title: 'Java核心', desc: '基础语法、集合、IO、并发、JVM', color: '#ff6b6b' },
+  { icon: '🗄️', title: '数据库', desc: 'MySQL、Redis深度剖析', color: '#4ecdc4' },
+  { icon: '🌐', title: '框架中间件', desc: 'Spring、MQ、ES、Netty', color: '#45b7d1' },
+  { icon: '🚀', title: '分布式架构', desc: '微服务、分库分表、事务', color: '#96ceb4' },
+  { icon: '💻', title: '基础内功', desc: '操作系统、网络、数据结构', color: '#feca57' },
+  { icon: '🎯', title: '方案设计', desc: '秒杀、缓存、限流熔断', color: '#ff9ff3' },
 ];
 
 // 项目数据配置
@@ -109,6 +109,40 @@ const projects = [
   },
 ];
 
+// 顶部 Hero 区域
+function HeroSection() {
+  return (
+    <section className={styles.heroSection}>
+      <div className="container">
+        <div className={styles.heroContent}>
+          <Heading as="h1" className={styles.heroTitle}>
+            JavaUp <span className={styles.heroTitleHighlight}>技术 & 实战</span>
+          </Heading>
+          <p className={styles.heroSubtitle}>
+            用心整理的 <strong>Java 技术知识库</strong> + <strong>生产级实战项目</strong>
+          </p>
+          {/* Star 引导 - 简洁横向布局 */}
+          <div className={styles.starBanner}>
+            <span className={styles.starBannerText}>
+              觉得有帮助？欢迎点个 Star 支持 ✨
+            </span>
+            <div className={styles.starBannerLinks}>
+              <a href="https://github.com/shining-stars-l/javaup" target="_blank" rel="noopener noreferrer" className={styles.starLink}>
+                <svg className={styles.starLinkIcon} viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                GitHub
+              </a>
+              <a href="https://gitee.com/java-up-up/javaup" target="_blank" rel="noopener noreferrer" className={styles.starLink}>
+                <svg className={styles.starLinkIcon} viewBox="0 0 24 24" fill="currentColor"><path d="M11.984 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.016 0zm6.09 5.333c.328 0 .593.266.592.593v1.482a.594.594 0 0 1-.593.592H9.777c-.982 0-1.778.796-1.778 1.778v5.63c0 .327.266.592.593.592h5.63c.328 0 .593-.265.593-.593v-1.482a.594.594 0 0 0-.593-.592h-3.408a.43.43 0 0 1-.296-.124.41.41 0 0 1-.124-.295V8.814a.43.43 0 0 1 .42-.419h5.618c.329 0 .593.266.593.593v7.241a.593.593 0 0 1-.593.593H6.204a.593.593 0 0 1-.593-.593V6.741c0-.327.266-.593.593-.593h5.618z"/></svg>
+                Gitee
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // 超级八股文介绍区块
 function BaguSection() {
   const sectionRef = useRef(null);
@@ -143,49 +177,14 @@ function BaguSection() {
             📚 超级八股文系列
           </Heading>
           <p className={styles.baguSubtitle}>
-            不只是概念背诵，更是<strong>深度原理剖析</strong> + <strong>代码示例</strong> + <strong>流程图解</strong><br/>
-            做到<span className={styles.baguHighlight}>知其然，更知其所以然</span>
+            不只是概念背诵，更是<strong>深度原理剖析</strong> + <strong>代码示例</strong> + <strong>流程图解</strong>
           </p>
         </div>
-        
-        <div className={styles.baguFeatures}>
-          <div className={styles.baguFeatureItem}>
-            <span className={styles.baguFeatureIcon}>🔍</span>
-            <div>
-              <strong>技术深度详解</strong>
-              <p>层层递进，从基础到底层原理</p>
-            </div>
-          </div>
-          <div className={styles.baguFeatureItem}>
-            <span className={styles.baguFeatureIcon}>💻</span>
-            <div>
-              <strong>丰富代码示例</strong>
-              <p>每个知识点配套实战代码</p>
-            </div>
-          </div>
-          <div className={styles.baguFeatureItem}>
-            <span className={styles.baguFeatureIcon}>📊</span>
-            <div>
-              <strong>清晰流程图解</strong>
-              <p>可视化展示复杂流程</p>
-            </div>
-          </div>
-          <div className={styles.baguFeatureItem}>
-            <span className={styles.baguFeatureIcon}>🎯</span>
-            <div>
-              <strong>面试导向设计</strong>
-              <p>直击高频考点，快速捕捉重点</p>
-            </div>
-          </div>
-        </div>
 
+        {/* 知识模块卡片 */}
         <div className={styles.baguModules}>
           {baguModules.map((mod, idx) => (
-            <div 
-              key={idx} 
-              className={styles.baguModuleCard}
-              style={{ '--accent-color': mod.color }}
-            >
+            <div key={idx} className={styles.baguModuleCard} style={{ '--accent-color': mod.color }}>
               <span className={styles.baguModuleIcon}>{mod.icon}</span>
               <h3 className={styles.baguModuleTitle}>{mod.title}</h3>
               <p className={styles.baguModuleDesc}>{mod.desc}</p>
@@ -193,25 +192,18 @@ function BaguSection() {
           ))}
         </div>
 
-        <div className={styles.baguButtonGrid}>
-          <Link
-            className={clsx('button button--primary button--lg', styles.baguBtn)}
-            to="/java/interview-skills/preparation-guide">
+        {/* 功能按钮组 */}
+        <div className={styles.baguActions}>
+          <Link className={clsx('button button--primary button--lg', styles.baguBtnPrimary)} to="/java/interview-skills/preparation-guide">
             🎯 开始学习
           </Link>
-          <Link
-            className={clsx('button button--outline button--lg', styles.baguBtn, styles.baguBtnOutline)}
-            to="/how-to-study/intro/super-baguwen">
-            📖 八股文内容一览
+          <Link className={clsx('button button--outline button--lg', styles.baguBtnOutline)} to="/how-to-study/intro/super-baguwen">
+            📖 查看全部目录
           </Link>
-          <Link
-            className={clsx('button button--lg', styles.baguBtn, styles.baguBtnContribute)}
-            to="/how-to-study/contribute/guide">
+          <Link className={clsx('button button--lg', styles.baguBtnContribute)} to="/how-to-study/contribute/guide">
             🤝 参与项目贡献
           </Link>
-          <Link
-            className={clsx('button button--lg', styles.baguBtn, styles.baguBtnStar)}
-            to="/how-to-study/intro/full-service">
+          <Link className={clsx('button button--lg', styles.baguBtnStar)} to="/how-to-study/intro/full-service">
             ⭐ 加入知识星球
           </Link>
         </div>
@@ -410,6 +402,9 @@ export default function Home() {
       description="超级八股文知识体系 + 高并发架构、AI智能分析等生产级项目实战教程">
       <div className="home-page">
         <main>
+          {/* 顶部 Hero 区域 */}
+          <HeroSection />
+          
           {/* 超级八股文介绍 */}
           <BaguSection />
           

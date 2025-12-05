@@ -236,7 +236,7 @@ var _hmt = _hmt || [];
             items: [
               {
                 label: 'Gitee',
-                href: 'https://gitee.com/java-up-up',
+                href: 'https://gitee.com/java-up-up/javaup',
               },
               {
                 label: 'GitHub',

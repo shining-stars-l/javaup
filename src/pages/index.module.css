@@ -5,182 +5,116 @@
 
 /* 全局统一背景（本页） */
 :global(.home-page) {
-  /** 仅首页统一背景色 
-  *作用：给整个首页容器设置背景色
-  *范围：整个 .home-page div 容器（包含 hero + 所有项目区块）
-  *目的：确保首页整体背景统一，避免出现空白间隙
-  */
-  background-color: #fafafa; 
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
 }
 
-/* Hero Section */
-.hero {
+/* =====================
+   Hero 区域样式
+   ===================== */
+.heroSection {
+  padding: 5rem 0 3rem;
+  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   position: relative;
-  min-height: 50vh;
-  display: flex;
-  align-items: center;
-  background: transparent;
   overflow: hidden;
-  padding: 3rem 0;
 }
 
-.heroBackground { display: none; }
-
-.heroPattern { display: none; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(5deg); }
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
 }
 
 .heroContent {
   position: relative;
-  z-index: 2;
-  text-align: center;
+  z-index: 1;
   max-width: 800px;
   margin: 0 auto;
 }
 
-.titleContainer {
-  min-height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .heroTitle {
-  font-size: clamp(3rem, 4.2vw + 0.4rem, 5.5rem);
+  font-size: clamp(2.5rem, 5vw + 1rem, 4rem);
   font-weight: 900;
-  margin-bottom: 0;
-  line-height: 1.15;
-  text-align: center;
-  letter-spacing: -0.5px;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 
-.titleBlock {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.titleIcon {
-  font-size: clamp(3rem, 5vw + 0.4rem, 6.5rem);
-  line-height: 1;
-  margin-bottom: 0.4rem;
-}
-
-.titleText { width: 100%; }
-
-.titleLine {
-  display: block;
-  margin-bottom: 0.5rem;
-  text-align: left;
-  width: 100%;
-}
-
-.titleLine:last-child {
-  margin-bottom: 0;
-}
-
-.titleAnimated {
-  color: #1a1a1a;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  display: inline-block;
-  position: relative;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  text-align: left;
-  transition: all 0.4s ease-in-out;
-}
-
-.titleHighlight {
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #96ceb4, #feca57);
-  background-size: 400% 400%;
+.heroTitleHighlight {
+  background: linear-gradient(90deg, #ffd700, #ffeb3b, #fff176);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
-  position: relative;
-  font-weight: 900;
-  letter-spacing: -0.5px;
-  transition: all 0.4s ease-in-out;
-}
-
-.titleTransition {
-  opacity: 0;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.titleHighlight:not(.titleTransition) {
-  animation: gradientShift 4s ease-in-out infinite;
+  text-shadow: none;
 }
 
 .heroSubtitle {
-  font-size: clamp(1.2rem, 1.1vw + 0.6rem, 2rem);
-  margin-bottom: 2.5rem;
-  color: #333;
+  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem);
+  color: rgba(255,255,255,0.9);
+  margin-bottom: 2rem;
   line-height: 1.6;
-  font-weight: 500;
-  text-align: center;
 }
 
-.subtitleHighlight {
-  color: #ff6b6b;
-  font-weight: 600;
-  position: relative;
-  display: inline-block;
+.heroSubtitle strong {
+  color: #ffffff;
 }
 
-.subtitleHighlight::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-  border-radius: 2px;
-  opacity: 0.7;
-}
-
-/* 不换行工具类 */
-.nowrap { white-space: nowrap; }
-
-.heroButtons {
+/* Star 横幅引导 */
+.starBanner {
   display: flex;
+  align-items: center;
   justify-content: center;
-  width: 100%;
+  gap: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: rgba(255,255,255,0.15);
+  backdrop-filter: blur(10px);
+  border-radius: 50px;
+  max-width: fit-content;
+  margin: 0 auto;
+  flex-wrap: wrap;
 }
 
-.heroButton {
-  padding: 1rem 2.2rem;
-  font-size: 1.3rem;
-  font-weight: 700;
-  border-radius: 12px;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
-  width: 50%;
-  max-width: 50%;
-  flex: 0 0 50%;
+.starBannerText {
+  color: rgba(255,255,255,0.9);
+  font-size: 0.95rem;
+  font-weight: 500;
 }
 
-.heroButton:hover {
-  transform: translateY(-1px) scale(1.06);
-  box-shadow: 0 14px 32px rgba(0,0,0,0.18);
+.starBannerLinks {
+  display: flex;
+  gap: 0.75rem;
 }
 
-.heroButton:active {
-  transform: translateY(0) scale(0.99);
+.starLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.9rem;
+  background: rgba(255,255,255,0.95);
+  color: #1a1a1a;
+  font-weight: 600;
+  font-size: 0.85rem;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: all 0.3s ease;
 }
 
-.heroButton:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(78,205,196,0.35), 0 10px 24px rgba(0,0,0,0.12);
+.starLink:hover {
+  background: #ffffff;
+  transform: scale(1.05);
+  text-decoration: none;
+  color: #1a1a1a;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.starLinkIcon {
+  width: 16px;
+  height: 16px;
 }
 
 /* Project Sections */
@@ -197,9 +131,6 @@
   opacity: 1;
   transform: translateY(0);
 }
-
-.projectSection:nth-child(even) { background: transparent; }
-.projectSection:nth-child(odd) { background: transparent; }
 
 .projectContent {
   display: grid;
@@ -634,234 +565,185 @@
    超级八股文区块样式
    ===================== */
 .baguSection {
-  padding: 5rem 0;
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  padding: 4rem 0;
+  background: #ffffff;
   position: relative;
-  overflow: hidden;
 }
 
 /* 滞后动效 */
 .baguSection .baguHeader,
-.baguSection .baguFeatures,
-.baguSection .baguModules {
+.baguSection .baguModules,
+.baguSection .baguActions {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
-.baguSection.isVisible .baguFeatures { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-.baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+.baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
+.baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
 
 .baguHeader {
   text-align: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2.5rem;
 }
 
 .baguTitle {
-  font-size: clamp(2.5rem, 4vw + 0.5rem, 4.5rem);
+  font-size: clamp(2rem, 3vw + 0.5rem, 3rem);
   font-weight: 900;
   color: #0f172a;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 .baguSubtitle {
-  font-size: clamp(1.1rem, 1vw + 0.6rem, 1.4rem);
+  font-size: clamp(1rem, 1vw + 0.5rem, 1.2rem);
   color: #475569;
-  line-height: 1.8;
-  max-width: 700px;
+  line-height: 1.7;
+  max-width: 600px;
   margin: 0 auto;
-}
-
-.baguHighlight {
-  color: #ff6b6b;
-  font-weight: 700;
-  position: relative;
-}
-
-.baguHighlight::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-  border-radius: 2px;
-}
-
-/* 八股文特色展示 */
-.baguFeatures {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  max-width: 1000px;
-  margin: 0 auto 3rem;
-}
-
-.baguFeatureItem {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  padding: 1.25rem;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.baguFeatureItem:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
-
-.baguFeatureIcon {
-  font-size: 1.6rem;
-  flex-shrink: 0;
-}
-
-.baguFeatureItem strong {
-  display: block;
-  font-size: 1rem;
-  color: #0f172a;
-  margin-bottom: 0.25rem;
-}
-
-.baguFeatureItem p {
-  font-size: 0.9rem;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.5;
 }
 
 /* 知识模块卡片 */
 .baguModules {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 1.25rem;
-  max-width: 1200px;
-  margin: 0 auto 2.5rem;
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto 2rem;
 }
 
 .baguModuleCard {
-  background: white;
-  border-radius: 16px;
-  padding: 1.5rem 1rem;
+  background: #f8fafc;
+  border-radius: 12px;
+  padding: 1.25rem 0.75rem;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-top: 4px solid var(--accent-color, #4ecdc4);
-  position: relative;
-  overflow: hidden;
-}
-
-.baguModuleCard::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(180deg, rgba(255,255,255,0) 60%, rgba(var(--accent-color-rgb, 78,205,196),0.05) 100%);
-  pointer-events: none;
+  border-left: 3px solid var(--accent-color, #4ecdc4);
 }
 
 .baguModuleCard:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
 }
 
 .baguModuleIcon {
-  font-size: 2.5rem;
+  font-size: 2rem;
   display: block;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.5rem;
 }
 
 .baguModuleTitle {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: #0f172a;
-  margin: 0 0 0.5rem 0;
+  margin: 0 0 0.25rem 0;
 }
 
 .baguModuleDesc {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #64748b;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.4;
 }
 
-/* 八股文按钮网格布局 */
-.baguButtonGrid {
+/* 功能按钮组 - 2x2 网格布局 */
+.baguActions {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
   max-width: 560px;
-  margin: 1rem auto 0;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  margin: 0 auto;
 }
 
-.baguSection.isVisible .baguButtonGrid {
-  opacity: 1;
-  transform: translateY(0);
-  transition-delay: 0.4s;
-}
-
-.baguBtn {
-  padding: 0.9rem 1.5rem;
-  font-size: 1.05rem;
+.baguBtnPrimary {
+  padding: 0.85rem 1.5rem;
   font-weight: 600;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  transition: transform 0.35s ease, box-shadow 0.35s ease;
-  text-align: center;
-  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
 }
 
-.baguBtn:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 10px 28px rgba(0,0,0,0.15);
+.baguBtnPrimary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 
 .baguBtnOutline {
   background: white;
   border: 2px solid #4ecdc4;
   color: #0f172a;
+  padding: 0.85rem 1.5rem;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
 
 .baguBtnOutline:hover {
-  background: #f8fafc;
+  background: #f0fdfa;
   border-color: #45b7d1;
+  transform: translateY(-2px);
 }
 
-/* 星球按钮 - 金色渐变风格 */
-.baguBtnStar {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  border: none;
-  color: #1a1a1a;
-  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.35);
-}
-
-.baguBtnStar:hover {
-  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
-  color: #1a1a1a;
-  box-shadow: 0 10px 28px rgba(251, 191, 36, 0.45);
-}
-
-/* 贡献按钮 - 青绿色风格 */
 .baguBtnContribute {
   background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
   border: none;
   color: white;
-  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.35);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  transition: all 0.3s ease;
 }
 
 .baguBtnContribute:hover {
-  background: linear-gradient(135deg, #5fd6ce 0%, #4ecdc4 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
   color: white;
-  box-shadow: 0 10px 28px rgba(78, 205, 196, 0.45);
+}
+
+.baguBtnStar {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border: none;
+  color: #1a1a1a;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+  transition: all 0.3s ease;
+}
+
+.baguBtnStar:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
+  color: #1a1a1a;
+}
+
+/* 响应式 - 八股文区块 */
+@media screen and (max-width: 1200px) {
+  .baguModules {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .baguModules {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .heroSection {
+    padding: 3rem 0 2rem;
+  }
+  .starBanner {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .baguActions {
+    grid-template-columns: 1fr;
+    max-width: 300px;
+  }
 }
 
 /* 实战项目分隔区 */
@@ -901,56 +783,4 @@
   height: 3px;
   background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
   border-radius: 2px;
-}
-
-/* 响应式适配 - 八股文区块 */
-@media screen and (max-width: 1200px) {
-  .baguModules {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media screen and (max-width: 996px) {
-  .baguFeatures {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .baguModules {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .baguModules {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .baguSection {
-    padding: 4rem 0;
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .baguFeatures {
-    grid-template-columns: 1fr;
-    gap: 1rem;
-  }
-  .baguModules {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
-  }
-  .baguModuleCard {
-    padding: 1.25rem 0.75rem;
-  }
-  .baguModuleIcon {
-    font-size: 2rem;
-  }
-  .baguBtn {
-    padding: 0.85rem 1.2rem;
-    font-size: 0.95rem;
-  }
-  .baguButtonGrid {
-    max-width: 480px;
-  }
-  .projectsDivider {
-    padding: 3rem 0 2rem;
-  }
 }
