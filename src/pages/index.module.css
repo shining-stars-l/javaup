@@ -643,8 +643,7 @@
 /* 滞后动效 */
 .baguSection .baguHeader,
 .baguSection .baguFeatures,
-.baguSection .baguModules,
-.baguSection .baguActions {
+.baguSection .baguModules {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -653,7 +652,6 @@
 .baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
 .baguSection.isVisible .baguFeatures { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
 .baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-.baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.4s; }
 
 .baguHeader {
   text-align: center;
@@ -793,39 +791,77 @@
   line-height: 1.5;
 }
 
-/* 八股文按钮 */
-.baguActions {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
+/* 八股文按钮网格布局 */
+.baguButtonGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  max-width: 560px;
+  margin: 1rem auto 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.baguSection.isVisible .baguButtonGrid {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.4s;
 }
 
 .baguBtn {
-  padding: 1rem 2.5rem;
-  font-size: 1.15rem;
-  font-weight: 700;
+  padding: 0.9rem 1.5rem;
+  font-size: 1.05rem;
+  font-weight: 600;
   border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
   transition: transform 0.35s ease, box-shadow 0.35s ease;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .baguBtn:hover {
-  transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 12px 32px rgba(0,0,0,0.18);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 10px 28px rgba(0,0,0,0.15);
 }
 
 .baguBtnOutline {
   background: white;
   border: 2px solid #4ecdc4;
   color: #0f172a;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
 }
 
 .baguBtnOutline:hover {
   background: #f8fafc;
   border-color: #45b7d1;
+}
+
+/* 星球按钮 - 金色渐变风格 */
+.baguBtnStar {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  border: none;
+  color: #1a1a1a;
+  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.35);
+}
+
+.baguBtnStar:hover {
+  background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
+  color: #1a1a1a;
+  box-shadow: 0 10px 28px rgba(251, 191, 36, 0.45);
+}
+
+/* 贡献按钮 - 青绿色风格 */
+.baguBtnContribute {
+  background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
+  border: none;
+  color: white;
+  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.35);
+}
+
+.baguBtnContribute:hover {
+  background: linear-gradient(135deg, #5fd6ce 0%, #4ecdc4 100%);
+  color: white;
+  box-shadow: 0 10px 28px rgba(78, 205, 196, 0.45);
 }
 
 /* 实战项目分隔区 */
@@ -908,8 +944,11 @@
     font-size: 2rem;
   }
   .baguBtn {
-    padding: 0.9rem 1.8rem;
-    font-size: 1.05rem;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.95rem;
+  }
+  .baguButtonGrid {
+    max-width: 480px;
   }
   .projectsDivider {
     padding: 3rem 0 2rem;

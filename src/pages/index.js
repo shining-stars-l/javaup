@@ -193,7 +193,7 @@ function BaguSection() {
           ))}
         </div>
 
-        <div className={styles.baguActions}>
+        <div className={styles.baguButtonGrid}>
           <Link
             className={clsx('button button--primary button--lg', styles.baguBtn)}
             to="/java/interview-skills/preparation-guide">
@@ -202,7 +202,17 @@ function BaguSection() {
           <Link
             className={clsx('button button--outline button--lg', styles.baguBtn, styles.baguBtnOutline)}
             to="/how-to-study/intro/super-baguwen">
-            📖 查看超级八股文全部内容
+            📖 八股文内容一览
+          </Link>
+          <Link
+            className={clsx('button button--lg', styles.baguBtn, styles.baguBtnContribute)}
+            to="/how-to-study/contribute/guide">
+            🤝 参与项目贡献
+          </Link>
+          <Link
+            className={clsx('button button--lg', styles.baguBtn, styles.baguBtnStar)}
+            to="/how-to-study/intro/full-service">
+            ⭐ 加入知识星球
           </Link>
         </div>
       </div>
