@@ -221,8 +221,7 @@ function ProjectsDivider() {
           🛠️ 实战项目展示
         </Heading>
         <p className={styles.dividerDesc}>
-          <span className={styles.dividerHighlight}>实战项目</span> 提供生产级别的可落地方案<br/>
-          理论与实践结合，助你 <span className={styles.dividerHighlight}>快速进阶</span>
+          <span className={styles.dividerHighlight}>实战项目</span> 提供生产级别的可落地方案，理论与实践结合，助你 <span className={styles.dividerHighlight}>快速进阶</span>
         </p>
       </div>
     </div>
