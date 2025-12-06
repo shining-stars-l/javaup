@@ -372,9 +372,9 @@
 - [Spring核心概念详解](https://javaup.chat/framework/spring/core-concepts)
 - [Bean生命周期与依赖注入](https://javaup.chat/framework/spring/bean-lifecycle)
 - [Spring高级特性与应用](https://javaup.chat/framework/spring/advanced-features)
-- [Spring事件机制详解]((https://javaup.chat/framework/spring/event-mechanism)
+- [Spring事件机制详解](https://javaup.chat/framework/spring/event-mechanism)
 - [Spring循环依赖解决方案详解](https://javaup.chat/framework/spring/circular-dependency)
-- [Spring后置处理器详解]((https://javaup.chat/framework/spring/post-processor)
+- [Spring后置处理器详解](https://javaup.chat/framework/spring/post-processor)
 
 **Spring 事务**
 - [Spring事务管理核心详解](https://javaup.chat/framework/spring/transaction-core)
@@ -528,8 +528,8 @@
 - [布隆过滤器原理与实战应用](https://javaup.chat/architecture/bloom-filter/principle-and-practice)
 
 #### 延迟队列
-- [如何设计高效的延迟队列]((https://javaup.chat/architecture/delay-queue/design)
-- [Redisson分布式延迟队列原理解析]((https://javaup.chat/architecture/delay-queue/redisson-delay-queue)
+- [如何设计高效的延迟队列](https://javaup.chat/architecture/delay-queue/design)
+- [Redisson分布式延迟队列原理解析](https://javaup.chat/architecture/delay-queue/redisson-delay-queue)
 
 ### 故障排查
 - [JVM诊断工具命令详解](https://javaup.chat/architecture/problem-solving/jvm-diagnostic-tools)
