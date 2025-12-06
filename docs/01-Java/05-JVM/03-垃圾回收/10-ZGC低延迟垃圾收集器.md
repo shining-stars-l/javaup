@@ -1,5 +1,6 @@
 ---
 slug: /java/jvm/zgc-collector
+sidebar_class_name: has-paid-badge
 ---
 
 import PaidCTA from '@site/src/components/PaidCTA';

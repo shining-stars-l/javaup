@@ -1,5 +1,6 @@
 ---
 slug: /framework/mybatis/plugin
+sidebar_class_name: has-paid-badge
 ---
 
 import PaidCTA from '@site/src/components/PaidCTA';

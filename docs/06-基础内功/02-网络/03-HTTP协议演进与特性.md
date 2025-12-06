@@ -1,5 +1,6 @@
 ---
 slug: /system/network/http-protocol-evolution
+sidebar_class_name: has-paid-badge
 ---
 
 import PaidCTA from '@site/src/components/PaidCTA';

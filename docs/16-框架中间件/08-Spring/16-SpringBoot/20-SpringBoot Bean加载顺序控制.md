@@ -1,5 +1,6 @@
 ---
 slug: /framework/spring/bean-loading-order
+sidebar_class_name: has-paid-badge
 ---
 
 import PaidCTA from '@site/src/components/PaidCTA';

@@ -1,5 +1,6 @@
 ---
 slug: /framework/kafka/rebalance
+sidebar_class_name: has-paid-badge
 ---
 
 import PaidCTA from '@site/src/components/PaidCTA';

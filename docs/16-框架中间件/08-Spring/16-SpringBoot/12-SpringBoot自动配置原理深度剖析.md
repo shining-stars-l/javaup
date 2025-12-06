@@ -163,9 +163,9 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector {
 
 ```mermaid
 graph TB
-    A[@EnableAutoConfiguration] --> B[AutoConfigurationImportSelector]
+    A["@EnableAutoConfiguration"] --> B[AutoConfigurationImportSelector]
     B --> C[读取配置文件]
-    C --> D[META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports]
+    C --> D["META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports"]
     D --> E[加载所有自动配置类]
     E --> F[应用条件注解过滤]
     F --> G[创建符合条件的Bean]

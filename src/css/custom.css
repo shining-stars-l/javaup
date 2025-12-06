@@ -160,3 +160,18 @@
   background-color: #10b981; /* emerald green */
   color: #fff;
 }
+
+/* Paid badge style for premium content */
+/* Usage: assign the doc frontmatter sidebar_class_name: has-paid-badge */
+.menu__link.has-paid-badge::after,
+.menu__list-item.has-paid-badge > .menu__link::after {
+  content: '付费💎';
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #5575f6; /* primary blue - same as "开始学习" button */
+  color: #fff;
+}
