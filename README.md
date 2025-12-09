@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://javaup.chat">
-    <img src="https://javaup.chat/img/logo.png" width="200px" alt="JavaUp技术&实战">
+    <img src="https://multimedia-javaup.cn/java-up/logo.png" width="200px" alt="JavaUp技术&实战">
   </a>
 </p>
 
