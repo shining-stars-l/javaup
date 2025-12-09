@@ -345,7 +345,7 @@
 - [Redis高级数据结构实现原理](https://javaup.chat/database/redis/data-structures)
 
 **Redis持久化与内存**
-- [Redis持久化与数据安全](https://javaup.chat/database/redis/persistence)
+- [Redis持久化与数据安全](https://javaup.chat/database/redis/data-safety)
 - [Redis内存管理与优化策略](https://javaup.chat/database/redis/memory-management)
 
 **Redis集群与高可用**
