@@ -111,8 +111,6 @@ sequenceDiagram
     
     Note over N2: 获得3票,超过半数
     N2->>N2: 成为Leader
-    
-    style N2 fill:#66b3ff,stroke:#333,stroke-width:3px,rx:15,ry:15
 ```
 
 **步骤说明**
@@ -346,9 +344,6 @@ sequenceDiagram
     Minority->>NewLeader: 请求加入集群
     NewLeader->>Minority: 同步最新数据
     Minority->>Minority: 恢复FOLLOWING状态
-    
-    style NewLeader fill:#66b3ff,stroke:#333,stroke-width:3px,rx:15,ry:15
-    style Majority fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
 ```
 
 **手动恢复**

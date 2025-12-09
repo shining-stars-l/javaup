@@ -44,11 +44,6 @@ sequenceDiagram
     Leader->>F2: 通知提交
     Leader->>F3: 通知提交
     Leader-->>Client: 返回成功
-    
-    style Leader fill:#66b3ff,stroke:#333,stroke-width:3px,rx:15,ry:15
-    style F1 fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
-    style F2 fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
-    style F3 fill:#90ee90,stroke:#333,stroke-width:2px,rx:15,ry:15
 ```
 
 ## 写入一致性保障
