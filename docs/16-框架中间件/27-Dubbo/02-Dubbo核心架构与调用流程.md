@@ -355,9 +355,6 @@ sequenceDiagram
     Invoker->>Filter: 调用后过滤
     Filter->>Proxy: 反序列化结果
     Proxy->>App: 返回Order对象
-    
-    style App fill:#4A90E2,color:#fff
-    style Provider fill:#50C878,color:#fff
 ```
 
 ### 关键步骤详解

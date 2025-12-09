@@ -11,9 +11,10 @@ import PaidCTA from '@site/src/components/PaidCTA';
 
 
 `SpringBoot`自动装配的好处到底优势到底在哪里？直接用@Configuration注解加在配置类上，也一样的能加载Bean，就连复杂的`@Conditional...`这些的注解也都支持。  
-但`Springboot`为什么一定要这么费事，在服务启动后，还要通过扫描`spring.factories`文件中的`EnableAutoConfiguration`指定下的配置类，然后去加载这些配置类呢？  
-看完本文后，会给你一个清晰的答案
 
+但`Springboot`为什么一定要这么费事，在服务启动后，还要通过扫描`spring.factories`文件中的`EnableAutoConfiguration`指定下的配置类，然后去加载这些配置类呢？  
+
+看完本文后，会给你一个清晰的答案
 
 
 ## 解答

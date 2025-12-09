@@ -333,29 +333,49 @@
 - [数据归档与平滑迁移实战](https://javaup.chat/database/mysql/data-archive-migration)
 - [逻辑删除与唯一性约束设计](https://javaup.chat/database/mysql/logical-delete-unique-constraint)
 
+
 ### Redis
+
+**Redis基础与数据类型**
+- [Redis数据类型详解与应用场景](https://javaup.chat/database/redis/data-types-guide)
 - [Redis核心数据类型与底层实现](https://javaup.chat/database/redis/core-data-types)
 - [Redis线程模型与性能优化](https://javaup.chat/database/redis/threading-model)
 - [Redis高级数据结构实现原理](https://javaup.chat/database/redis/data-structures)
+
+**Redis持久化与内存**
 - [Redis持久化与数据安全](https://javaup.chat/database/redis/persistence)
 - [Redis内存管理与优化策略](https://javaup.chat/database/redis/memory-management)
+
+**Redis集群与高可用**
 - [Redis分布式特性与对比分析](https://javaup.chat/database/redis/distributed-features)
 - [Redis集群架构与高可用方案](https://javaup.chat/database/redis/cluster-architecture)
+- [Redis Cluster集群操作限制与解决方案](https://javaup.chat/database/redis/cluster-transaction-lua-limitations)
+
+**Redis事务与原子操作**
 - [Redis事务与原子性操作](https://javaup.chat/database/redis/transaction-atomicity)
-- [Redis消息队列与通信模式](https://javaup.chat/database/redis/message-queue)
 - [Redis原子性操作与命令详解](https://javaup.chat/database/redis/atomic-commands)
+
+**Redis消息队列**
+- [Redis消息队列与通信模式](https://javaup.chat/database/redis/message-queue)
+
+**Redis分布式锁**
 - [Redis分布式锁实战指南](https://javaup.chat/database/redis/distributed-lock-guide)
 - [Redis乐观锁机制与并发控制](https://javaup.chat/database/redis/optimistic-locking)
 - [Redisson分布式锁核心实现原理](https://javaup.chat/database/redis/redisson-lock-principle)
 - [Redisson Watchdog自动续期机制深度剖析](https://javaup.chat/database/redis/redisson-watchdog-mechanism)
 - [Redisson lock与tryLock使用对比](https://javaup.chat/database/redis/redisson-lock-vs-trylock)
 - [RedLock算法原理与实践](https://javaup.chat/database/redis/redlock-algorithm-practice)
+
+**Redis缓存一致性**
 - [Redis与数据库一致性保障方案](https://javaup.chat/database/redis/cache-database-consistency)
+
+**Redis性能优化与实战**
 - [Redis性能问题诊断与优化实战](https://javaup.chat/database/redis/performance-optimization)
-- [Redis 8.0版本新特性详解](https://javaup.chat/database/redis/redis-8-new-features)
-- [Redis Cluster集群操作限制与解决方案](https://javaup.chat/database/redis/cluster-transaction-lua-limitations)
 - [Redis实战应用场景详解](https://javaup.chat/database/redis/practical-application-scenarios)
 - [Redis操作最佳实践与遍历技巧](https://javaup.chat/database/redis/best-practices-and-key-traversal)
+
+**Redis新版本特性**
+- [Redis 8.0版本新特性详解](https://javaup.chat/database/redis/redis-8-new-features)
 
 ### Oracle
 - [Oracle索引技术全面解析](https://javaup.chat/database/oracle/index-technology)
@@ -587,6 +607,7 @@
 - [网站流量统计与分析方案](https://javaup.chat/architecture/solution-design/traffic-statistics)
 - [RPC框架设计与实现原理](https://javaup.chat/architecture/solution-design/rpc-framework-design)
 - [消息队列设计核心要点](https://javaup.chat/architecture/solution-design/message-queue-design)
+- [分库分表二次扩容方案](https://javaup.chat/architecture/solution-design/expand-again)
 
 ---
 
