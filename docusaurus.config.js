@@ -110,6 +110,27 @@ const config = {
           return {
             headTags: [
               {
+                tagName: 'meta',
+                attributes: {
+                  name: 'baidu-site-verification',
+                  content: 'codeva-prhSSm3vTX',
+                },
+              },
+              {
+                tagName: 'meta',
+                attributes: {
+                  name: 'msvalidate.01',
+                  content: 'EC7FC994A517020CA102B571860F790D',
+                },
+              },
+              {
+                tagName: 'meta',
+                attributes: {
+                  name: '360-site-verification',
+                  content: 'abcf24142a27d0043dd709453db27179',
+                },
+              },
+              {
                 tagName: 'script',
                 innerHTML: `
 var _hmt = _hmt || [];
