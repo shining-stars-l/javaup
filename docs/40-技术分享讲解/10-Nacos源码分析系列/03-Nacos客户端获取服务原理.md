@@ -157,7 +157,6 @@ public void run() {
             return;
         }
         // 下次更新缓存时间设置，默认6秒(1000ms * 6)
-        // TODO multiple time can be configured.
         delayTime = serviceObj.getCacheMillis() * DEFAULT_UPDATE_CACHE_TIME_MULTIPLE;
         // 重置失败数量为0(可能会出现失败情况，没有ServiceInfo，连接失败)
         resetFailCount();
