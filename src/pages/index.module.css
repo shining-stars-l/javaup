@@ -573,7 +573,8 @@
 /* 滞后动效 */
 .baguSection .baguHeader,
 .baguSection .baguModules,
-.baguSection .baguActions {
+.baguSection .baguActions,
+.baguSection .wechatCard {
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -582,6 +583,7 @@
 .baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
 .baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
 .baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
+.baguSection.isVisible .wechatCard { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
 
 .baguHeader {
   text-align: center;
