@@ -176,6 +176,21 @@
   color: #fff;
 }
 
+/* Must-see badge style for essential service pages */
+/* Usage: assign the doc frontmatter sidebar_class_name: has-service-badge */
+.menu__link.has-service-badge::after,
+.menu__list-item.has-service-badge > .menu__link::after {
+  content: '必看📌';
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #10b981; /* green - consistent with tip style */
+  color: #fff;
+}
+
 /* ========== 导航栏响应式优化 ========== */
 
 /* 导航栏整体不换行 */
