@@ -39,8 +39,8 @@
 .qr {
   display: block;
   margin: 8px auto 0 auto;
-  max-width: 88%; /* 二维码宽度占内容区比例：增大能减少左右留白（常用 80–92%） */
-  max-height: 40vh; /* 二维码高度上限（相对视口）：避免超出一屏（常用 34–44vh） */
+  max-width: 65%; /* 二维码宽度占内容区比例 */
+  max-height: 32vh; /* 二维码高度上限（相对视口） */
   height: auto;
 }
 
@@ -54,10 +54,10 @@
 
 @media screen and (max-width: 768px) {
   .wrapper { width: 94vw; max-height: 88vh; /* 如需更紧凑，可调到 82–88vh */ }
-  .qr { max-width: 86%; max-height: 38vh; /* 移动端二维码占比：适当放大以便扫码 */ }
+  .qr { max-width: 70%; max-height: 30vh; /* 移动端二维码占比 */ }
 }
 
 @media screen and (max-width: 480px) {
-  .qr { max-width: 88%; max-height: 36vh; /* 小屏二维码占比：适当放大但控制高度 */ }
+  .qr { max-width: 75%; max-height: 28vh; /* 小屏二维码占比 */ }
 }
 
