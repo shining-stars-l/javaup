@@ -14,7 +14,7 @@
 .heroSection {
   padding: 5rem 0 3rem;
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
   position: relative;
   overflow: hidden;
 }
@@ -732,16 +732,16 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
   padding: 1.25rem 1.75rem;
   border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.35);
+  box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .wechatCard:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 36px rgba(102, 126, 234, 0.45);
+  box-shadow: 0 14px 36px rgba(30, 136, 229, 0.45);
 }
 
 .wechatCardImg {
