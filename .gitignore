@@ -26,4 +26,6 @@ yarn-error.log*
 *.log
 *.hprof
 
+.qoder
+.cursor
 CLAUDE.md
