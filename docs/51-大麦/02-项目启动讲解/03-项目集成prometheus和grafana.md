@@ -180,6 +180,14 @@ scrape_configs:
       - targets: ['host.docker.internal:10082']
         labels:
           application: 'admin-service'
+          
+  # 黑马点评Plus服务
+  - job_name: 'hmdp-plus'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8085']
+        labels:
+          application: 'hmdp-plus'
 EOF
 ```
 
@@ -270,6 +278,14 @@ scrape_configs:
       - targets: ['host.docker.internal:10082']
         labels:
           application: 'admin-service'
+          
+  # 黑马点评Plus服务
+  - job_name: 'hmdp-plus'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['host.docker.internal:8085']
+        labels:
+          application: 'hmdp-plus'         
 "@ | Out-File -FilePath prometheus/prometheus.yml -Encoding UTF8
 ```
 
