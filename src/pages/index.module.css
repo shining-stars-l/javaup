@@ -5,7 +5,7 @@
 
 /* 全局统一背景（本页） */
 :global(.home-page) {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: #FDF8F4;
 }
 
 /* =====================
@@ -14,7 +14,7 @@
 .heroSection {
   padding: 5rem 0 3rem;
   text-align: center;
-  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  background: #FDF8F4;
   position: relative;
   overflow: hidden;
 }
@@ -26,7 +26,8 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background: radial-gradient(ellipse at 20% 80%, rgba(224,122,95,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at 80% 20%, rgba(61,64,91,0.05) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -38,15 +39,16 @@
 }
 
 .heroTitle {
-  font-size: clamp(2.5rem, 4vw + 0.8rem, 3.2rem);
-  font-weight: 900;
-  color: #ffffff;
+  font-size: clamp(2.5rem, 4vw + 0.8rem, 3.5rem);
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: #3D405B;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  text-shadow: none;
 }
 
 .heroTitleHighlight {
-  background: linear-gradient(90deg, #ffd700, #ffeb3b, #fff176);
+  background: linear-gradient(135deg, #E07A5F, #E8917A);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -55,13 +57,14 @@
 
 .heroSubtitle {
   font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem);
-  color: rgba(255,255,255,0.9);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   margin-bottom: 2rem;
   line-height: 1.6;
 }
 
 .heroSubtitle strong {
-  color: #ffffff;
+  color: #3D405B;
 }
 
 /* Star 横幅引导 */
@@ -71,18 +74,20 @@
   justify-content: center;
   gap: 1rem;
   padding: 0.75rem 1.5rem;
-  background: rgba(255,255,255,0.15);
+  background: rgba(224,122,95,0.08);
   backdrop-filter: blur(10px);
   border-radius: 50px;
+  border: 1px solid rgba(224,122,95,0.15);
   max-width: fit-content;
   margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .starBannerText {
-  color: rgba(255,255,255,0.9);
+  color: #6B6E8A;
   font-size: 0.95rem;
   font-weight: 500;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
 }
 
 .starBannerLinks {
@@ -95,21 +100,22 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.4rem 0.9rem;
-  background: rgba(255,255,255,0.95);
-  color: #1a1a1a;
+  background: linear-gradient(135deg, #E07A5F, #E8917A);
+  color: #ffffff;
   font-weight: 600;
   font-size: 0.85rem;
-  border-radius: 20px;
+  border-radius: 50px;
   text-decoration: none;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(224,122,95,0.25);
 }
 
 .starLink:hover {
-  background: #ffffff;
-  transform: scale(1.05);
+  background: linear-gradient(135deg, #D96544, #E07A5F);
+  transform: translateY(-2px);
   text-decoration: none;
-  color: #1a1a1a;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  color: #ffffff;
+  box-shadow: 0 6px 16px rgba(224,122,95,0.35);
 }
 
 .starLinkIcon {
@@ -171,10 +177,11 @@
 
 .projectTitle {
   font-size: 2.5rem;
-  font-weight: 800;
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
   margin-bottom: 0;
-  color: #1a1a1a;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  color: #3D405B;
+  text-shadow: none;
   display: inline-block;
   position: relative;
 }
@@ -183,13 +190,13 @@
   position: absolute;
   top: -0.8rem;
   right: 0;
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+  background: linear-gradient(135deg, #E07A5F, #E8917A);
   color: white;
   padding: 0.3rem 0.8rem;
-  border-radius: 15px;
+  border-radius: 50px;
   font-weight: 600;
   font-size: 0.75rem;
-  box-shadow: 0 2px 10px rgba(238, 90, 36, 0.3);
+  box-shadow: 0 2px 10px rgba(224, 122, 95, 0.3);
   transform: rotate(8deg);
   z-index: 10;
   white-space: nowrap;
@@ -198,7 +205,8 @@
 .projectDescription {
   font-size: 1.1rem;
   line-height: 1.8;
-  color: #4a5568;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   margin-bottom: 2rem;
 }
 
@@ -210,20 +218,21 @@
 }
 
 .featureTag {
-  background: rgba(255,255,255,0.9);
-  color: #2d3748;
+  background: #FFF5EE;
+  color: #3D405B;
   padding: 0.5rem 1rem;
-  border-radius: 25px;
+  border-radius: 50px;
   font-size: 0.9rem;
   font-weight: 500;
-  border: 2px solid rgba(45, 55, 72, 0.1);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border: 1px solid rgba(224,122,95,0.15);
   transition: all 0.3s ease;
 }
 
 .featureTag:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-color: rgba(45, 55, 72, 0.2);
+  box-shadow: 0 4px 12px rgba(224,122,95,0.12);
+  border-color: rgba(224,122,95,0.3);
 }
 
 .projectLinks {
@@ -234,15 +243,16 @@
 
 .projectButton {
   padding: 0.8rem 1.5rem;
-  border-radius: 25px;
+  border-radius: 50px;
   font-weight: 600;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(224,122,95,0.15);
 }
 
 .projectButton:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 18px rgba(224,122,95,0.25);
 }
 
 .projectImage {
@@ -256,13 +266,13 @@
   max-height: 500px;
   object-fit: contain;
   border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  box-shadow: 0 10px 30px rgba(61,64,91,0.12);
   transition: all 0.3s ease;
 }
 
 .projectImg:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+  box-shadow: 0 15px 40px rgba(61,64,91,0.18);
 }
 
 /* Stats Section */
@@ -455,8 +465,8 @@
   max-height: 92vh;        /* 视口内尽量大 */
   object-fit: contain;     /* 保证完整显示 */
   display: block;          /* 去除基线空白 */
-  border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  border-radius: 20px;
+  box-shadow: 0 12px 30px rgba(61,64,91,0.12);
 }
 
 .showcaseText { padding: 0 0.5rem; }
@@ -471,8 +481,9 @@
 
 .showcaseTitle {
   font-size: clamp(1.8rem, 2vw + 0.5rem, 2.4rem);
-  font-weight: 800;
-  color: #0f172a;
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: #3D405B;
   line-height: 1.1;     /* 避免 emoji 造成高度不一致 */
   display: inline-block;
   margin: 0 0 0.75rem 0;
@@ -483,11 +494,12 @@
   top: -0.8rem;         /* 悬浮在标题右上角之外，不遮挡 */
   right: -0.6rem;
   font-size: 1rem;
-  background: linear-gradient(45deg,#f43f5e,#fb923c);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  background: linear-gradient(135deg, #E07A5F, #E8917A);
   color: #fff;
   padding: 0.25rem 0.6rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(244,63,94,.28);
+  border-radius: 50px;
+  box-shadow: 0 6px 16px rgba(224,122,95,0.25);
   transform: rotate(6deg);
   white-space: nowrap;
 }
@@ -495,7 +507,8 @@
 .showcaseDesc {
   font-size: clamp(1rem, 0.9vw + 0.7rem, 1.35rem);
   line-height: 1.85;
-  color: #334155;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   margin-bottom: 1.25rem;
 }
 
@@ -507,20 +520,21 @@
 }
 
 .showcaseTag {
-  background: #f1f5f9;
-  color: #0f172a;
+  background: #FFF5EE;
+  color: #3D405B;
   padding: .6rem 1rem;
-  border-radius: 10px;
+  border-radius: 50px;
   font-size: clamp(0.9rem, 0.5vw + 0.6rem, 1.05rem);
-  border: 1px solid #e2e8f0;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border: 1px solid rgba(224,122,95,0.12);
 }
 
 .showcaseActions { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: flex-start; margin-top: .25rem; }
 
-.showcaseBtn { border-radius: 12px; padding: 1.25rem 2rem; min-width: 300px; text-align: center; box-shadow: 0 10px 24px rgba(0,0,0,.1); font-size: clamp(1.05rem, 0.8vw + 0.7rem, 1.35rem); transition: transform 0.35s ease, box-shadow 0.35s ease; }
-.showcaseBtn:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 14px 32px rgba(0,0,0,0.18); }
+.showcaseBtn { border-radius: 50px; padding: 1.25rem 2rem; min-width: 300px; text-align: center; box-shadow: 0 6px 18px rgba(224,122,95,0.15); font-size: clamp(1.05rem, 0.8vw + 0.7rem, 1.35rem); font-family: 'Nunito Sans', system-ui, sans-serif; transition: transform 0.35s ease, box-shadow 0.35s ease; }
+.showcaseBtn:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 10px 28px rgba(224,122,95,0.25); }
 .showcaseBtn:active { transform: translateY(0) scale(0.99); }
-.showcaseBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(78,205,196,0.35), 0 10px 24px rgba(0,0,0,0.12); }
+.showcaseBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(224,122,95,0.3), 0 6px 18px rgba(224,122,95,0.15); }
 
 /* 让按钮与标题左边对齐，形成强视觉锚点 */
 .showcaseText { padding: 0 0.5rem; max-width: 700px; }
@@ -566,7 +580,7 @@
    ===================== */
 .baguSection {
   padding: 4rem 0;
-  background: #ffffff;
+  background: #FFF5EE;
   position: relative;
 }
 
@@ -592,14 +606,16 @@
 
 .baguTitle {
   font-size: clamp(2.2rem, 3.5vw + 0.5rem, 3.2rem);
-  font-weight: 900;
-  color: #0f172a;
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: #3D405B;
   margin-bottom: 0.75rem;
 }
 
 .baguSubtitle {
   font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.4rem);
-  color: #475569;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   line-height: 1.7;
   max-width: 700px;
   margin: 0 auto;
@@ -615,17 +631,19 @@
 }
 
 .baguModuleCard {
-  background: #f8fafc;
-  border-radius: 12px;
+  background: rgba(255,255,255,0.85);
+  border-radius: 16px;
   padding: 1.25rem 0.75rem;
   text-align: center;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 3px solid var(--accent-color, #4ecdc4);
+  border-left: 3px solid var(--accent-color, #E07A5F);
+  border: 1px solid rgba(224,122,95,0.1);
+  border-left: 3px solid var(--accent-color, #E07A5F);
 }
 
 .baguModuleCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 24px rgba(224,122,95,0.12);
 }
 
 .baguModuleIcon {
@@ -636,14 +654,16 @@
 
 .baguModuleTitle {
   font-size: 0.95rem;
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: 600;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: #3D405B;
   margin: 0 0 0.25rem 0;
 }
 
 .baguModuleDesc {
   font-size: 0.8rem;
-  color: #64748b;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   margin: 0;
   line-height: 1.4;
 }
@@ -667,64 +687,73 @@
 .baguBtnPrimary {
   padding: 0.85rem 1.5rem;
   font-weight: 600;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border-radius: 50px;
+  background: linear-gradient(135deg, #E07A5F, #E8917A) !important;
+  border: none !important;
+  color: #fff !important;
+  box-shadow: 0 4px 14px rgba(224,122,95,0.3);
   transition: all 0.3s ease;
 }
 
 .baguBtnPrimary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  box-shadow: 0 6px 20px rgba(224,122,95,0.4);
+  color: #fff !important;
 }
 
 .baguBtnOutline {
-  background: white;
-  border: 2px solid #4ecdc4;
-  color: #0f172a;
+  background: rgba(255,255,255,0.9);
+  border: 2px solid #E07A5F;
+  color: #E07A5F;
   padding: 0.85rem 1.5rem;
   font-weight: 600;
-  border-radius: 12px;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border-radius: 50px;
   transition: all 0.3s ease;
 }
 
 .baguBtnOutline:hover {
-  background: #f0fdfa;
-  border-color: #45b7d1;
+  background: rgba(224,122,95,0.08);
+  border-color: #D96544;
+  color: #D96544;
   transform: translateY(-2px);
 }
 
 .baguBtnContribute {
-  background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
+  background: #3D405B;
   border: none;
   color: white;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(61,64,91,0.25);
   transition: all 0.3s ease;
 }
 
 .baguBtnContribute:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
+  box-shadow: 0 6px 20px rgba(61,64,91,0.35);
   color: white;
 }
 
 .baguBtnStar {
   background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   border: none;
-  color: #1a1a1a;
+  color: #3D405B;
   padding: 0.75rem 1.5rem;
   font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  border-radius: 50px;
+  box-shadow: 0 4px 14px rgba(251, 191, 36, 0.3);
   transition: all 0.3s ease;
 }
 
 .baguBtnStar:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
-  color: #1a1a1a;
+  color: #3D405B;
 }
 
 /* 公众号小卡片样式 */
@@ -732,16 +761,16 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
+  background: #3D405B;
   padding: 1.25rem 1.75rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(61,64,91,0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .wechatCard:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 36px rgba(30, 136, 229, 0.45);
+  box-shadow: 0 14px 36px rgba(61,64,91,0.35);
 }
 
 .wechatCardImg {
@@ -763,20 +792,23 @@
 .wechatCardTitle {
   font-size: 1.15rem;
   color: rgba(255, 255, 255, 0.95);
-  font-weight: 700;
+  font-weight: 600;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
 }
 
 .wechatCardName {
   font-size: 1.3rem;
-  color: #ffd700;
-  font-weight: 800;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  color: #E8917A;
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  text-shadow: none;
 }
 
 .wechatCardDesc {
   font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 0.85);
   font-weight: 500;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
 }
 
 /* 响应式 - 八股文区块 */
@@ -834,20 +866,22 @@
 /* 实战项目分隔区 */
 .projectsDivider {
   padding: 4rem 0 3rem;
-  background: #ffffff;
+  background: #FDF8F4;
   text-align: center;
 }
 
 .dividerTitle {
   font-size: clamp(2.2rem, 3.5vw + 0.5rem, 3.2rem);
-  font-weight: 900;
-  color: #0f172a;
+  font-weight: 700;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: #3D405B;
   margin-bottom: 1rem;
 }
 
 .dividerDesc {
   font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.4rem);
-  color: #475569;
+  font-family: 'Nunito Sans', system-ui, sans-serif;
+  color: #6B6E8A;
   max-width: 900px;
   margin: 0 auto;
   line-height: 1.7;
@@ -855,7 +889,7 @@
 }
 
 .dividerHighlight {
-  color: #ff6b6b;
+  color: #E07A5F;
   font-weight: 700;
   position: relative;
 }
@@ -867,6 +901,6 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
+  background: linear-gradient(90deg, #E07A5F, #E8917A);
   border-radius: 2px;
 }

@@ -117,6 +117,28 @@ const config = {
           return {
             headTags: [
               {
+                tagName: 'link',
+                attributes: {
+                  rel: 'preconnect',
+                  href: 'https://fonts.googleapis.com',
+                },
+              },
+              {
+                tagName: 'link',
+                attributes: {
+                  rel: 'preconnect',
+                  href: 'https://fonts.gstatic.com',
+                  crossorigin: 'anonymous',
+                },
+              },
+              {
+                tagName: 'link',
+                attributes: {
+                  rel: 'stylesheet',
+                  href: 'https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&display=swap',
+                },
+              },
+              {
                 tagName: 'meta',
                 attributes: {
                   name: 'baidu-site-verification',

@@ -6,23 +6,27 @@
 
 /* You can override the default Infima variables here. */
 :root {
-  --ifm-color-primary: #5575f6;
-  --ifm-color-primary-dark: #365bf4;
-  --ifm-color-primary-darker: #264ff4;
-  --ifm-color-primary-darkest: #0c35dc;
-  --ifm-color-primary-light: #748ff8;
-  --ifm-color-primary-lighter: #849bf8;
-  --ifm-color-primary-lightest: #b3c2fb;
+  --ifm-color-primary: #E07A5F;
+  --ifm-color-primary-dark: #D96544;
+  --ifm-color-primary-darker: #D55A37;
+  --ifm-color-primary-darkest: #B5432A;
+  --ifm-color-primary-light: #E7917A;
+  --ifm-color-primary-lighter: #EBA08B;
+  --ifm-color-primary-lightest: #F3C4B5;
+  --ifm-font-family-base: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
 }
 
 [data-theme='dark'] {
-  --ifm-color-primary: #5575f6;
-  --ifm-color-primary-dark: #365bf4;
-  --ifm-color-primary-darker: #264ff4;
-  --ifm-color-primary-darkest: #0c35dc;
-  --ifm-color-primary-light: #748ff8;
-  --ifm-color-primary-lighter: #849bf8;
-  --ifm-color-primary-lightest: #b3c2fb;
+  --ifm-color-primary: #E07A5F;
+  --ifm-color-primary-dark: #D96544;
+  --ifm-color-primary-darker: #D55A37;
+  --ifm-color-primary-darkest: #B5432A;
+  --ifm-color-primary-light: #E7917A;
+  --ifm-color-primary-lighter: #EBA08B;
+  --ifm-color-primary-lightest: #F3C4B5;
+  --ifm-font-family-base: 'Nunito Sans', system-ui, -apple-system, sans-serif;
+  --ifm-heading-font-family: 'Fredoka', system-ui, -apple-system, sans-serif;
 }
 
 /* ========== 侧边栏分类目录样式 ========== */
@@ -172,7 +176,7 @@
   line-height: 16px;
   border-radius: 8px;
   font-weight: 600;
-  background-color: #5575f6; /* primary blue - same as "开始学习" button */
+  background-color: #E07A5F; /* primary coral - same as "开始学习" button */
   color: #fff;
 }
 
