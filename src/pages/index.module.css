@@ -190,13 +190,13 @@
   position: absolute;
   top: -0.8rem;
   right: 0;
-  background: linear-gradient(135deg, #E07A5F, #E8917A);
+  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
   color: white;
   padding: 0.3rem 0.8rem;
-  border-radius: 50px;
+  border-radius: 15px;
   font-weight: 600;
   font-size: 0.75rem;
-  box-shadow: 0 2px 10px rgba(224, 122, 95, 0.3);
+  box-shadow: 0 2px 10px rgba(238, 90, 36, 0.3);
   transform: rotate(8deg);
   z-index: 10;
   white-space: nowrap;
@@ -494,12 +494,11 @@
   top: -0.8rem;         /* 悬浮在标题右上角之外，不遮挡 */
   right: -0.6rem;
   font-size: 1rem;
-  font-family: 'Nunito Sans', system-ui, sans-serif;
-  background: linear-gradient(135deg, #E07A5F, #E8917A);
+  background: linear-gradient(45deg, #f43f5e, #fb923c);
   color: #fff;
   padding: 0.25rem 0.6rem;
-  border-radius: 50px;
-  box-shadow: 0 6px 16px rgba(224,122,95,0.25);
+  border-radius: 12px;
+  box-shadow: 0 6px 16px rgba(244,63,94,.28);
   transform: rotate(6deg);
   white-space: nowrap;
 }
@@ -721,20 +720,20 @@
 }
 
 .baguBtnContribute {
-  background: #3D405B;
+  background: linear-gradient(135deg, #E8917A, #E07A5F);
   border: none;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   font-weight: 600;
   font-family: 'Nunito Sans', system-ui, sans-serif;
   border-radius: 50px;
-  box-shadow: 0 4px 14px rgba(61,64,91,0.25);
+  box-shadow: 0 4px 14px rgba(224,122,95,0.25);
   transition: all 0.3s ease;
 }
 
 .baguBtnContribute:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(61,64,91,0.35);
+  box-shadow: 0 6px 20px rgba(224,122,95,0.35);
   color: white;
 }
 
@@ -742,7 +741,7 @@
   background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
   border: none;
   color: #3D405B;
-  padding: 0.75rem 1.5rem;
+  padding: 0.85rem 1.5rem;
   font-weight: 600;
   font-family: 'Nunito Sans', system-ui, sans-serif;
   border-radius: 50px;
@@ -761,16 +760,16 @@
   display: flex;
   align-items: center;
   gap: 1.25rem;
-  background: #3D405B;
+  background: linear-gradient(135deg, #E8917A, #E07A5F);
   padding: 1.25rem 1.75rem;
   border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(61,64,91,0.25);
+  box-shadow: 0 8px 24px rgba(224,122,95,0.25);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .wechatCard:hover {
   transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 36px rgba(61,64,91,0.35);
+  box-shadow: 0 14px 36px rgba(224,122,95,0.35);
 }
 
 .wechatCardImg {
@@ -798,7 +797,7 @@
 
 .wechatCardName {
   font-size: 1.3rem;
-  color: #E8917A;
+  color: #fff;
   font-weight: 700;
   font-family: 'Fredoka', system-ui, sans-serif;
   text-shadow: none;
