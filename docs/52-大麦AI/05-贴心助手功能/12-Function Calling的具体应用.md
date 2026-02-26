@@ -1,5 +1,7 @@
 ---
 slug: /damai-ai/assistant/function-calling
+description: "Function Calling应用讲解，说明模型如何基于工具描述选择函数、构造参数并触发后端能力，实现从自然语言到业务动作的自动编排。"
+keywords: ["Function Calling", "工具调用", "函数选择", "参数构造", "JSON Schema", "业务编排", "模型决策", "自动化执行"]
 ---
 
 # Function Calling的具体应用
@@ -72,37 +74,6 @@ public class DaMaiConstant {
 + 理解用户对话的内容，这方面是ai要做的
 + 和数据库的交互，这部分是程序要做的
 
-我们想要的功能是要把这两个过程结合起来，全都让ai来执行，而这就是所谓的 <span style={{color:'rgb(51, 51, 51)'}}>Function Calling</span>
-
-## <span style={{color:'rgb(51, 51, 51)'}}>什么是 Function Calling</span>
-<span style={{color:'rgb(51, 51, 51)'}}>"工具调用"（Tool Calling）是一种常见的 AI 应用模式，允许 LLM 根据上下文智能地选择并调用预定义的 API 或函数，以获取其自身无法直接得到的信息或执行特定操作。Spring AI 将这一机制封装成易用的 API，使得 Java 开发者可以像定义普通 Spring Bean 一样简洁地注册、管理并执行函数调用。</span>
-
-+ **信息检索**<span style={{color:'rgb(51, 51, 51)'}}>：通过调用外部服务（如天气、新闻、数据库查询等），补充模型训练截止后的实时数据，从而实现 Retrieval Augmented Generation (RAG) 场景。</span>
-+ **执行操作**<span style={{color:'rgb(51, 51, 51)'}}>：在对话中触发具体业务逻辑（如发送邮件、下单、触发工作流等），实现从"问答"到"行动"的无缝衔接。</span>
-
-## <span style={{color:'rgb(51, 51, 51)'}}>核心流程与架构</span>
-<span style={{color:'rgb(51, 51, 51)'}}>SpringAI 的 Function Calling 大致包括以下步骤：</span>
-
-1. **事先注册"工具"**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>在 SpringAI 中，你需要先将所有可调用的业务逻辑（比如查询天气、下单、发送邮件等）封装成独立的 Function（SpringAI 里称为 Tool），并为它们命名、说明用途、定义输入参数格式。</span>
-2. **构建上下文提示**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>把这些 Tool 的元信息（名称、功能介绍、参数 Schema）整合到 Prompt 中，与用户的原始问题一并发给大模型，让模型知道有哪些能力可用及其使用方式。</span>
-3. **模型判断调用时机**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>在对话过程中，模型会根据用户的提问或上下文内容，智能地决定是否需要启用某个 Tool 来获取数据或执行操作，而不是始终只靠自身的"静态"知识库。</span>
-4. **返回调用指令**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>一旦模型认为应调用某个工具，它会在响应中以结构化的形式（包含 tool 名称和填好的参数）告诉应用："请执行这个 Function，参数如下"。</span>
-5. **本地执行并反馈**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>Java 端收到模型的调用指令后，解析出要调用的具体 Function 和对应参数，执行相应业务逻辑，并将执行结果（无论是数据还是状态）再包装成文本或 JSON，反馈给大模型。</span>
-6. **持续对话与结果整合**<span style={{color:'rgb(51, 51, 51)'}}>  
-   </span><span style={{color:'rgb(51, 51, 51)'}}>模型拿到执行结果后，继续基于新的信息生成后续回复或下一步动作，双方如此循环，直到完成用户所需的整个任务。</span>
-
----
-
-<span style={{color:'rgb(51, 51, 51)'}}>这样一来，从最初的工具定义，到大模型发起调用，再到本地逻辑执行并返回，整个流程更加清晰：</span>
-
-+ **先"声明能力"**<span style={{color:'rgb(51, 51, 51)'}}> → </span>**然后"交互询问"**<span style={{color:'rgb(51, 51, 51)'}}> → </span>**由模型"决策调用"**<span style={{color:'rgb(51, 51, 51)'}}> → </span>**再由后端"真实执行"**<span style={{color:'rgb(51, 51, 51)'}}> → </span>**最后由模型"整合输出"**<span style={{color:'rgb(51, 51, 51)'}}>。</span>
-
-
-
+我们想要的功能是要把这两个过程结合起来，全都让ai来执行
 
 <VipInline />
