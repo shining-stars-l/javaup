@@ -28,4 +28,7 @@ yarn-error.log*
 
 .qoder
 .cursor
+.trae
+.codex
 CLAUDE.md
+AGENTS.md
