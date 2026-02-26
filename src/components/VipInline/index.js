@@ -23,35 +23,39 @@ export default function VipInline({
         <ul className={styles.list}>
           <li>
             <span className={styles.highlight}>超级八股文</span>
-            ：100万+字全栈技术知识库，涵盖数据库、中间件、分布式等核心知识
+            ：100万+字的全栈技术知识库，涵盖技术核心、数据库、中间件、分布式等深度剖析的讲解
           </li>
           <li>
             <span className={styles.highlight}>讲解文档</span>
-            ：黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台等 550+ 详细文档
+            ：黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的从0到1的550+详细文档
           </li>
           <li>
             <span className={styles.highlight}>讲解视频</span>
-            ：项目从 0 到 1 的业务拆解与源码级讲解
+            ：黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的核心业务详细讲解
           </li>
           <li>
             <span className={styles.highlight}>1 对 1 解答</span>
-            ：不限于项目的技术问题都可以提问
+            ：可以对我进行1对1的问题提问，而不仅仅只限于项目
           </li>
           <li>
             <span className={styles.highlight}>针对性服务</span>
-            ：不理解的地方、尚未覆盖的内容可以反馈补充
+            ：有没理解的地方，文档或者视频还没有讲到可以提出，本人会补充
           </li>
           <li>
             <span className={styles.highlight}>面试与简历指导</span>
-            ：如何把项目写出亮点、以及面试答题思路
+            ：提供面试回答技巧，项目怎样写才能在简历中具有独特的亮点
           </li>
           <li>
             <span className={styles.highlight}>中间件环境</span>
-            ：项目所需中间件可以直接使用提供的云环境
+            ：对于项目中需要使用的中间件，可直接替换成我提供的云环境
           </li>
           <li>
-            <span className={styles.highlight}>面试复盘与远程协助</span>
-            ：面试被问住、项目启动遇到问题都可远程协助解决
+            <span className={styles.highlight}>面试后复盘</span>
+            ：小伙伴去面试后，如果哪里被面试官问住了，可以再找我解答
+          </li>
+          <li>
+            <span className={styles.highlight}>远程的解决</span>
+            ：如果在启动项目遇到问题，本人可以帮你远程解决
           </li>
         </ul>
 
