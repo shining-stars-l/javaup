@@ -1,8 +1,10 @@
 ---
 slug: /dock-data-center/basic-dimension/kafka
+description: "Kafka消费升级任务讲解，覆盖消息反序列化、异常跳过、确认提交与升级执行器委派，保障维度升级链路稳定推进。"
+keywords: ["Kafka消费", "消息反序列化", "异常跳过", "ACK确认", "升级执行器", "维度升级链路", "可观测日志", "消息驱动任务"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # kafka消费采集数据完成升级
 在上一章中讲解了项目中责任链的四个节点的执行过程：
@@ -111,4 +113,4 @@ upDimensionConsumerExecutor.doConsumer(upgradeDimensionMessage,acknowledgment);
 
 以上是Kafka消费到消息后，进行解析的过程，真正的执行业务过程是交给了升级维度消息执行器`upDimensionConsumerExecutor`
 
-<PaidCTA />
+<VipInline />

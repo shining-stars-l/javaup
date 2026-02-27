@@ -1,7 +1,7 @@
 ---
 slug: /dock-data-center/design/starter
-description: "SpringBoot Starter自动装配机制深度解析，从传统繁琐配置到约定优于配置，详解spring.factories、@Conditional注解、自定义Starter开发实战。"
-keywords: ["SpringBoot Starter", "自动装配", "spring.factories", "@Conditional", "自定义Starter"]
+description: "Spring Boot Starter自动装配原理解析，覆盖AutoConfiguration装载、条件注解匹配与自定义Starter扩展方式，提升中台组件接入效率。"
+keywords: ["Spring Boot Starter", "自动装配", "AutoConfiguration", "条件注解", "spring.factories", "自定义Starter", "Bean装载", "组件接入"]
 ---
 
 # SpringBoot Starter 自动装配的深度解析
