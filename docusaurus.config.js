@@ -36,8 +36,8 @@ const config = {
         searchResultLimits: 10,
         // 索引文档
         indexDocs: true,
-        // 索引博客
-        indexBlog: true,
+        // 索引博客（当前项目未启用博客目录）
+        indexBlog: false,
         // 索引页面
         indexPages: false,
         // 文档路由基础路径
