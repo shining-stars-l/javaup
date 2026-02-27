@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/logging-mdc
+description: "MDC日志上下文机制详解，说明请求链路标识在日志系统中的写入与透传方式，提升分布式问题定位效率。"
+keywords: ["MDC", "日志上下文", "链路标识", "TraceId", "分布式日志", "上下文透传", "问题定位", "日志治理"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # 日志中的MDC到底是什么
 
@@ -28,4 +30,4 @@ MDC 的实现主要依赖于 **ThreadLocal**（或 InheritableThreadLocal）机�
 + `MDC.remove(String key)`：移除某个键值对。
 + `MDC.clear()`：清空当前线程的所有 MDC 数据。
 
-<PaidCTA />
+<VipInline />

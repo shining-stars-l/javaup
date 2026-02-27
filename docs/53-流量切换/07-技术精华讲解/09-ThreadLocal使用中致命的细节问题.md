@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/threadlocal-pitfalls
+description: "ThreadLocal高风险细节解析，覆盖线程复用导致的数据污染、内存泄漏与清理时机问题，并给出生产级治理策略。"
+keywords: ["ThreadLocal", "内存泄漏", "线程复用污染", "remove清理", "上下文隔离", "并发安全", "线程池风险", "生产治理"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # ThreadLocal使用中致命的细节问题
 
@@ -123,4 +125,4 @@ public class Test02 {
 ```
 大家可以先思考一下结果是什么，然后再看结果
 
-<PaidCTA />
+<VipInline />

@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/design/gateway-design
+description: "Gateway侧流量治理机制讲解，围绕全局过滤器、请求头改写、路由参数注入与转发前判定，实现入口流量的精细化控制。"
+keywords: ["Gateway过滤器", "请求头改写", "路由参数注入", "入口流量治理", "全局过滤链", "灰度路由", "转发前判定", "反向代理"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Gateway服务的详细设计
 
@@ -57,4 +59,4 @@ public class GatewayWorkAutoConfiguration {
 }
 ```
 
-<PaidCTA />
+<VipInline />

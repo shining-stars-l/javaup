@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/autoconfigurebefore
+description: "AutoConfigureBefore注解机制解析，讲解自动装配顺序控制与依赖前置注册方式，避免自定义Bean被默认配置覆盖。"
+keywords: ["AutoConfigureBefore", "自动装配顺序", "Bean前置注册", "装配优先级", "Spring Boot", "Starter扩展", "条件装配", "依赖编排"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # AutoConfigureBefore的作用
 
@@ -51,4 +53,3 @@ ConfigA已加载
 
 
 通过合理使用`@AutoConfigureBefore`，开发者可以精确控制自动配置类的加载顺序，确保应用配置按照预期生效，避免因加载顺序问题导致的配置冲突或覆盖。
-

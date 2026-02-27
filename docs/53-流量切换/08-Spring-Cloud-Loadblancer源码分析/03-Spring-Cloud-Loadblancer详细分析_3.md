@@ -1,7 +1,7 @@
 ---
 slug: /link-flow/loadbalancer-analysis/sclb-analysis-3
-description: "Spring Cloud LoadBalancer源码分析系列第三篇，从Feign入口分析执行过程，详解FeignBlockingLoadBalancerClient的execute方法、服务实例选择和HTTP请求执行流程。"
-keywords: ["Feign执行流程", "LoadBalancer执行", "BlockingLoadBalancer", "服务实例选择", "HTTP请求"]
+description: "Spring Cloud LoadBalancer源码分析第三篇，拆解Feign发起调用时的实例选择、请求重写与HTTP执行路径，定位负载均衡关键节点。"
+keywords: ["Feign调用路径", "实例选择", "请求重写", "阻塞式负载均衡", "HTTP执行链", "服务调用", "客户端拦截", "源码分析"]
 ---
 
 # Spring-Cloud-Loadblancer详细分析_3

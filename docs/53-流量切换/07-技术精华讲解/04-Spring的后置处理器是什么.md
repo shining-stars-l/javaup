@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/spring-post-processors
+description: "Spring后置处理器体系讲解，覆盖BeanFactoryPostProcessor与BeanPostProcessor的执行时机和扩展能力，用于实现容器级增强。"
+keywords: ["BeanFactoryPostProcessor", "BeanPostProcessor", "Spring容器扩展", "Bean生命周期", "后置处理器", "自动代理", "启动增强", "容器钩子"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Spring的后置处理器是什么
 
@@ -84,4 +86,4 @@ public class TestBeanPostProcessor implements BeanPostProcessor {
 }
 ```
 
-<PaidCTA />
+<VipInline />

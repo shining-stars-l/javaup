@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/conditionalonmissingbean
+description: "ConditionalOnMissingBean条件装配机制讲解，说明默认Bean兜底策略与覆盖扩展方式，提升Starter在不同项目中的兼容性。"
+keywords: ["ConditionalOnMissingBean", "条件装配", "默认Bean兜底", "Bean覆盖扩展", "Starter兼容性", "Spring Boot自动配置", "装配条件", "依赖解耦"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # ConditionalOnMissingBean的作用
 
@@ -42,4 +44,4 @@ public class MyServiceAutoConfiguration {
 }
 ```
 
-<PaidCTA />
+<VipInline />

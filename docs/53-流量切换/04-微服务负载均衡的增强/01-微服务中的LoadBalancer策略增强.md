@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/lb-enhancement/lb-strategy-enhancement
+description: "微服务LoadBalancer增强方案，讲解在默认负载均衡基础上引入路由标签过滤与优先级判定，实现面向发布场景的实例选择策略。"
+keywords: ["LoadBalancer增强", "实例选择策略", "路由标签过滤", "优先级判定", "服务发现", "负载均衡定制", "发布治理", "流量调度"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # 微服务中的LoadBalancer策略增强
 
@@ -84,4 +86,4 @@ public class LoadBalancerClientConfiguration {
 
 这里要用到 @AutoConfigureBefore 注解，关于此注解的详细讲解，请跳转到 技术精华精讲-@AutoConfigureBefore的作用 章节。
 
-<PaidCTA />
+<VipInline />

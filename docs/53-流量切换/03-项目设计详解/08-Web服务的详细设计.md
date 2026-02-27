@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/design/web-service-design
+description: "Web服务侧流量治理机制讲解，聚焦服务实例元数据识别、请求上下文消费与本地路由判定，确保下游调用命中目标实例。"
+keywords: ["Web服务治理", "实例元数据识别", "上下文消费", "本地路由判定", "服务实例过滤", "灰度命中", "请求隔离", "负载均衡协同"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Web服务的详细设计
 
@@ -63,4 +65,4 @@ public class ServiceWorkContextAutoConfiguration {
 ```
 
 
-<PaidCTA />
+<VipInline />

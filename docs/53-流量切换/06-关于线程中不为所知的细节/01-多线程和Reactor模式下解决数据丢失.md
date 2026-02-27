@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/threading-details/reactor-multithread-data-loss
+description: "Reactor与多线程场景下的数据透传治理，讲解ThreadLocal失效根因与Reactor Context替代方案，解决链路标签与路由参数丢失问题。"
+keywords: ["Reactor Context", "ThreadLocal失效", "上下文透传", "链路标签", "路由参数传递", "响应式编程", "数据丢失治理", "并发场景"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # 多线程和Reactor模式下解决数据丢失
 
@@ -87,4 +89,4 @@ private Response<ServiceInstance> getInstanceResponse(List<ServiceInstance> inst
 }
 ```
 
-<PaidCTA />
+<VipInline />

@@ -1,7 +1,7 @@
 ---
 slug: /link-flow/tech-highlights/spring-events
-description: "Spring事件发布与监听机制详解，基于观察者模式实现服务启动后的通知机制，包括自定义事件、事件发送者、事件接收者的实现方式，简单易用的Spring事件应用实践。"
-keywords: ["Spring事件", "ApplicationEvent", "ApplicationListener", "观察者模式", "事件监听"]
+description: "Spring事件机制讲解，围绕ApplicationEventPublisher与ApplicationListener实现应用内解耦通信，支持异步通知与事件驱动扩展。"
+keywords: ["Spring事件", "ApplicationEventPublisher", "ApplicationListener", "事件驱动", "异步通知", "应用内解耦", "观察者模式", "事件监听"]
 ---
 
 # Spring的事件发布与监听

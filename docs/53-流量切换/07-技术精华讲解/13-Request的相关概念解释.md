@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/request-concepts
+description: "Request核心概念梳理，涵盖请求行、请求头、请求体与参数绑定机制，帮助理解网关与微服务之间的协议交互语义。"
+keywords: ["HTTP Request", "请求行", "请求头", "请求体", "参数绑定", "协议语义", "网关交互", "微服务通信"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Request的相关概念解释
 
@@ -106,5 +108,4 @@ if (attributes != null) {
 3. **RequestContextHolder** 则利用 ThreadLocal 存储和管理当前线程的 RequestAttributes，方便在整个 Spring 应用中统一访问请求相关的数据。
 
 这种设计思路既利用了 Servlet API 的原生功能，又通过 Spring 框架的封装实现了解耦和便捷访问，适用于复杂的 web 应用开发场景。
-
 

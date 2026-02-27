@@ -1,8 +1,10 @@
 ---
 slug: /link-flow/tech-highlights/request-reassembly
+description: "Request重组机制讲解，围绕网关场景下请求头、请求体与上下文参数的二次封装，保障下游服务正确识别路由信息。"
+keywords: ["Request重组", "请求头改写", "请求体封装", "上下文参数注入", "Gateway转发", "路由信息透传", "请求增强", "网关治理"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Request的重新组装
 
@@ -69,4 +71,4 @@ public class RequestParamContextFilter extends OncePerRequestFilter {
 }
 ```
 
-<PaidCTA />
+<VipInline />
