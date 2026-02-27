@@ -4,7 +4,7 @@ description: "详细介绍 Kafka消费者抽象组件的设计，包括消费超
 keywords: ["Kafka消费者", "MQ组件", "消息消费", "超时处理", "幂等消费"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Kafka 消费者抽象组件详细指南
 
@@ -61,4 +61,4 @@ import PaidCTA from '@site/src/components/PaidCTA';
 
 ## 一、Kafka 消费者抽象组件详解
 
-<PaidCTA />
+<VipInline />

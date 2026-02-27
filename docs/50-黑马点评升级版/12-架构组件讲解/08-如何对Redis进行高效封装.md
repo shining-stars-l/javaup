@@ -4,7 +4,7 @@ description: "讲解如何对Redis进行高效封装，解决对象转换、键�
 keywords: ["Redis封装", "键管理", "缓存组件", "对象转换", "RedisTemplate"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # 如何对Redis进行高效封装
 
@@ -27,4 +27,4 @@ import PaidCTA from '@site/src/components/PaidCTA';
 
 所以为了解决这些问题，设计出对redis操作的封装组件，使用起来更加的方便和管理
 
-<PaidCTA />
+<VipInline />

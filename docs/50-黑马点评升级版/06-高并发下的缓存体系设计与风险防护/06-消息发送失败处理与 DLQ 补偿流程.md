@@ -4,7 +4,7 @@ description: "详细讲解MQ消息发送失败后的处理流程，包括死信�
 keywords: ["死信队列", "DLQ", "消息补偿", "失败重试", "Kafka发送失败"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # 消息发送失败处理与 DLQ 补偿流程
 
@@ -23,4 +23,4 @@ import PaidCTA from '@site/src/components/PaidCTA';
 
 ### 1.1 代码实现
 
-<PaidCTA />
+<VipInline />

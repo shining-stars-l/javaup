@@ -4,7 +4,7 @@ description: "讲解Redis与数据库库存不一致时的对比与补偿流程�
 keywords: ["数据对账", "补偿执行", "Redis一致性", "库存比对", "数据异常"]
 ---
 
-import PaidCTA from '@site/src/components/PaidCTA';
+import VipInline from '@site/src/components/VipInline';
 
 # Redis 和数据库的数据对比和补偿执行
 :::info plus 版本专属
@@ -19,5 +19,5 @@ import PaidCTA from '@site/src/components/PaidCTA';
 
 ## 详细流程
 
-<PaidCTA />
+<VipInline />
 
