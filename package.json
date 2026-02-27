@@ -11,7 +11,11 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve --port 8070",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "indexnow:key": "node scripts/indexnow.js key",
+    "indexnow:urls": "node scripts/indexnow.js urls",
+    "indexnow:submit": "node scripts/indexnow.js submit",
+    "indexnow:publish": "node scripts/indexnow.js publish"
   },
   "dependencies": {
     "@docusaurus/core": "3.9.2",
