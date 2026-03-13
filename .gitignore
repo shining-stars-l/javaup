@@ -31,5 +31,6 @@ yarn-error.log*
 .cursor
 .trae
 .codex
+.claude
 CLAUDE.md
 AGENTS.md

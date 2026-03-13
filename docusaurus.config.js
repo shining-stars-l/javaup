@@ -5,6 +5,7 @@
 // See: https://docusaurus.io/docs/api/docusaurus-config
 
 import {themes as prismThemes} from 'prism-react-renderer';
+import plantUmlRemarkPlugin from './plugins/remark-plantuml/index.js';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
@@ -81,6 +82,7 @@ const config = {
       ({
         docs: {
           routeBasePath: "/",
+          remarkPlugins: [plantUmlRemarkPlugin],
           //文档页面顶部的"面包屑导航"（比如 首页 > 大麦 > 项目概要介绍 > 当前文档）。
           //默认打开
           breadcrumbs: true,
@@ -252,6 +254,11 @@ var _hmt = _hmt || [];
                 type: 'docSidebar',
                 sidebarId: 'dockDataCenterSidebar',
                 label: 'dock-data-center (数据收集的灵活适配)',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: 'superAISidebar',
+                label: '超级智能体（深入剖析AI底层和深度实战）',
               },
             ],
           },
