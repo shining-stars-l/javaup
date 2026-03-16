@@ -51,23 +51,18 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 **获取API Key的方式**：[申请模型的调用](/super-agent/getting-started/apply-model-access)
 
-## 本文示例在项目中的位置
+### 示例中项目地址
 
-这篇文章里的代码，我已经同步落到了 `super-ai` 仓库的 `ai-example/ai-example-spring-ai` 模块中，对应位置如下：
+这篇文章里的代码，我已经同步落到了 `super-ai-hub` 仓库的 `ai-example-spring-ai` 模块中
 
-- 父工程版本管理：`super-ai/pom.xml`
-- 模块依赖：`super-ai/ai-example/ai-example-spring-ai/pom.xml`
-- DeepSeek 和日志配置：`super-ai/ai-example/ai-example-spring-ai/src/main/resources/application.yaml`
-- Log4j2 调试输出：`super-ai/ai-example/ai-example-spring-ai/src/main/resources/log4j2.xml`
-- ChatClient 配置：`super-ai/ai-example/ai-example-spring-ai/src/main/java/org/javaup/ai/config/SpringAiChatConfig.java`
-- 对话接口示例：`super-ai/ai-example/ai-example-spring-ai/src/main/java/org/javaup/ai/controller/ChatController.java`
-- 浏览器流式演示页：`super-ai/ai-example/ai-example-spring-ai/src/main/resources/static/spring-ai-stream-demo.html`
+- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目模块：`ai-example-spring-ai`
 
 ## 搭建项目骨架
 
 ### 引入核心依赖
 
-在 `super-ai` 示例工程里，BOM版本统一定义在父工程 `super-ai/pom.xml` 中，当前实际使用的是：
+在 `super-ai-hub` 示例工程里，BOM版本统一定义在父工程 `super-ai/pom.xml` 中，当前实际使用的是：
 
 - Spring Boot `3.5.6`
 - Spring AI `1.1.0`

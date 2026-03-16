@@ -30,7 +30,10 @@ Spring AI从1.0版本开始提供MCP Server的Boot Starter，主要有三个：
 
 本文使用webmvc版本演示（用得最多），Stdio模式只需换依赖和配置即可。
 
-## 项目搭建
+## 示例中项目地址
+
+- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目模块：`ai-example-spring-ai-office-mcp-server`
 
 ### Maven依赖
 
@@ -40,66 +43,23 @@ Spring AI从1.0版本开始提供MCP Server的Boot Starter，主要有三个：
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
-    </parent>
-
-    <groupId>com.example</groupId>
-    <artifactId>office-mcp-server</artifactId>
-    <version>1.0.0</version>
-
-    <properties>
-        <java.version>17</java.version>
-        <spring-ai.version>1.0.0</spring-ai.version>
-    </properties>
-
-    <dependencies>
+    <!-- 其他部分省略... -->
+ 
         <!-- Spring AI MCP Server (WebMVC版本，支持HTTP) -->
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-mcp-server-webmvc</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
-    </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <!-- 其他部分省略... -->
 </project>
 ```
 
-### 项目结构
 
-```
-office-mcp-server/
-├── pom.xml
-└── src/main/
-    ├── java/com/example/office/
-    │   ├── OfficeMcpServerApplication.java
-    │   ├── config/
-    │   │   └── McpServerConfig.java
-    │   ├── tools/
-    │   │   ├── AttendanceTools.java
-    │   │   └── MeetingRoomTools.java
-    │   └── model/
-    │       ├── AttendanceRecord.java
-    │       └── RoomBooking.java
-    └── resources/
-        └── application.yml
-```
-
-```plantuml title="Spring AI MCP Server 运行结构" width="100%" align="left"
+```plantuml title="Spring AI MCP Server 运行结构" width="50%" align="left"
 @startuml
-left to right direction
+top to bottom direction
 skinparam backgroundColor transparent
 skinparam shadowing false
 skinparam defaultFontColor #1E293B
@@ -116,21 +76,24 @@ skinparam databaseBackgroundColor #FEFCE8
 skinparam RoundCorner 18
 
 actor "Cursor / Inspector /\n自建 Host" as Host
-rectangle "Transport Layer\nStdio / SSE / Streamable HTTP" as Transport #DBEAFE
+rectangle "Transport Layer\nStdio / SSE /\nStreamable HTTP" as Transport #DBEAFE
 
 package "Spring AI MCP Server" as Server #EFF6FF {
-  rectangle "MethodToolCallbackProvider" as Provider #FFFFFF
-  rectangle "AttendanceTools" as Attendance #ECFCCB
-  rectangle "MeetingRoomTools" as Meeting #FEF3C7
+  rectangle "MethodToolCallback\nProvider" as Provider #FFFFFF
+  rectangle "AttendanceTools\ncheckAttendance()\nclockIn()" as Attendance #ECFCCB
+  rectangle "MeetingRoomTools\nqueryRoomSchedule()\nbookMeetingRoom()" as Meeting #FEF3C7
+
+  Provider -[hidden]down-> Attendance
+  Attendance -[hidden]down-> Meeting
 }
 
-database "HR 系统 / 数据库" as HR
-database "会议室系统 / 日程服务" as Room
+database "HR 系统 /\n数据库" as HR
+database "会议室系统 /\n日程服务" as Room
 
 Host --> Transport : JSON-RPC / MCP 请求
 Transport --> Provider : 工具发现与调用分发
-Provider --> Attendance : 暴露 checkAttendance / clockIn
-Provider --> Meeting : 暴露 queryRoomSchedule / bookMeetingRoom
+Provider --> Attendance : 暴露工具
+Provider --> Meeting : 暴露工具
 Attendance --> HR : 查询考勤 / 打卡
 Meeting --> Room : 查询排期 / 预订会议室
 @enduml
@@ -141,12 +104,6 @@ Meeting --> Room : 查询排期 / 预订会议室
 ### 考勤查询工具
 
 ```java
-package com.example.office.tools;
-
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
-import org.springframework.stereotype.Service;
-
 @Service
 public class AttendanceTools {
 
@@ -205,12 +162,6 @@ public class AttendanceTools {
 ### 会议室管理工具
 
 ```java
-package com.example.office.tools;
-
-import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.ai.tool.annotation.ToolParam;
-import org.springframework.stereotype.Service;
-
 @Service
 public class MeetingRoomTools {
 
@@ -293,15 +244,6 @@ public class MeetingRoomTools {
 ### 注册工具到MCP Server
 
 ```java
-package com.example.office.config;
-
-import com.example.office.tools.AttendanceTools;
-import com.example.office.tools.MeetingRoomTools;
-import org.springframework.ai.tool.ToolCallbackProvider;
-import org.springframework.ai.tool.method.MethodToolCallbackProvider;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 @Configuration
 public class McpServerConfig {
 
@@ -329,7 +271,7 @@ public class McpServerConfig {
 
 `MethodToolCallbackProvider`会自动扫描工具类中的`@Tool`注解方法，提取方法名作为工具名、description作为工具描述、方法参数和`@ToolParam`作为参数定义。
 
-```plantuml title="工具注册到 MCP Server 的流程" width="100%" align="left"
+```plantuml title="工具注册到 MCP Server 的流程" width="55%" align="left"
 @startuml
 skinparam backgroundColor transparent
 skinparam shadowing false
@@ -364,17 +306,13 @@ stop
 ### 启动类
 
 ```java
-package com.example.office;
-
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
-public class OfficeMcpServerApplication {
+public class ExampleSpringAiOfficeMcpServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(OfficeMcpServerApplication.class, args);
+        SpringApplication.run(ExampleSpringAiOfficeMcpServerApplication.class, args);
     }
+
 }
 ```
 
@@ -386,7 +324,7 @@ public class OfficeMcpServerApplication {
 
 ```yaml
 server:
-  port: 8080
+  port: 7090
 
 spring:
   ai:
@@ -413,7 +351,7 @@ spring:
 | streamable-http.mcp-endpoint | MCP服务端点路径 |
 | streamable-http.keep-alive-interval | 心跳间隔，保持连接活跃 |
 
-启动后，MCP服务地址为：`http://localhost:8080/mcp`
+启动后，MCP服务地址为：`http://localhost:7090/mcp`
 
 ### SSE模式（了解即可）
 
@@ -421,7 +359,7 @@ spring:
 
 ```yaml
 server:
-  port: 8080
+  port: 7090
 
 spring:
   ai:
@@ -483,7 +421,7 @@ logging:
 mvn clean package -DskipTests
 
 # Client配置里这样引用
-java -jar office-mcp-server-1.0.0.jar
+java -jar ai-example-spring-ai-office-mcp-server-0.0.1-SNAPSHOT.jar
 ```
 
 ## 测试验证
@@ -501,17 +439,24 @@ npx @modelcontextprotocol/inspector@latest
 
 启动后访问 `http://localhost:6274`，会看到一个Web界面。
 
-> **[截图提示]** 此处可添加MCP Inspector界面截图，显示连接配置区域
+<img src="/img/super-ai/mcp/MCP-Inspector-1.png" alt="讲解" width="100%" />
 
 **测试Streamable HTTP模式**：
 
 1. Transport Type选择"Streamable"
-2. URL填入：`http://localhost:8080/mcp`
+2. URL填入：`http://localhost:7090/mcp`
 3. 点击Connect
 
-> **[截图提示]** 此处可添加连接成功后的工具列表截图
+<img src="/img/super-ai/mcp/MCP-Inspector-2.png" alt="讲解" width="100%" />
 
-连接成功后，点击Tools标签页，可以看到我们注册的所有工具。选择一个工具，填入参数，点击Run Tool即可测试。
+连接成功后，点击Tools标签页，可以看到我们注册的所有工具。
+
+<img src="/img/super-ai/mcp/MCP-Inspector-3.png" alt="讲解" width="100%" />
+
+选择一个工具，填入参数，点击Run Tool即可测试。
+
+<img src="/img/super-ai/mcp/MCP-Inspector-4.png" alt="讲解" width="100%" />
+
 
 **测试Stdio模式**：
 
@@ -528,13 +473,11 @@ npx @modelcontextprotocol/inspector@latest
   "mcpServers": {
     "office-tools": {
       "type": "streamableHttp",
-      "url": "http://localhost:8080/mcp"
+      "url": "http://localhost:7090/mcp"
     }
   }
 }
 ```
-
-> **[截图提示]** 此处可添加Cursor配置界面截图
 
 配置成功后，在Cursor中对话：
 
@@ -543,6 +486,8 @@ npx @modelcontextprotocol/inspector@latest
 ```
 
 Cursor会自动调用`checkAttendance`工具并返回结果。
+
+<img src="/img/super-ai/mcp/cursor使用mcp.png" alt="讲解" width="100%" />
 
 ## 进阶：复杂参数处理
 

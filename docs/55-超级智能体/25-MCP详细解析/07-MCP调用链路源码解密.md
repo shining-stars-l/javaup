@@ -6,8 +6,6 @@ keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatClie
 
 # MCP调用链路源码解密
 
-## 一次工具调用的完整旅程
-
 前面几篇我们学会了怎么用Spring AI开发MCP Server和Client。但你有没有想过：
 
 - 当用户说"帮我查下考勤"，这句话是怎么变成MCP工具调用的？
@@ -30,7 +28,7 @@ keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatClie
 
 对应到MCP调用链路：
 
-```plantuml title="MCP 工具调用旅程总览" width="100%" align="left"
+```plantuml title="MCP 工具调用旅程总览" width="70%" align="left"
 @startuml
 skinparam backgroundColor transparent
 skinparam shadowing false

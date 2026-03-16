@@ -6,7 +6,6 @@ keywords: ["MCP Client开发", "Spring AI MCP客户端", "智能助手集成", "
 
 # Spring AI MCP客户端开发指南
 
-## 打造多能力智能助手
 
 上一篇我们开发了MCP Server，现在来做另一半——MCP Client。
 
@@ -81,7 +80,10 @@ User --> Direct : 走场景化直连调用
 @enduml
 ```
 
-## 项目搭建
+## 示例中项目地址
+
+- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目模块：`ai-example-spring-ai-office-mcp-client`
 
 ### Maven依赖
 
@@ -92,43 +94,15 @@ User --> Direct : 走场景化直连调用
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
          https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.5.3</version>
-    </parent>
-
-    <groupId>com.example</groupId>
-    <artifactId>smart-assistant</artifactId>
-    <version>1.0.0</version>
-
-    <properties>
-        <java.version>17</java.version>
-        <spring-ai.version>1.0.0</spring-ai.version>
-    </properties>
-
-    <dependencies>
-        <!-- Spring AI MCP Client -->
+    <!-- 其他部分省略... -->
+    
         <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-mcp-client</artifactId>
             <version>${spring-ai.version}</version>
         </dependency>
-        
-        <!-- 大模型支持，这里用通义千问 -->
-        <dependency>
-            <groupId>org.springframework.ai</groupId>
-            <artifactId>spring-ai-starter-model-openai</artifactId>
-            <version>${spring-ai.version}</version>
-        </dependency>
-        
-        <!-- Web支持 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-    </dependencies>
+
+    <!-- 其他部分省略... -->
 </project>
 ```
 
@@ -179,7 +153,7 @@ spring:
               endpoint: /mcp
 ```
 
-配置详解：
+**配置详解：**
 
 | 配置项 | 说明 |
 |--------|------|
@@ -193,6 +167,11 @@ spring:
 - Stdio需要`command`和`args`，指定启动命令
 - HTTP需要`url`和`endpoint`，指定服务地址
 
+:::info 注意：
+application.yml 配置中的 stdio 和 streamable-http，这两种方式不能共存，只能选择其中一种
+:::
+
+
 ### 使用自动注入的Client
 
 框架会自动初始化所有配置的MCP Client，并提供两个关键Bean：
@@ -201,24 +180,15 @@ spring:
 - `SyncMcpToolCallbackProvider`：工具回调提供者，可以获取所有工具
 
 ```java
-package com.example.assistant.service;
-
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.tool.ToolCallback;
-import org.springframework.stereotype.Service;
-import jakarta.annotation.PostConstruct;
-
 @Service
 public class AssistantService {
 
-    private final OpenAiChatModel chatModel;
+    private final DeepSeekChatModel chatModel;
     private final SyncMcpToolCallbackProvider toolCallbackProvider;
     
     private ChatClient chatClient;
     
-    public AssistantService(OpenAiChatModel chatModel, 
+    public AssistantService(DeepSeekChatModel chatModel, 
                            SyncMcpToolCallbackProvider toolCallbackProvider) {
         this.chatModel = chatModel;
         this.toolCallbackProvider = toolCallbackProvider;
@@ -252,16 +222,6 @@ public class AssistantService {
 有时候你可能想直接调用某个MCP工具，而不是通过大模型决策：
 
 ```java
-package com.example.assistant.service;
-
-import io.modelcontextprotocol.client.McpSyncClient;
-import io.modelcontextprotocol.spec.McpSchema;
-import org.springframework.stereotype.Service;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 @Service
 public class DirectToolService {
 
@@ -317,46 +277,27 @@ public class DirectToolService {
 ### 手动创建三种类型的Client
 
 ```java
-package com.example.assistant.config;
-
-import io.modelcontextprotocol.client.McpClient;
-import io.modelcontextprotocol.client.McpSyncClient;
-import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
-import io.modelcontextprotocol.client.transport.HttpClientStreamableHttpTransport;
-import io.modelcontextprotocol.client.transport.StdioClientTransport;
-import io.modelcontextprotocol.spec.McpSchema;
-import io.modelcontextprotocol.spec.McpJsonMapper;
-import io.modelcontextprotocol.client.transport.ServerParameters;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.mcp.SyncMcpToolCallbackProvider;
-import org.springframework.ai.openai.OpenAiChatModel;
-import org.springframework.ai.tool.ToolCallback;
-import org.springframework.stereotype.Service;
-import jakarta.annotation.PostConstruct;
-
-import java.time.Duration;
-import java.util.List;
-
 @Service
 public class ManualClientService {
 
-    private final OpenAiChatModel chatModel;
+    private final DeepSeekChatModel chatModel;
     private ChatClient chatClient;
     
-    public ManualClientService(OpenAiChatModel chatModel) {
+    public ManualClientService(DeepSeekChatModel chatModel) {
         this.chatModel = chatModel;
     }
     
     @PostConstruct
     public void init() {
         // 创建Stdio Client
-        McpSyncClient stdioClient = createStdioClient();
+        //McpSyncClient stdioClient = createStdioClient();
         
         // 创建Streamable HTTP Client
         McpSyncClient httpClient = createStreamableHttpClient();
         
         // 汇总所有Client
-        List<McpSyncClient> clients = List.of(stdioClient, httpClient);
+        //List<McpSyncClient> clients = List.of(stdioClient, httpClient);
+        List<McpSyncClient> clients = List.of(httpClient);
         
         // 构建工具回调
         SyncMcpToolCallbackProvider provider = SyncMcpToolCallbackProvider.builder()
@@ -400,7 +341,7 @@ public class ManualClientService {
      */
     private McpSyncClient createStreamableHttpClient() {
         HttpClientStreamableHttpTransport transport = HttpClientStreamableHttpTransport
-                .builder("http://localhost:8080")
+                .builder("http://localhost:7090")
                 .endpoint("/mcp")
                 .build();
         
@@ -419,7 +360,7 @@ public class ManualClientService {
      */
     private McpSyncClient createSseClient() {
         HttpClientSseClientTransport transport = HttpClientSseClientTransport
-                .builder("http://localhost:8080")
+                .builder("http://localhost:7090")
                 .sseEndpoint("/sse")
                 .build();
         
@@ -451,13 +392,13 @@ public class ManualClientService {
 ```java
 // 正确写法
 HttpClientStreamableHttpTransport transport = HttpClientStreamableHttpTransport
-        .builder("http://localhost:8080")  // 只有host和port
+        .builder("http://localhost:7090")  // 只有host和port
         .endpoint("/mcp")                   // 路径单独配置
         .build();
 
 // 错误写法（会导致404）
 HttpClientStreamableHttpTransport transport = HttpClientStreamableHttpTransport
-        .builder("http://localhost:8080/mcp")  // 不要把path放在这里
+        .builder("http://localhost:7090/mcp")  // 不要把path放在这里
         .build();
 ```
 
@@ -509,44 +450,55 @@ spring:
               endpoint: /mcp
 ```
 
-```plantuml title="企业智能助手接入多个 MCP Server" width="100%" align="left"
+```plantuml title="企业智能助手接入多个 MCP Server" width="70%" align="left"
 @startuml
-left to right direction
+top to bottom direction
 skinparam backgroundColor transparent
 skinparam shadowing false
-skinparam defaultFontColor #1E293B
+skinparam defaultFontColor #0F172A
 skinparam ArrowColor #2563EB
-skinparam ArrowThickness 1.2
+skinparam ArrowThickness 1.4
+skinparam linetype ortho
 skinparam packageStyle rectangle
 skinparam packageBorderColor #CBD5E1
 skinparam packageBackgroundColor #F8FAFC
 skinparam rectangleBorderColor #94A3B8
 skinparam rectangleBackgroundColor #FFFFFF
-skinparam RectangleFontColor #1E293B
+skinparam RectangleFontColor #0F172A
 skinparam RoundCorner 18
+skinparam nodesep 36
+skinparam ranksep 44
 
-actor 用户 as User
-rectangle "Enterprise Assistant\nChatClient + ToolProvider" as Assistant #DBEAFE
+rectangle "企业员工" as User #E2E8F0
+rectangle "Enterprise Assistant\nChatClient 会话入口" as Assistant #DBEAFE
+rectangle "Tool Gateway\n模型决策并选择工具" as Gateway #FFFFFF
+rectangle "MCP Client Pool\n按连接名管理多个 Client" as Pool #F8FAFC
+rectangle "Server Router\n统一路由到目标 MCP Server" as Router #FFFFFF
 
-package "MCP Servers" as Servers #EFF6FF {
-  rectangle "HR Tools Server" as Hr #ECFCCB
-  rectangle "Admin Tools Server" as Admin #FEF3C7
-  rectangle "Finance Tools Server" as Finance #E0F2FE
-  rectangle "Search Tools Server" as Search #FCE7F3
+package "已接入的 MCP Server 集群" as Cluster #F8FAFC {
+  rectangle "HR Tools Server\n考勤 / 请假 / 工资" as Hr #ECFCCB
+  rectangle "Admin Tools Server\n会议室 / 排期 / 行政" as Admin #FEF3C7
+  rectangle "Finance Tools Server\n报销 / 预算 / 发票" as Finance #E0F2FE
+  rectangle "Search Tools Server\n实时搜索 / 外部知识" as Search #FCE7F3
+
+  Hr -[hidden]right-> Admin
+  Hr -[hidden]down-> Finance
+  Finance -[hidden]right-> Search
 }
 
-User --> Assistant : 对话请求
-Assistant --> Hr : 查考勤 / 请假
-Assistant --> Admin : 订会议室 / 查排期
-Assistant --> Finance : 查报销 / 工资
-Assistant --> Search : 实时搜索 / 外部信息
+User -down-> Assistant
+Assistant -down-> Gateway
+Gateway -down-> Pool
+Pool -down-> Router
+Router --> Hr
+Router --> Admin
+Router --> Finance
+Router --> Search
 
-note bottom of Assistant
-可以统一加载所有工具，
-也可以按问题场景只挂载部分 Server。
-end note
 @enduml
 ```
+
+> 提示：可以统一接入所有 Server，也可以按业务场景只挂载部分连接。
 
 ### 按需加载工具
 
@@ -557,10 +509,10 @@ end note
 public class SelectiveToolService {
 
     private final List<McpSyncClient> mcpClients;
-    private final OpenAiChatModel chatModel;
+    private final DeepSeekChatModel chatModel;
     
-    public SelectiveToolService(List<McpSyncClient> mcpClients, 
-                               OpenAiChatModel chatModel) {
+    public SelectiveToolService(List<McpSyncClient> mcpClients,
+                                DeepSeekChatModel chatModel) {
         this.mcpClients = mcpClients;
         this.chatModel = chatModel;
     }
