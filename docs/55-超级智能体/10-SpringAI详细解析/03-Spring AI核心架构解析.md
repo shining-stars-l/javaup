@@ -166,6 +166,10 @@ CM --|> SCM : 继承
 
 Spring AI采用了经典的分层架构，核心思想是**面向接口编程**。你的业务代码只需要和ChatClient或ChatModel打交道，完全不用关心底层对接的是哪家模型。
 
+:::info 核心设计思想
+Spring AI 的核心是**面向接口编程**。`ChatModel` 是统一的模型抽象接口，`ChatClient` 是更高级的封装入口，业务代码与具体的模型实现完全解耦——换模型只需要换依赖，代码基本不用改。
+:::
+
 ## ChatModel：模型统一抽象
 
 ChatModel是Spring AI最核心的接口，它定义了与对话模型交互的标准方式。
@@ -231,6 +235,10 @@ ChatModel虽然功能完整，但用起来稍显繁琐。Spring AI又封装了�
 ### ChatClient vs ChatModel
 
 打个比方：ChatModel像是JDBC，功能强大但用起来啰嗦；ChatClient像是Spring Data JPA，简洁优雅，大多数场景用它就够了。
+
+:::tip ChatClient vs ChatModel
+日常开发中优先使用 `ChatClient`，它提供了更简洁的链式 API，内置了对 Advisor、默认参数的支持。只有当你需要精细控制底层请求（比如自定义 `Prompt` 构建），才有必要直接使用 `ChatModel`。
+:::
 
 看看两种方式的代码对比：
 
@@ -466,6 +474,17 @@ Message表示对话中的一条消息，根据角色不同有四种类型：
 
 在多轮对话中，Message列表会包含完整的对话历史，这就是大模型"记住"上下文的方式。
 
+:::info Message 的四种类型
+| 类型 | 说明 | 使用场景 |
+|-----|------|---------|
+| SystemMessage | 系统设定 | 定义AI的角色、行为准则 |
+| UserMessage | 用户输入 | 用户的问题或指令 |
+| AssistantMessage | AI回复 | 模型之前的回答 |
+| ToolResponseMessage | 工具返回 | 工具调用的结果 |
+
+多轮对话中，Message 列表需要包含完整的对话历史，大模型才能"理解"上下文。
+:::
+
 ## ChatOptions：参数配置
 
 ChatOptions用来设置调用大模型时的各种参数，不同模型厂商支持的参数有差异。
@@ -500,10 +519,14 @@ DashScopeChatOptions options = DashScopeChatOptions.builder()
 
 参数可以在多个地方设置，优先级从高到低是：
 
-1. **单次调用时指定** - `chatClient.prompt().options(xxx)`
+:::note 参数优先级规则
+1. **单次调用时指定** - `chatClient.prompt().options(xxx)` — 最高优先级
 2. **ChatClient构建时的默认值** - `ChatClient.builder().defaultOptions(xxx)`
 3. **配置文件** - `spring.ai.xxx.chat.options.xxx`
-4. **框架默认值**
+4. **框架默认值** — 最低优先级
+
+高优先级的配置会覆盖低优先级，灵活地利用这个机制可以让你的配置更整洁。
+:::
 
 ```plantuml title="ChatOptions 参数优先级" width="40%" align="left"
 @startuml
@@ -809,6 +832,10 @@ stop
 ```
 
 这一切都是自动完成的，你只需要配置API Key就行了。
+
+:::tip 自动配置机制
+Spring AI 大量借助 Spring Boot AutoConfiguration，引入 starter 依赖并配置 API Key 后，`ChatModel` Bean 会自动注册到容器，可直接注入使用，无需任何手动配置。
+:::
 
 ### 自定义Bean
 

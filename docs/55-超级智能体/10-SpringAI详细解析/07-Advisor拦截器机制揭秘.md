@@ -163,10 +163,7 @@ A1 --> Resp : 返回结果
 - 在请求发送给大模型**之前**，修改或增强请求内容
 - 在大模型返回响应**之后**，处理或转换响应内容
 
-## Advisor的应用场景
-
-先看看Advisor能用来做什么：
-
+:::info Advisor 的应用场景
 | 场景 | 说明 |
 |-----|------|
 | 日志记录 | 记录每次请求和响应，便于调试和审计 |
@@ -176,6 +173,7 @@ A1 --> Resp : 返回结果
 | 限流熔断 | 控制调用频率、失败重试 |
 | 权限校验 | 检查用户是否有调用权限 |
 | 内容增强 | 自动注入额外上下文信息 |
+:::
 
 ## Advisor接口体系
 
@@ -317,10 +315,12 @@ StreamAdvisor <|.. BaseAdvisor
 
 **核心接口说明**：
 
-- **Advisor**：基础接口，定义名称和执行顺序
-- **CallAdvisor**：同步调用的拦截器
-- **StreamAdvisor**：流式调用的拦截器
-- **BaseAdvisor**：提供before/after模式的便捷实现
+:::info Advisor 接口体系
+- **Advisor**：基础接口，定义名称（`getName()`）和执行顺序（`getOrder()`）
+- **CallAdvisor**：同步调用的拦截器，实现 `adviseCall()` 方法
+- **StreamAdvisor**：流式调用的拦截器，实现 `adviseStream()` 方法
+- **BaseAdvisor**：提供 `before()/after()` 模式的便捷基类，同时实现同步和流式
+:::
 
 ## 内置Advisor源码分析
 
@@ -439,6 +439,10 @@ public class ChatModelCallAdvisor implements CallAdvisor {
 ```
 
 它是链条的最后一环，真正和大模型交互。
+
+:::note SafeGuardAdvisor 的设计要点
+`SafeGuardAdvisor` 将 `getOrder()` 设置为 `Ordered.HIGHEST_PRECEDENCE`（最高优先级），确保安全检查是第一个执行的 Advisor。发现敏感词时**直接返回拒绝响应**，不会调用后续 Advisor，也不会产生任何模型调用费用。
+:::
 
 ## BaseAdvisor：简化开发的基类
 
@@ -676,10 +680,13 @@ chatClient.prompt("问题")
 
 ## Advisor执行顺序
 
-Advisor的执行顺序由`getOrder()`决定：
+:::warning 执行顺序容易搞反
+Advisor 的执行顺序由 `getOrder()` 决定：
+- **数值越小，优先级越高**，请求阶段**越先**执行（前置处理）
+- **响应阶段则是相反**，数值越小的 Advisor 其后置处理**越后**执行（先进后出）
 
-- **数值越小，优先级越高**，越先执行（前置处理）
-- **后置处理则是反过来**，先进后出
+记住这个规律：`order=100` 的 Advisor 比 `order=200` 的先处理请求，但后处理响应。
+:::
 
 ```plantuml title="Advisor 请求与响应的执行顺序" width="100%" align="left"
 @startuml

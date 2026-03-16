@@ -271,6 +271,10 @@ public class McpServerConfig {
 
 `MethodToolCallbackProvider`会自动扫描工具类中的`@Tool`注解方法，提取方法名作为工具名、description作为工具描述、方法参数和`@ToolParam`作为参数定义。
 
+:::tip @Tool 注解最佳实践
+`description` 的质量直接决定大模型能否正确选中这个工具。描述要说清楚"什么情况下使用"，而不只是"这个工具做什么"。例如加上"当用户询问考勤、打卡、出勤等相关问题时使用此工具"这样的触发条件描述效果更好。
+:::
+
 ```plantuml title="工具注册到 MCP Server 的流程" width="55%" align="left"
 @startuml
 skinparam backgroundColor transparent
@@ -414,6 +418,10 @@ logging:
 
 **重要提示**：Stdio模式下，stdout是MCP通信通道，任何非协议内容（日志、Banner）都会导致通信失败。必须关闭控制台输出。
 
+:::danger Stdio 模式必须关闭控制台输出
+Stdio 模式以 stdout 作为 MCP 通信通道。任何写入 stdout 的非 JSON-RPC 内容（Spring Banner、日志、`System.out.println`）都会破坏协议帧，导致 Client 报 JSON 解析错误。必须设置 `banner-mode: off` 和 `logging.level.root: OFF`，日志改为写入文件。
+:::
+
 打包后的使用方式：
 
 ```bash
@@ -538,6 +546,10 @@ public String bookMeetingRoomAdvanced(BookingRequest request) {
 
 这样大模型在调用时，会根据`@ToolParam`的描述来填充各个字段。
 
+:::tip 复杂参数推荐用 POJO
+当工具参数超过 3 个时，推荐将参数封装成 POJO，并为每个字段加上 `@ToolParam` 描述。这比写多个平铺参数更清晰，大模型也更容易理解整体语义。返回值同样可以用 POJO，框架会自动序列化成 JSON。
+:::
+
 ### 使用POJO作为返回值
 
 返回值也可以是对象，框架会自动序列化成JSON：
@@ -617,5 +629,13 @@ server:
 - 本地插件用Stdio
 - Stdio模式必须关闭控制台输出
 - 工具的description要写清楚，这是大模型判断的依据
+
+:::info 三种模式的 Starter 选择
+- **Stdio 本地工具**：`spring-ai-starter-mcp-server`
+- **远程服务（Spring MVC）**：`spring-ai-starter-mcp-server-webmvc`
+- **远程服务（响应式）**：`spring-ai-starter-mcp-server-webflux`
+
+切换模式只需换依赖和修改配置，工具代码完全不变。
+:::
 
 下一篇我们来看MCP Client端的开发，学习如何在自己的应用中集成MCP工具能力。

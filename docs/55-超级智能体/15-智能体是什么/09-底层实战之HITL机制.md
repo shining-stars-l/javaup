@@ -10,12 +10,14 @@ keywords: ["Human in the Loop", "HITL", "人工审批", "Agent中断", "工具�
 
 前面几篇我们实现了ReactAgent、ReflectionAgent、PlanExecuteAgent，它们都是"全自动"的——用户提问，Agent一路执行到底，中间不需要人干预。
 
-但有些场景下，"全自动"反而是个问题：
+:::warning 何时必须引入 HITL
+有些场景下，"全自动"反而是个问题：
 - Agent要发起一笔支付，用户想确认一下金额
 - Agent要删除一条数据，需要人工审核
 - Agent要发送邮件，用户想先看看内容
 
-这时候需要**Human in the Loop（HITL）**——让Agent在执行敏感操作前"暂停"，等待人工审批后再继续。
+对于这类敏感操作，必须通过 HITL 让 Agent 在执行前"暂停"，等待人工审批后再继续。
+:::
 
 ## HITL的核心流程
 
@@ -55,10 +57,12 @@ A -> 用户: 最终答案
 @enduml
 ```
 
+:::info HITL 核心流程要点
 关键点：
 1. **只拦截敏感工具**：不是所有工具都需要审批
 2. **中断返回**：带上完整的上下文快照，方便恢复
 3. **支持多种审批结果**：同意、拒绝、修改参数
+:::
 
 ## 设计思路
 
@@ -352,10 +356,12 @@ public class HITLReactAgent {
 }
 ```
 
-**核心逻辑**：
+:::tip HITLReactAgent 三个核心方法
+核心逻辑：
 1. `call()`：首次调用，初始化状态
 2. `run()`：执行循环，检测到HITL需求就返回中断
 3. `resume()`：收到反馈后恢复执行
+:::
 
 ## 使用示例：支付确认场景
 
@@ -540,9 +546,9 @@ public class AgentController {
     @Autowired
     private HITLReactAgent agent;
     
-    // 存储中断状态（实际用Redis等）
-    private final Map<String, AgentInterrupted> interruptedSessions = 
-            new ConcurrentHashMap<>();
+:::caution 生产环境中断状态存储
+实际项目中，`AgentInterrupted` 中断状态**不能存在内存 Map 中**，必须持久化到 Redis 或数据库，否则服务重启后中断会丢失，用户的审批操作无法恢复执行。
+:::
     
     @PostMapping("/chat")
     public ResponseEntity<?> chat(@RequestBody ChatRequest request) {

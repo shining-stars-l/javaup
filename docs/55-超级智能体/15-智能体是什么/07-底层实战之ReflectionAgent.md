@@ -53,13 +53,16 @@ endif
 @enduml
 ```
 
-和ReactAgent对比：
+:::info 反思机制核心思想
+反思机制就是让Agent具备"自我批判"能力：
+
 - **ReactAgent**：想一步做一步，想到答案就输出
 - **ReflectionAgent**：想到答案先自己检查一遍，不合格就重新想
 
 反思机制会增加响应时间，所以要根据场景选择：
 - 需要高质量输出（报告、分析）→ 用反思
 - 追求响应速度（简单问答）→ 不用反思
+:::
 
 ## 架构设计：基于Advisor实现
 
@@ -205,11 +208,13 @@ public record ReflectionResult(
 ) {}
 ```
 
+:::note Advisor 核心逻辑
 Advisor的核心逻辑：
 1. 先让模型正常执行，拿到回答
 2. 如果是工具调用阶段，跳过反思
 3. 调用反思模型评估答案
 4. 通过就返回，不通过就标记context
+:::
 
 ## 改造ReactAgent支持反思
 
@@ -503,10 +508,14 @@ passed: true
 | 2~3 | 质量明显提升 | 响应时间翻倍 |
 | >3 | 收益递减 | 太慢，成本高 |
 
-建议：
+:::tip 反思轮次设置建议
+`maxReflectionRounds`设多少合适？建议：
 - 简单问答场景：0或1
 - 分析报告场景：2
 - 关键决策场景：3
+
+超过3次后收益递减，响应时间和成本都会显著增加。
+:::
 
 ## 扩展：Advisor还能做什么
 
@@ -556,7 +565,9 @@ public class ContextCompressAdvisor implements CallAdvisor {
 }
 ```
 
-这种责任链模式让Agent的能力扩展变得很灵活。
+:::tip Advisor 扩展能力
+Advisor不只是反思，还可以做很多事：日志记录、敏感词过滤、上下文压缩（防止对话太长）等。这种责任链模式让Agent的能力扩展变得很灵活。
+:::
 
 ## 小结
 

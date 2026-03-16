@@ -52,13 +52,15 @@ repeat while (继续循环)
 @enduml
 ```
 
-用代码的视角来看，就是一个`while(true)`循环：
+:::info ReAct 循环本质
+用代码的视角来看，ReAct 就是一个`while(true)`循环：
 1. 把当前所有消息扔给模型
 2. 模型返回结果，看有没有`tool_calls`
 3. 有就执行工具，把结果追加到消息列表，继续循环
 4. 没有就说明模型给出了最终答案，跳出循环
 
-就这么简单，核心代码不到100行。
+核心代码不到100行。
+:::
 
 ## 基础组件设计
 
@@ -93,10 +95,11 @@ public class SimpleReactAgent {
 
 ## 关键配置：internalToolExecutionEnabled
 
-初始化ChatClient时，有个配置**极其重要**：
+:::warning 关键配置：internalToolExecutionEnabled
+初始化ChatClient时，有个配置**极其重要**：必须将 `internalToolExecutionEnabled` 设为 `false`。
 
-```java
-private void initChatClient() {
+默认情况下，ChatClient会**自动**帮你执行工具调用——这对简单场景很方便，但对ReAct来说是灾难。ReAct需要**你来控制**每一步，设成`false`后，模型只负责告诉你"我想调什么工具"，至于调不调、怎么调、调完干嘛，全由你说了算。
+:::
     ToolCallingChatOptions toolOptions = ToolCallingChatOptions.builder()
             .toolCallbacks(tools)
             .internalToolExecutionEnabled(false)  // 关键！
@@ -238,7 +241,9 @@ private void addToolResponse(List<Message> messages,
 }
 ```
 
+:::caution 工具响应规范
 **这里有个坑要注意**：OpenAI规范要求，带有`tool_calls`的`AssistantMessage`后面必须跟`ToolResponseMessage`，否则会报400错误。所以不管工具执行成功还是失败，都要加上ToolResponse。
+:::
 
 ## 达到最大轮次的处理
 
@@ -462,7 +467,11 @@ private void scheduleRound(List<Message> messages,
 }
 ```
 
+:::tip 流式实现关键点
 `publishOn(Schedulers.boundedElastic())`很重要——它让模型输出和我们的处理逻辑在不同线程执行，避免处理逻辑阻塞模型输出。
+
+**判断逻辑**：看第一个chunk。如果第一个chunk里有tool_calls，那整个轮次就是工具模式；否则就是最终答案模式，直接实时推送给用户。
+:::
 
 ## 处理每个chunk
 

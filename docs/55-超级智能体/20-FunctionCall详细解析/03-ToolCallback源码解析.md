@@ -14,6 +14,14 @@ keywords: ["ToolCallback", "FunctionToolCallback", "MethodToolCallback", "Spring
 
 不管你用哪种方式定义工具，Spring AI最终都会把它转换成一个叫`ToolCallback`的东西。这是Spring AI对"可调用工具"的统一抽象。
 
+:::info ToolCallback 核心接口
+`ToolCallback` 接口的两个核心方法：
+- `getToolDefinition()`：提供工具的"说明书"，让模型知道有这个工具可用
+- `call()`：真正干活的方法，接收 JSON 格式的参数，返回执行结果
+
+不管工具是怎么定义的，只要实现了这个接口，Spring AI 就能调用它。
+:::
+
 先来看看这个接口长什么样：
 
 ```java
@@ -240,6 +248,10 @@ public class MethodToolCallback implements ToolCallback {
 
 关键在`method.invoke(toolObject, args)`这一行——通过反射调用你的方法。
 
+:::note 反射调用的开销
+`MethodToolCallback` 使用反射机制调用目标方法，有轻微的性能开销，但在工具调用场景下可以忽略不计——工具执行本身（如网络请求、数据库查询）的耗时远大于反射开销。
+:::
+
 ## 工具是怎么被注册进去的
 
 知道了两种Callback的区别，再来看看Spring AI是怎么识别和注册这些工具的。
@@ -267,6 +279,10 @@ public ChatClientRequestSpec tools(Object... toolObjects) {
 光看代码可能还不够直观，咱们来实际Debug一下。
 
 在`org.springframework.ai.model.tool.DefaultToolCallingManager`类的`executeToolCall`方法打个断点：
+
+:::tip Debug 调试技巧
+在 `DefaultToolCallingManager.executeToolCall()` 方法打断点，可以实时观察工具调用的执行情况，包括工具名、传入参数以及实际使用的 Callback 类型。这是排查工具调用问题最直接的方式。
+:::
 
 ```java
 // DefaultToolCallingManager.java
@@ -403,6 +419,10 @@ deactivate Model
 5. 模型根据工具结果生成最终回答
 
 所以当你用默认配置时，一次用户请求可能在背后触发多次API调用——这点要有心理准备，会影响响应时间和费用。
+
+:::caution 注意响应时间和费用
+默认自动执行模式下，一次用户请求会触发至少两次模型 API 调用（第一次获取工具调用指令，第二次根据工具结果生成最终答案）。在高并发或工具链较长的场景中，需要关注响应延迟和 Token 费用的累积。
+:::
 
 ## 小结
 

@@ -45,9 +45,11 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 在开始写代码之前，确保你的开发环境满足以下条件：
 
+:::info 环境要求
 - JDK 17及以上版本（Spring AI要求的最低版本）
 - Maven或Gradle构建工具
 - 一个大模型的API Key（本文以DeepSeek为例）
+:::
 
 **获取API Key的方式**：[申请模型的调用](/super-agent/getting-started/apply-model-access)
 
@@ -91,6 +93,10 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 这里有个细节要注意：Spring AI支持多种大模型，包括OpenAI、阿里云百炼、Ollama本地模型等。你只需要换一个starter依赖，其他代码基本不用动。
 
+:::tip 切换模型很简单
+Spring AI支持多种大模型，包括OpenAI、阿里云百炼、Ollama本地模型等。你只需要换一个starter依赖，其他代码基本不用动。
+:::
+
 ### 配置API密钥
 
 在真实项目里，`application.yaml` 不光配置了 DeepSeek 的 API Key，还顺手把默认系统提示词、日志级别和端口一起收好了：
@@ -121,6 +127,10 @@ logging:
 ```
 
 出于安全考虑，建议把 API Key 放到环境变量里，而不是直接写在配置文件中。本文示例模块默认读取的是 `DEEPSEEK_API_KEY`。
+
+:::warning 安全提醒
+永远不要把 API Key 直接硬编码在配置文件中并提交到代码仓库！应使用环境变量（如 `DEEPSEEK_API_KEY`）注入，避免密钥泄露。
+:::
 
 ## 认识ChatClient
 
@@ -330,7 +340,9 @@ public Flux<String> stream(
 
 **注意事项**：接口的produces要设置成`text/event-stream`，告诉浏览器这是一个SSE（Server-Sent Events）响应。
 
+:::caution 浏览器直接访问流式接口
 如果你直接在浏览器地址栏访问 `http://localhost:7089/chat/stream?...`，看到一行行 `data:xxx`，这不是接口异常，而是浏览器正在直接展示 SSE 的原始协议帧。
+:::
 
 想看到类似 ChatGPT 的“打字机效果”，需要前端代码主动消费这个流。本文示例模块已经提供了一个现成的演示页面：
 
@@ -395,6 +407,10 @@ public ChatClient chatClient(ChatModel chatModel,
 ```
 
 `SimpleLoggerAdvisor` 是 Spring AI 内置的日志记录器，它会打印每次请求和响应的详细内容。不过要注意，它的日志级别是 `DEBUG`，所以你至少要把 `org.springframework.ai` 的日志级别调低：
+
+:::tip 开启调试日志
+`SimpleLoggerAdvisor` 的日志级别是 `DEBUG`，需要在配置文件中将 `org.springframework.ai` 的日志级别设置为 `DEBUG` 才能看到输出。如果用了自定义 `log4j2.xml`，还要确保 Console Appender 允许 `DEBUG` 输出。
+:::
 
 ```yaml
 logging:
@@ -547,6 +563,10 @@ A1 --> Resp
 ```
 
 每个Advisor可以在请求发送前做一些事情（比如添加上下文信息），也可以在收到响应后做一些事情（比如记录日志、保存对话历史）。
+
+:::info Advisor 的核心价值
+Advisor 是 Spring AI 的扩展机制，类似于 Spring AOP 中的切面。你可以通过 Advisor 实现日志记录、对话记忆、内容审核、性能监控等能力，而不需要修改业务代码。
+:::
 
 Spring AI内置了不少实用的Advisor，后面的章节会详细介绍。
 

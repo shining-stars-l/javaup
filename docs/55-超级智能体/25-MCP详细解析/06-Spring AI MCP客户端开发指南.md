@@ -389,6 +389,10 @@ public class ManualClientService {
 
 这是一个常见的坑。HTTP Client的配置中，baseUrl和endpoint必须分开：
 
+:::warning 常见配置错误：baseUrl 混入 path
+`builder("http://localhost:7090/mcp")` 会导致请求路径拼接错误，最终返回 404。必须把 path 单独通过 `.endpoint("/mcp")` 配置，`builder()` 只接受 host 和 port 部分。
+:::
+
 ```java
 // 正确写法
 HttpClientStreamableHttpTransport transport = HttpClientStreamableHttpTransport
@@ -405,6 +409,10 @@ HttpClientStreamableHttpTransport transport = HttpClientStreamableHttpTransport
 **2. 必须调用initialize()**
 
 创建Client后，一定要调用`initialize()`方法。这会触发与Server的初始化握手，否则后续的工具调用会失败。
+
+:::danger 手动创建 Client 必须调用 initialize()
+使用配置文件自动注入时框架会自动完成握手。但**手动创建 `McpSyncClient` 后必须显式调用 `client.initialize()`**，否则 Client 不会执行 MCP 握手流程，后续所有工具调用都会失败。
+:::
 
 **3. 超时设置要合理**
 
@@ -499,6 +507,10 @@ Router --> Search
 ```
 
 > 提示：可以统一接入所有 Server，也可以按业务场景只挂载部分连接。
+
+:::tip 按需加载工具
+工具数量过多时，可以通过过滤 `McpSyncClient` 列表，只给 `ChatClient` 注入当前场景所需的工具。工具越少，大模型选择工具的准确率越高，响应速度也越快。
+:::
 
 ### 按需加载工具
 
@@ -653,5 +665,10 @@ public class AssistantController {
 - 需要灵活控制用手动构建
 - baseUrl和endpoint要分开配置
 - 记得调用initialize()
+
+:::tip 两种集成方式选型建议
+- **配置文件注入（自动挡）**：Server 地址相对固定、不需要动态切换，推荐使用，代码量最少
+- **手动构建（手动挡）**：需要动态加减 Server、定制超时或连接参数、多租户场景下按需连接不同 Server，使用手动方式
+:::
 
 下一篇我们深入源码，看看Spring AI内部是怎么把MCP Client和ChatClient串联起来的。

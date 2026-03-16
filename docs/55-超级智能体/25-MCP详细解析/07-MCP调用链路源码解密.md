@@ -171,6 +171,11 @@ stop
 
 下面我们把这两条链分开看。
 
+:::info 两条链的核心分工
+- **启动期链路**：完成工具注册与发现——Server 暴露工具，Client 拉取工具列表并包装成 `ToolCallback` 注入 `ChatClient`
+- **运行期链路**：完成工具调用与结果回传——大模型决定调用哪个工具，`SyncMcpToolCallback` 发起远程调用，结果写回对话历史后再次调用模型生成自然语言
+:::
+
 ## 一、启动期链路：工具是怎样从 Server 暴露到 Client 的
 
 ### 1. Server 端：`@Tool` 方法先被包装成 `MethodToolCallback`
@@ -207,6 +212,10 @@ public ToolCallbackProvider attendanceToolProvider(AttendanceTools attendanceToo
 - `@Tool` 注解里的 `description` 会变成工具描述
 - 方法名会变成工具名
 - 方法参数和 `@ToolParam` 描述会变成输入 JSON Schema
+
+:::note 工具名默认为方法名
+`@Tool` 不显式指定 `name` 时，工具名默认就是 Java 方法名。当前示例中暴露的工具名为 `checkAttendance`、`clockIn`、`queryRoomSchedule`、`bookMeetingRoom`、`cancelBooking`，与业务方法名完全一致。
+:::
 
 在当前示例里，由于 `@Tool` 没显式写 `name`，所以工具名默认就是方法名：
 
@@ -603,6 +612,10 @@ McpSchema.CallToolResult result = this.mcpClient.callTool(request);
 - 发给 MCP Server 的是原始工具名 `this.tool.name()`
 - 不是 LLM 展示层随便拼出来的别名
 
+:::tip 工具名的透传机制
+`SyncMcpToolCallback` 发往 MCP Server 的工具名严格使用 `this.tool.name()` 原始值，不做任何转换。Server 端的 `McpSyncServer` 按工具名精确匹配对应的 `SyncToolSpecification`，再通过反射调用 `@Tool` 方法。
+:::
+
 所以最后 MCP Server 收到的调用，仍然是：
 
 `checkAttendance(employeeId=E10086, month=2025-03)`
@@ -698,6 +711,10 @@ return this.internalCall(
 
 1. 第一次：让模型决定要不要调用工具
 2. 第二次：把工具结果喂回去，让模型组织成自然语言
+
+:::info 一次完整工具调用 = 两次模型请求
+这是 MCP 工具调用的核心机制：第一次模型请求用于决策（返回 `tool_calls`），第二次用于生成最终自然语言回答。如果工具设置了 `returnDirect = true`，则跳过第二次调用，工具结果直接作为最终输出返回。
+:::
 
 当前示例里的 `@Tool` 没有设置 `returnDirect = true`，所以会走“再次调用模型生成最终答案”这条路径。
 
@@ -799,6 +816,10 @@ logging:
 
 这篇文章所讲的主线流程可以总结成一句话，那就是：
 
-**启动期负责“把远程 MCP 工具装进 ChatClient”，运行期负责“让模型决定何时调用工具，并把结果再喂回模型”。**
+**启动期负责”把远程 MCP 工具装进 ChatClient”，运行期负责”让模型决定何时调用工具，并把结果再喂回模型”。**
+
+:::tip 调试入手点
+调试这套链路时，启动期重点看 `SyncMcpToolCallbackProvider.getToolCallbacks()` 中 `listTools()` 拿到了哪些工具；运行期重点看 `DefaultToolCallingManager.executeToolCalls()` 里 `tool_calls` 的解析，以及 `SyncMcpToolCallback.call()` 发出的工具名和参数是否正确。
+:::
 
 下一篇我们继续往上走一步，看看 MCP 在企业级项目里还要补哪些能力：鉴权、重试、过滤、观测和多工具治理。

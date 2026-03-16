@@ -15,6 +15,11 @@ Spring AI给我们提供了两种路子：
 
 两种方式本质上做的是同一件事——告诉Spring AI"这个方法可以被模型调用"，只是写法不同。选哪个主要看你的代码组织偏好。
 
+:::tip 如何选择接入方式
+- 新写的工具类 → 用 `@Tool` 注解，更直观
+- 复用已有的 Service，不想改动原有代码 → 用 `Function` Bean
+:::
+
 如果先从整体上看，Spring AI会把这两条接入路径最终收敛到同一条工具调用闭环里：
 
 ```plantuml title="Spring AI 两种工具接入路径" width="65%" align="left"
@@ -129,6 +134,12 @@ public class TimeQueryController {
 
 调用`tools(cityTimeTools)`之后，Spring AI会自动扫描这个对象上所有带`@Tool`注解的方法，生成工具定义发给模型。
 
+:::info @Tool 注解关键点
+- `@Tool`：标记可调用工具，`description` 告诉模型工具用途
+- `@ToolParam`：描述参数含义，帮助模型理解应该传什么值
+- 方法返回值会被直接发送回模型作为工具执行结果
+:::
+
 现在你访问`/time/ask?question=东京现在几点了`，模型就会识别出需要调用`queryCityTime`方法，参数是"东京"。
 
 ## 方式二：用Function Bean定义工具
@@ -213,6 +224,10 @@ public String queryStock(@RequestParam String question) {
 - 工具调用前想做一些校验或审批
 - 需要记录每次工具调用的详细日志
 - 在Agent场景下需要实现复杂的调用控制逻辑
+
+:::caution 关闭自动执行的适用场景
+关闭自动执行会让工具调用流程更可控，但需要你自己管理调用状态和再次请求模型，代码复杂度会上升。非必要场景下建议保持默认的自动执行。
+:::
 
 这时候可以关掉自动执行：
 
@@ -305,9 +320,11 @@ public String manualControl(@RequestParam String question) {
 
 这些工具已经封装好了，直接引入依赖就能用，不用自己对接API。
 
+:::tip 使用第三方工具
 具体有哪些可用工具、怎么配置，可以看Spring AI Alibaba的官方文档：
 
 https://java2ai.com/docs/1.0.0.2/practices/integrations/tool-calling/
+:::
 
 ## 实践：做一个简单的任务助手
 
