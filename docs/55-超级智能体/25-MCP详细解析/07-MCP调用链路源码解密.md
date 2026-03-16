@@ -1,34 +1,136 @@
 ---
 slug: /super-agent/mcp/source-code-analysis
-description: "深入Spring AI源码，剖析MCP工具调用的完整链路，理解从ChatClient到MCP Server的执行过程"
-keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatClient源码", "ToolCallback机制"]
+description: "结合 office-mcp-client 与 office-mcp-server，深入剖析 Spring AI MCP 的真实调用链路"
+keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "DeepSeekChatModel", "SyncMcpToolCallback"]
 ---
 
 # MCP调用链路源码解密
 
-前面几篇我们学会了怎么用Spring AI开发MCP Server和Client。但你有没有想过：
+前面几篇我们已经把 MCP Server 和 Client 跑起来了，但上一篇对“源码调用链路”的描述还是偏通用，容易把 Spring AI 的公共机制和本项目的真实实现混在一起。
 
-- 当用户说"帮我查下考勤"，这句话是怎么变成MCP工具调用的？
-- ChatClient和MCP Client是怎么串联起来的？
-- 大模型返回的`tool_calls`是怎么被执行的？
+这一篇我们不再泛讲概念，直接以 `super-ai-hub` 里的这两个模块为准，把链路重新梳理一遍：
 
-这一篇我们深入Spring AI源码，把整个链路搞清楚。
+- `ai-example-spring-ai-office-mcp-client`
+- `ai-example-spring-ai-office-mcp-server`
 
-## 用信件投递理解调用链路
+我们要回答的问题也很具体：
 
-在看代码之前，先用一个比喻把整体流程串起来。
+- 用户发一句“帮我查下 E10086 2025-03 的考勤”，请求先落到哪里？
+- Client 端的 MCP 工具是什么时候发现的？是在模型返回 `tool_calls` 之后，还是更早？
+- Server 端的 `@Tool` 方法，是怎样变成 `/mcp` 接口可调用工具的？
+- 工具执行完以后，结果是怎么回到大模型，再生成最终自然语言回答的？
 
-想象一次信件投递的过程：
+## 从对话入口端来入手
 
+### Client 端：`office-mcp-client`
+
+```java
+@RestController
+@RequestMapping("/api/assistant")
+public class AssistantController {
+
+    private final AssistantService assistantService;
+
+    @PostMapping("/chat")
+    public ChatResponse chat(@RequestBody ChatRequest request) {
+        String response = assistantService.chat(request.message());
+        return new ChatResponse(response);
+    }
+}
 ```
-用户写信 → 投到邮筒 → 邮局分拣 → 
-派送员送信 → 收件人处理 → 写回信 → 
-回信送回 → 用户收到回信
+
+```java
+@Service
+public class AssistantService {
+
+    private final DeepSeekChatModel chatModel;
+    private final SyncMcpToolCallbackProvider toolCallbackProvider;
+
+    private ChatClient chatClient;
+
+    @PostConstruct
+    public void init() {
+        ToolCallback[] toolCallbacks = toolCallbackProvider.getToolCallbacks();
+
+        this.chatClient = ChatClient.builder(chatModel)
+                .defaultToolCallbacks(toolCallbacks)
+                .build();
+    }
+
+    public String chat(String userMessage) {
+        return chatClient.prompt()
+                .user(userMessage)
+                .call()
+                .content();
+    }
+}
 ```
 
-对应到MCP调用链路：
+所以这套示例的真实入口是：
 
-```plantuml title="MCP 工具调用旅程总览" width="70%" align="left"
+`AssistantController -> AssistantService -> ChatClient`
+
+### Server 端：`office-mcp-server`
+
+这个模块不是手写一个 `/mcp` Controller，而是交给 Spring AI Starter 自动暴露。
+
+```java
+@Configuration
+public class McpServerConfig {
+
+    @Bean
+    public ToolCallbackProvider attendanceToolProvider(AttendanceTools attendanceTools) {
+        return MethodToolCallbackProvider.builder()
+                .toolObjects(attendanceTools)
+                .build();
+    }
+
+    @Bean
+    public ToolCallbackProvider meetingRoomToolProvider(MeetingRoomTools meetingRoomTools) {
+        return MethodToolCallbackProvider.builder()
+                .toolObjects(meetingRoomTools)
+                .build();
+    }
+}
+```
+
+以及具体的 `@Tool` 方法：
+
+```java
+@Service
+public class AttendanceTools {
+
+    @Tool(description = "查询员工的考勤记录，包括出勤天数、迟到次数、早退次数、请假天数。")
+    public String checkAttendance(String employeeId, String month) {
+        ...
+    }
+}
+```
+
+```java
+@Service
+public class MeetingRoomTools {
+
+    @Tool(description = "查询指定会议室在某天的预订情况和空闲时段。")
+    public String queryRoomSchedule(String roomId, String date) {
+        ...
+    }
+}
+```
+
+所以 Server 侧真正暴露出去的工具，来自：
+
+- `AttendanceTools.checkAttendance`
+- `AttendanceTools.clockIn`
+- `MeetingRoomTools.queryRoomSchedule`
+- `MeetingRoomTools.bookMeetingRoom`
+- `MeetingRoomTools.cancelBooking`
+
+## 先看全貌：这套示例其实分成两条链
+
+一条是启动期链路，一条是运行期链路。
+
+```plantuml title="office-mcp 示例的两条主链" width="70%" align="left"
 @startuml
 skinparam backgroundColor transparent
 skinparam shadowing false
@@ -42,334 +144,209 @@ skinparam diamondBorderColor #3B82F6
 skinparam RoundCorner 18
 
 start
-:用户发送问题;
-:ChatClient 构造 Prompt;
-:ChatModel 调用大模型;
+:Server 启动;
+:MethodToolCallbackProvider 扫描 @Tool 方法;
+:McpSyncServer 挂载 tools;
+:Client 启动;
+:自动创建 McpSyncClient;
+:SyncMcpToolCallbackProvider.listTools();
+:把远程 tools 包装成 SyncMcpToolCallback;
+:AssistantService 构建 ChatClient;
+:用户发起 /api/assistant/chat;
+:DeepSeekChatModel 调用大模型;
 if (返回 tool_calls?) then (是)
-  :ToolCallingManager 根据 toolName\n定位 ToolCallback;
-  :SyncMcpToolCallback 调用 McpSyncClient;
-  :MCP Server 执行工具;
-  :把工具结果加入对话历史;
-  :再次调用大模型生成最终回复;
+  :DefaultToolCallingManager 执行工具;
+  :SyncMcpToolCallback 调用 /mcp;
+  :Server 分发到 MethodToolCallback;
+  :执行 AttendanceTools/MeetingRoomTools;
+  :写入 ToolResponseMessage;
+  :再次调用大模型;
 else (否)
-  :直接返回模型回复;
+  :直接返回模型回答;
 endif
-:用户看到答案;
+:返回最终自然语言结果;
 stop
 @enduml
 ```
 
-## 核心类关系图
+下面我们把这两条链分开看。
 
-先看看涉及的核心类：
+## 一、启动期链路：工具是怎样从 Server 暴露到 Client 的
 
-```plantuml title="MCP 调用链核心类关系图" width="100%" align="left"
-@startuml
-left to right direction
-skinparam backgroundColor transparent
-skinparam shadowing false
-skinparam defaultFontColor #1E293B
-skinparam ArrowColor #2563EB
-skinparam ArrowThickness 1.2
-skinparam rectangleBorderColor #94A3B8
-skinparam rectangleBackgroundColor #FFFFFF
-skinparam RectangleFontColor #1E293B
-skinparam cloudBorderColor #94A3B8
-skinparam cloudBackgroundColor #EFF6FF
-skinparam RoundCorner 18
+### 1. Server 端：`@Tool` 方法先被包装成 `MethodToolCallback`
 
-rectangle "ChatClient" as ChatClient #DBEAFE
-rectangle "ChatModel\nOpenAiChatModel.internalCall()" as ChatModel #EFF6FF
-rectangle "DefaultToolCallingManager" as ToolManager #F8FAFC
-rectangle "SyncMcpToolCallback" as Callback #ECFCCB
-rectangle "McpSyncClient" as McpClient #FEF3C7
-rectangle "SyncMcpToolCallbackProvider" as Provider #E0F2FE
-cloud "MCP Server" as Server
-
-ChatClient --> ChatModel : call()
-ChatModel --> ToolManager : executeToolCalls()
-ToolManager --> Callback : 根据 toolName 调用
-Callback --> McpClient : callTool()
-McpClient --> Server : JSON-RPC 请求
-Provider ..> Callback : 创建回调实例
-Provider ..> McpClient : 枚举已连接 Client 的 tools
-@enduml
-```
-
-## 阶段一：从ChatClient到大模型
-
-### 入口：ChatClient.call()
-
-当你调用`chatClient.prompt().user(message).call().content()`时，触发了整个链路。
+在 `office-mcp-server` 里，`McpServerConfig` 注册的是 `ToolCallbackProvider` Bean，而不是直接注册 HTTP 接口。
 
 ```java
-// DefaultChatClient.java
-public ChatResponse call() {
-    // 1. 构建请求
-    ChatClientRequest request = buildRequest();
-    
-    // 2. 构建Advisor链（类似拦截器链）
-    CallResponseAdvisorChain chain = buildAdvisorChain();
-    
-    // 3. 执行调用
-    return chain.nextCall(request);
-}
-```
-
-这里有个Advisor链的概念。Spring AI用Advisor模式来组织处理流程，最核心的一个是`ChatModelCallAdvisor`——它负责真正调用大模型。
-
-### ChatModelCallAdvisor：调用大模型
-
-```java
-// ChatModelCallAdvisor.java
-public ChatResponse call(ChatClientRequest request) {
-    // 把请求转换成Prompt
-    Prompt prompt = toPrompt(request);
-    
-    // 调用ChatModel
-    return chatModel.call(prompt);
-}
-```
-
-### OpenAiChatModel.internalCall()：核心调用逻辑
-
-这个方法是整个链路的关键枢纽：
-
-```java
-// OpenAiChatModel.java（简化版）
-public ChatResponse internalCall(Prompt prompt, ChatResponse previousResponse) {
-    
-    // 1. 构造发给大模型的请求
-    ChatCompletionRequest request = createRequest(prompt, false);
-    
-    // 2. 调用大模型API
-    ChatCompletion completion = openAiApi.chatCompletionEntity(request);
-    
-    // 3. 解析大模型返回
-    List<Generation> generations = parseGenerations(completion);
-    ChatResponse response = new ChatResponse(generations, ...);
-    
-    // 4. 判断是否需要调用工具 ← 关键点！
-    if (toolExecutionEligibilityPredicate.isToolExecutionRequired(prompt.getOptions(), response)) {
-        
-        // 5. 执行工具调用
-        ToolExecutionResult toolResult = toolCallingManager.executeToolCalls(prompt, response);
-        
-        // 6. 如果工具要求直接返回（returnDirect=true），不再调用大模型
-        if (toolResult.returnDirect()) {
-            return buildDirectResponse(response, toolResult);
-        }
-        
-        // 7. 否则，把工具结果加入对话历史，再次调用大模型
-        Prompt newPrompt = new Prompt(toolResult.conversationHistory(), prompt.getOptions());
-        return this.internalCall(newPrompt, response);  // 递归调用
-    }
-    
-    // 8. 不需要调用工具，直接返回
-    return response;
-}
-```
-
-注意第7步的递归调用——大模型可能多次调用工具，每次都会循环这个过程，直到模型不再输出`tool_calls`。
-
-## 阶段二：工具调用判断
-
-### isToolExecutionRequired：要不要调用工具？
-
-```java
-// DefaultToolExecutionEligibilityPredicate.java
-public boolean isToolExecutionRequired(ChatOptions options, ChatResponse response) {
-    // 检查response中是否有tool_calls
-    return response.getResults().stream()
-            .anyMatch(generation -> {
-                AssistantMessage msg = generation.getOutput();
-                return msg.hasToolCalls();
-            });
-}
-```
-
-逻辑很简单：看大模型的返回里有没有`toolCalls`字段。有就说明模型决定要调用工具。
-
-## 阶段三：工具执行
-
-### DefaultToolCallingManager.executeToolCalls()
-
-```java
-// DefaultToolCallingManager.java（简化版）
-public ToolExecutionResult executeToolCalls(Prompt prompt, ChatResponse response) {
-    
-    List<Message> conversationHistory = new ArrayList<>(prompt.getInstructions());
-    boolean returnDirect = false;
-    
-    // 遍历所有tool_calls
-    for (Generation generation : response.getResults()) {
-        AssistantMessage assistantMessage = generation.getOutput();
-        
-        // 把assistant消息（包含tool_calls）加入历史
-        conversationHistory.add(assistantMessage);
-        
-        // 逐个执行工具
-        for (ToolCall toolCall : assistantMessage.getToolCalls()) {
-            
-            // 执行单个工具
-            ToolCallResult result = executeToolCall(toolCall);
-            
-            // 把工具结果作为ToolResultMessage加入历史
-            conversationHistory.add(new ToolResultMessage(toolCall.id(), result.output()));
-            
-            // 检查是否直接返回
-            if (result.returnDirect()) {
-                returnDirect = true;
-            }
-        }
-    }
-    
-    return new ToolExecutionResult(conversationHistory, returnDirect);
-}
-```
-
-### executeToolCall：执行单个工具
-
-```java
-// DefaultToolCallingManager.java
-private ToolCallResult executeToolCall(ToolCall toolCall) {
-    String toolName = toolCall.name();
-    String arguments = toolCall.arguments();
-    
-    // 从已注册的工具中找到对应的ToolCallback
-    ToolCallback toolCallback = findToolCallback(toolName);
-    
-    if (toolCallback == null) {
-        throw new ToolExecutionException("Tool not found: " + toolName);
-    }
-    
-    // 调用ToolCallback的call方法
-    String result = toolCallback.call(arguments, toolContext);
-    
-    // 获取工具元数据，判断是否returnDirect
-    boolean returnDirect = toolCallback.getToolMetadata().returnDirect();
-    
-    return new ToolCallResult(result, returnDirect);
-}
-```
-
-关键点：`findToolCallback(toolName)`根据工具名找到对应的`ToolCallback`实例。
-
-## 阶段四：MCP工具执行
-
-### SyncMcpToolCallback.call()
-
-对于MCP工具，`ToolCallback`的实现类是`SyncMcpToolCallback`：
-
-```java
-// SyncMcpToolCallback.java（简化版）
-public class SyncMcpToolCallback implements ToolCallback {
-    
-    private final McpSyncClient mcpClient;
-    private final McpSchema.Tool tool;
-    
-    @Override
-    public String call(String toolCallInput, ToolContext toolContext) {
-        // 1. 解析参数JSON
-        Map<String, Object> arguments = parseArguments(toolCallInput);
-        
-        // 2. 构建MCP调用请求
-        CallToolRequest request = CallToolRequest.builder()
-                .name(this.tool.name())
-                .arguments(arguments)
-                .build();
-        
-        // 3. 调用MCP Server
-        CallToolResult response = this.mcpClient.callTool(request);
-        
-        // 4. 处理错误
-        if (Boolean.TRUE.equals(response.isError())) {
-            throw new ToolExecutionException("Tool execution failed: " + response.content());
-        }
-        
-        // 5. 返回结果
-        return serializeResult(response.content());
-    }
-    
-    @Override
-    public ToolMetadata getToolMetadata() {
-        // 默认实现返回returnDirect=false
-        return ToolMetadata.builder()
-                .returnDirect(false)
-                .build();
-    }
-}
-```
-
-### McpSyncClient.callTool()
-
-最终通过McpSyncClient发送JSON-RPC请求：
-
-```java
-// McpSyncClient.java（概念性代码）
-public CallToolResult callTool(CallToolRequest request) {
-    // 构建JSON-RPC请求
-    JsonRpcRequest jsonRpcRequest = JsonRpcRequest.builder()
-            .method("tools/call")
-            .params(request)
-            .id(generateId())
+@Bean
+public ToolCallbackProvider attendanceToolProvider(AttendanceTools attendanceTools) {
+    return MethodToolCallbackProvider.builder()
+            .toolObjects(attendanceTools)
             .build();
-    
-    // 通过传输层发送请求
-    JsonRpcResponse response = transport.sendRequest(jsonRpcRequest);
-    
-    // 解析响应
-    return parseCallToolResult(response);
 }
 ```
 
-## 工具注册流程
+`MethodToolCallbackProvider.getToolCallbacks()` 会做两件事：
 
-### SyncMcpToolCallbackProvider
+1. 扫描 `toolObjects(...)` 里的对象
+2. 找出所有带 `@Tool` 的方法，构造 `MethodToolCallback`
 
-工具是怎么注册进去的？关键是`SyncMcpToolCallbackProvider`：
+源码里这一步的核心是：
 
 ```java
-// SyncMcpToolCallbackProvider.java（简化版）
-public class SyncMcpToolCallbackProvider implements ToolCallbackProvider {
-    
-    private final List<McpSyncClient> mcpClients;
-    private final McpToolFilter toolFilter;
-    
-    @Override
-    public ToolCallback[] getToolCallbacks() {
-        List<ToolCallback> callbacks = new ArrayList<>();
-        
-        // 遍历所有MCP Client
-        for (McpSyncClient client : mcpClients) {
-            
-            // 从Server获取工具列表
-            ListToolsResult result = client.listTools();
-            
-            for (McpSchema.Tool tool : result.tools()) {
-                
-                // 应用过滤器
-                if (toolFilter.test(getConnectionInfo(client), tool)) {
-                    // 为每个工具创建SyncMcpToolCallback
-                    callbacks.add(new SyncMcpToolCallback(client, tool));
-                }
-            }
-        }
-        
-        return callbacks.toArray(new ToolCallback[0]);
-    }
-}
+.map(toolMethod -> MethodToolCallback.builder()
+        .toolDefinition(ToolDefinitions.from(toolMethod))
+        .toolMetadata(ToolMetadata.from(toolMethod))
+        .toolMethod(toolMethod)
+        .toolObject(toolObject)
+        .build())
 ```
 
-流程是：
-1. 遍历所有已连接的McpSyncClient
-2. 调用`listTools()`从Server获取工具列表
-3. 对每个工具创建一个`SyncMcpToolCallback`
-4. 可选地应用过滤器筛选工具
+这意味着：
 
-## 完整调用时序图
+- `@Tool` 注解里的 `description` 会变成工具描述
+- 方法名会变成工具名
+- 方法参数和 `@ToolParam` 描述会变成输入 JSON Schema
 
-```plantuml title="完整工具调用时序图" width="100%" align="left"
+在当前示例里，由于 `@Tool` 没显式写 `name`，所以工具名默认就是方法名：
+
+- `checkAttendance`
+- `clockIn`
+- `queryRoomSchedule`
+- `bookMeetingRoom`
+- `cancelBooking`
+
+### 2. Server 自动装配：把 `ToolCallback` 转成 MCP Server 可用的 ToolSpecification
+
+真正把 Spring AI 工具接入 MCP Server 的，不是 `McpServerConfig` 本身，而是 Starter 里的自动装配。
+
+关键类是：
+
+- `ToolCallbackConverterAutoConfiguration`
+- `McpServerAutoConfiguration`
+- `McpServerStreamableHttpWebMvcAutoConfiguration`
+
+它们做的事情依次是：
+
+1. `ToolCallbackConverterAutoConfiguration.syncTools(...)`
+   - 聚合所有 `ToolCallback` / `ToolCallbackProvider`
+   - 调用 `McpToolUtils.toSyncToolSpecification(...)`
+   - 把 Spring AI 工具转换成 MCP 协议层的 `SyncToolSpecification`
+
+2. `McpServerAutoConfiguration.mcpSyncServer(...)`
+   - 创建 `McpSyncServer`
+   - 把前面得到的 `SyncToolSpecification` 挂进去
+
+3. `McpServerStreamableHttpWebMvcAutoConfiguration`
+   - 创建 `WebMvcStreamableServerTransportProvider`
+   - 根据配置把路由暴露到 `/mcp`
+
+所以 Server 启动完成后，`office-mcp-server` 实际上已经在 `http://localhost:7090/mcp` 上提供了标准 MCP 服务。
+
+### 3. Client 端：根据 `application.yaml` 自动创建 `McpSyncClient`
+
+client 端的配置是：
+
+```yaml
+spring:
+  ai:
+    mcp:
+      client:
+        enabled: true
+        name: office-tools-client
+        version: 1.0.0
+        type: SYNC
+        request-timeout: 60s
+        streamable-http:
+          connections:
+            office-tools:
+              url: http://localhost:7090
+              endpoint: /mcp
+```
+
+这段配置会进入两层自动装配：
+
+#### 第一层：构建传输层
+
+`StreamableHttpHttpClientTransportAutoConfiguration.streamableHttpHttpClientTransports(...)`
+会读取 `streamable-http.connections.office-tools`，并创建：
+
+```java
+HttpClientStreamableHttpTransport.builder("http://localhost:7090")
+        .endpoint("/mcp")
+        .build();
+```
+
+#### 第二层：构建 MCP Client
+
+`McpClientAutoConfiguration.mcpSyncClients(...)` 会基于 transport 创建：
+
+```java
+McpClient.sync(transport)
+        .clientInfo(...)
+        .requestTimeout(...)
+        .build();
+```
+
+而且 `McpClientCommonProperties` 的 `initialized` 默认值就是 `true`，所以自动装配完成后会自动执行：
+
+```java
+client.initialize();
+```
+
+也就是说，`office-mcp-client` 启动时，和 `office-mcp-server` 的 MCP 握手已经完成了。
+
+### 4. Client 端：`SyncMcpToolCallbackProvider` 把远程工具列表转成 `ToolCallback`
+
+接下来，`McpToolCallbackAutoConfiguration.mcpToolCallbacks(...)` 会创建 `SyncMcpToolCallbackProvider`。
+
+而你自己的 `AssistantService.init()` 又会主动触发：
+
+```java
+ToolCallback[] toolCallbacks = toolCallbackProvider.getToolCallbacks();
+```
+
+`SyncMcpToolCallbackProvider.getToolCallbacks()` 内部最关键的一段逻辑就是：
+
+```java
+mcpClient.listTools()
+```
+
+它会：
+
+1. 遍历所有 `McpSyncClient`
+2. 调用每个 client 的 `listTools()`
+3. 拿到远程 server 的工具描述
+4. 为每个工具创建一个 `SyncMcpToolCallback`
+
+可以把它理解成：
+
+“把远程 MCP 工具，翻译成 Spring AI 本地可调用的工具回调对象”
+
+这一层做完之后，`ChatClient.builder(chatModel).defaultToolCallbacks(toolCallbacks)` 才真正把 MCP 工具注入给大模型。
+
+### 5. 当前示例里，工具名大概率就是原始方法名
+
+`McpToolCallbackAutoConfiguration` 默认会提供 `DefaultMcpToolNamePrefixGenerator`。
+
+它的行为不是“永远加前缀”，而是：
+
+- 默认尽量保持原工具名
+- 只有在多个连接出现同名工具冲突时，才生成唯一名称
+
+当前示例只有一个 `office-tools` 连接，所以给模型暴露出去的工具名，通常还是：
+
+- `checkAttendance`
+- `clockIn`
+- `queryRoomSchedule`
+- `bookMeetingRoom`
+- `cancelBooking`
+
+## 二、运行期链路：一次“查考勤”的请求究竟是怎么来执行的？
+
+现在再看用户真正发请求时的链路。
+
+```plantuml title="查考勤请求的真实运行期时序图" width="100%" align="left"
 @startuml
 hide footbox
 skinparam backgroundColor transparent
@@ -388,50 +365,398 @@ skinparam LifeLineBackgroundColor #FFFFFF
 skinparam RoundCorner 18
 
 actor 用户 as User
-participant ChatClient
-participant "ChatModel\ninternalCall()" as ChatModel
-participant ToolManager
+participant AssistantController
+participant AssistantService
+participant "DefaultChatClientUtils" as ChatUtils
+participant "DeepSeekChatModel\ninternalCall()" as ChatModel
+participant "DefaultToolCallingManager" as ToolManager
 participant "SyncMcpToolCallback" as Callback
-participant McpSyncClient
-participant "MCP Server" as Server
+participant "McpSyncClient" as McpClient
+participant "/mcp" as McpEndpoint
+participant "MethodToolCallback" as MethodCallback
+participant "AttendanceTools" as Attendance
 
-User -> ChatClient : “查下考勤”
-ChatClient -> ChatModel : call(prompt)
-ChatModel -> ChatModel : 调用大模型 API
-ChatModel --> ToolManager : 返回 tool_calls
-ToolManager -> Callback : executeToolCall(toolName, args)
-Callback -> McpSyncClient : callTool(request)
-McpSyncClient -> Server : JSON-RPC tools/call
-activate Server
-Server -> Server : 执行业务工具
-Server --> McpSyncClient : 执行结果
-deactivate Server
-McpSyncClient --> Callback : CallToolResult
-Callback --> ToolManager : serializeResult()
-ToolManager --> ChatModel : 把工具结果加入历史
-ChatModel -> ChatModel : 带工具结果再次调用模型
-ChatModel --> ChatClient : 最终自然语言回复
-ChatClient --> User : “您本月出勤 21 天…”
+User -> AssistantController : POST /api/assistant/chat
+AssistantController -> AssistantService : chat(message)
+AssistantService -> AssistantService : chatClient.prompt().user(...).call().content()
+AssistantService -> ChatUtils : 组装 Prompt + ToolCallingChatOptions
+ChatUtils -> ChatModel : chatModel.call(prompt)
+ChatModel -> ChatModel : createRequest() 注入工具 schema
+ChatModel -> ChatModel : 调用 DeepSeek
+ChatModel --> ToolManager : 返回 tool_calls(checkAttendance)
+ToolManager -> Callback : call(arguments, toolContext)
+Callback -> McpClient : callTool(request)
+McpClient -> McpEndpoint : POST /mcp tools/call
+McpEndpoint -> MethodCallback : 分发到对应工具
+MethodCallback -> Attendance : checkAttendance(employeeId, month)
+Attendance --> MethodCallback : JSON 字符串结果
+MethodCallback --> McpEndpoint : CallToolResult
+McpEndpoint --> McpClient : CallToolResult
+McpClient --> Callback : tool result
+Callback --> ToolManager : JSON 字符串
+ToolManager --> ChatModel : 写入 ToolResponseMessage
+ChatModel -> ChatModel : 再次调用 DeepSeek
+ChatModel --> AssistantService : 最终自然语言
+AssistantService --> AssistantController : reply
+AssistantController --> User : 返回答案
 @enduml
 ```
 
-## 调试技巧
+### 第 1 步：Controller 接住用户请求
 
-### 推荐断点位置
+业务起点很简单：
 
-当你需要排查MCP调用问题时，可以在这些位置打断点：
+```java
+@PostMapping("/chat")
+public ChatResponse chat(@RequestBody ChatRequest request) {
+    String response = assistantService.chat(request.message());
+    return new ChatResponse(response);
+}
+```
 
-| 类名 | 方法 | 观察什么 |
-|------|------|----------|
-| OpenAiChatModel | internalCall | 大模型请求和响应内容 |
-| DefaultToolCallingManager | executeToolCalls | tool_calls的解析结果 |
-| DefaultToolCallingManager | executeToolCall | 单个工具的调用过程 |
-| SyncMcpToolCallback | call | MCP工具的参数和返回值 |
-| McpSyncClient | callTool | JSON-RPC请求内容 |
+所以用户输入先进入：
 
-### 开启日志
+`AssistantController.chat() -> AssistantService.chat()`
 
-在`application.yml`中添加：
+### 第 2 步：`ChatClient` 把消息和工具一起装进 `Prompt`
+
+`AssistantService.chat()` 里只有一行核心代码：
+
+```java
+return chatClient.prompt()
+        .user(userMessage)
+        .call()
+        .content();
+```
+
+这里真正关键的不是 `.user(userMessage)`，而是这个 `chatClient` 在 `init()` 阶段已经被注入了 `defaultToolCallbacks(toolCallbacks)`。
+
+因此，当 `DefaultChatClientUtils.toChatClientRequest(...)` 组装请求时，会把：
+
+- 用户消息
+- 默认 `ToolCallback`
+- ToolContext
+
+一起塞进 `ToolCallingChatOptions`。
+
+这一步决定了后面大模型发请求时，工具 schema 会被一起带上。
+
+### 第 3 步：`ChatModelCallAdvisor` 真正调用 `DeepSeekChatModel`
+
+`DefaultChatClient` 在执行 `.call()` 时，会构造 Advisor 链，最底层的调用者是：
+
+```java
+ChatModelCallAdvisor
+```
+
+它最终会执行：
+
+```java
+chatModel.call(prompt)
+```
+
+在当前示例里，这里的 `chatModel` 就是 `DeepSeekChatModel`。
+
+### 第 4 步：`DeepSeekChatModel.createRequest()` 把工具定义注入模型请求
+
+`DeepSeekChatModel.call(prompt)` 内部会走到：
+
+```java
+DeepSeekChatModel.internalCall(prompt, null)
+```
+
+这个方法里的关键流程是：
+
+1. `buildRequestPrompt(prompt)` 合并运行期 options 和默认 options
+2. `createRequest(prompt, false)` 组装 DeepSeek 请求
+3. `toolCallingManager.resolveToolDefinitions(requestOptions)` 解析工具定义
+4. 把工具定义转成 DeepSeek `tools` 参数
+5. 调 DeepSeek 接口
+
+源码里最关键的一段是：
+
+```java
+List<ToolDefinition> toolDefinitions = this.toolCallingManager.resolveToolDefinitions(requestOptions);
+if (!CollectionUtils.isEmpty(toolDefinitions)) {
+    request = ModelOptionsUtils.merge(
+            DeepSeekChatOptions.builder().tools(this.getFunctionTools(toolDefinitions)).build(),
+            request,
+            ChatCompletionRequest.class);
+}
+```
+
+这说明此时发给 DeepSeek 的请求里，已经带上了：
+
+- `checkAttendance` 的描述
+- `clockIn` 的描述
+- `queryRoomSchedule` 的描述
+- `bookMeetingRoom` 的描述
+- `cancelBooking` 的描述
+- 每个工具各自的输入参数 schema
+
+也正因为有这些定义，大模型才知道“我现在可以调用哪个工具”。
+
+### 第 5 步：大模型返回 `tool_calls`
+
+如果用户问的是：
+
+“帮我查下 E10086 在 2025-03 的考勤”
+
+DeepSeek 很可能不会直接生成自然语言，而是先返回一个带 `tool_calls` 的 assistant message，里面类似于：
+
+```json
+{
+  "name": "checkAttendance",
+  "arguments": {
+    "employeeId": "E10086",
+    "month": "2025-03"
+  }
+}
+```
+
+这时 `DeepSeekChatModel.internalCall()` 里的判断会命中：
+
+```java
+if (this.toolExecutionEligibilityPredicate.isToolExecutionRequired(prompt.getOptions(), response)) {
+    ...
+}
+```
+
+默认实现 `DefaultToolExecutionEligibilityPredicate` 的判断原则很简单：
+
+- 响应里有没有 `tool_calls`
+- 有就进入工具执行流程
+
+### 第 6 步：`DefaultToolCallingManager.executeToolCalls()` 执行工具
+
+然后进入 Spring AI 工具执行中枢：
+
+```java
+DefaultToolCallingManager.executeToolCalls(prompt, chatResponse)
+```
+
+这里要注意两个细节：
+
+#### 细节一：它先找到包含 `tool_calls` 的那条 `AssistantMessage`
+
+源码里是：
+
+```java
+Optional<Generation> toolCallGeneration = chatResponse.getResults()
+        .stream()
+        .filter(g -> !CollectionUtils.isEmpty(g.getOutput().getToolCalls()))
+        .findFirst();
+```
+
+#### 细节二：工具执行结果会被封装成 `ToolResponseMessage`
+
+不是 `ToolResultMessage`，而是：
+
+```java
+ToolResponseMessage.builder().responses(toolResponses).build()
+```
+
+这是后面再次调用模型时要写回对话历史的核心消息对象。
+
+### 第 7 步：根据工具名找到 `SyncMcpToolCallback`
+
+`DefaultToolCallingManager` 会依次遍历 `assistantMessage.getToolCalls()`，再从当前 prompt options 里的 tool callbacks 中按名字匹配：
+
+```java
+ToolCallback toolCallback = toolCallbacks.stream()
+        .filter(tool -> toolName.equals(tool.getToolDefinition().name()))
+        .findFirst()
+        .orElseGet(() -> this.toolCallbackResolver.resolve(toolName));
+```
+
+在当前示例里，匹配到的就是某个 `SyncMcpToolCallback`。
+
+比如当工具名是 `checkAttendance` 时，对应的 callback 就代表了远端 MCP Server 上的考勤查询工具。
+
+### 第 8 步：`SyncMcpToolCallback.call()` 远程调用 MCP Server
+
+这一步是 MCP Client 真正发起远程调用的地方。
+
+`SyncMcpToolCallback.call(arguments, toolContext)` 大致会做这几件事：
+
+1. 把模型返回的 JSON 参数转成 `Map<String, Object>`
+2. 构造 `McpSchema.CallToolRequest`
+3. 调用 `mcpClient.callTool(request)`
+4. 把返回内容转成 JSON 字符串再交还给 Spring AI
+
+核心代码路径是：
+
+```java
+Map<String, Object> arguments = ModelOptionsUtils.jsonToMap(toolInput);
+
+McpSchema.CallToolRequest request = McpSchema.CallToolRequest.builder()
+        .name(this.tool.name())
+        .arguments(arguments)
+        .meta(meta)
+        .build();
+
+McpSchema.CallToolResult result = this.mcpClient.callTool(request);
+```
+
+这里要特别注意一点：
+
+- 发给 MCP Server 的是原始工具名 `this.tool.name()`
+- 不是 LLM 展示层随便拼出来的别名
+
+所以最后 MCP Server 收到的调用，仍然是：
+
+`checkAttendance(employeeId=E10086, month=2025-03)`
+
+### 第 9 步：Server 端 `/mcp` 把请求分发给 `MethodToolCallback`
+
+请求到达 `http://localhost:7090/mcp` 后，不会进入你手写的 Controller，而是进入 Starter 自动配置好的 `McpSyncServer`。
+
+而这个 `McpSyncServer` 在启动时已经挂上了每个工具的 `SyncToolSpecification`。
+
+这些 `SyncToolSpecification` 来自：
+
+```java
+McpToolUtils.toSyncToolSpecification(toolCallback)
+```
+
+它的本质可以理解成：
+
+- 把 MCP 协议的 `CallToolRequest`
+- 转成 Spring AI `ToolCallback.call(String toolInput, ToolContext toolContext)`
+
+在当前示例里，真正被执行的本地 callback 是 `MethodToolCallback`。
+
+### 第 10 步：`MethodToolCallback.call()` 反射调用真实业务方法
+
+Server 端落地执行的关键类是：
+
+```java
+MethodToolCallback
+```
+
+它的工作流程是：
+
+1. 把 `toolInput` JSON 反序列化成参数 Map
+2. 按方法参数顺序组装 Java 参数
+3. 通过反射调用目标方法
+4. 把返回值转成字符串
+
+对于这次“查考勤”请求，最终执行到的是：
+
+```java
+AttendanceTools.checkAttendance(String employeeId, String month)
+```
+
+也就是：
+
+```java
+return String.format("""
+    {
+        "employeeId": "%s",
+        "month": "%s",
+        "workDays": 22,
+        "actualDays": 21,
+        "lateTimes": 2,
+        "earlyLeaveTimes": 0,
+        "leaveDays": 1,
+        "overtimeHours": 8.5
+    }
+    """, employeeId, month);
+```
+
+如果用户问的是会议室相关问题，那么同样的链路只会把最终落点换成：
+
+- `MeetingRoomTools.queryRoomSchedule(...)`
+- `MeetingRoomTools.bookMeetingRoom(...)`
+- `MeetingRoomTools.cancelBooking(...)`
+
+### 第 11 步：工具结果返回 Client，并写回 `ToolResponseMessage`
+
+Server 返回 `CallToolResult` 后，`SyncMcpToolCallback.call()` 会把 `result.content()` 转成 JSON 字符串返回。
+
+随后 `DefaultToolCallingManager.executeToolCalls()` 会构造：
+
+1. 原始用户历史消息
+2. 含 `tool_calls` 的 `AssistantMessage`
+3. 新生成的 `ToolResponseMessage`
+
+也就是新的对话历史：
+
+`历史消息 + assistant(tool_calls) + tool(response)`
+
+### 第 12 步：`DeepSeekChatModel.internalCall()` 递归再调一次模型
+
+如果工具不是 `returnDirect=true`，那么 `DeepSeekChatModel.internalCall()` 会继续执行：
+
+```java
+return this.internalCall(
+        new Prompt(toolExecutionResult.conversationHistory(), prompt.getOptions()),
+        response);
+```
+
+这就是为什么一次完整工具调用通常要经历两次大模型调用：
+
+1. 第一次：让模型决定要不要调用工具
+2. 第二次：把工具结果喂回去，让模型组织成自然语言
+
+当前示例里的 `@Tool` 没有设置 `returnDirect = true`，所以会走“再次调用模型生成最终答案”这条路径。
+
+## 三、把本例中的核心类串起来
+
+为了避免类名太多看的太乱，我把这篇文章真正涉及的关键类按照职责来进行分类汇总：
+
+| 类 | 在本例中的职责 | 所处阶段 |
+|----|----------------|----------|
+| `AssistantController` | 接收 `/api/assistant/chat` 请求 | 运行期入口 |
+| `AssistantService` | 启动时拉取 MCP 工具，运行时发起 ChatClient 对话 | 启动期 + 运行期 |
+| `StreamableHttpHttpClientTransportAutoConfiguration` | 根据 `application.yaml` 创建 HTTP MCP transport | Client 启动期 |
+| `McpClientAutoConfiguration` | 创建并初始化 `McpSyncClient` | Client 启动期 |
+| `SyncMcpToolCallbackProvider` | `listTools()` 拉取远程工具并包装成 `ToolCallback` | Client 启动期 |
+| `DefaultChatClientUtils` | 把消息和工具回调组装成 `Prompt + ToolCallingChatOptions` | 运行期 |
+| `ChatModelCallAdvisor` | 真正调用 `DeepSeekChatModel` | 运行期 |
+| `DeepSeekChatModel` | 构造模型请求、判断是否有 `tool_calls`、递归调用 | 运行期 |
+| `DefaultToolCallingManager` | 按工具名执行 `ToolCallback`，构造 `ToolResponseMessage` | 运行期 |
+| `SyncMcpToolCallback` | 把工具调用转成 MCP `tools/call` 请求 | 运行期 |
+| `ToolCallbackConverterAutoConfiguration` | 把 Spring AI 工具转换成 MCP Server ToolSpecification | Server 启动期 |
+| `McpServerAutoConfiguration` | 创建 `McpSyncServer` 并挂载工具 | Server 启动期 |
+| `MethodToolCallback` | 在 Server 端反射调用 `@Tool` 方法 | 运行期 |
+| `AttendanceTools` / `MeetingRoomTools` | 真实业务实现 | 运行期最终落点 |
+
+## 四、调试这套示例时，断点该打在哪里
+
+如果小伙伴也想跟一下这两个模块的真实调用链的话，下面这些断点最有价值的，可以参考下。
+
+### Client 启动期断点
+
+| 类 | 方法 | 看什么 |
+|----|------|--------|
+| `McpClientAutoConfiguration` | `mcpSyncClients()` | `McpSyncClient` 是怎么创建和 initialize 的 |
+| `SyncMcpToolCallbackProvider` | `getToolCallbacks()` | `listTools()` 返回了哪些远程工具 |
+| `AssistantService` | `init()` | 最终注入 `ChatClient` 的工具有哪些 |
+
+### 运行期断点
+
+| 类 | 方法 | 看什么 |
+|----|------|--------|
+| `AssistantController` | `chat()` | 用户原始请求 |
+| `DefaultChatClientUtils` | `toChatClientRequest()` | 工具回调是否真的被塞进 `Prompt` |
+| `DeepSeekChatModel` | `internalCall()` | 第一次模型调用和第二次模型调用的差异 |
+| `DefaultToolCallingManager` | `executeToolCalls()` | `tool_calls` 被解析成了什么 |
+| `SyncMcpToolCallback` | `call()` | 发给 `/mcp` 的工具名和参数 |
+| `MethodToolCallback` | `call()` | Server 端最终调用了哪个本地方法 |
+| `AttendanceTools` / `MeetingRoomTools` | 对应方法 | 真实业务入参和返回值 |
+
+### 日志建议
+
+这两个模块的 `application.yaml` 都已经把 `org.springframework.ai` 设成了 `DEBUG`：
+
+```yaml
+logging:
+  level:
+    org.springframework.ai: DEBUG
+```
+
+如果你还想更细一点，可以再补上 MCP SDK 的日志：
 
 ```yaml
 logging:
@@ -440,48 +765,40 @@ logging:
     io.modelcontextprotocol: DEBUG
 ```
 
-这样可以看到完整的请求响应日志。
+这样更容易看清：
 
-### 常见排查场景
+- `initialize`
+- `tools/list`
+- `tools/call`
 
-**场景一：大模型没有选择调用工具**
-
-断点位置：`OpenAiChatModel.internalCall()`的第4步判断
-
-检查：
-- 工具的description是否清晰描述了使用场景
-- 用户的问题是否明确需要该工具
-
-**场景二：工具调用了但参数不对**
-
-断点位置：`SyncMcpToolCallback.call()`
-
-检查：
-- `toolCallInput`参数内容
-- 大模型生成的参数是否符合工具定义
-
-**场景三：MCP Server返回错误**
-
-断点位置：`McpSyncClient.callTool()`返回处
-
-检查：
-- JSON-RPC响应的error字段
-- Server端日志
+这几个关键 MCP 报文阶段。
 
 ## 小结
 
-这一篇我们通过源码分析，理清了MCP调用的完整链路：
+以 `office-mcp-client` 和 `office-mcp-server` 这两个模块为准，一次完整 MCP 工具调用其实分成两段：
 
-1. **入口**：ChatClient → ChatModel.internalCall()
-2. **判断**：检查大模型返回是否包含tool_calls
-3. **执行**：ToolCallingManager找到ToolCallback并执行
-4. **MCP调用**：SyncMcpToolCallback → McpSyncClient → MCP Server
-5. **结果处理**：工具结果加入对话历史，可能再次调用大模型
+### 第一段：启动期装配
 
-关键类记忆点：
-- `ChatModel.internalCall()`：核心调度枢纽
-- `DefaultToolCallingManager`：工具调用管理器
-- `SyncMcpToolCallback`：MCP工具的包装器
-- `SyncMcpToolCallbackProvider`：工具注册的源头
+1. Server 端把 `@Tool` 方法包装成 `MethodToolCallback`
+2. 自动装配把它们转成 `SyncToolSpecification`
+3. `/mcp` 端点被自动暴露
+4. Client 端自动创建 `McpSyncClient`
+5. `SyncMcpToolCallbackProvider.listTools()` 拉取远程工具
+6. `AssistantService` 用这些工具构建 `ChatClient`
 
-下一篇是最后一篇，我们会讲MCP在企业级开发中的一些进阶技巧：认证鉴权、连接重试、工具过滤、跳过模型总结等。
+### 第二段：运行期执行
+
+1. 用户请求进入 `AssistantController`
+2. `ChatClient` 把消息和工具定义一起交给 `DeepSeekChatModel`
+3. DeepSeek 决定是否返回 `tool_calls`
+4. `DefaultToolCallingManager` 找到对应的 `SyncMcpToolCallback`
+5. `SyncMcpToolCallback` 调用 MCP Server 的 `tools/call`
+6. Server 端通过 `MethodToolCallback` 落到 `AttendanceTools` 或 `MeetingRoomTools`
+7. 结果写回 `ToolResponseMessage`
+8. `DeepSeekChatModel.internalCall()` 再次调用模型，生成最终自然语言
+
+这篇文章所讲的主线流程可以总结成一句话，那就是：
+
+**启动期负责“把远程 MCP 工具装进 ChatClient”，运行期负责“让模型决定何时调用工具，并把结果再喂回模型”。**
+
+下一篇我们继续往上走一步，看看 MCP 在企业级项目里还要补哪些能力：鉴权、重试、过滤、观测和多工具治理。
