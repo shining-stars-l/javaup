@@ -6,6 +6,8 @@ keywords: ["LangChain4J", "语义分段", "父子分块", "MarkdownHeaderTextSpl
 
 # LangChain4J与父子分块
 
+**//TODO (待定是否保留)**
+
 上一篇讲了Spring系列的分片实战，这篇讲LangChain4J的语义分段，以及更高级的父子分块技术。
 
 ## LangChain4J的语义分段

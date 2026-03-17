@@ -229,26 +229,117 @@ Spring AI Alibaba扩展了Spring AI，提供了RecursiveCharacterTextSplitter，
 
 递归分片的核心思想：按照一组分隔符的优先级来切割文本。先用高优先级的分隔符（如`\n\n`），如果切出来的块还是太大，再用下一级分隔符继续切。
 
+:::warning 注意
+文档在清洗时，是不能先把空格、换行等符号给清洗掉的，因为要基于这些特殊符号进行分段，去掉了那肯定不行
+:::
+
 ### 代码示例
 
-```java
-// Spring AI Alibaba的递归分片
-RecursiveCharacterTextSplitter splitter = new RecursiveCharacterTextSplitter(100);
-List<String> chunks = splitter.splitText("""
-    《斗破苍穹》是中国网络作家天蚕土豆创作的玄幻小说，2009年4月14日起在起点中文网连载，
-    2011年7月20日完结，首版由湖北少年儿童出版社出版。2010年7月，该作品部分章节被编为
-    《废材当自强》由湖北少年儿童出版社出版。
-    
-    小说以斗气大陆为背景，讲述天才少年萧炎从斗气尽失逐步成长为斗帝的历程，
-    期间通过收集异火、修炼丹药突破困境，最终解开斗帝失踪之谜并前往大千世界。
-    
-    作品构建了炼药师体系、异火榜及天鼎榜等设定，其中炼药师需具备火木双属性斗气与灵魂感知力。
-    
-    该小说全网点击量近100亿次，实体书累计销量超300万册，2017年7月荣登
-    "2017猫片胡润原创文学IP价值榜"榜首。
-    """);
+**要改变清洗方式**
 
-chunks.forEach(System.out::println);
+```java
+public class DocumentClearHandler {
+    
+    
+    public static List<Document> clearDocuments(List<Document> documents) {
+        if (CollectionUtils.isEmpty(documents)) {
+            return documents;
+        }
+        
+        return documents.stream()
+                .map(doc -> {
+                    if (doc == null || doc.getText() == null) {
+                        return doc;
+                    }
+                    
+                    String text = doc.getText();
+                    
+                    // 1. 统一换行符，保留段落边界，避免递归分片失去分隔依据
+                    // 使用TokenTextSplitter或者OverlapParagraphTextSplit进行文档分片，使用下面这个方法清洗
+                    //text = text.replaceAll("\\s+", " ").trim();
+                    
+                    // 使用SpringAiAlibabaRecursiveTextSplit，也就是Spring AI Alibaba 的递归分片实现时，要使用下面这三个方法清洗
+                    text = text.replace("\r\n", "\n").replace("\r", "\n");
+                    text = text.replaceAll("[\\t\\x0B\\f ]+", " ");
+                    text = text.replaceAll(" *\\n *", "\n").trim();
+                    
+                    
+                    // 2. 去掉无意义的乱码或特殊符号
+                    text = text.replaceAll("[^\\p{L}\\p{N}\\p{P}\\p{Z}\\n]", "");
+                    
+                    // 3. 去除重复段落
+                    String[] paragraphs = text.split("\\n+");
+                    Set<String> seen = new LinkedHashSet<>();
+                    for (String para : paragraphs) {
+                        String trimmed = para.trim();
+                        if (!trimmed.isEmpty()) {
+                            seen.add(trimmed);
+                        }
+                    }
+                    text = String.join("\n", seen);
+                    
+                    // 4. 重新创建Document，保留原有的元数据
+                    return new Document(text, doc.getMetadata());
+                })
+                .collect(Collectors.toList());
+    }
+}
+```
+**Spring AI Alibaba 的递归分片实现**
+
+```java
+public class SpringAiAlibabaRecursiveTextSplit {
+
+    private SpringAiAlibabaRecursiveTextSplit() {
+    }
+
+    public static List<Document> split(List<Document> documents) {
+        if (CollectionUtils.isEmpty(documents)) {
+            return Collections.emptyList();
+        }
+
+        RecursiveCharacterTextSplitter splitter = new RecursiveCharacterTextSplitter(
+                // 每块最大 100 个字符，和文档示例保持一致
+                100
+        );
+
+        return splitter.apply(documents);
+    }
+}
+```
+**调用：org.javaup.ai.service.DocumentPreprocessService#process**
+```java
+/**
+ * 处理单个文件
+ */
+public List<Document> process(File file) {
+    try {
+        // 1. 读取文档
+        log.info("开始读取文档: {}", file.getName());
+        List<Document> docs = readerHandlerContext.read(file);
+        log.info("读取完成，共 {} 个Document", docs.size());
+
+        // 2. 清洗文档
+        log.info("开始清洗文档");
+        docs = DocumentClearHandler.clearDocuments(docs);
+        log.info("清洗完成");
+
+        // 3. 添加元数据
+        log.info("添加元数据");
+        for (Document doc : docs) {
+            doc.getMetadata().put("filename", file.getName());
+            doc.getMetadata().put("processTime", System.currentTimeMillis());
+        }
+        System.out.println("分片前Document数量: " + docs.size());
+        // 使用 Spring AI Alibaba 的递归分片，优先按段落和句子边界切分
+        List<Document> result = SpringAiAlibabaRecursiveTextSplit.split(docs);
+        System.out.println("分片后Document数量: " + result.size());
+        return result;
+    } catch (Exception e) {
+        log.error("处理文档失败: {}", file.getName(), e);
+        throw new RuntimeException("文档处理失败: " + e.getMessage(), e);
+    }
+}
 ```
 
 ### 执行结果
