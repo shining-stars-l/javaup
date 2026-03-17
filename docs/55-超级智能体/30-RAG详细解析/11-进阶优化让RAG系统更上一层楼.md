@@ -23,6 +23,54 @@ RAG 也是一样。基础版够用，但遇到复杂场景就会露怯：
 
 这一篇咱们就来聊聊 RAG 的进阶优化技术——怎么让系统从"能用"变成"好用"。
 
+```plantuml title="RAG 进阶优化全景图：标准链路跑通后，常见的四个升级方向" width="100%" maxWidth="1080px" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #38BDF8
+  FontColor #0F172A
+}
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+left to right direction
+rectangle "标准 RAG 主链路\n预处理 -> 检索 -> 生成" as Base
+rectangle "Graph RAG\n补足实体关系与多跳推理" as Graph
+rectangle "多模态 RAG\n把图片 / 图表 / 文本一起纳入检索" as Multi
+rectangle "性能优化\n索引调优 / 缓存 / 预热 / 分层检索" as Perf
+rectangle "策略路由\n按问题类型选择最优检索链路" as Route
+
+Base --> Graph
+Base --> Multi
+Base --> Perf
+Base --> Route
+
+note bottom of Base
+先把标准 RAG 跑稳，
+再针对真实瓶颈定向升级，
+不要一次把所有“高级特性”全堆上去
+end note
+@enduml
+```
+
 ## Graph RAG：让知识有关系
 
 ### 纯向量检索的局限
@@ -69,6 +117,86 @@ Graph RAG 的核心思想是：**除了存储文档内容，还要存储文档�
 ### Graph RAG 的实现思路
 
 Graph RAG 的实现通常分为两个阶段：
+
+```plantuml title="Graph RAG 的双阶段流程：先抽关系，再让图检索参与召回" width="100%" maxWidth="1080px" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+skinparam actor {
+  BackgroundColor #ECFDF5
+  BorderColor #0F766E
+  FontColor #134E4A
+}
+
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #7DD3FC
+  FontColor #164E63
+}
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #38BDF8
+  FontColor #0F172A
+}
+
+skinparam database {
+  BackgroundColor #F0FDFF
+  BorderColor #0891B2
+  FontColor #164E63
+}
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+left to right direction
+
+package "索引阶段" {
+  rectangle "原始文档" as Docs
+  rectangle "实体关系抽取\n服务 / 数据库 / 接口 / 依赖边" as Extract
+  database "图数据库\n节点 + 边 + 属性" as GraphDB
+  Docs --> Extract
+  Extract --> GraphDB
+}
+
+package "查询阶段" {
+  actor "用户问题" as User
+  rectangle "实体识别\n识别订单服务 / 依赖关系" as Entity
+  rectangle "向量检索\n找到语义相关文档" as Vector
+  rectangle "图检索\n沿关系边做 1~2 跳扩展" as GraphSearch
+  rectangle "结果融合\n文档证据 + 关系链路" as Merge
+  rectangle "答案生成\n返回关系结论与来源" as Answer
+
+  User --> Entity
+  User --> Vector
+  Entity --> GraphSearch
+  GraphDB --> GraphSearch
+  Vector --> Merge
+  GraphSearch --> Merge
+  Merge --> Answer
+}
+
+note bottom of Merge
+Graph RAG 的关键价值不在“替代向量检索”，
+而在把散落在不同文档里的关系重新串起来
+end note
+@enduml
+```
 
 **索引阶段：从文档中抽取实体和关系**
 
@@ -186,6 +314,91 @@ Graph RAG并不是万能药。它在以下场景有明显收益：服务依赖�
 多模态 RAG 要解决的问题是：**让系统能够理解和检索图片、图表、视频等非文本内容**。
 
 实现思路有几种：
+
+```plantuml title="多模态 RAG：图片描述、图像向量与文本检索如何协同" width="100%" maxWidth="1080px" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+skinparam actor {
+  BackgroundColor #ECFDF5
+  BorderColor #0F766E
+  FontColor #134E4A
+}
+
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #7DD3FC
+  FontColor #164E63
+}
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #38BDF8
+  FontColor #0F172A
+}
+
+skinparam database {
+  BackgroundColor #F0FDFF
+  BorderColor #0891B2
+  FontColor #164E63
+}
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+left to right direction
+
+package "离线建库" {
+  rectangle "文本内容" as TextDoc
+  rectangle "图片 / 图表 / 说明书页面" as ImageDoc
+  rectangle "视觉描述生成" as Caption
+  rectangle "文本 Embedding" as TextEmbed
+  rectangle "图像 Embedding" as ImageEmbed
+  database "多模态向量库\ntext_vector + image_vector + metadata" as MultiDB
+
+  TextDoc --> TextEmbed
+  TextEmbed --> MultiDB
+  ImageDoc --> Caption
+  Caption --> TextEmbed : 生成描述文本
+  ImageDoc --> ImageEmbed
+  ImageEmbed --> MultiDB
+}
+
+package "在线检索" {
+  actor "文本问题 / 图片输入" as MultiUser
+  rectangle "文本检索" as TextSearch
+  rectangle "图像检索" as ImageSearch
+  rectangle "结果融合与排序" as MultiMerge
+
+  MultiUser --> TextSearch
+  MultiUser --> ImageSearch
+  MultiDB --> TextSearch
+  MultiDB --> ImageSearch
+  TextSearch --> MultiMerge
+  ImageSearch --> MultiMerge
+}
+
+note bottom of MultiMerge
+起步可以先做“图片转描述再入库”，
+需要以图搜图时再补图像向量通道
+end note
+@enduml
+```
 
 **方案1：图片转文字描述**
 

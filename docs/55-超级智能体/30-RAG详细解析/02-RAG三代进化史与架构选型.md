@@ -54,7 +54,7 @@ Naive RAG，也叫基础RAG，是最原始、最标准的实现方式。
 
 ### 小结
 
-Naive RAG就像功能机时代的手机——能打电话，能发短信，基本功能都有。但想拍出好照片？想上网冲浪？那得升级换代了。
+Naive RAG就像功能机时代的手机——能打电话，能发短信，基本功能都有。但想拍出好照片？想上网冲浪？那肯定得升级换代了。
 
 :::warning 常见误区
 很多团队在验证阶段就直接搭建复杂的Advanced RAG，结果投入大量时间，却发现需求本身还没想清楚。建议先用Naive RAG跑通业务流程，再针对暴露出的具体问题逐步优化。
@@ -109,18 +109,52 @@ Advanced RAG是在Naive RAG基础上的增强版本。核心思路是：**既然
 
 ### 典型的Advanced RAG流程
 
-```
-用户问题
-   ↓
-问题重写（扩充/拆分/消除指代）
-   ↓
-混合检索（向量 + 关键词）
-   ↓
-重排序（RRF/ReRank）
-   ↓
-上下文优化（压缩/去重/排序）
-   ↓
-大模型生成回答
+```plantuml title="Advanced RAG 的核心处理链路" width="50%" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+skinparam activity {
+  BackgroundColor #FFFFFF
+  BorderColor #0891B2
+  FontColor #164E63
+  StartColor #0F766E
+  EndColor #0F766E
+  BarColor #0891B2
+  DiamondBackgroundColor #ECFEFF
+  DiamondBorderColor #38BDF8
+  DiamondFontColor #155E75
+}
+
+start
+:用户问题;
+:问题重写\n扩充 / 拆分 / 消除指代;
+:混合检索\n向量 + 关键词;
+:重排序\nRRF / Reranker;
+:上下文优化\n压缩 / 去重 / 排序;
+:大模型生成回答;
+stop
+
+note right
+每一步都在解决 Naive RAG
+暴露出来的具体短板
+end note
+@enduml
 ```
 
 比Naive RAG多了好几步，但每一步都在提升最终效果。
@@ -213,9 +247,7 @@ Advanced RAG虽然效果好，但有个问题——流程是固定的。
 
 Modular RAG就像模块化手机的概念——主板是固定的，但摄像头、电池、屏幕都可以换。虽然模块化手机最终没流行起来，但模块化架构在软件领域是真香。
 
-## 三代对比：选哪个？
-
-### 一张表说清楚
+## 三代对比：到底是选哪个？
 
 | 维度 | Naive RAG | Advanced RAG | Modular RAG |
 | :--- | :--- | :--- | :--- |
@@ -232,17 +264,57 @@ Modular RAG就像模块化手机的概念——主板是固定的，但摄像头
 
 ### 决策流程
 
-```
-你的项目在什么阶段？
-│
-├── 刚开始，验证想法
-│   └── 选 Naive RAG，快速跑通
-│
-├── 要上线了，需要稳定可靠
-│   └── 选 Advanced RAG，性价比最高
-│
-└── 已经有多个RAG应用，需要统一管理
-    └── 选 Modular RAG，长期收益大
+```plantuml title="RAG 选型决策树：什么时候选 Naive / Advanced / Modular" width="100%" maxWidth="980px" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+skinparam activity {
+  BackgroundColor #FFFFFF
+  BorderColor #0891B2
+  FontColor #164E63
+  StartColor #0F766E
+  EndColor #0F766E
+  BarColor #0891B2
+  DiamondBackgroundColor #ECFEFF
+  DiamondBorderColor #38BDF8
+  DiamondFontColor #155E75
+}
+
+start
+:识别当前项目阶段;
+if (只是做 POC\n想快速验证?) then (是)
+  :选择 Naive RAG;
+  :先把检索 + 生成跑通;
+elseif (准备上线\n需要稳定效果?) then (是)
+  :选择 Advanced RAG;
+  :优先补问题改写与重排序;
+else (否)
+  :选择 Modular RAG;
+  :按场景组合路由 / 检索 / 精排模块;
+endif
+stop
+
+note right
+让架构复杂度跟着业务成熟度走，
+不要在验证期过早上重型方案
+end note
+@enduml
 ```
 
 ### 我的建议
@@ -261,7 +333,7 @@ Modular RAG就像模块化手机的概念——主板是固定的，但摄像头
 
 ## Spring AI对RAG的支持情况
 
-说点实在的，看看Java生态下的技术选型。
+接下来，该看看Java生态下的技术选型了。
 
 ### Spring AI的RAG能力
 

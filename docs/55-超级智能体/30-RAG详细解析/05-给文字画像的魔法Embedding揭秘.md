@@ -91,6 +91,74 @@ Embedding的工作就是把文字"翻译"成向量。
 
 这个翻译过程由**Embedding模型**（也叫向量模型）完成。
 
+```plantuml title="Embedding 在 RAG 中的角色：把文本映射到可计算的语义空间" width="100%" maxWidth="1040px" align="left"
+@startuml
+skinparam backgroundColor #F8FBFD
+skinparam roundcorner 18
+skinparam shadowing false
+skinparam defaultFontName Microsoft YaHei
+skinparam defaultFontSize 14
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam dpi 160
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #7DD3FC
+  FontColor #164E63
+}
+
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #38BDF8
+  FontColor #0F172A
+}
+
+skinparam database {
+  BackgroundColor #F0FDFF
+  BorderColor #0891B2
+  FontColor #164E63
+}
+
+skinparam note {
+  BackgroundColor #ECFEFF
+  BorderColor #67E8F9
+  FontColor #155E75
+}
+
+left to right direction
+
+package "离线建库" {
+  rectangle "知识库文本块" as Chunk
+  rectangle "Embedding 模型" as OfflineModel
+  database "向量库\n文本块 + 向量 + 元数据" as VDB
+  Chunk --> OfflineModel : 编码
+  OfflineModel --> VDB : 存储文档向量
+}
+
+package "在线查询" {
+  rectangle "用户问题" as Query
+  rectangle "Embedding 模型" as OnlineModel
+  rectangle "余弦相似度计算" as Similarity
+  rectangle "Top-K 相关片段" as TopK
+  Query --> OnlineModel : 编码
+  OnlineModel --> Similarity : 查询向量
+  VDB --> Similarity : 候选文档向量
+  Similarity --> TopK : 按语义距离排序
+}
+
+note bottom of Similarity
+语义越接近，向量方向越接近，
+余弦相似度就越高
+end note
+@enduml
+```
+
 ### Embedding模型是怎么训练出来的
 
 简单说，是让模型学习大量的文本，学会"什么样的文字意思相近"。
