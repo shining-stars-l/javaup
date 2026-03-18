@@ -424,7 +424,3 @@ public List<Document> process(File file) {
 3. **Spring AI Alibaba的RecursiveCharacterTextSplitter**：推荐的通用方案
 
 下一篇讲LangChain4J的语义分段和父子分块技术。
-
----
-
-[上一篇：ChunkViz实验与可视化](./05-ChunkViz实验与可视化.md) | [下一篇：LangChain4J与父子分块](./07-LangChain4J与父子分块.md)
