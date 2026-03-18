@@ -235,60 +235,58 @@ Spring AI Alibaba扩展了Spring AI，提供了RecursiveCharacterTextSplitter，
 
 ### 代码示例
 
-**要改变清洗方式**
+**要改变清洗方式：** `org.javaup.ai.util.DocumentClearHandler#clearDocumentsForRecursiveSplit`
 
 ```java
-public class DocumentClearHandler {
-    
-    
-    public static List<Document> clearDocuments(List<Document> documents) {
-        if (CollectionUtils.isEmpty(documents)) {
-            return documents;
-        }
-        
-        return documents.stream()
-                .map(doc -> {
-                    if (doc == null || doc.getText() == null) {
-                        return doc;
-                    }
-                    
-                    String text = doc.getText();
-                    
-                    // 1. 统一换行符，保留段落边界，避免递归分片失去分隔依据
-                    // 使用TokenTextSplitter或者OverlapParagraphTextSplit进行文档分片，使用下面这个方法清洗
-                    //text = text.replaceAll("\\s+", " ").trim();
-                    
-                    // 使用SpringAiAlibabaRecursiveTextSplit，也就是Spring AI Alibaba 的递归分片实现时，要使用下面这三个方法清洗
-                    text = text.replace("\r\n", "\n").replace("\r", "\n");
-                    text = text.replaceAll("[\\t\\x0B\\f ]+", " ");
-                    text = text.replaceAll(" *\\n *", "\n").trim();
-                    
-                    
-                    // 2. 去掉无意义的乱码或特殊符号
-                    text = text.replaceAll("[^\\p{L}\\p{N}\\p{P}\\p{Z}\\n]", "");
-                    
-                    // 3. 去除重复段落
-                    String[] paragraphs = text.split("\\n+");
-                    Set<String> seen = new LinkedHashSet<>();
-                    for (String para : paragraphs) {
-                        String trimmed = para.trim();
-                        if (!trimmed.isEmpty()) {
-                            seen.add(trimmed);
-                        }
-                    }
-                    text = String.join("\n", seen);
-                    
-                    // 4. 重新创建Document，保留原有的元数据
-                    return new Document(text, doc.getMetadata());
-                })
-                .collect(Collectors.toList());
+/**
+ * Spring AI Alibaba 递归分片的清洗方式。
+ *
+ * 递归分片依赖换行、段落和句号这些“结构化分隔符”来寻找自然边界，
+ * 所以这里不能像固定大小分片那样把所有空白都压成一行。
+ */
+public static List<Document> clearDocumentsForRecursiveSplit(List<Document> documents) {
+    if (CollectionUtils.isEmpty(documents)) {
+        return documents;
     }
+
+    return documents.stream()
+            .map(doc -> {
+                if (doc == null || doc.getText() == null) {
+                    return doc;
+                }
+
+                String text = isCodeLikeDocument(doc)
+                        ? cleanCodeLikeDocument(doc.getText())
+                        : cleanTextForRecursiveSplit(doc.getText());
+
+                return new Document(text, doc.getMetadata());
+            })
+            .collect(Collectors.toList());
 }
 ```
 **Spring AI Alibaba 的递归分片实现**
 
 ```java
+/**
+ * Spring AI Alibaba 的递归分片实现。
+ *
+ * 这里特意没有直接使用 splitter.apply(documents)：
+ * 1. 我们希望过滤掉递归切分过程中产生的空 chunk；
+ * 2. 我们希望自己补齐 parent_document_id / chunk_index / total_chunks 元数据，方便教学演示；
+ * 3. 我们希望对代码块和 Mermaid 这类结构化内容做特殊处理，避免被切得过碎。
+ */
 public class SpringAiAlibabaRecursiveTextSplit {
+
+    /**
+     * 真正拿 Markdown 技术文档做 RAG 时， 500 更接近实战配置。
+     */
+    private static final int CHUNK_SIZE = 500;
+
+    /**
+     * 为了保留“语义完整的句子 / 段落”，这里有意不再按空格和逗号切。
+     * 否则英文术语、缩写和代码标识符很容易被拆成 "Java"、"JVM"、"API" 这样的碎片。
+     */
+    private static final String[] SEPARATORS = {"\n\n", "\n", "。", "！", "？", "；"};
 
     private SpringAiAlibabaRecursiveTextSplit() {
     }
@@ -298,20 +296,55 @@ public class SpringAiAlibabaRecursiveTextSplit {
             return Collections.emptyList();
         }
 
-        RecursiveCharacterTextSplitter splitter = new RecursiveCharacterTextSplitter(
-                // 每块最大 100 个字符，和文档示例保持一致
-                100
-        );
+        RecursiveCharacterTextSplitter splitter = new RecursiveCharacterTextSplitter(CHUNK_SIZE, SEPARATORS);
+        List<Document> result = new ArrayList<>();
 
-        return splitter.apply(documents);
+        for (Document document : documents) {
+            List<String> chunks = splitSingleDocument(document, splitter);
+            if (CollectionUtils.isEmpty(chunks)) {
+                continue;
+            }
+
+            for (int i = 0; i < chunks.size(); i++) {
+                Map<String, Object> metadata = new LinkedHashMap<>(document.getMetadata());
+                metadata.put("parent_document_id", document.getId());
+                metadata.put("chunk_index", i);
+                metadata.put("total_chunks", chunks.size());
+
+                Document child = new Document(chunks.get(i), metadata);
+                child.setContentFormatter(document.getContentFormatter());
+                result.add(child);
+            }
+        }
+
+        return result;
+    }
+
+    private static List<String> splitSingleDocument(Document document, RecursiveCharacterTextSplitter splitter) {
+        String text = document.getText();
+        if (!StringUtils.hasText(text)) {
+            return Collections.emptyList();
+        }
+
+        // 代码块 / Mermaid 块本身已经是结构化内容，演示时保留原块更容易理解。
+        if (isCodeLikeDocument(document) || text.length() <= CHUNK_SIZE) {
+            return List.of(text.trim());
+        }
+
+        return splitter.splitText(text).stream()
+                .map(String::trim)
+                .filter(StringUtils::hasText)
+                .toList();
+    }
+
+    private static boolean isCodeLikeDocument(Document document) {
+        Object category = document.getMetadata().get("category");
+        return "code_block".equals(category) || document.getMetadata().containsKey("lang");
     }
 }
 ```
 **调用：org.javaup.ai.service.DocumentPreprocessService#process**
 ```java
-/**
- * 处理单个文件
- */
 public List<Document> process(File file) {
     try {
         // 1. 读取文档
@@ -321,7 +354,13 @@ public List<Document> process(File file) {
 
         // 2. 清洗文档
         log.info("开始清洗文档");
-        docs = DocumentClearHandler.clearDocuments(docs);
+        // 注意：不同分片器要配不同的清洗策略。
+        // 1) TokenTextSplitter / OverlapParagraphTextSplit 偏固定大小切块，可以把空白压成一行；
+        //docs = DocumentClearHandler.clearDocumentsForFlatSplit(docs);
+        
+        
+        // 2) Spring AI Alibaba 的递归分片依赖 \n\n、\n、句号等边界，不能把这些结构信息清掉。
+        docs = DocumentClearHandler.clearDocumentsForRecursiveSplit(docs);
         log.info("清洗完成");
 
         // 3. 添加元数据
@@ -331,7 +370,24 @@ public List<Document> process(File file) {
             doc.getMetadata().put("processTime", System.currentTimeMillis());
         }
         System.out.println("分片前Document数量: " + docs.size());
-        // 使用 Spring AI Alibaba 的递归分片，优先按段落和句子边界切分
+
+        // ==================== 方式一：Spring AI 原生 TokenTextSplitter ====================
+        // 特点：简单直接，适合演示“固定大小切块”。
+        // 使用时建议把上面的清洗切换为 DocumentClearHandler.clearDocumentsForFlatSplit(docs)
+        //List<Document> result = TokenTextSplitterSplit.split(docs);
+
+        // ==================== 方式二：自定义 Overlap 分片 ====================
+        // 特点：可以控制 chunk overlap，适合讲解“上下文重叠”。
+        // 使用时同样建议使用 DocumentClearHandler.clearDocumentsForFlatSplit(docs)
+        //OverlapParagraphTextSplit split = new OverlapParagraphTextSplit(300, 80);
+        //List<Document> result = split.apply(docs);
+
+        // ==================== 方式三：Spring AI Alibaba 递归分片 ====================
+        // 特点：优先尊重段落、换行、句号等自然边界，是更贴近真实 RAG 的通用方案。
+        // 这里使用的是“实战版配置”，和文档里为了展示效果而写的 100 字符示例不同：
+        // - chunkSize 调大，避免技术文档被切得过碎
+        // - 不再按空格继续拆，避免 Java / JVM / API 这类术语单独成块
+        // - 过滤空 chunk，并保留 parent_document_id / chunk_index / total_chunks 元数据
         List<Document> result = SpringAiAlibabaRecursiveTextSplit.split(docs);
         System.out.println("分片后Document数量: " + result.size());
         return result;
@@ -344,23 +400,7 @@ public List<Document> process(File file) {
 
 ### 执行结果
 
-```
-《斗破苍穹》是中国网络作家天蚕土豆创作的玄幻小说，2009年4月14日起在起点中文网连载，2011年7月20日完结，首版由湖北少年儿童出版社出版
-2010年7月，该作品部分章节被编为《废材当自强》由湖北少年儿童出版社出版
-小说以斗气大陆为背景，讲述天才少年萧炎从斗气尽失逐步成长为斗帝的历程，期间通过收集异火、修炼丹药突破困境，最终解开斗帝失踪之谜并前往大千世界
-作品构建了炼药师体系、异火榜及天鼎榜等设定，其中炼药师需具备火木双属性斗气与灵魂感知力
-该小说全网点击量近100亿次，实体书累计销量超300万册，2017年7月荣登"2017猫片胡润原创文学IP价值榜"榜首
-```
-
-【截图位置：控制台输出的分段结果，或者和Coze/Dify的分段效果对比截图】
-
-可以看到，递归分片**优先在段落边界（双换行符`\n\n`）处切割**，每一段都是语义完整的内容。
-
-### 和Coze、Dify对比
-
-这个效果和我们直接在Coze、Dify等平台做分段的效果是一样的：
-
-【截图位置：Dify或Coze的分段设置界面和分段结果，与上面的代码输出对比】
+<img src="/img/super-ai/rag/SpringAiAlibabaRecursiveTextSplit执行结果.png" alt="讲解" width="100%" />
 
 :::caution 使用递归分片的注意事项
 **文档不能先把空格、换行等符号清洗掉！**
@@ -368,18 +408,8 @@ public List<Document> process(File file) {
 因为递归分片正是依赖这些特殊符号（`\n\n`、`\n`、`。`等）来找切分点的。如果你在文档预处理阶段把换行符清理了，递归分片就没法正确工作了。
 :::
 
-## 各框架分片能力对比
+## 结论
 
-| 功能 | Spring AI | Spring AI Alibaba | LangChain4J |
-|:-----|:----------|:------------------|:------------|
-| 固定大小分片 | ✅ TokenTextSplitter | ✅ | ✅ |
-| 递归分片 | ❌ | ✅ RecursiveCharacterTextSplitter | ✅ |
-| 语义分片 | ❌ | ❌ | ⚠️ 仅英文 |
-| Overlap支持 | ❌ | ❌ | ✅ |
-| Markdown标题分片 | ❌ | ❌ | ❌（需自己实现） |
-| 父子分片 | ❌ | ❌ | ❌（需自己实现） |
-
-**结论**：
 - **入门场景**：Spring AI的TokenTextSplitter够用
 - **通用场景**：推荐Spring AI Alibaba的RecursiveCharacterTextSplitter
 - **需要overlap**：用自定义的OverlapParagraphTextSplitter
@@ -393,4 +423,8 @@ public List<Document> process(File file) {
 2. **自定义OverlapParagraphTextSplitter**：基于Spring AI扩展，支持overlap
 3. **Spring AI Alibaba的RecursiveCharacterTextSplitter**：推荐的通用方案
 
-下一篇讲LangChain4J的语义分段，以及父子分块的完整实现。
+下一篇讲LangChain4J的语义分段和父子分块技术。
+
+---
+
+[上一篇：ChunkViz实验与可视化](./05-ChunkViz实验与可视化.md) | [下一篇：LangChain4J与父子分块](./07-LangChain4J与父子分块.md)
