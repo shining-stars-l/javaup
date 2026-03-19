@@ -20,7 +20,7 @@ Spring AI的Modular RAG支持目前还比较基础，组件不多，灵活性也
 
 `RetrievalAugmentationAdvisor`内部的处理流程是这样的：
 
-```plantuml title="Spring AI Modular RAG 流水线" width="100%" align="left"
+```plantuml title="Spring AI Modular RAG 流水线" width="50%" align="left"
 @startuml
 skinparam backgroundColor #FEFEFE
 skinparam roundcorner 12
