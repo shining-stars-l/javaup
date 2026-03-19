@@ -51,7 +51,7 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 - 一个大模型的API Key（本文以DeepSeek为例）
 :::
 
-**获取API Key的方式**：[申请模型的调用](/super-agent/getting-started/apply-model-access)
+**获取API Key的方式**：[参考硅基流动章节中apiKey的设置](/super-agent/llm-intro-qoder/dev-environment)
 
 ### 示例中项目地址
 
@@ -78,10 +78,10 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
         <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
 
-    <!-- DeepSeek模型支持 -->
+    <!-- Spring AI OpenAI（硅基流动兼容OpenAI协议） -->
     <dependency>
         <groupId>org.springframework.ai</groupId>
-        <artifactId>spring-ai-starter-model-deepseek</artifactId>
+        <artifactId>spring-ai-starter-model-openai</artifactId>
     </dependency>
 
     <dependency>
@@ -99,21 +99,22 @@ Spring AI支持多种大模型，包括OpenAI、阿里云百炼、Ollama本地�
 
 ### 配置API密钥
 
-在真实项目里，`application.yaml` 不光配置了 DeepSeek 的 API Key，还顺手把默认系统提示词、日志级别和端口一起收好了：
+在真实项目里，`application.yaml` 不光配置了硅基流动的 API Key，还顺手把默认系统提示词、日志级别和端口一起收好了：
 
 ```yaml
 server:
   port: 7089
 
 spring:
+  application:
+    name: ai-example-spring-ai
   ai:
-    deepseek:
-      base-url: https://api.deepseek.com
-      api-key: ${DEEPSEEK_API_KEY:}
+    openai:
+      base-url: https://api.siliconflow.cn
+      api-key: ${SILICONFLOW_API_KEY}
       chat:
         options:
-          model: deepseek-chat
-          temperature: 0.7
+          model: Qwen/Qwen3.5-122B-A10B
 
 app:
   ai:
@@ -126,10 +127,10 @@ logging:
     org.springframework.ai: DEBUG
 ```
 
-出于安全考虑，建议把 API Key 放到环境变量里，而不是直接写在配置文件中。本文示例模块默认读取的是 `DEEPSEEK_API_KEY`。
+出于安全考虑，建议把 API Key 放到环境变量里，而不是直接写在配置文件中。本文示例模块默认读取的是 `SILICONFLOW_API_KEY`。
 
 :::warning 安全提醒
-永远不要把 API Key 直接硬编码在配置文件中并提交到代码仓库！应使用环境变量（如 `DEEPSEEK_API_KEY`）注入，避免密钥泄露。
+永远不要把 API Key 直接硬编码在配置文件中并提交到代码仓库！应使用环境变量（如 `SILICONFLOW_API_KEY`）注入，避免密钥泄露。
 :::
 
 ## 认识ChatClient
@@ -324,7 +325,7 @@ public class ChatController {
 更好的做法是流式输出，就像ChatGPT那样一个字一个字往外蹦。Spring AI对这个支持得很好：
 
 ```java
-@GetMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+@GetMapping(value = "/stream", produces = "text/html;charset=utf-8")
 public Flux<String> stream(
         @RequestParam(value = "question", defaultValue = "请用三点介绍 Spring AI 为什么适合 Java 项目") String question) {
     return this.chatClient.prompt()
@@ -338,21 +339,11 @@ public Flux<String> stream(
 
 这里用到了Reactor框架的Flux类型，它代表一个异步的数据流。每当大模型生成一小段文本，就会通过这个流推送给前端，实现实时显示的效果。
 
-**注意事项**：接口的produces要设置成`text/event-stream`，告诉浏览器这是一个SSE（Server-Sent Events）响应。
+**注意事项**：接口的produces要设置成`text/html;charset=utf-8`
 
-:::caution 浏览器直接访问流式接口
-如果你直接在浏览器地址栏访问 `http://localhost:7089/chat/stream?...`，看到一行行 `data:xxx`，这不是接口异常，而是浏览器正在直接展示 SSE 的原始协议帧。
-:::
+启动应用后，访问 `http://localhost:7089/chat/stream?question=请介绍一下SpringAI的核心能力` 就能看到 AI 的流式回答了。
 
-想看到类似 ChatGPT 的“打字机效果”，需要前端代码主动消费这个流。本文示例模块已经提供了一个现成的演示页面：
-
-```text
-http://localhost:7089/spring-ai-stream-demo.html
-```
-
-这个页面会通过 JavaScript 调用 `/chat/stream`，并把一段段 `data:` 内容实时拼接成正常文本，更适合在浏览器里验证流式输出效果。
-
-<img src="/img/super-ai/SpringAI/第二个会话.png" alt="讲解" width="100%" />
+<img src="/img/super-ai/SpringAI/流失回答.png" alt="讲解" width="100%" />
 
 ## 给AI设定角色
 
