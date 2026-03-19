@@ -183,12 +183,12 @@ application.yml 配置中的 stdio 和 streamable-http，这两种方式不能�
 @Service
 public class AssistantService {
 
-    private final DeepSeekChatModel chatModel;
+    private final ChatModel chatModel;
     private final SyncMcpToolCallbackProvider toolCallbackProvider;
     
     private ChatClient chatClient;
     
-    public AssistantService(DeepSeekChatModel chatModel, 
+    public AssistantService(ChatModel chatModel, 
                            SyncMcpToolCallbackProvider toolCallbackProvider) {
         this.chatModel = chatModel;
         this.toolCallbackProvider = toolCallbackProvider;
@@ -280,10 +280,10 @@ public class DirectToolService {
 @Service
 public class ManualClientService {
 
-    private final DeepSeekChatModel chatModel;
+    private final ChatModel chatModel;
     private ChatClient chatClient;
     
-    public ManualClientService(DeepSeekChatModel chatModel) {
+    public ManualClientService(ChatModel chatModel) {
         this.chatModel = chatModel;
     }
     
@@ -521,10 +521,10 @@ Router --> Search
 public class SelectiveToolService {
 
     private final List<McpSyncClient> mcpClients;
-    private final DeepSeekChatModel chatModel;
+    private final ChatModel chatModel;
     
     public SelectiveToolService(List<McpSyncClient> mcpClients,
-                                DeepSeekChatModel chatModel) {
+                                ChatModel chatModel) {
         this.mcpClients = mcpClients;
         this.chatModel = chatModel;
     }

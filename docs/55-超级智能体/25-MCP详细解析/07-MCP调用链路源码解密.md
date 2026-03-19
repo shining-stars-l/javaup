@@ -1,7 +1,7 @@
 ---
 slug: /super-agent/mcp/source-code-analysis
 description: "结合 office-mcp-client 与 office-mcp-server，深入剖析 Spring AI MCP 的真实调用链路"
-keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "DeepSeekChatModel", "SyncMcpToolCallback"]
+keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatModel", "SyncMcpToolCallback"]
 ---
 
 # MCP调用链路源码解密
@@ -43,7 +43,7 @@ public class AssistantController {
 @Service
 public class AssistantService {
 
-    private final DeepSeekChatModel chatModel;
+    private final ChatModel chatModel;
     private final SyncMcpToolCallbackProvider toolCallbackProvider;
 
     private ChatClient chatClient;
@@ -153,7 +153,7 @@ start
 :把远程 tools 包装成 SyncMcpToolCallback;
 :AssistantService 构建 ChatClient;
 :用户发起 /api/assistant/chat;
-:DeepSeekChatModel 调用大模型;
+:ChatModel 调用大模型;
 if (返回 tool_calls?) then (是)
   :DefaultToolCallingManager 执行工具;
   :SyncMcpToolCallback 调用 /mcp;
@@ -377,7 +377,7 @@ actor 用户 as User
 participant AssistantController
 participant AssistantService
 participant "DefaultChatClientUtils" as ChatUtils
-participant "DeepSeekChatModel\ninternalCall()" as ChatModel
+participant "ChatModel\ninternalCall()" as ChatModel
 participant "DefaultToolCallingManager" as ToolManager
 participant "SyncMcpToolCallback" as Callback
 participant "McpSyncClient" as McpClient
@@ -391,7 +391,7 @@ AssistantService -> AssistantService : chatClient.prompt().user(...).call().cont
 AssistantService -> ChatUtils : 组装 Prompt + ToolCallingChatOptions
 ChatUtils -> ChatModel : chatModel.call(prompt)
 ChatModel -> ChatModel : createRequest() 注入工具 schema
-ChatModel -> ChatModel : 调用 DeepSeek
+ChatModel -> ChatModel : 调用 阿里百炼
 ChatModel --> ToolManager : 返回 tool_calls(checkAttendance)
 ToolManager -> Callback : call(arguments, toolContext)
 Callback -> McpClient : callTool(request)
@@ -450,7 +450,7 @@ return chatClient.prompt()
 
 这一步决定了后面大模型发请求时，工具 schema 会被一起带上。
 
-### 第 3 步：`ChatModelCallAdvisor` 真正调用 `DeepSeekChatModel`
+### 第 3 步：`ChatModelCallAdvisor` 真正调用 `ChatModel`
 
 `DefaultChatClient` 在执行 `.call()` 时，会构造 Advisor 链，最底层的调用者是：
 
@@ -464,14 +464,14 @@ ChatModelCallAdvisor
 chatModel.call(prompt)
 ```
 
-在当前示例里，这里的 `chatModel` 就是 `DeepSeekChatModel`。
+在当前示例里，这里的 `chatModel` 就是 `OpenAiChatModel`。
 
-### 第 4 步：`DeepSeekChatModel.createRequest()` 把工具定义注入模型请求
+### 第 4 步：`OpenAiChatModel.createRequest()` 把工具定义注入模型请求
 
-`DeepSeekChatModel.call(prompt)` 内部会走到：
+`OpenAiChatModel.call(prompt)` 内部会走到：
 
 ```java
-DeepSeekChatModel.internalCall(prompt, null)
+OpenAiChatModel.internalCall(prompt, null)
 ```
 
 这个方法里的关键流程是：
@@ -523,7 +523,7 @@ DeepSeek 很可能不会直接生成自然语言，而是先返回一个带 `too
 }
 ```
 
-这时 `DeepSeekChatModel.internalCall()` 里的判断会命中：
+这时 `OpenAiChatModel.internalCall()` 里的判断会命中：
 
 ```java
 if (this.toolExecutionEligibilityPredicate.isToolExecutionRequired(prompt.getOptions(), response)) {
@@ -697,9 +697,9 @@ Server 返回 `CallToolResult` 后，`SyncMcpToolCallback.call()` 会把 `result
 
 `历史消息 + assistant(tool_calls) + tool(response)`
 
-### 第 12 步：`DeepSeekChatModel.internalCall()` 递归再调一次模型
+### 第 12 步：`OpenAiChatModel.internalCall()` 递归再调一次模型
 
-如果工具不是 `returnDirect=true`，那么 `DeepSeekChatModel.internalCall()` 会继续执行：
+如果工具不是 `returnDirect=true`，那么 `OpenAiChatModel.internalCall()` 会继续执行：
 
 ```java
 return this.internalCall(
@@ -730,8 +730,8 @@ return this.internalCall(
 | `McpClientAutoConfiguration` | 创建并初始化 `McpSyncClient` | Client 启动期 |
 | `SyncMcpToolCallbackProvider` | `listTools()` 拉取远程工具并包装成 `ToolCallback` | Client 启动期 |
 | `DefaultChatClientUtils` | 把消息和工具回调组装成 `Prompt + ToolCallingChatOptions` | 运行期 |
-| `ChatModelCallAdvisor` | 真正调用 `DeepSeekChatModel` | 运行期 |
-| `DeepSeekChatModel` | 构造模型请求、判断是否有 `tool_calls`、递归调用 | 运行期 |
+| `ChatModelCallAdvisor` | 真正调用 `OpenAiChatModel` | 运行期 |
+| `OpenAiChatModel` | 构造模型请求、判断是否有 `tool_calls`、递归调用 | 运行期 |
 | `DefaultToolCallingManager` | 按工具名执行 `ToolCallback`，构造 `ToolResponseMessage` | 运行期 |
 | `SyncMcpToolCallback` | 把工具调用转成 MCP `tools/call` 请求 | 运行期 |
 | `ToolCallbackConverterAutoConfiguration` | 把 Spring AI 工具转换成 MCP Server ToolSpecification | Server 启动期 |
@@ -757,7 +757,7 @@ return this.internalCall(
 |----|------|--------|
 | `AssistantController` | `chat()` | 用户原始请求 |
 | `DefaultChatClientUtils` | `toChatClientRequest()` | 工具回调是否真的被塞进 `Prompt` |
-| `DeepSeekChatModel` | `internalCall()` | 第一次模型调用和第二次模型调用的差异 |
+| `OpenAiChatModel` | `internalCall()` | 第一次模型调用和第二次模型调用的差异 |
 | `DefaultToolCallingManager` | `executeToolCalls()` | `tool_calls` 被解析成了什么 |
 | `SyncMcpToolCallback` | `call()` | 发给 `/mcp` 的工具名和参数 |
 | `MethodToolCallback` | `call()` | Server 端最终调用了哪个本地方法 |
@@ -806,13 +806,13 @@ logging:
 ### 第二段：运行期执行
 
 1. 用户请求进入 `AssistantController`
-2. `ChatClient` 把消息和工具定义一起交给 `DeepSeekChatModel`
+2. `ChatClient` 把消息和工具定义一起交给 `OpenAiChatModel`
 3. DeepSeek 决定是否返回 `tool_calls`
 4. `DefaultToolCallingManager` 找到对应的 `SyncMcpToolCallback`
 5. `SyncMcpToolCallback` 调用 MCP Server 的 `tools/call`
 6. Server 端通过 `MethodToolCallback` 落到 `AttendanceTools` 或 `MeetingRoomTools`
 7. 结果写回 `ToolResponseMessage`
-8. `DeepSeekChatModel.internalCall()` 再次调用模型，生成最终自然语言
+8. `OpenAiChatModel.internalCall()` 再次调用模型，生成最终自然语言
 
 这篇文章所讲的主线流程可以总结成一句话，那就是：
 
