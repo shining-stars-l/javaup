@@ -4,7 +4,7 @@ description: "前面讲的改写、检索、重排序都是单独的模块，Spr
 keywords: ["Modular RAG", "Spring AI", "RetrievalAugmentationAdvisor", "QueryTransformer", "QueryExpander", "DocumentJoiner", "LangChain4j", "RAG流水线"]
 ---
 
-# 把RAG的零件组装成流水线
+# RAG的组件拼接成流水线
 
 前面几篇文章，我们逐个拆解了RAG的各个环节：问题改写、意图识别、混合检索、重排序、元数据过滤。每个环节都是独立的模块，各自解决一个具体问题。
 
