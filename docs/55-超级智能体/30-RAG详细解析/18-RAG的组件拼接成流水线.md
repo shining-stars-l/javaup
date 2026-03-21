@@ -66,6 +66,18 @@ stop
 
 五个组件，每个都是可插拔的。你可以只用其中几个，也可以全部用上。
 
+这些组件背后的原理，在前面的文章中都有详细展开，下面这张表方便你快速跳转到对应的讲解：
+
+| 组件 | 对应详细文档 |
+|------|------------|
+| CompressionQueryTransformer（多轮对话压缩） | [为什么要问题重写](/super-agent/rag/query-rewrite) |
+| RewriteQueryTransformer（查询优化） | [为什么要问题重写](/super-agent/rag/query-rewrite) |
+| TranslationQueryTransformer（查询翻译） | 本文首次介绍 |
+| MultiQueryExpander（查询扩展） | [为什么要问题重写](/super-agent/rag/query-rewrite) |
+| VectorStoreDocumentRetriever（文档检索） | [向量检索核心算法深度剖析](/super-agent/rag/vector-search-algorithms)、[元数据的过滤场景](/super-agent/rag/metadata-filtering)、[混合检索的详细剖析](/super-agent/rag/hybrid-search) |
+| ConcatenationDocumentJoiner（文档合并） | 本文首次介绍 |
+| ContextualQueryAugmenter（Prompt增强） | 本文首次介绍 |
+
 ## 最简用法：三行代码搞定RAG
 
 先看最简单的用法，感受一下：
@@ -106,7 +118,7 @@ Query: [用户的问题]
 
 ### 组件一：QueryTransformer——查询预处理
 
-在检索之前对用户的查询做预处理。Spring AI提供了三个内置实现：
+在检索之前对用户的查询做预处理。Spring AI提供了三个内置实现，它们底层的原理都一样——发起一次LLM API调用来完成转换。换句话说，每用一个QueryTransformer就多一次LLM调用，使用时要注意延迟和成本的平衡。
 
 **CompressionQueryTransformer：多轮对话压缩**
 
@@ -117,47 +129,61 @@ CompressionQueryTransformer compression = CompressionQueryTransformer.builder()
         .chatClientBuilder(chatClientBuilder)
         .build();
 
-// 模拟多轮对话
-Query query = new Query("那它支持集群部署吗？",
+// 模拟多轮对话场景：用户先问了Python课程的价格，接着追问"那它有没有证书"
+Query query = new Query("那它有没有证书？",
     List.of(
-        new UserMessage("Redis的持久化方式有哪些？"),
-        new AssistantMessage("Redis支持RDB和AOF两种持久化方式……")
-    ));
+        new UserMessage("Python入门课多少钱？"),
+        new AssistantMessage("Python入门课目前售价299元，包含60课时的视频教程和3个实战项目。")
+    ),
+    Collections.emptyMap());  // 第三个参数是上下文Map，没有就传空Map
 
 Query result = compression.transform(query);
-// 输出类似：Redis是否支持集群部署？
+log.info("压缩改写后: {}", result.text());
+// 日志输出类似：Python入门课是否提供结业证书？
 ```
 
-它内部会调一次LLM，把对话历史中的上下文信息融入到当前查询中。相当于自动做了指代消解和信息补全。
+它会调一次LLM，把对话历史中的上下文信息融入到当前查询中——"它"被替换成了"Python入门课"，"证书"被补全成了"结业证书"。相当于自动做了指代消解和信息补全。
+
+:::tip Query构造函数的小细节
+`Query`的构造函数需要三个参数：`text`（当前问题）、`history`（对话历史消息列表）、`context`（上下文Map）。没有额外上下文时，第三个参数传`Collections.emptyMap()`即可。对话历史要按时间顺序排列，交替放`UserMessage`和`AssistantMessage`。
+:::
 
 **RewriteQueryTransformer：查询优化**
 
-去掉冗余表达，让查询更适合检索。但注意：它不能处理指代消解，因为它看不到对话历史。
+去掉冗余表达，让查询更适合检索。它只管优化当前这一句话的表达方式——把口语化的说法转成知识库更可能用到的书面表达。
+
+:::warning 和Compression的关键区别
+Rewrite只看当前这一句话，**不看对话历史**。如果用户说"那它的原理是什么"，Rewrite会把多余的语气词优化掉，但"它"指的是谁，它搞不定。简单记：**多轮对话用Compression，单轮优化用Rewrite**。
+:::
 
 ```java
 RewriteQueryTransformer rewriter = RewriteQueryTransformer.builder()
         .chatClientBuilder(chatClientBuilder)
         .build();
 
-Query query = new Query("我想知道那个Spring框架里面的IOC到底是个啥东西能不能给我讲讲");
+Query query = new Query("ES查询太慢了怎么搞啊有没有什么好的优化方案");
 Query result = rewriter.transform(query);
-// 输出类似：Spring框架IOC容器的原理和作用
+log.info("改写后: {}", result.text());
+// 日志输出类似：Elasticsearch查询性能优化方案
 ```
 
 **TranslationQueryTransformer：查询翻译**
 
-把查询翻译成目标语言。适合知识库和用户语言不一致的场景，比如用户用英文提问，但知识库是中文的。
+把查询翻译成目标语言。适合知识库和用户语言不一致的场景。比如知识库存的是中文文档，用户用英文提问，直接用英文去检索肯定命中率很低，翻译一下再检索就好多了。
 
 ```java
 TranslationQueryTransformer translator = TranslationQueryTransformer.builder()
         .chatClientBuilder(chatClientBuilder)
-        .targetLanguage("Chinese")
+        .targetLanguage("zh")  // 目标语言设为中文
         .build();
 
-Query query = new Query("What is the difference between HashMap and ConcurrentHashMap?");
+Query query = new Query("How to configure Spring Boot auto-restart in development?");
 Query result = translator.transform(query);
-// 输出类似：HashMap和ConcurrentHashMap有什么区别？
+log.info("翻译后: {}", result.text());
+// 日志输出类似：Spring Boot开发环境中如何配置自动重启？
 ```
+
+反过来也行，如果知识库是英文的（比如官方英文文档），用户用中文提问，把`targetLanguage`设成`"en"`就可以了。
 
 
 ### 组件二：QueryExpander——查询扩展
@@ -171,13 +197,14 @@ MultiQueryExpander expander = MultiQueryExpander.builder()
         .includeOriginal(true)   // 保留原始查询
         .build();
 
-Query query = new Query("Spring Boot如何实现定时任务");
+Query query = new Query("Redis持久化方式有哪些");
 List<Query> expanded = expander.expand(query);
-// 可能输出4个查询（原始 + 3个扩展）：
-// 1. Spring Boot如何实现定时任务
-// 2. Spring Boot定时任务的配置方式和注解
-// 3. Spring Boot中@Scheduled注解的使用方法
-// 4. Spring Boot定时任务框架对比（@Scheduled vs Quartz）
+log.info("扩展后: {}", expanded);
+// 日志输出4个查询（原始 + 3个扩展）：
+// 1. Redis持久化方式有哪些
+// 2. Redis RDB和AOF持久化机制的工作原理
+// 3. Redis数据备份和恢复的配置方法
+// 4. Redis持久化策略的优缺点对比及生产环境选择建议
 ```
 
 每个扩展查询都会独立去向量库检索，最后由DocumentJoiner合并去重。这样做的好处是：即使某个表达方式检索不到结果，其他表达方式可能能检索到，提高了整体召回率。
@@ -213,9 +240,9 @@ ConcatenationDocumentJoiner joiner = new ConcatenationDocumentJoiner();
 
 ### 组件五：QueryAugmenter——Prompt增强
 
-检索完成后，把文档内容注入到发给大模型的Prompt中。
+检索完成后，把文档内容注入到发给大模型的Prompt中。这是整个流水线最后一个环节，也是直接决定大模型"看到什么"的关键步骤。
 
-`ContextualQueryAugmenter`是默认实现，它会生成这样的Prompt：
+`ContextualQueryAugmenter`是默认实现，它会把检索到的文档内容和用户的原始问题组装成一个完整的Prompt。通过debug可以看到，最终发给大模型的Prompt长这样：
 
 ```
 Context information is below.
@@ -225,10 +252,27 @@ Context information is below.
 ...
 ---------------------
 Given the context information and no prior knowledge, answer the query.
+Follow these rules:
+1. If the answer is not in the context, just say that you don't know.
+2. Avoid statements like "Based on the context..." or "The provided information...".
+
 Query: [用户的问题]
+Answer:
 ```
 
-如果检索结果为空，它会告诉大模型没有找到相关信息，让大模型据实回答而不是编造。
+注意Prompt里的两条规则：第一条要求大模型只根据检索到的内容回答，找不到就说不知道；第二条要求大模型不要说"根据上下文"之类的套话。这两条规则对减少幻觉很有帮助。
+
+```java
+// 默认配置
+QueryAugmenter augmenter = ContextualQueryAugmenter.builder().build();
+
+// 如果希望检索结果为空时也不报错，让大模型用自己的知识回答
+QueryAugmenter augmenter = ContextualQueryAugmenter.builder()
+        .allowEmptyContext(true)
+        .build();
+```
+
+`allowEmptyContext`这个参数比较实用：默认情况下，如果检索不到任何文档，它会明确告诉大模型"没有找到相关信息"，让大模型据实回答而不是编造。但如果你希望检索为空时也让大模型尝试用自身知识回答，就把`allowEmptyContext`设为`true`。
 
 ## 全组件组装实战
 
@@ -268,8 +312,10 @@ public class ModularRagController {
                             .build())
                 // 4. 文档合并（默认实现，可以不显式配置）
                 .documentJoiner(new ConcatenationDocumentJoiner())
-                // 5. Prompt增强（默认实现，可以不显式配置）
-                .queryAugmenter(ContextualQueryAugmenter.builder().build())
+                // 5. Prompt增强（检索为空时明确告知大模型）
+                .queryAugmenter(ContextualQueryAugmenter.builder()
+                        .allowEmptyContext(false)
+                        .build())
                 .build();
 
         return chatClient.prompt()
@@ -315,7 +361,7 @@ public Flux<String> chatFiltered(@RequestParam String question,
 
 ### 带多轮对话支持的版本
 
-如果需要处理多轮对话中的指代问题，用CompressionQueryTransformer替换RewriteQueryTransformer：
+如果需要处理多轮对话中的指代问题，用CompressionQueryTransformer替换RewriteQueryTransformer。注意：需要把对话历史通过`.messages(history)`传给ChatClient，Compression才能拿到上下文做压缩。
 
 ```java
 @GetMapping("/chat-with-history")
@@ -419,6 +465,57 @@ public class HybridDocumentRetriever implements DocumentRetriever {
 1. 不要同时用QueryTransformer和QueryExpander，选一个就行
 2. 加缓存，相同的查询不重复改写
 3. 用小模型做改写和扩展，大模型只用于最终生成
+4. **启发式前置判断**——在调LLM之前先用规则快速过滤，能省掉30-40%的无效调用
+
+第4点在实际项目中特别管用。我们在前面问题改写的章节里也提到过，可以用简单规则先判断当前问题是否需要改写：
+
+```java
+/**
+ * 启发式判断：是否需要改写
+ * 先用简单规则快速过滤，能省掉不少不必要的LLM调用
+ */
+private boolean needsRewrite(String question, List<Message> history) {
+    if (history == null || history.isEmpty()) {
+        // 没有对话历史，问题够长就不需要改写
+        return question.length() < 6;
+    }
+    // 包含代词（它、这个、那个等），大概率需要指代消解
+    String[] pronouns = {"它", "这个", "那个", "他", "她", "上面", "刚才", "之前"};
+    for (String p : pronouns) {
+        if (question.contains(p)) return true;
+    }
+    // 问题太短，可能省略了信息
+    return question.length() < 10;
+}
+```
+
+再加上缓存，同一个session里相同的问题不重复调LLM：
+
+```java
+private final Map<String, String> rewriteCache = new ConcurrentHashMap<>();
+
+public String rewriteWithCache(String sessionId, String question, List<Message> history) {
+    String cacheKey = sessionId + ":" + question.hashCode();
+    return rewriteCache.computeIfAbsent(cacheKey, k -> safeRewrite(question, history));
+}
+```
+
+还有一点容易被忽略：**LLM调用失败时的兜底**。改写服务出错不能让整个RAG挂掉，回退到原始问题继续走就行：
+
+```java
+public String safeRewrite(String question, List<Message> history) {
+    try {
+        String result = rewrite(question, history);
+        if (result != null && !result.isBlank() && result.length() < 500) {
+            return result;
+        }
+        return question;
+    } catch (Exception e) {
+        log.warn("问题改写失败，回退到原始问题: {}", e.getMessage());
+        return question;  // 兜底：用原始问题继续走
+    }
+}
+```
 
 ## 什么时候用Modular RAG，什么时候自己编排
 
@@ -430,10 +527,50 @@ public class HybridDocumentRetriever implements DocumentRetriever {
 | 需要意图识别和多通道路由 | 自己编排，Modular RAG不支持路由 |
 | 生产环境，对性能和可观测性要求高 | 自己编排，方便加日志、监控、降级 |
 
+实际上这两种方式不是非此即彼的——你完全可以**混合使用**。比如在RetrievalAugmentationAdvisor外面包一层自定义逻辑：
+
+```java
+@GetMapping("/smart-chat")
+public Flux<String> smartChat(@RequestParam String question,
+                               @RequestParam String sessionId) {
+    List<Message> history = sessionStore.getHistory(sessionId);
+
+    // 第一步：自定义改写（带启发式判断和缓存）
+    String rewritten = queryRewriteService.rewriteWithCache(sessionId, question, history);
+    log.info("改写结果: {} -> {}", question, rewritten);
+
+    // 第二步：用Modular RAG做标准流程
+    RetrievalAugmentationAdvisor advisor = RetrievalAugmentationAdvisor.builder()
+            .queryExpander(MultiQueryExpander.builder()
+                    .chatClientBuilder(chatClientBuilder)
+                    .numberOfQueries(3)
+                    .includeOriginal(true)
+                    .build())
+            .documentRetriever(VectorStoreDocumentRetriever.builder()
+                    .vectorStore(vectorStore)
+                    .topK(5)
+                    .similarityThreshold(0.5)
+                    .build())
+            .queryAugmenter(ContextualQueryAugmenter.builder()
+                    .allowEmptyContext(false)
+                    .build())
+            .build();
+
+    // 用改写后的问题去走流水线
+    return chatClient.prompt()
+            .advisors(advisor)
+            .user(rewritten)
+            .stream()
+            .content();
+}
+```
+
+这种方式的好处是：查询改写用自己的实现（可以加启发式判断、缓存、兜底），后面的扩展、检索、拼接、增强还是用框架的标准组件。哪天框架的内置改写能力增强了，把自定义改写替换掉就行，其他部分不用动。
+
 :::info 务实的建议
-如果你的项目刚起步，用Modular RAG快速跑通一个基本版本。等业务需求复杂了（需要混合检索、重排序、意图路由），再逐步替换成自己编排的方案。前面几篇文章讲的所有模块（改写、路由、混合检索、重排序、元数据过滤、Graph RAG）都可以自由组合，不受框架限制。
+如果你的项目刚起步，用Modular RAG快速跑通一个基本版本。等业务需求复杂了（需要混合检索、重排序、意图路由），再逐步替换成自己编排的方案。也可以两者混合：自定义改写+框架编排，各取所长。前面几篇文章讲的所有模块（改写、路由、混合检索、重排序、元数据过滤、Graph RAG）都可以自由组合，不受框架限制。
 :::
 
 :::tip 小结
-Spring AI的Modular RAG通过RetrievalAugmentationAdvisor提供了一条标准化的RAG流水线，包含查询预处理、查询扩展、文档检索、文档合并、Prompt增强五个可插拔组件。开箱即用，适合快速搭建标准RAG。但目前缺少重排序和混合检索的内置支持，复杂场景下建议自己编排。Spring AI和LangChain4j在文档处理方面各有所长，可以混用取长补短。
+Spring AI的Modular RAG通过RetrievalAugmentationAdvisor提供了一条标准化的RAG流水线，包含查询预处理、查询扩展、文档检索、文档合并、Prompt增强五个可插拔组件。开箱即用，适合快速搭建标准RAG。但目前缺少重排序和混合检索的内置支持，复杂场景下建议自己编排，或者采用"自定义改写+框架编排"的混合方案。生产环境中别忘了加上启发式前置判断、缓存和兜底逻辑来控制LLM调用的开销。
 :::
