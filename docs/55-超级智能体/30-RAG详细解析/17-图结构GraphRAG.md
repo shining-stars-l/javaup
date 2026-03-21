@@ -10,14 +10,14 @@ keywords: ["Graph RAG", "知识图谱", "Neo4j", "Cypher", "多跳推理", "Spri
 
 但有些问题不是这样的。
 
-比如用户问："《长津湖》的导演还拍过哪些战争片？"
+比如用户问："教《Spring Boot实战》的讲师还开过哪些微服务方向的课？"
 
 要回答这个问题，需要三步推理：
-1. 先找到《长津湖》的导演是谁（陈凯歌、徐克、林超贤）
-2. 再找到这几位导演各自拍过哪些电影
-3. 从中筛选出战争题材的
+1. 先找到《Spring Boot实战》这门课有哪些讲师（张老师、李老师）
+2. 再找到这几位讲师各自还教了哪些课程
+3. 从中筛选出微服务方向的
 
-这三步信息可能分散在不同的文档里。传统RAG用"长津湖的导演还拍过哪些战争片"去做向量检索，大概率只能找到关于《长津湖》本身的介绍，很难把导演的其他作品也召回来。
+这三步信息可能分散在不同的文档里。传统RAG用"Spring Boot实战的讲师还开过哪些微服务方向的课"去做向量检索，大概率只能找到关于《Spring Boot实战》本身的课程介绍，很难把讲师的其他课程也召回来。
 
 这就是传统RAG的天花板：**它擅长"找到"，但不擅长"推理"。**
 
@@ -29,7 +29,7 @@ keywords: ["Graph RAG", "知识图谱", "Neo4j", "Cypher", "多跳推理", "Spri
 
 **路径发现**："从北京到拉萨，经停西安的航班有哪些？"——需要在航线网络中找路径。
 
-**聚合统计**："和刘德华合作过的导演里，谁的票房总额最高？"——需要遍历合作关系并做聚合计算。
+**聚合统计**："和张老师一起教过课的讲师里，谁的课程平均评分最高？"——需要遍历合作关系并做聚合计算。
 
 这些问题的共同特点：**答案不在某一段文字里，而是藏在实体之间的关系网络中。**
 
@@ -38,21 +38,19 @@ keywords: ["Graph RAG", "知识图谱", "Neo4j", "Cypher", "多跳推理", "Spri
 知识图谱的核心思想很简单：用"实体-关系-实体"的三元组来表示知识。
 
 ```
-(长津湖) --[导演]--> (陈凯歌)
-(长津湖) --[导演]--> (徐克)
-(长津湖) --[导演]--> (林超贤)
-(陈凯歌) --[导演]--> (霸王别姬)
-(陈凯歌) --[导演]--> (无极)
-(徐克)   --[导演]--> (智取威虎山)
-(徐克)   --[导演]--> (狄仁杰之通天帝国)
-(林超贤) --[导演]--> (红海行动)
-(林超贤) --[导演]--> (湄公河行动)
-(红海行动) --[类型]--> (战争片)
-(湄公河行动) --[类型]--> (动作片)
-(智取威虎山) --[类型]--> (战争片)
+(Spring Boot实战) --[讲师]--> (张老师)
+(Spring Boot实战) --[讲师]--> (李老师)
+(张老师) --[讲授]--> (Spring Cloud微服务架构)
+(张老师) --[讲授]--> (MyBatis从入门到精通)
+(李老师) --[讲授]--> (Docker容器技术)
+(李老师) --[讲授]--> (Redis实战)
+(Spring Cloud微服务架构) --[方向]--> (微服务)
+(Docker容器技术) --[方向]--> (DevOps)
+(MyBatis从入门到精通) --[方向]--> (持久层)
+(Redis实战) --[方向]--> (中间件)
 ```
 
-有了这张图，"长津湖的导演还拍过哪些战争片"就变成了一个图遍历问题：从"长津湖"节点出发，沿着"导演"关系找到导演节点，再沿着"导演"关系的反方向找到其他电影节点，最后过滤出类型为"战争片"的。
+有了这张图，"Spring Boot实战的讲师还开过哪些微服务方向的课"就变成了一个图遍历问题：从"Spring Boot实战"节点出发，沿着"讲师"关系找到讲师节点，再沿着"讲授"关系找到其他课程节点，最后过滤出方向为"微服务"的。
 
 ```plantuml title="知识图谱中的多跳推理路径" width="100%" align="left"
 @startuml
@@ -68,29 +66,26 @@ skinparam object {
     FontColor #2C3E50
 }
 
-object "长津湖" as changJinHu #FFE4B5
-object "陈凯歌" as chenKaiGe #B5E7A0
-object "徐克" as xuKe #B5E7A0
-object "林超贤" as linChaoXian #B5E7A0
-object "霸王别姬" as baWang #E8F4FD
-object "智取威虎山" as zhiQu #FFB5B5
-object "红海行动" as hongHai #FFB5B5
-object "湄公河行动" as meiGong #E8F4FD
+object "Spring Boot实战" as springBoot #FFE4B5
+object "张老师" as zhangTeacher #B5E7A0
+object "李老师" as liTeacher #B5E7A0
+object "Spring Cloud\n微服务架构" as springCloud #FFB5B5
+object "MyBatis\n从入门到精通" as mybatis #E8F4FD
+object "Docker\n容器技术" as docker #E8F4FD
+object "Redis实战" as redis #E8F4FD
 
-changJinHu --> chenKaiGe : 导演
-changJinHu --> xuKe : 导演
-changJinHu --> linChaoXian : 导演
-chenKaiGe --> baWang : 导演
-xuKe --> zhiQu : 导演
-linChaoXian --> hongHai : 导演
-linChaoXian --> meiGong : 导演
+springBoot --> zhangTeacher : 讲师
+springBoot --> liTeacher : 讲师
+zhangTeacher --> springCloud : 讲授
+zhangTeacher --> mybatis : 讲授
+liTeacher --> docker : 讲授
+liTeacher --> redis : 讲授
 
-note right of zhiQu : 战争片
-note right of hongHai : 战争片
+note right of springCloud : 微服务方向 ✓
 @enduml
 ```
 
-答案一目了然：智取威虎山（徐克）和红海行动（林超贤）。
+答案一目了然：张老师还教了《Spring Cloud微服务架构》，属于微服务方向。
 
 ## 图数据库：存储和查询知识图谱
 
@@ -98,33 +93,41 @@ note right of hongHai : 战争片
 
 ### Neo4j的核心概念
 
-- **Node（节点）**：代表一个实体，比如一部电影、一个导演
-- **Relationship（关系）**：连接两个节点，有方向和类型，比如"导演了"
-- **Property（属性）**：节点或关系上的键值对，比如电影的上映年份
-- **Label（标签）**：节点的分类，比如"Movie""Director"
+- **Node（节点）**：代表一个实体，比如一门课程、一位讲师
+- **Relationship（关系）**：连接两个节点，有方向和类型，比如"讲授"
+- **Property（属性）**：节点或关系上的键值对，比如课程的开设年份
+- **Label（标签）**：节点的分类，比如"Course""Instructor"
 
 ### Cypher查询语言
 
 Neo4j用Cypher语言做查询，语法很直观，像在画图：
 
 ```cypher
-// 查找长津湖的导演
-MATCH (m:Movie {title: '长津湖'}) <-[:DIRECTED]- (d:Director)
-RETURN d.name
+// 查找Spring Boot实战的讲师
+MATCH (c:Course {courseName: 'Spring Boot实战'}) <-[:TEACHES]- (i:Instructor)
+RETURN i.name
 
-// 查找导演的其他电影
-MATCH (m:Movie {title: '长津湖'}) <-[:DIRECTED]- (d:Director) -[:DIRECTED]-> (other:Movie)
-RETURN d.name, other.title
+// 查找讲师的其他课程
+MATCH (c:Course {courseName: 'Spring Boot实战'}) <-[:TEACHES]- (i:Instructor) -[:TEACHES]-> (other:Course)
+RETURN i.name, other.courseName
 
-// 加上类型过滤：只要战争片
-MATCH (m:Movie {title: '长津湖'}) <-[:DIRECTED]- (d:Director) -[:DIRECTED]-> (other:Movie)
-WHERE other.genre = '战争片'
-RETURN d.name, other.title
+// 加上方向过滤：只要微服务方向
+MATCH (c:Course {courseName: 'Spring Boot实战'}) <-[:TEACHES]- (i:Instructor) -[:TEACHES]-> (other:Course)
+WHERE other.category = '微服务'
+RETURN i.name, other.courseName
 ```
 
-`(m:Movie)` 表示一个Movie类型的节点，`-[:DIRECTED]->` 表示一条DIRECTED类型的关系，箭头表示方向。整个MATCH语句就像在图上画一条路径。
+`(c:Course)` 表示一个Course类型的节点，`-[:TEACHES]->` 表示一条TEACHES类型的关系，箭头表示方向。整个MATCH语句就像在图上画一条路径。
 
 ### Docker部署Neo4j
+
+先拉取Neo4j镜像：
+
+```bash
+docker pull neo4j:5.22-community
+```
+
+然后启动容器：
 
 ```bash
 docker run -d \
@@ -142,7 +145,12 @@ docker run -d \
 
 ## Spring Boot集成Neo4j实战
 
-下面用一个完整的例子演示：搭建一个电影知识图谱，然后通过Graph RAG回答多跳问题。
+下面用一个完整的例子演示：搭建一个课程知识图谱，然后通过Graph RAG回答多跳问题。
+
+### 示例中项目地址
+
+- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目模块：`ai-example-spring-ai-rag-neo4j`
 
 ### 引入依赖
 
@@ -167,27 +175,27 @@ spring:
 ### 定义实体
 
 ```java
-@Node("Movie")
-public class Movie {
+@Node("Course")
+public class Course {
     @Id
-    private String title;
+    private String courseName;
     private Integer year;
-    private String genre;
+    private String category;
 
     // 构造器、getter、setter省略
-    public Movie(String title, Integer year, String genre) {
-        this.title = title;
+    public Course(String courseName, Integer year, String category) {
+        this.courseName = courseName;
         this.year = year;
-        this.genre = genre;
+        this.category = category;
     }
 }
 
-@Node("Director")
-public class Director {
+@Node("Instructor")
+public class Instructor {
     @Id
     private String name;
 
-    public Director(String name) {
+    public Instructor(String name) {
         this.name = name;
     }
 }
@@ -196,114 +204,197 @@ public class Director {
 ### 定义Repository
 
 ```java
-public interface MovieGraphRepository extends Neo4jRepository<Movie, String> {
+public interface CourseGraphRepository extends Neo4jRepository<Course, String> {
 
     /**
-     * 多跳查询：给定一部电影，找到它的导演执导的其他电影
+     * 多跳查询：用CONTAINS模糊匹配课程名，找到它的讲师教授的其他课程
      */
     @Query("""
-        MATCH (m:Movie {title: $title}) <-[:DIRECTED]- (d:Director) -[:DIRECTED]-> (other:Movie)
-        WHERE other.title <> $title
-        RETURN d.name AS director, collect(other.title) AS otherMovies
+        MATCH (c:Course) WHERE c.courseName CONTAINS $courseName
+        WITH c
+        MATCH (c) <-[:TEACHES]- (i:Instructor) -[:TEACHES]-> (other:Course)
+        WHERE other.courseName <> c.courseName
+        RETURN i.name AS instructor, collect(other.courseName) AS otherCourses
         """)
-    List<DirectorMoviesDto> findOtherMoviesByDirectors(String title);
+    List<InstructorCoursesDto> findOtherCoursesByInstructors(@Param("courseName") String courseName);
 
     /**
-     * 带类型过滤的多跳查询
+     * 带方向过滤的多跳查询
      */
     @Query("""
-        MATCH (m:Movie {title: $title}) <-[:DIRECTED]- (d:Director) -[:DIRECTED]-> (other:Movie)
-        WHERE other.title <> $title AND other.genre = $genre
-        RETURN d.name AS director, collect(other.title) AS otherMovies
+        MATCH (c:Course) WHERE c.courseName CONTAINS $courseName
+        WITH c
+        MATCH (c) <-[:TEACHES]- (i:Instructor) -[:TEACHES]-> (other:Course)
+        WHERE other.courseName <> c.courseName AND other.category = $category
+        RETURN i.name AS instructor, collect(other.courseName) AS otherCourses
         """)
-    List<DirectorMoviesDto> findOtherMoviesByGenre(String title, String genre);
+    List<InstructorCoursesDto> findOtherCoursesByCategory(@Param("courseName") String courseName, @Param("category") String category);
 }
 ```
 
+:::tip 为什么用CONTAINS而不是精确匹配？
+用户问"Spring Boot的讲师还教了啥？"，LLM提取出的可能是"Spring Boot"而不是完整的"Spring Boot实战"。CONTAINS模糊匹配能兜住这种偏差，对Demo来说更稳健。生产环境可以结合全文索引做更精细的匹配。
+:::
+
 ```java
-public record DirectorMoviesDto(String director, List<String> otherMovies) {}
+public record InstructorCoursesDto(String instructor, List<String> otherCourses) {}
 ```
 
-### 初始化测试数据
+### 启动时自动初始化数据
+
+作为示例项目，我们用 `@EventListener(ApplicationReadyEvent.class)` 让项目启动后自动把测试数据灌入Neo4j，不需要手动调接口。每次启动先清空旧数据，避免重复。
 
 ```java
+@Slf4j
 @RestController
 @RequestMapping("/graph-rag")
 public class GraphRagController {
 
     private final Neo4jTemplate neo4jTemplate;
     private final Neo4jClient neo4jClient;
-    private final MovieGraphRepository movieRepo;
+    private final CourseGraphRepository courseRepo;
     private final ChatClient chatClient;
 
     /**
-     * 初始化电影知识图谱数据
+     * 项目启动时自动初始化课程知识图谱数据
      */
-    @PostMapping("/init")
-    public String initData() {
-        // 创建导演节点
-        Director linChaoXian = neo4jTemplate.save(new Director("林超贤"));
-        Director xuKe = neo4jTemplate.save(new Director("徐克"));
-        Director chenKaiGe = neo4jTemplate.save(new Director("陈凯歌"));
-        Director wuJing = neo4jTemplate.save(new Director("吴京"));
+    @EventListener(ApplicationReadyEvent.class)
+    public void initData() {
+        log.info("开始初始化课程知识图谱数据...");
 
-        // 创建电影节点
-        neo4jTemplate.save(new Movie("长津湖", 2021, "战争片"));
-        neo4jTemplate.save(new Movie("红海行动", 2018, "战争片"));
-        neo4jTemplate.save(new Movie("湄公河行动", 2016, "动作片"));
-        neo4jTemplate.save(new Movie("智取威虎山", 2014, "战争片"));
-        neo4jTemplate.save(new Movie("狄仁杰之通天帝国", 2010, "悬疑片"));
-        neo4jTemplate.save(new Movie("霸王别姬", 1993, "剧情片"));
-        neo4jTemplate.save(new Movie("战狼2", 2017, "战争片"));
+        // 先清空旧数据，避免重复
+        neo4jClient.query("MATCH (n) DETACH DELETE n").run();
 
-        // 创建导演关系
-        createDirectedRelation("林超贤", "长津湖");
-        createDirectedRelation("林超贤", "红海行动");
-        createDirectedRelation("林超贤", "湄公河行动");
-        createDirectedRelation("徐克", "长津湖");
-        createDirectedRelation("徐克", "智取威虎山");
-        createDirectedRelation("徐克", "狄仁杰之通天帝国");
-        createDirectedRelation("陈凯歌", "长津湖");
-        createDirectedRelation("陈凯歌", "霸王别姬");
-        createDirectedRelation("吴京", "战狼2");
+        // 创建讲师节点
+        neo4jTemplate.save(new Instructor("张老师"));
+        neo4jTemplate.save(new Instructor("李老师"));
+        neo4jTemplate.save(new Instructor("王老师"));
 
-        return "知识图谱初始化完成";
+        // 创建课程节点
+        neo4jTemplate.save(new Course("Spring Boot实战", 2023, "微服务"));
+        neo4jTemplate.save(new Course("Spring Cloud微服务架构", 2023, "微服务"));
+        neo4jTemplate.save(new Course("Docker容器技术", 2022, "DevOps"));
+        neo4jTemplate.save(new Course("MyBatis从入门到精通", 2021, "持久层"));
+        neo4jTemplate.save(new Course("Redis实战", 2022, "中间件"));
+        neo4jTemplate.save(new Course("Kafka消息队列", 2023, "中间件"));
+        neo4jTemplate.save(new Course("JVM调优实战", 2022, "性能优化"));
+
+        // 创建讲授关系
+        createTeachesRelation("张老师", "Spring Boot实战");
+        createTeachesRelation("张老师", "Spring Cloud微服务架构");
+        createTeachesRelation("张老师", "MyBatis从入门到精通");
+        createTeachesRelation("李老师", "Spring Boot实战");
+        createTeachesRelation("李老师", "Docker容器技术");
+        createTeachesRelation("李老师", "Redis实战");
+        createTeachesRelation("王老师", "JVM调优实战");
+        createTeachesRelation("王老师", "Kafka消息队列");
+
+        log.info("课程知识图谱初始化完成，共3位讲师、7门课程");
     }
 
-    private void createDirectedRelation(String directorName, String movieTitle) {
+    private void createTeachesRelation(String instructorName, String courseName) {
         neo4jClient.query("""
-            MATCH (d:Director {name: $director})
-            MATCH (m:Movie {title: $movie})
-            MERGE (d)-[:DIRECTED]->(m)
+            MATCH (i:Instructor {name: $instructor})
+            MATCH (c:Course {courseName: $course})
+            MERGE (i)-[:TEACHES]->(c)
             """)
-            .bind(directorName).to("director")
-            .bind(movieTitle).to("movie")
+            .bind(instructorName).to("instructor")
+            .bind(courseName).to("course")
             .run();
     }
 }
+```
+
+启动日志里会看到这两行，说明数据已经就绪：
+
+```
+开始初始化课程知识图谱数据...
+课程知识图谱初始化完成，共3位讲师、7门课程
 ```
 
 ### Graph RAG问答接口
 
 关键步骤：先从图数据库查出结构化的关系数据，再把这些数据作为上下文交给大模型生成自然语言回答。
 
+整个执行链路如下：
+
+```plantuml title="Graph RAG 执行流程" width="100%" align="left"
+@startuml
+skinparam backgroundColor #FAFBFC
+skinparam roundcorner 12
+skinparam shadowing false
+skinparam defaultFontName "Microsoft YaHei"
+skinparam defaultFontSize 12
+
+skinparam activity {
+    BackgroundColor #FFFFFF
+    BorderColor #D1D5DB
+    FontColor #1F2937
+    DiamondBackgroundColor #FFF7ED
+    DiamondBorderColor #F59E0B
+}
+
+skinparam arrow {
+    Color #6B7280
+    FontColor #6B7280
+    FontSize 11
+}
+
+|#F0F9FF| 用户请求 |
+start
+:用户提问\n"Spring Boot实战的讲师还开过哪些课";
+
+|#F0FDF4| LLM提取 |
+:调用大模型从问题中\n提取课程关键词;
+:清洗提取结果\n去掉《》引号等符号;
+note right
+  提取结果："Spring Boot实战"
+  ——
+  即使只提取到"Spring Boot"
+  CONTAINS也能匹配到
+end note
+
+|#FFF7ED| 图谱查询 |
+:用CONTAINS模糊匹配\n在Neo4j中查找课程;
+:沿TEACHES关系\n找到该课程的讲师;
+:再沿TEACHES关系\n找到讲师的其他课程;
+:组装图谱上下文;
+note right
+  课程《Spring Boot实战》的讲师有：张老师、李老师
+  其中 张老师 还教了：Spring Cloud微服务架构、MyBatis从入门到精通
+  其中 李老师 还教了：Docker容器技术、Redis实战
+end note
+
+|#FAF5FF| LLM生成 |
+:将图谱上下文 + 用户问题\n一起发给大模型;
+:大模型基于结构化数据\n生成自然语言回答;
+
+|#F0F9FF| 用户请求 |
+:返回最终回答;
+stop
+
+@enduml
+```
+
 ```java
 @GetMapping("/ask")
-public String ask(@RequestParam String question) {
-    // 1. 从问题中提取电影名（简单实现，生产环境用LLM提取）
-    String movieTitle = extractMovieTitle(question);
+public String ask(@RequestParam("question") String question) {
+    // 1. 从问题中提取课程名
+    String courseName = extractCourseName(question);
+    log.info("提取到课程名：{}", courseName);
 
     // 2. 从知识图谱中查询关系数据
-    String graphContext = queryGraphContext(movieTitle);
+    String graphContext = queryGraphContext(courseName);
+    log.info("图谱查询结果：{}", graphContext);
 
     if (graphContext.isBlank()) {
         return "抱歉，知识图谱中没有找到相关信息。";
     }
 
     // 3. 把图谱数据作为上下文，让大模型生成回答
-    String answer = chatClient.prompt()
+    return chatClient.prompt()
             .system("""
-                你是一个电影知识助手。根据以下知识图谱数据回答用户的问题。
+                你是一个技术课程知识助手。根据以下知识图谱数据回答用户的问题。
                 只基于提供的数据回答，不要编造信息。
                 用自然流畅的语言组织回答。
 
@@ -312,39 +403,65 @@ public String ask(@RequestParam String question) {
             .user(question)
             .call()
             .content();
-
-    return answer;
 }
 
-private String queryGraphContext(String movieTitle) {
-    List<DirectorMoviesDto> results = movieRepo.findOtherMoviesByDirectors(movieTitle);
+private String queryGraphContext(String courseName) {
+    List<InstructorCoursesDto> results = courseRepo.findOtherCoursesByInstructors(courseName);
 
     if (results.isEmpty()) return "";
 
     StringBuilder sb = new StringBuilder();
-    for (DirectorMoviesDto dto : results) {
-        sb.append(String.format("导演 %s 还执导了：%s\n",
-                dto.director(),
-                String.join("、", dto.otherMovies())));
+    sb.append(String.format("课程《%s》的讲师有：%s\n", courseName,
+            results.stream().map(InstructorCoursesDto::instructor)
+                    .collect(Collectors.joining("、"))));
+    for (InstructorCoursesDto dto : results) {
+        sb.append(String.format("其中 %s 还教了：%s\n",
+                dto.instructor(),
+                String.join("、", dto.otherCourses())));
     }
     return sb.toString();
 }
 
-private String extractMovieTitle(String question) {
-    // 简单实现：用大模型提取电影名
-    return chatClient.prompt()
-            .user("从以下问题中提取电影名称，只输出电影名，不要其他内容：" + question)
+private String extractCourseName(String question) {
+    String raw = chatClient.prompt()
+            .user("从以下问题中提取课程名称，只输出课程名本身，不要书名号、引号或任何多余的字符：" + question)
             .call()
             .content()
             .trim();
+    // 去掉LLM可能加上的《》、""等包裹符号
+    return raw.replaceAll("[\u300a\u300b\u201c\u201d\u2018\u2019\"']", "");
 }
 ```
 
-实际效果：
+### 接口调用示例
 
-> 用户：长津湖的导演还拍过哪些电影？
->
-> 系统回答：《长津湖》由三位导演联合执导。林超贤还执导了《红海行动》和《湄公河行动》，徐克还执导了《智取威虎山》和《狄仁杰之通天帝国》，陈凯歌还执导了《霸王别姬》。
+项目启动后（默认端口7096），直接GET请求就能体验Graph RAG的效果：
+
+```bash
+# 多跳查询：找讲师的其他课程
+curl "http://localhost:7096/graph-rag/ask?question=Spring Boot实战的讲师还开过哪些课"
+
+# 带条件过滤：只看微服务方向
+curl "http://localhost:7096/graph-rag/ask?question=教Spring Boot实战的老师还开过哪些微服务方向的课"
+
+# 换个角度问：某位讲师的全部课程
+curl "http://localhost:7096/graph-rag/ask?question=李老师都教了哪些课程"
+```
+
+**调用接口：** 以 带条件过滤：只看微服务方向 为例
+
+```bash
+curl "http://localhost:7096/graph-rag/ask?question=教Spring Boot实战的老师还开过哪些微服务方向的课"
+```
+
+**结果：**
+```text
+教Spring Boot实战的老师有李老师和张老师。其中李老师还教了Redis实战和Docker容器技术，但这两门课程不属于微服务方向。
+
+张老师则教了Spring Cloud微服务架构，这是一门微服务方向的课程。
+
+因此，根据提供的信息，教Spring Boot实战的老师中，只有张老师开过Spring Cloud微服务架构这门微服务方向的课程。
+```
 
 ## Graph RAG vs 传统RAG：什么时候该用哪个
 
@@ -386,7 +503,7 @@ private static final String EXTRACT_PROMPT = """
     """;
 ```
 
-**结构化数据导入**：如果你已经有结构化的数据（数据库表、Excel、API），直接转换成图谱是最高效的方式。比如上面的电影例子，数据来源可以是一个电影数据库的表。
+**结构化数据导入**：如果你已经有结构化的数据（数据库表、Excel、API），直接转换成图谱是最高效的方式。比如上面的课程例子，数据来源可以是一个教务管理系统的课程表和排课表。
 
 **混合方式**：先从结构化数据构建骨架，再用LLM从非结构化文本中补充细节。这是目前最实用的方案。
 
