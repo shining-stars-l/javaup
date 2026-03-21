@@ -428,7 +428,7 @@ private String extractCourseName(String question) {
             .call()
             .content()
             .trim();
-    // 去掉LLM可能加上的《》、""等包裹符号
+    // 去掉LLM可能加上的《》("")等包裹符号（用Unicode避免编译器误解中文引号）
     return raw.replaceAll("[\u300a\u300b\u201c\u201d\u2018\u2019\"']", "");
 }
 ```
@@ -448,13 +448,8 @@ curl "http://localhost:7096/graph-rag/ask?question=教Spring Boot实战的老师
 curl "http://localhost:7096/graph-rag/ask?question=李老师都教了哪些课程"
 ```
 
-**调用接口：** 以 带条件过滤：只看微服务方向 为例
+以"带条件过滤"为例，实际返回结果：
 
-```bash
-curl "http://localhost:7096/graph-rag/ask?question=教Spring Boot实战的老师还开过哪些微服务方向的课"
-```
-
-**结果：**
 ```text
 教Spring Boot实战的老师有李老师和张老师。其中李老师还教了Redis实战和Docker容器技术，但这两门课程不属于微服务方向。
 
