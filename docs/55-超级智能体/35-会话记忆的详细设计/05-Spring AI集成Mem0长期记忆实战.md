@@ -50,8 +50,16 @@ skinparam rectangle {
   FontSize 12
 }
 
+skinparam rectangle<<spacer>> {
+  BorderColor transparent
+  BackgroundColor transparent
+  FontColor transparent
+}
+
 package "1. 调用入口" as L0 #F8FAFC {
   rectangle "业务请求\n<size:10>message + userId</size>" as USER #ECFEFF
+  rectangle "<size:1>pad pad pad pad pad pad</size>" as S0 <<spacer>>
+  USER -[hidden]right-> S0
 }
 
 package "2. Spring AI 应用层" as L1 #F8FAFC {
@@ -59,17 +67,21 @@ package "2. Spring AI 应用层" as L1 #F8FAFC {
   rectangle "ChatClient\n<size:10>统一对话入口</size>" as CC #FFFFFF
   rectangle "Mem0ChatMemoryAdvisor\n<size:10>前置检索 / 后置写回 / USER_ID隔离</size>" as ADV #CFFAFE
   rectangle "ChatModel\n<size:10>生成最终回答</size>" as CM #FFF7ED
+  rectangle "<size:1>pad pad pad pad pad pad pad</size>" as S1 <<spacer>>
 
   CTRL -[hidden]down-> CC
   CC -[hidden]down-> ADV
   CC -[hidden]right-> CM
+  CM -[hidden]right-> S1
 }
 
 package "3. Mem0 服务层" as L2 #F8FAFC {
   rectangle "Mem0 REST API Server\n<size:10>/configure /memories /search</size>" as API #FEF3C7
   rectangle "记忆编排引擎\n<size:10>提取事实 / 去重合并 / 排序召回</size>" as ENGINE #FFFBEB
+  rectangle "<size:1>pad pad pad pad pad pad pad</size>" as S2 <<spacer>>
 
   API -[hidden]down-> ENGINE
+  API -[hidden]right-> S2
 }
 
 package "4. 长期记忆基础设施" as L3 #F8FAFC {
@@ -85,7 +97,9 @@ package "4. 长期记忆基础设施" as L3 #F8FAFC {
     LLM -[hidden]right-> EMB
   }
 
+  rectangle "<size:1>pad pad pad pad pad</size>" as S3 <<spacer>>
   STORE -[hidden]down-> MODEL
+  STORE -[hidden]right-> S3
 }
 
 L0 -[hidden]down-> L1
