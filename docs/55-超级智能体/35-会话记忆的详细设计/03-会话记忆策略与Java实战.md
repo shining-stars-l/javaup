@@ -241,255 +241,278 @@ Token上限：4,000
 
 ### 实现一：滑动窗口记忆管理器
 
+前面我们写的是思路版伪代码，真到了 Spring Boot 项目里，更推荐直接用 Spring AI 自带的消息体系来落。这样做有两个好处：
+
+1. 不需要自己再维护 `role + content` 的 JSON 结构
+2. 可以直接复用 Spring AI 的 `ChatMemory`、`Advisor`、`Message`、`Prompt` 这些能力
+
+我在示例模块 `super-ai-hub/ai-example/ai-example-memory/ai-example-spring-ai-memory` 里，专门做了一个能直接跑的版本。滑动窗口这里，核心思路就是：
+
+- 底层存储用 `MessageWindowChatMemory`
+- 每次发起对话时，用 `MessageChatMemoryAdvisor` 自动把历史消息拼进 Prompt
+- 窗口大小按“轮数”配置，但真正传给 Spring AI 的是“消息条数”
+
 ```java
-import com.google.gson.JsonObject;
-import java.util.*;
+@Service
+public class SlidingWindowMemoryChatService {
 
-/**
- * 滑动窗口会话记忆管理器
- * 只保留最近N轮对话，超出部分直接丢弃
- */
-public class SlidingWindowMemory {
+    private final ChatClient.Builder chatClientBuilder;
+    private final ChatMemory chatMemory;
+    private final String systemPrompt;
 
-    /** 最大保留轮数（1轮 = 1条user + 1条assistant） */
-    private final int maxRounds;
-
-    /** 会话存储：sessionId → 消息列表 */
-    private final Map<String, List<JsonObject>> store = new HashMap<>();
-
-    public SlidingWindowMemory(int maxRounds) {
-        this.maxRounds = maxRounds;
+    public SlidingWindowMemoryChatService(
+        ChatClient.Builder chatClientBuilder,
+        @Value("${app.ai.memory.default-system-prompt}") String systemPrompt,
+        @Value("${app.ai.memory.sliding-window.max-rounds:3}") int maxRounds) {
+        this.chatClientBuilder = chatClientBuilder;
+        this.systemPrompt = systemPrompt;
+        this.chatMemory = MessageWindowChatMemory.builder()
+            .maxMessages(Math.max(2, maxRounds * 2))
+            .build();
     }
 
-    /**
-     * 添加一条消息到指定会话
-     */
-    public void addMessage(String sessionId, String role, String content) {
-        store.computeIfAbsent(sessionId, k -> new ArrayList<>())
-                .add(message(role, content));
-    }
+    public MemoryChatResponse chat(String sessionId, String question) {
+        String normalizedSessionId = MemoryPromptSupport.normalizeSessionId(sessionId, "sliding-window-demo");
+        List<Message> historyBeforeCall = this.chatMemory.get(normalizedSessionId);
 
-    /**
-     * 获取最近N轮消息（滑动窗口）
-     */
-    public List<JsonObject> getRecentMessages(String sessionId) {
-        List<JsonObject> allMessages = store.getOrDefault(sessionId, List.of());
-        if (allMessages.isEmpty()) {
-            return List.of();
-        }
+        String answer = this.chatClientBuilder.build()
+            .prompt()
+            .system(this.systemPrompt)
+            .advisors(MessageChatMemoryAdvisor.builder(this.chatMemory)
+                .conversationId(normalizedSessionId)
+                .build())
+            .user(question)
+            .call()
+            .content();
 
-        // 每轮2条消息（user + assistant），保留maxRounds轮
-        int keepCount = maxRounds * 2;
-        if (allMessages.size() <= keepCount) {
-            return new ArrayList<>(allMessages);
-        }
+        List<Message> historyAfterCall = this.chatMemory.get(normalizedSessionId);
+        int promptTokens = MemoryPromptSupport.estimateTokens(this.systemPrompt)
+            + MemoryPromptSupport.estimateTokens(question)
+            + MemoryPromptSupport.estimateTokens(historyBeforeCall);
 
-        // 只取最后keepCount条
-        return new ArrayList<>(
-                allMessages.subList(allMessages.size() - keepCount, allMessages.size())
+        return new MemoryChatResponse(
+            "sliding-window",
+            normalizedSessionId,
+            question,
+            answer,
+            promptTokens,
+            "",
+            0,
+            MemoryPromptSupport.toViews(historyAfterCall)
         );
-    }
-
-    /**
-     * 组装完整的messages数组，准备发给LLM API
-     */
-    public List<JsonObject> buildMessages(String sessionId,
-                                          String systemPrompt,
-                                          String currentQuestion) {
-        List<JsonObject> messages = new ArrayList<>();
-        messages.add(message("system", systemPrompt));
-        messages.addAll(getRecentMessages(sessionId));
-        messages.add(message("user", currentQuestion));
-        return messages;
-    }
-
-    private JsonObject message(String role, String content) {
-        JsonObject msg = new JsonObject();
-        msg.addProperty("role", role);
-        msg.addProperty("content", content);
-        return msg;
     }
 }
 ```
+
+这里有个很实用的小细节，很多人第一次接 Spring AI 记忆都会忽略：
+
+- `MessageWindowChatMemory` 控制的是**消息条数**
+- 但我们平时聊“保留 3 轮”，说的是 **3 组 user + assistant**
+
+所以示例里才会写 `maxRounds * 2`。这样你配置 `3` 的时候，真正保留的是最近 3 轮完整问答，而不是最近 3 条零散消息。
+
+:::tip 这个实现为什么更像生产代码
+它不是把历史先手动拼成一个 `List<Map<String, Object>>` 再发请求，而是直接交给 Spring AI 的 `Advisor` 体系去处理。后面如果你想把内存存储换成 JDBC、Redis，或者接入别的 ChatMemoryRepository，迁移成本会低很多。
+:::
 
 ### 实现二：摘要压缩记忆管理器
 
+滑动窗口已经够解决不少问题了，但它的短板也很明显：窗口外的内容会直接消失。  
+所以第二种实现我没有继续用“手动拼 JSON + 自己调 chat()”那一套，而是换成 Spring AI 的 `Message`、`Prompt`、`ChatModel` 来做摘要压缩。
+
+这个版本的思路是：
+
+- 正常对话仍然维护最近几轮完整消息
+- 一旦最近消息的 Token 粗估超过阈值，就把更早的部分拿出来做摘要
+- 摘要本身放进下一轮请求的 `SystemMessage`
+- 最近几轮完整消息继续保留，保证模型对当前追问仍然敏感
+
 ```java
-import com.google.gson.*;
-import java.io.IOException;
-import java.util.*;
+@Service
+public class SummaryCompressionMemoryChatService {
 
-/**
- * 支持摘要压缩的会话记忆管理器
- * 当对话历史超过Token阈值时，自动将早期对话压缩为摘要
- */
-public class SummaryMemory {
-
-    /** 触发压缩的Token阈值 */
+    private final ChatModel chatModel;
+    private final String systemPrompt;
     private final int tokenThreshold;
-    /** 压缩时保留最近的完整轮数 */
     private final int keepRecentRounds;
+    private final Map<String, SummaryConversationState> sessionStore = new ConcurrentHashMap<>();
 
-    /** 会话的消息存储 */
-    private final Map<String, List<JsonObject>> store = new HashMap<>();
-    /** 会话的摘要存储 */
-    private final Map<String, String> summaryStore = new HashMap<>();
+    public MemoryChatResponse chat(String sessionId, String question) {
+        String normalizedSessionId = MemoryPromptSupport.normalizeSessionId(sessionId, "summary-memory-demo");
+        SummaryConversationState state = this.sessionStore.computeIfAbsent(
+            normalizedSessionId,
+            key -> new SummaryConversationState()
+        );
 
-    public SummaryMemory(int tokenThreshold, int keepRecentRounds) {
-        this.tokenThreshold = tokenThreshold;
-        this.keepRecentRounds = keepRecentRounds;
-    }
+        synchronized (state) {
+            List<Message> promptMessages = buildPromptMessages(state, question);
+            String answer = MemoryPromptSupport.extractText(this.chatModel.call(new Prompt(promptMessages)));
 
-    /**
-     * 添加消息，超过阈值时自动触发压缩
-     */
-    public void addMessage(String sessionId, String role, String content) {
-        store.computeIfAbsent(sessionId, k -> new ArrayList<>())
-                .add(message(role, content));
+            state.recentMessages.add(new UserMessage(question));
+            state.recentMessages.add(new AssistantMessage(answer));
+            compressIfNecessary(state);
 
-        // 检查是否需要压缩
-        if (estimateTotalTokens(sessionId) > tokenThreshold) {
-            try {
-                compress(sessionId);
-            } catch (IOException e) {
-                System.err.println("摘要压缩失败：" + e.getMessage());
-            }
+            return new MemoryChatResponse(
+                "summary-compression",
+                normalizedSessionId,
+                question,
+                answer,
+                MemoryPromptSupport.estimateTokens(promptMessages),
+                state.summary,
+                state.compressionCount,
+                MemoryPromptSupport.toViews(state.recentMessages)
+            );
         }
     }
 
-    /**
-     * 将早期对话压缩为摘要
-     */
-    private void compress(String sessionId) throws IOException {
-        List<JsonObject> allMessages = store.get(sessionId);
-        if (allMessages == null || allMessages.size() <= keepRecentRounds * 2) {
+    private void compressIfNecessary(SummaryConversationState state) {
+        if (MemoryPromptSupport.estimateTokens(state.recentMessages) <= this.tokenThreshold) {
             return;
         }
 
-        // 分离：早期消息（要压缩）+ 最近消息（要保留）
-        int keepCount = keepRecentRounds * 2;
-        List<JsonObject> earlyMessages = allMessages.subList(0, allMessages.size() - keepCount);
-        List<JsonObject> recentMessages = new ArrayList<>(
-                allMessages.subList(allMessages.size() - keepCount, allMessages.size()));
-
-        // 拼接早期对话文本
-        StringBuilder conversationText = new StringBuilder();
-        for (JsonObject msg : earlyMessages) {
-            String msgRole = msg.get("role").getAsString();
-            String msgContent = msg.get("content").getAsString();
-            conversationText.append(msgRole).append("：").append(msgContent).append("\n");
+        int keepCount = Math.max(2, this.keepRecentRounds * 2);
+        if (state.recentMessages.size() <= keepCount) {
+            return;
         }
 
-        // 拼上已有的摘要（如果有的话）
-        String existingSummary = summaryStore.getOrDefault(sessionId, "");
+        List<Message> overflowMessages = new ArrayList<>(
+            state.recentMessages.subList(0, state.recentMessages.size() - keepCount)
+        );
+        List<Message> recentMessages = new ArrayList<>(
+            state.recentMessages.subList(state.recentMessages.size() - keepCount, state.recentMessages.size())
+        );
 
-        String summaryPrompt = "请把以下对话记录压缩成一段简洁的背景摘要，要求：\n"
-                + "1. 保留用户的核心问题和学习方向\n"
-                + "2. 保留关键技术细节（框架、版本、报错信息等）\n"
-                + "3. 保留已确认的结论\n"
-                + "4. 保留尚未解决的问题\n"
-                + "5. 去掉寒暄和重复内容\n"
-                + "6. 第三人称，200字以内\n";
-
-        if (!existingSummary.isEmpty()) {
-            summaryPrompt += "\n已有的历史摘要：\n" + existingSummary + "\n";
-        }
-        summaryPrompt += "\n需要压缩的新对话：\n" + conversationText;
-
-        // 调用LLM生成摘要（可以用小模型降低成本）
-        String summary = chat(List.of(
-                message("system", "你是一个对话摘要助手，将对话历史压缩成简洁的背景摘要。"),
-                message("user", summaryPrompt)
-        ));
-
-        // 更新存储
-        summaryStore.put(sessionId, summary);
-        store.put(sessionId, recentMessages);
-
-        System.out.println("[压缩触发] 将" + earlyMessages.size() + "条早期消息压缩为摘要");
-        System.out.println("[摘要内容] " + summary);
+        state.summary = mergeSummary(state.summary, overflowMessages);
+        state.recentMessages.clear();
+        state.recentMessages.addAll(recentMessages);
+        state.compressionCount++;
     }
 
-    /**
-     * 组装发给LLM API的messages
-     */
-    public List<JsonObject> buildMessages(String sessionId,
-                                          String systemPrompt,
-                                          String currentQuestion) {
-        List<JsonObject> messages = new ArrayList<>();
-        messages.add(message("system", systemPrompt));
+    private String mergeSummary(String existingSummary, List<Message> overflowMessages) {
+        String summaryPrompt = """
+            请把下面的已有摘要和新增对话合并成一段新的背景摘要。
+            输出要求：
+            1. 直接输出摘要正文，不要加标题。
+            2. 保留用户当前关注的主题、关键技术点、已经确认的结论和待解决问题。
+            3. 合并重复内容，别把对话原文逐句照搬。
+            4. 控制在 180 到 220 字之间。
 
-        // 如果有摘要，作为背景信息注入
-        String summary = summaryStore.get(sessionId);
-        if (summary != null && !summary.isEmpty()) {
-            messages.add(message("system", "【对话背景摘要】" + summary));
-        }
+            已有摘要：
+            %s
 
-        // 加上最近的完整对话
-        messages.addAll(store.getOrDefault(sessionId, List.of()));
+            新增对话：
+            %s
+            """.formatted(existingSummary.isBlank() ? "暂无" : existingSummary,
+            MemoryPromptSupport.toTranscript(overflowMessages));
 
-        // 加上当前问题
-        messages.add(message("user", currentQuestion));
-        return messages;
+        List<Message> summaryMessages = List.of(
+            new SystemMessage(SUMMARY_SYSTEM_PROMPT),
+            new UserMessage(summaryPrompt)
+        );
+        return MemoryPromptSupport.extractText(this.chatModel.call(new Prompt(summaryMessages)));
     }
-
-    private int estimateTotalTokens(String sessionId) {
-        return store.getOrDefault(sessionId, List.of()).stream()
-                .mapToInt(msg -> estimateTokens(msg.get("content").getAsString()))
-                .sum();
-    }
-
-    /**
-     * Token数粗估方法
-     */
-    static int estimateTokens(String text) {
-        if (text == null || text.isEmpty()) return 0;
-        int chineseChars = 0, otherChars = 0;
-        for (char c : text.toCharArray()) {
-            if (Character.UnicodeScript.of(c) == Character.UnicodeScript.HAN) {
-                chineseChars++;
-            } else if (!Character.isWhitespace(c)) {
-                otherChars++;
-            }
-        }
-        return (int) (chineseChars * 1.5 + otherChars / 4.0);
-    }
-    
-    // chat() 和 message() 方法省略...
 }
 ```
 
+你会发现，这版代码跟前面的滑动窗口有个明显区别：
+
+- 滑动窗口主要依赖 Spring AI 自带的 `ChatMemory`
+- 摘要压缩更像是在 Spring AI 之上自定义一层“记忆编排逻辑”
+
+这也是实际项目里很常见的做法。  
+不是所有东西都要硬套框架现成类，有时候最稳的办法就是：
+
+- **消息结构** 用 Spring AI 原生 `Message`
+- **请求发起** 用 Spring AI 原生 `Prompt` / `ChatModel`
+- **压缩规则** 自己按业务写
+
+这样代码既不会太散，也不会为了追求“框架感”把一个简单示例弄得很重。
+
 ### 效果对比：三种策略同时跑
 
-用一个6轮深入讨论Spring Bean生命周期的场景：
+文档里只讲文字效果不够过瘾，所以我在示例模块里又补了一个专门的对比服务，直接用固定脚本把三种策略同时跑一遍。  
+这个脚本还是拿“连续追问 Spring Bean 作用域”做例子，因为这个场景特别适合观察记忆策略差异：
 
+- 第 2 轮开始出现“它”这种指代
+- 中间会继续追问线程安全、生命周期
+- 最后一轮又回到第一轮最早的话题
+
+代码长这样：
+
+```java
+@Service
+public class MemoryComparisonService {
+
+    private static final List<String> QUESTIONS = List.of(
+        "Spring Bean 的作用域有哪些？",
+        "默认用的是哪一种？",
+        "那它在并发下会不会有线程安全问题？",
+        "如果换成 prototype，还会走完整生命周期回调吗？",
+        "那在项目里，我该怎么判断一个组件更适合 singleton 还是 prototype？",
+        "回到最开始那个问题，除了常见那几种作用域，还能自己扩展吗？"
+    );
+
+    public MemoryComparisonResponse runDefaultComparison() {
+        String slidingSessionId = "compare-sliding-window";
+        String summarySessionId = "compare-summary-memory";
+
+        this.slidingWindowMemoryChatService.clear(slidingSessionId);
+        this.summaryCompressionMemoryChatService.clear(summarySessionId);
+
+        List<ComparisonTurnResponse> turns = new ArrayList<>();
+        int round = 1;
+        for (String question : QUESTIONS) {
+            MemoryChatResponse noMemoryResponse = this.noMemoryChatService.chat(question);
+            MemoryChatResponse slidingWindowResponse = this.slidingWindowMemoryChatService.chat(slidingSessionId, question);
+            MemoryChatResponse summaryResponse = this.summaryCompressionMemoryChatService.chat(summarySessionId, question);
+
+            turns.add(new ComparisonTurnResponse(
+                round++,
+                question,
+                noMemoryResponse.answer(),
+                slidingWindowResponse.answer(),
+                summaryResponse.answer(),
+                summaryResponse.summary(),
+                summaryResponse.compressionCount()
+            ));
+        }
+
+        return new MemoryComparisonResponse(
+            "Spring Bean 作用域六轮追问",
+            turns,
+            this.slidingWindowMemoryChatService.snapshot(slidingSessionId),
+            this.summaryCompressionMemoryChatService.snapshot(summarySessionId)
+        );
+    }
+}
 ```
-===== 无记忆模式 =====
-第1轮 - 学生：Spring Bean的作用域有哪些？
-导师：Spring Bean有singleton、prototype、request、session等作用域...
 
-第2轮 - 学生：那默认是哪种？
-导师：请问您想了解哪个框架或组件的默认配置呢？
-❌ 不知道在问Spring Bean
+如果你启动示例项目，可以直接调这个接口：
 
-===== 滑动窗口（N=3） =====
-第1轮~第5轮：正常回答...
-
-第6轮 - 学生：回到第一个问题，除了你说的那几种作用域，还有自定义的吗？
-导师：抱歉，我不确定之前提到过哪些作用域...
-❌ 第1轮已被丢弃，作用域信息丢失
-
-===== 摘要压缩（阈值2000 Token，保留最近2轮） =====
-[压缩触发] 将4条早期消息压缩为摘要
-[摘要内容] 学员在学习Spring Bean相关知识。已了解五种作用域
-（singleton/prototype/request/session/application），默认
-singleton。已理解singleton下的线程安全问题及解决方案。
-
-第6轮 - 学生：回到第一个问题，除了你说的那几种作用域，还有自定义的吗？
-导师：除了之前提到的singleton、prototype、request、session、application
-五种内置作用域外，Spring确实支持自定义作用域...
-✅ 通过摘要保留了早期信息
+```http
+GET /memory/compare
 ```
+
+这个接口返回的 JSON 里会把每一轮的三种回答都列出来，另外还会带上：
+
+- 滑动窗口最终保留下来的消息列表
+- 摘要压缩最终留下的最近消息
+- 当前摘要内容
+- 摘要一共触发了几次压缩
+
+所以你在本地跑一遍，马上就能看到这三种现象：
+
+1. **无记忆模式**：第二轮开始就容易听不懂“它”指什么
+2. **滑动窗口模式**：中间几轮通常没问题，但最后可能把最早信息挤掉
+3. **摘要压缩模式**：即使前面的完整对话不在了，只要摘要保留得够好，最后仍然能接得上
+
+:::info 这套示例为什么故意没做复杂
+这里只是用来展示“记忆策略”本身，所以我没有额外接 Redis、数据库，也没有引入 Agent、Graph、Workflow 这些更重的能力。目的很明确，就是让你一眼看懂：
+
+- Spring AI 自带能力适合解决什么
+- 哪些地方要自己补业务逻辑
+- 三种策略在真实多轮对话里的效果差在哪里
+:::
 
 ## RAG场景的Token预算分配
 

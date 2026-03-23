@@ -18,48 +18,88 @@ keywords: ["Spring AI Alibaba", "Mem0集成", "REST API", "长期记忆实战", 
 
 ```plantuml title="Spring AI + Mem0集成架构" width="100%" align="left"
 @startuml
-!theme plain
-skinparam backgroundColor #FEFEFE
-skinparam roundcorner 10
+top to bottom direction
+skinparam backgroundColor transparent
+skinparam shadowing false
+skinparam roundcorner 16
 skinparam defaultFontName "Microsoft YaHei"
 skinparam defaultFontSize 12
+skinparam defaultTextAlignment center
+skinparam linetype ortho
+skinparam nodesep 22
+skinparam ranksep 34
+skinparam dpi 170
+skinparam packageStyle rectangle
+skinparam ArrowColor #0F766E
+skinparam ArrowThickness 1.5
+skinparam ArrowFontColor #155E75
+skinparam ArrowFontSize 10
+
+skinparam package {
+  BorderColor #CBD5E1
+  BackgroundColor #F8FAFC
+  FontColor #164E63
+  FontStyle bold
+  FontSize 13
+}
 
 skinparam rectangle {
-  BackgroundColor<<app>> #E3F2FD
-  BorderColor<<app>> #1976D2
-  BackgroundColor<<mem0>> #FFF3E0
-  BorderColor<<mem0>> #F57C00
-  BackgroundColor<<infra>> #E8F5E9
-  BorderColor<<infra>> #388E3C
+  BorderColor #94A3B8
+  BackgroundColor #FFFFFF
+  FontColor #0F172A
+  FontSize 12
 }
 
-rectangle "Spring AI应用" <<app>> {
-  rectangle "ChatClient" as CC
-  rectangle "Mem0ChatMemoryAdvisor" as ADV
-  rectangle "ChatModel\n（通义千问/DeepSeek）" as CM
+package "1. 调用入口" as L0 #F8FAFC {
+  rectangle "业务请求\n<size:10>message + userId</size>" as USER #ECFEFF
 }
 
-rectangle "Mem0 REST API Server" <<mem0>> {
-  rectangle "main.py\n（FastAPI服务）" as API
-  rectangle "Memory引擎" as ENGINE
+package "2. Spring AI 应用层" as L1 #F8FAFC {
+  rectangle "LongTermMemoryController\n<size:10>/longTermMemory/chat</size>" as CTRL #F0F9FF
+  rectangle "ChatClient\n<size:10>统一对话入口</size>" as CC #FFFFFF
+  rectangle "Mem0ChatMemoryAdvisor\n<size:10>前置检索 / 后置写回 / USER_ID隔离</size>" as ADV #CFFAFE
+  rectangle "ChatModel\n<size:10>生成最终回答</size>" as CM #FFF7ED
+
+  CTRL -[hidden]down-> CC
+  CC -[hidden]down-> ADV
+  CC -[hidden]right-> CM
 }
 
-rectangle "基础设施" <<infra>> {
-  rectangle "PostgreSQL\n+ PGVector" as PG
-  rectangle "Neo4j\n图数据库" as NEO
-  rectangle "LLM API\n（百炼/OpenAI）" as LLM
-  rectangle "Embedding API" as EMB
+package "3. Mem0 服务层" as L2 #F8FAFC {
+  rectangle "Mem0 REST API Server\n<size:10>/configure /memories /search</size>" as API #FEF3C7
+  rectangle "记忆编排引擎\n<size:10>提取事实 / 去重合并 / 排序召回</size>" as ENGINE #FFFBEB
+
+  API -[hidden]down-> ENGINE
 }
 
-CC --> ADV : 对话请求
-ADV --> API : HTTP: 查询/添加记忆
-ADV --> CM : 携带记忆的请求
-API --> ENGINE
-ENGINE --> PG : 向量存储/检索
-ENGINE --> NEO : 关系存储/查询
-ENGINE --> LLM : 记忆提取/冲突判断
-ENGINE --> EMB : 文本向量化
+package "4. 长期记忆基础设施" as L3 #F8FAFC {
+  package "存储侧" as STORE #FFFFFF {
+    rectangle "PostgreSQL + PGVector\n<size:10>语义存储 / Top-K 检索</size>" as PG #ECFDF5
+    rectangle "Neo4j\n<size:10>关系记忆 / 图查询</size>" as NEO #F0FDF4
+    PG -[hidden]right-> NEO
+  }
 
+  package "模型侧" as MODEL #FFFFFF {
+    rectangle "LLM API\n<size:10>事实提取 / 冲突判断</size>" as LLM #F0F9FF
+    rectangle "Embedding API\n<size:10>文本向量化</size>" as EMB #F0FDFA
+    LLM -[hidden]right-> EMB
+  }
+
+  STORE -[hidden]down-> MODEL
+}
+
+L0 -[hidden]down-> L1
+L1 -[hidden]down-> L2
+L2 -[hidden]down-> L3
+
+USER -down-> CTRL
+CTRL -down-> CC
+CC -down-> ADV
+CC -right-> CM
+ADV -down-> API : HTTP 检索 / 写回
+API -down-> ENGINE
+ENGINE -down-> STORE : 存储 / 召回
+ENGINE -down-> MODEL : 提取 / 向量化
 @enduml
 ```
 
