@@ -21,99 +21,66 @@ keywords: ["Spring AI Alibaba", "Mem0集成", "REST API", "长期记忆实战", 
 top to bottom direction
 skinparam backgroundColor transparent
 skinparam shadowing false
-skinparam roundcorner 16
+skinparam roundcorner 18
 skinparam defaultFontName "Microsoft YaHei"
-skinparam defaultFontSize 12
+skinparam defaultFontSize 13
 skinparam defaultTextAlignment center
 skinparam linetype ortho
-skinparam nodesep 22
-skinparam ranksep 34
+skinparam nodesep 30
+skinparam ranksep 44
 skinparam dpi 170
 skinparam packageStyle rectangle
 skinparam ArrowColor #0F766E
-skinparam ArrowThickness 1.5
+skinparam ArrowThickness 1.7
 skinparam ArrowFontColor #155E75
-skinparam ArrowFontSize 10
+skinparam ArrowFontSize 11
 
 skinparam package {
-  BorderColor #CBD5E1
+  BorderColor #A8B8CC
   BackgroundColor #F8FAFC
-  FontColor #164E63
+  FontColor #0F172A
   FontStyle bold
-  FontSize 13
+  FontSize 14
 }
 
 skinparam rectangle {
-  BorderColor #94A3B8
+  BorderColor #9AAEC4
   BackgroundColor #FFFFFF
   FontColor #0F172A
-  FontSize 12
-}
-
-skinparam rectangle<<spacer>> {
-  BorderColor transparent
-  BackgroundColor transparent
-  FontColor transparent
+  FontSize 13
 }
 
 package "1. 调用入口" as L0 #F8FAFC {
-  rectangle "业务请求\n<size:10>message + userId</size>" as USER #ECFEFF
-  rectangle "<size:1>pad pad pad pad pad pad</size>" as S0 <<spacer>>
-  USER -[hidden]right-> S0
+  rectangle "业务请求\nmessage\nuserId" as USER #E6F7FB
 }
 
 package "2. Spring AI 应用层" as L1 #F8FAFC {
-  rectangle "LongTermMemoryController\n<size:10>/longTermMemory/chat</size>" as CTRL #F0F9FF
-  rectangle "ChatClient\n<size:10>统一对话入口</size>" as CC #FFFFFF
-  rectangle "Mem0ChatMemoryAdvisor\n<size:10>前置检索 / 后置写回 / USER_ID隔离</size>" as ADV #CFFAFE
-  rectangle "ChatModel\n<size:10>生成最终回答</size>" as CM #FFF7ED
-  rectangle "<size:1>pad pad pad pad pad pad pad</size>" as S1 <<spacer>>
-
-  CTRL -[hidden]down-> CC
-  CC -[hidden]down-> ADV
-  CC -[hidden]right-> CM
-  CM -[hidden]right-> S1
+  together {
+    rectangle "业务接入\nLongTermMemoryController\n/longTermMemory/chat\nChatClient" as APP_IN #EEF6FF
+    rectangle "记忆编排\nMem0ChatMemoryAdvisor\n前置检索\n后置写回\nUSER_ID 隔离\nChatModel" as APP_CORE #DDF6FC
+  }
 }
 
 package "3. Mem0 服务层" as L2 #F8FAFC {
-  rectangle "Mem0 REST API Server\n<size:10>/configure /memories /search</size>" as API #FEF3C7
-  rectangle "记忆编排引擎\n<size:10>提取事实 / 去重合并 / 排序召回</size>" as ENGINE #FFFBEB
-  rectangle "<size:1>pad pad pad pad pad pad pad</size>" as S2 <<spacer>>
-
-  API -[hidden]down-> ENGINE
-  API -[hidden]right-> S2
+  together {
+    rectangle "Mem0 REST API\n/configure\n/memories\n/search" as API #FFF4CC
+    rectangle "记忆编排引擎\n事实提取\n去重合并\n排序召回" as ENGINE #FFF9E8
+  }
 }
 
 package "4. 长期记忆基础设施" as L3 #F8FAFC {
-  package "存储侧" as STORE #FFFFFF {
-    rectangle "PostgreSQL + PGVector\n<size:10>语义存储 / Top-K 检索</size>" as PG #ECFDF5
-    rectangle "Neo4j\n<size:10>关系记忆 / 图查询</size>" as NEO #F0FDF4
-    PG -[hidden]right-> NEO
+  together {
+    rectangle "记忆存储\nPostgreSQL + PGVector\nNeo4j" as STORE #ECFDF5
+    rectangle "模型能力\nLLM API\nEmbedding API" as MODEL #EFF6FF
   }
-
-  package "模型侧" as MODEL #FFFFFF {
-    rectangle "LLM API\n<size:10>事实提取 / 冲突判断</size>" as LLM #F0F9FF
-    rectangle "Embedding API\n<size:10>文本向量化</size>" as EMB #F0FDFA
-    LLM -[hidden]right-> EMB
-  }
-
-  rectangle "<size:1>pad pad pad pad pad</size>" as S3 <<spacer>>
-  STORE -[hidden]down-> MODEL
-  STORE -[hidden]right-> S3
 }
 
-L0 -[hidden]down-> L1
-L1 -[hidden]down-> L2
-L2 -[hidden]down-> L3
-
-USER -down-> CTRL
-CTRL -down-> CC
-CC -down-> ADV
-CC -right-> CM
-ADV -down-> API : HTTP 检索 / 写回
-API -down-> ENGINE
-ENGINE -down-> STORE : 存储 / 召回
-ENGINE -down-> MODEL : 提取 / 向量化
+USER -down-> APP_IN : 发起对话
+APP_IN -right-> APP_CORE : 统一对话
+APP_CORE -down-> API : 调用 Mem0
+API -right-> ENGINE : 服务编排
+ENGINE -down-> STORE : 存储 / 检索
+STORE -right-> MODEL : 向量化 / 判断
 @enduml
 ```
 
