@@ -255,11 +255,11 @@ var _hmt = _hmt || [];
                 sidebarId: 'dockDataCenterSidebar',
                 label: 'dock-data-center (数据收集的灵活适配)',
               },
-              /*{
+              {
                 type: 'docSidebar',
                 sidebarId: 'superAISidebar',
                 label: '超级智能体（深入剖析AI底层和深度实战）',
-              },*/
+              },
             ],
           },
           {

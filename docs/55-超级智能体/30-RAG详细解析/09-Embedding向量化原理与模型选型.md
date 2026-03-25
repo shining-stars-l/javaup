@@ -4,7 +4,7 @@ description: "Embedding是RAG的核心魔法，它让机器能够理解文字的
 keywords: ["Embedding", "向量化", "向量模型", "语义相似度", "余弦相似度", "Spring AI"]
 ---
 
-# 给文字画像的技巧：向量
+# Embedding向量化原理与模型选型
 
 假设你是个媒人，手里有1000个单身男女的资料，要给他们配对。
 
