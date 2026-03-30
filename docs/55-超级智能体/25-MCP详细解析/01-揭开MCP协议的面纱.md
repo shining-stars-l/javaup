@@ -174,44 +174,71 @@ Host拿到工具执行结果后，再次调用大模型，让它基于这个结�
 hide footbox
 skinparam backgroundColor transparent
 skinparam shadowing false
-skinparam defaultFontColor #1E293B
-skinparam ArrowColor #2563EB
-skinparam ArrowThickness 1.2
-skinparam ParticipantBorderColor #94A3B8
-skinparam ParticipantBackgroundColor #EFF6FF
-skinparam ParticipantFontColor #1E293B
+skinparam dpi 160
+skinparam roundcorner 20
+skinparam defaultFontName "Microsoft YaHei"
+skinparam defaultFontSize 13
+skinparam defaultTextAlignment center
+skinparam sequenceMessageAlign center
+skinparam responseMessageBelowArrow true
+skinparam ParticipantPadding 36
+skinparam BoxPadding 10
+skinparam maxMessageSize 28
+skinparam ArrowColor #0891B2
+skinparam ArrowThickness 1.4
+skinparam ArrowFontColor #164E63
+skinparam ArrowFontSize 12
+skinparam ParticipantBorderColor #67E8F9
+skinparam ParticipantBackgroundColor #ECFEFF
+skinparam ParticipantFontColor #164E63
+skinparam ParticipantFontSize 13
 skinparam ActorBorderColor #94A3B8
 skinparam ActorBackgroundColor #F8FAFC
-skinparam ActorFontColor #1E293B
-skinparam LifeLineBorderColor #CBD5E1
+skinparam ActorFontColor #0F172A
+skinparam ActorFontSize 14
+skinparam LifeLineBorderColor #CFE8F3
 skinparam LifeLineBackgroundColor #FFFFFF
-skinparam NoteBorderColor #F59E0B
-skinparam NoteBackgroundColor #FEF3C7
-skinparam RoundCorner 18
+skinparam NoteBorderColor #A5F3FC
+skinparam NoteBackgroundColor #F0FDFF
+skinparam NoteFontColor #155E75
 
 actor 用户 as User
+box "应用侧" #F8FBFD
 participant "Host\n智能助手" as Host
-participant "大模型" as LLM
-participant "MCP Client" as Client
-participant "MCP Server" as Server
+participant "LLM\n大模型" as LLM
+participant "Client\nMCP 客户端" as Client
+end box
 
-User -> Host : 提问“查一下我的考勤记录”
-Host -> LLM : 附带工具清单，请求决策
-LLM --> Host : 选择 queryAttendance\n并生成调用参数
+box "工具侧" #F0FDFF
+participant "Server\nHR 工具服务" as Server
+end box
+
+== 1. 用户发问 ==
+User -> Host : 查询本月考勤
+Host -> LLM : 问题 + 可用工具列表
+LLM --> Host : 决策调用 queryAttendance\n生成调用参数
+
+== 2. 发起工具调用 ==
 Host -> Client : 发起 tools/call
 Client -> Server : 发送 JSON-RPC 请求
 activate Server
-Server -> Server : 查询 HR 系统 / 数据库
-Server --> Client : 返回考勤结果
+Server -> Server : 查询 HR 系统\n或考勤数据库
+Server --> Client : 返回考勤 JSON
 deactivate Server
-Client --> Host : 交付工具执行结果
-Host -> LLM : 带结果再次生成自然语言回复
-LLM --> Host : “本月出勤 22 天，迟到 1 次…”
-Host --> User : 展示最终答案
 
-note over LLM
-大模型负责“决定怎么调”和“怎么表达”
-真正执行工具的是应用与 Server
+== 3. 组织最终回复 ==
+Client --> Host : 交付工具结果
+Host -> LLM : 结果 + 原始问题
+LLM --> Host : 生成自然语言回复
+Host --> User : 返回最终答案
+
+note right of LLM
+负责决策是否调用工具
+并组织最终回复
+end note
+
+note right of Server
+真正执行 HR 查询逻辑
 end note
 @enduml
 ```
