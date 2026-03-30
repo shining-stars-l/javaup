@@ -355,9 +355,9 @@ mcpClient.listTools()
 
 现在再看用户真正发请求时的链路。
 
-```plantuml title="查考勤请求的真实运行期时序图" width="100%" align="left"
+```plantuml title="查考勤请求的真实运行期流程图" width="100%" align="left"
 @startuml
-hide footbox
+top to bottom direction
 skinparam backgroundColor transparent
 skinparam shadowing false
 skinparam dpi 160
@@ -365,83 +365,41 @@ skinparam roundcorner 20
 skinparam defaultFontName "Microsoft YaHei"
 skinparam defaultFontSize 13
 skinparam defaultTextAlignment center
-skinparam sequenceMessageAlign center
-skinparam responseMessageBelowArrow true
-skinparam ParticipantPadding 28
-skinparam BoxPadding 10
-skinparam maxMessageSize 26
+skinparam linetype ortho
+skinparam Padding 10
+skinparam nodesep 26
+skinparam ranksep 34
 skinparam ArrowColor #0891B2
 skinparam ArrowThickness 1.4
 skinparam ArrowFontColor #164E63
 skinparam ArrowFontSize 12
-skinparam ParticipantBorderColor #67E8F9
-skinparam ParticipantBackgroundColor #ECFEFF
-skinparam ParticipantFontColor #164E63
-skinparam ParticipantFontSize 13
-skinparam ActorBorderColor #94A3B8
-skinparam ActorBackgroundColor #F8FAFC
-skinparam ActorFontColor #0F172A
-skinparam ActorFontSize 14
-skinparam LifeLineBorderColor #CFE8F3
-skinparam LifeLineBackgroundColor #FFFFFF
+skinparam rectangle {
+  BackgroundColor #FFFFFF
+  BorderColor #67E8F9
+  FontColor #0F172A
+}
 skinparam NoteBorderColor #A5F3FC
 skinparam NoteBackgroundColor #F0FDFF
 skinparam NoteFontColor #155E75
 
-actor 用户 as User
-box "应用进程" #F8FBFD
-participant "Controller\nAssistantController" as Controller
-participant "Service\nAssistantService" as Service
-participant "ChatUtils\nDefaultChatClientUtils" as ChatUtils
-participant "ChatModel\ninternalCall" as ChatModel
-participant "ToolManager\nDefaultToolCallingManager" as ToolManager
-participant "MCP Callback\nSyncMcpToolCallback" as Callback
-participant "MCP Client\nMcpSyncClient" as McpClient
-end box
+rectangle "1. 请求进入业务入口\n\n用户发起 POST /api/assistant/chat\nAssistantController 接住 HTTP 请求\nAssistantService.chat(message)\nprompt().user(...).call().content()" as Step1 #F8FBFD
 
-box "MCP Server 进程" #F0FDFF
-participant "MCP Endpoint\n/mcp" as McpEndpoint
-participant "Method Callback\nMethodToolCallback" as MethodCallback
-participant "AttendanceTools" as Attendance
-end box
+rectangle "2. 首轮模型调用\n\nDefaultChatClientUtils 组装\nPrompt + ToolCallingChatOptions\nChatModel.internalCall() 执行 createRequest()\n注入工具 schema 并调用阿里百炼\n模型返回 tool_calls(checkAttendance)" as Step2 #ECFEFF
 
-== 1. 请求进入业务入口 ==
-User -> Controller : POST /api/assistant/chat
-Controller -> Service : chat(message)
-Service -> Service : prompt().user(...)\n.call().content()
+rectangle "3. 触发 MCP 工具\n\nDefaultToolCallingManager 触发工具执行\nSyncMcpToolCallback.call(...)\nMcpSyncClient.callTool(request)\n向 /mcp 发送 tools/call\nMethodToolCallback 路由到匹配工具\nAttendanceTools.checkAttendance(...)\n返回考勤 JSON 结果" as Step3 #F0FDFF
 
-== 2. 首轮模型调用 ==
-Service -> ChatUtils : 组装 Prompt 与 ToolCallingChatOptions
-ChatUtils -> ChatModel : call(prompt)
-ChatModel -> ChatModel : createRequest()\n注入工具 schema
-ChatModel -> ChatModel : 调用阿里百炼
-ChatModel --> ToolManager : 返回 tool_calls\ncheckAttendance
+rectangle "4. 二次模型生成答案\n\n工具结果写入 ToolResponseMessage\nChatModel 再次调用 DeepSeek\n生成最终自然语言答案\nAssistantService -> AssistantController -> 用户" as Step4 #F8FBFD
 
-== 3. 触发 MCP 工具 ==
-ToolManager -> Callback : call(arguments, toolContext)
-Callback -> McpClient : callTool(request)
-McpClient -> McpEndpoint : POST /mcp tools/call
-McpEndpoint -> MethodCallback : 路由到匹配工具
-MethodCallback -> Attendance : checkAttendance(employeeId, month)
-Attendance --> MethodCallback : 考勤 JSON 结果
-MethodCallback --> McpEndpoint : CallToolResult
-McpEndpoint --> McpClient : CallToolResult
-McpClient --> Callback : tool result
-Callback --> ToolManager : JSON 字符串
+Step1 -down-> Step2
+Step2 -down-> Step3
+Step3 -down-> Step4
 
-== 4. 二次模型生成答案 ==
-ToolManager --> ChatModel : 写入 ToolResponseMessage
-ChatModel -> ChatModel : 再次调用 DeepSeek
-ChatModel --> Service : 返回自然语言答案
-Service --> Controller : reply
-Controller --> User : 返回答案
-
-note right of ChatModel
-第一次决定是否调工具
-第二次生成最终答案
+note right of Step2
+第一次模型调用负责决定是否调工具
+第二次模型调用负责组织最终答案
 end note
 
-note right of Attendance
+note right of Step3
 这里才是真正的考勤查询逻辑
 end note
 @enduml
