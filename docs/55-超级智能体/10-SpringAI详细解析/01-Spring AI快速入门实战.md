@@ -55,8 +55,6 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 ### 示例中项目地址
 
-这篇文章里的代码，我已经同步落到了 `super-ai-hub` 仓库的 `ai-example-spring-ai` 模块中
-
 - 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
 - 项目模块：`ai-example-spring-ai`
 
@@ -64,7 +62,7 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 ### 引入核心依赖
 
-在 `super-ai-hub` 示例工程里，BOM版本统一定义在父工程 `super-ai/pom.xml` 中，当前实际使用的是：
+在 `super-agent` 示例工程里，BOM版本统一定义在父工程 `super-agent/pom.xml` 中，当前实际使用的是：
 
 - Spring Boot `3.5.6`
 - Spring AI `1.1.0`

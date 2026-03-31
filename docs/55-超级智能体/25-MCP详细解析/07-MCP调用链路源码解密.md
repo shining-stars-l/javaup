@@ -8,7 +8,7 @@ keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatMode
 
 前面几篇我们已经把 MCP Server 和 Client 跑起来了，但上一篇对“源码调用链路”的描述还是偏通用，容易把 Spring AI 的公共机制和本项目的真实实现混在一起。
 
-这一篇我们不再泛讲概念，直接以 `super-ai-hub` 里的这两个模块为准，把链路重新梳理一遍：
+这一篇不泛讲概念了，以之前的项目里的这两个模块为准，把链路重新梳理一遍：
 
 - `ai-example-spring-ai-office-mcp-client`
 - `ai-example-spring-ai-office-mcp-server`
