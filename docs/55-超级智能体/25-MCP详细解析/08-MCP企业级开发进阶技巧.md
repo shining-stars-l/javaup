@@ -337,25 +337,41 @@ public class ResilientMcpClient {
 @startuml
 skinparam backgroundColor transparent
 skinparam shadowing false
-skinparam defaultFontColor #1E293B
-skinparam ArrowColor #2563EB
-skinparam ArrowThickness 1.2
-skinparam stateBorderColor #94A3B8
-skinparam stateBackgroundColor #EFF6FF
-skinparam stateFontColor #1E293B
+skinparam dpi 160
+skinparam linetype polyline
+skinparam defaultFontName "Microsoft YaHei"
+skinparam defaultFontSize 13
+skinparam defaultFontColor #164E63
+skinparam ArrowColor #0891B2
+skinparam ArrowThickness 1.4
+skinparam stateBorderColor #67E8F9
+skinparam stateBackgroundColor #ECFEFF
+skinparam stateFontColor #164E63
 skinparam RoundCorner 18
+
+state "Connected\n已连接" as Connected #F0FDFF
+state "Disconnected\n已断线" as Disconnected #FFF7ED
+state "WaitingBackoff\n等待退避" as WaitingBackoff #FEF3C7
+state "Reconnecting\n重连中" as Reconnecting #DBEAFE
+state "Replaying\n重放缓存请求" as Replaying #ECFDF5
+state "Failed\n终止" as Failed #F8FAFC
 
 [*] --> Connected
 
-Connected --> Disconnected : 网络抖动 / 服务重启
-Disconnected --> WaitingBackoff : 记录失败次数\n计算退避时间
-WaitingBackoff --> Reconnecting : 定时器到期
-Reconnecting --> Connected : initialize 成功
-Reconnecting --> WaitingBackoff : 重连失败，继续退避
-Connected --> Replaying : 恢复连接且存在缓存请求
-Replaying --> Connected : 重放完成
-WaitingBackoff --> Failed : 超过最大重试次数
+Connected -down-> Disconnected : 网络抖动\n服务重启
+Disconnected -right-> WaitingBackoff : 记录失败次数\n计算退避时间
+WaitingBackoff -right-> Reconnecting : 定时器到期
+Reconnecting -up-> Connected : initialize 成功
+Reconnecting -left-> WaitingBackoff : 重连失败\n继续退避
+Connected -right-> Replaying : 恢复连接且存在\n缓存请求
+Replaying -left-> Connected : 重放完成
+WaitingBackoff -down-> Failed : 超过最大重试次数
 Failed --> [*]
+
+Connected -[hidden]right-> Replaying
+Disconnected -[hidden]right-> WaitingBackoff
+WaitingBackoff -[hidden]right-> Reconnecting
+WaitingBackoff -[hidden]down-> Failed
 @enduml
 ```
 
