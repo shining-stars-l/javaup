@@ -1,7 +1,7 @@
 ---
 slug: /super-agent/mcp/enterprise-practices
-description: "MCP企业级开发中的认证鉴权、SSE重连、工具过滤、跳过模型总结等高级技巧，以及调试工具使用和主流客户端接入配置"
-keywords: ["MCP认证", "SSE重连", "工具过滤", "MCP调试", "Cline配置", "Cursor MCP"]
+description: "MCP企业级开发中的认证鉴权、SSE重连、工具过滤、跳过模型总结等高级技巧，以及主流客户端接入配置"
+keywords: ["MCP认证", "SSE重连", "工具过滤", "returnDirect", "Cline配置", "Cursor MCP"]
 ---
 
 # MCP企业级开发进阶技巧
@@ -651,98 +651,15 @@ stop
 @enduml
 ```
 
-## MCP调试工具：排查问题的利器
+## 调试你的MCP服务
 
-开发过程中遇到问题是常态，好的调试工具能让你事半功倍。这里重点介绍MCP官方提供的Inspector工具。
+开发过程中难免会遇到各种问题，比如工具没注册上、参数传错了、连接不通等。这时候就需要一个趁手的调试工具。
 
-### MCP Inspector介绍
+MCP官方提供了 **MCP Inspector** 这个可视化调试利器，可以实时查看通信消息、手动测试工具调用、查看完整的JSON-RPC日志。
 
-MCP Inspector是一个可视化的调试工具，可以：
-
-- 实时查看MCP通信消息
-- 手动发送请求测试Server
-- 查看工具列表和详情
-- 模拟Client行为
-
-### 安装和启动
-
-```bash
-# 使用npx直接运行（推荐）
-npx @anthropic-ai/mcp-inspector
-
-# 或者全局安装
-npm install -g @anthropic-ai/mcp-inspector
-mcp-inspector
-```
-
-启动后会在本地开启一个Web界面，默认端口5173。
-
-> **[截图提示]** 此处需要添加MCP Inspector启动界面截图
-
-### 连接MCP Server进行调试
-
-**调试Stdio模式的Server**：
-
-在Inspector界面中配置：
-- Transport Type: stdio
-- Command: java -jar your-mcp-server.jar
-
-> **[截图提示]** 此处需要添加Inspector配置Stdio连接的截图
-
-**调试SSE模式的Server**：
-
-- Transport Type: sse
-- URL: http://localhost:8080/sse
-
-> **[截图提示]** 此处需要添加Inspector配置SSE连接的截图
-
-### 常用调试操作
-
-**1. 查看工具列表**
-
-连接成功后，点击"Tools"标签页，可以看到Server暴露的所有工具：
-
-> **[截图提示]** 此处需要添加工具列表界面截图
-
-**2. 测试工具调用**
-
-选择一个工具，填入参数，点击"Call"：
-
-```json
-{
-    "employeeId": "EMP001",
-    "date": "2024-01-15"
-}
-```
-
-> **[截图提示]** 此处需要添加工具调用测试界面截图
-
-**3. 查看通信日志**
-
-"Messages"标签页展示了完整的JSON-RPC通信记录，对排查问题非常有帮助：
-
-> **[截图提示]** 此处需要添加通信日志截图
-
-### 在IDE中调试
-
-配合IDE的断点调试，可以更深入地排查问题：
-
-```java
-@Tool(description = "查询考勤")
-public String queryAttendance(String employeeId) {
-    // 在这里设置断点
-    log.debug("收到查询请求，员工ID: {}", employeeId);
-    
-    // 调试时可以检查参数是否正确传入
-    if (employeeId == null || employeeId.isEmpty()) {
-        throw new IllegalArgumentException("员工ID不能为空");
-    }
-    
-    return attendanceService.query(employeeId);
-}
-```
-
-> **[截图提示]** 此处可以添加IDE断点调试截图
+:::tip <span style={{fontSize: '1.05em', fontWeight: 600, color: '#2563EB'}}>MCP Inspector 的详细使用指南</span>
+MCP Inspector 的安装、启动、连接配置以及各种调试操作，我们在 **[Spring AI构建MCP服务端实战](/super-agent/mcp/server-development)** 中已经做了完整的图文讲解，包含多张实操截图，这里就不重复了，直接过去看就行。
+:::
 
 ## 主流客户端接入配置
 
@@ -779,8 +696,6 @@ Cline是VS Code中流行的AI编程助手，支持MCP协议。
 }
 ```
 
-> **[截图提示]** 此处需要添加Cline MCP配置界面截图
-
 ### Cursor配置
 
 Cursor是另一个流行的AI代码编辑器。
@@ -804,7 +719,30 @@ Cursor是另一个流行的AI代码编辑器。
 }
 ```
 
-> **[截图提示]** 此处需要添加Cursor设置界面截图
+### Windsurf配置
+
+Windsurf（原Codeium）也是目前很火的AI编辑器，同样支持MCP协议。
+
+**配置文件位置**：`~/.codeium/windsurf/mcp_config.json`
+
+**配置示例**：
+
+```json
+{
+    "mcpServers": {
+        "office-tools": {
+            "command": "java",
+            "args": ["-jar", "/path/to/office-mcp-server.jar"],
+            "env": {
+                "DATABASE_URL": "jdbc:mysql://localhost:3306/hr"
+            }
+        },
+        "remote-mcp": {
+            "serverUrl": "http://localhost:7090/mcp"
+        }
+    }
+}
+```
 
 ### Claude Desktop配置
 
@@ -853,7 +791,7 @@ Anthropic官方的Claude桌面版也支持MCP。
 | SSE重连 | 指数退避 + 请求缓存 | 电话断线重拨 |
 | 工具过滤 | McpToolFilter实现角色权限 | 权限分级 |
 | 跳过总结 | returnDirect配置 | 直达快递 |
-| 调试工具 | MCP Inspector可视化调试 | - |
-| 客户端接入 | Cline/Cursor/Claude配置 | - |
+| 调试工具 | MCP Inspector可视化调试 | 详见[服务端实战篇](/super-agent/mcp/server-development) |
+| 客户端接入 | Cline/Cursor/Windsurf/Claude配置 | - |
 
 掌握这些技巧后，你就具备了将MCP应用于生产环境的能力。当然，实际项目中还会遇到更多挑战，比如监控告警、日志追踪、性能优化等，这些就需要在实践中不断摸索了。
