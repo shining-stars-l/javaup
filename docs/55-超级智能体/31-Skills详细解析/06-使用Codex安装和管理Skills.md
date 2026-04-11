@@ -37,7 +37,7 @@ UI UX Pro Max 是一个专注于前端界面设计的Agent Skill，它把专业�
 - **官网地址**：[https://ui-ux-pro-max-skill.nextlevelbuilder.io](https://ui-ux-pro-max-skill.nextlevelbuilder.io)
 - **GitHub地址**：[https://github.com/nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)
 
-![UI UX Pro Max 官网](/img/super-ai/skills/UI-UX-Pro-Max.png)
+![UI UX Pro Max 官网](/img/super-agent/skills/UI-UX-Pro-Max.png)
 
 ## 安装步骤
 
@@ -53,7 +53,7 @@ npm install -g uipro-cli
 
 安装完成后，可以运行 `uipro --help` 确认安装成功。
 
-![UI UX Pro Max 官网](/img/super-ai/skills/uipro--help.png)
+![UI UX Pro Max 官网](/img/super-agent/skills/uipro--help.png)
 
 ### 第二步：进入项目目录
 
@@ -73,7 +73,7 @@ uipro init --ai codex
 
 这条命令会在当前项目目录下创建 `.codex/skills/ui-ux-pro-max/` 目录，并下载Skill的完整文件。
 
-![UI UX Pro Max 官网](/img/super-ai/skills/uiproinit--aicodex.png)
+![UI UX Pro Max 官网](/img/super-agent/skills/uiproinit--aicodex.png)
 
 ### 第四步（可选）：全局安装
 
@@ -94,7 +94,7 @@ uipro init --ai codex --global
 
 安装完成后，我们来看一下实际生成的目录结构：
 
-<img src="/img/super-ai/skills/ui-ux-pro-max结构.png" alt="结构" width="35%" />
+<img src="/img/super-agent/skills/ui-ux-pro-max结构.png" alt="结构" width="35%" />
 
 ```
 .codex/
@@ -141,7 +141,7 @@ uipro init --ai codex --global
 
 如果Skill安装成功，Codex会自动识别到这是一个UI设计相关的任务，激活UI UX Pro Max技能，然后给出专业的配色建议。
 
-<img src="/img/super-ai/skills/激活UIUXProMax技能.png" alt="结构" width="100%" />
+<img src="/img/super-agent/skills/激活UIUXProMax技能.png" alt="结构" width="100%" />
 
 ## 其他常用命令
 

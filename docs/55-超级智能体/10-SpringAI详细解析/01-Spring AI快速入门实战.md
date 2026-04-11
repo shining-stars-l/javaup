@@ -314,7 +314,7 @@ public class ChatController {
 
 启动应用后，访问 `http://localhost:7089/chat/ask?question=请介绍一下SpringAI的核心能力` 就能看到 AI 的回答了。
 
-<img src="/img/super-ai/SpringAI/第一个会话.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/SpringAI/第一个会话.png" alt="讲解" width="100%" />
 
 ## 流式输出：打字机效果
 
@@ -341,7 +341,7 @@ public Flux<String> stream(
 
 启动应用后，访问 `http://localhost:7089/chat/stream?question=请介绍一下SpringAI的核心能力` 就能看到 AI 的流式回答了。
 
-<img src="/img/super-ai/SpringAI/流失回答.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/SpringAI/流失回答.png" alt="讲解" width="100%" />
 
 ## 给AI设定角色
 

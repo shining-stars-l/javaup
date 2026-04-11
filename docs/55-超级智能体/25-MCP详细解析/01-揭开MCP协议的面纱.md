@@ -46,7 +46,7 @@ MCP，全称 Model Context Protocol（模型上下文协议），就是为了解
 最简单的理解方式是把它想成一个"标准接口"。就像现在的手机充电线，不管是什么牌子的手机，只要是Type-C接口，用同一根线都能充电。MCP做的事情类似——不管你的工具是用Java写的、Python写的、还是调用的第三方API，只要按照MCP协议来封装，任何支持MCP的智能助手都能直接使用。
 :::
 
-<img src="/img/super-ai/mcp/MCP定义.jpg" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/MCP定义.jpg" alt="讲解" width="100%" />
 
 :::note 特别说明
 这里要澄清一点：**MCP不是一个具体的软件或者框架，而是一套协议规范**。就像HTTP是协议，你可以用Java、Python、Go等任何语言来实现HTTP服务一样，MCP也是协议，你可以用任何语言来实现符合MCP协议的工具服务。

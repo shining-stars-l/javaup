@@ -447,7 +447,7 @@ npx @modelcontextprotocol/inspector@latest
 
 启动后访问 `http://localhost:6274`，会看到一个Web界面。
 
-<img src="/img/super-ai/mcp/MCP-Inspector-1.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/MCP-Inspector-1.png" alt="讲解" width="100%" />
 
 **测试Streamable HTTP模式**：
 
@@ -455,15 +455,15 @@ npx @modelcontextprotocol/inspector@latest
 2. URL填入：`http://localhost:7090/mcp`
 3. 点击Connect
 
-<img src="/img/super-ai/mcp/MCP-Inspector-2.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/MCP-Inspector-2.png" alt="讲解" width="100%" />
 
 连接成功后，点击Tools标签页，可以看到我们注册的所有工具。
 
-<img src="/img/super-ai/mcp/MCP-Inspector-3.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/MCP-Inspector-3.png" alt="讲解" width="100%" />
 
 选择一个工具，填入参数，点击Run Tool即可测试。
 
-<img src="/img/super-ai/mcp/MCP-Inspector-4.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/MCP-Inspector-4.png" alt="讲解" width="100%" />
 
 
 **测试Stdio模式**：
@@ -495,7 +495,7 @@ npx @modelcontextprotocol/inspector@latest
 
 Cursor会自动调用`checkAttendance`工具并返回结果。
 
-<img src="/img/super-ai/mcp/cursor使用mcp.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/mcp/cursor使用mcp.png" alt="讲解" width="100%" />
 
 ## 进阶：复杂参数处理
 

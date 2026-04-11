@@ -310,7 +310,7 @@ Agent -> Agent : 汇总结果并输出
 ```
 ### Anthropic官方的Skill结构示意图
 
-![](/img/super-ai/skills/Anthropic官方的Skill结构示意图.png)
+![](/img/super-agent/skills/Anthropic官方的Skill结构示意图.png)
 
 ## 总结一下
 

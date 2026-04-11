@@ -35,7 +35,7 @@ ChunkViz是一个免费的在线分块可视化工具，支持两种分块策略
 
 **ChunkViz界面：**
 
-<img src="/img/super-ai/rag/ChunkViz界面.png" alt="ChunkViz界面" width="100%" />
+<img src="/img/super-agent/rag/ChunkViz界面.png" alt="ChunkViz界面" width="100%" />
 
 ## 实验准备：测试文本
 
@@ -67,7 +67,7 @@ Java是一种面向对象的编程语言，由Sun公司于1995年推出。Java�
 
 **配置**：CharacterTextSplitter，chunk_size=100，overlap=20
 
-<img src="/img/super-ai/rag/固定大小分块.png" alt="固定大小分块效果" width="100%" />
+<img src="/img/super-agent/rag/固定大小分块.png" alt="固定大小分块效果" width="100%" />
 
 **观察结果**：
 
@@ -84,7 +84,7 @@ Java是一种面向对象的编程语言，由Sun公司于1995年推出。Java�
 
 **配置**：RecursiveCharacterTextSplitter，chunk_size=200，overlap=0
 
-<img src="/img/super-ai/rag/递归分块.png" alt="递归分块效果" width="100%" />
+<img src="/img/super-agent/rag/递归分块.png" alt="递归分块效果" width="100%" />
 
 **观察结果**：
 
@@ -115,7 +115,7 @@ Spring事务的传播机制详解
 
 **配置**：RecursiveCharacterTextSplitter，chunk_size=80
 
-<img src="/img/super-ai/rag/当文本结构复杂时.png" alt="复杂文本分块效果" width="100%" />
+<img src="/img/super-agent/rag/当文本结构复杂时.png" alt="复杂文本分块效果" width="100%" />
 
 **观察结果**：
 

@@ -217,7 +217,7 @@ System.out.println("分片后Document数量: " + result.size());
 分片后Document数量: 76
 ```
 
-<img src="/img/super-ai/rag/OverlapParagraphTextSplit执行结果.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/rag/OverlapParagraphTextSplit执行结果.png" alt="讲解" width="100%" />
 
 我们可以看到调用结果中，相邻文本块之间都有一段overlap重叠，这样就可以一定程度上保证了文本块的延续性。
 
@@ -400,7 +400,7 @@ public List<Document> process(File file) {
 
 ### 执行结果
 
-<img src="/img/super-ai/rag/SpringAiAlibabaRecursiveTextSplit执行结果.png" alt="讲解" width="100%" />
+<img src="/img/super-agent/rag/SpringAiAlibabaRecursiveTextSplit执行结果.png" alt="讲解" width="100%" />
 
 :::caution 使用递归分片的注意事项
 **文档不能先把空格、换行等符号清洗掉！**
