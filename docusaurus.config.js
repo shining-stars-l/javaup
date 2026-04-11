@@ -190,40 +190,48 @@ var _hmt = _hmt || [];
           //   label: '技术分享讲解',
           // },
           {
-            type: 'docSidebar',
-            sidebarId: 'Java相关',
+            type: 'dropdown',
+            label: '超级八股文',
             position: 'left',
-            label: 'Java相关',
+            items: [
+              {
+                type: 'docSidebar',
+                sidebarId: 'Java相关',
+                label: 'Java相关',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: '开发工具',
+                label: '开发工具',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: '基础内功',
+                label: '基础内功',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: '数据库',
+                label: '数据库',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: '框架中间件',
+                label: '框架中间件',
+              },
+              {
+                type: 'docSidebar',
+                sidebarId: '高级进阶设计',
+                label: '高级进阶设计',
+              },
+            ],
           },
           {
-            type: 'docSidebar',
-            sidebarId: '开发工具',
+            to: '/super-agent/overview/project-intro',
+            activeBaseRegex: '^/super-agent(?:/|$)',
             position: 'left',
-            label: '开发工具',
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: '基础内功',
-            position: 'left',
-            label: '基础内功',
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: '数据库',
-            position: 'left',
-            label: '数据库',
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: '框架中间件',
-            position: 'left',
-            label: '框架中间件',
-          },
-          {
-            type: 'docSidebar',
-            sidebarId: '高级进阶设计',
-            position: 'left',
-            label: '高级进阶设计',
+            label: '超级智能体',
+            className: 'navbar-super-agent-hot',
           },
           {
             type: 'dropdown',

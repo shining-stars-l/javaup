@@ -240,6 +240,35 @@
   overflow: visible;
 }
 
+/* 顶部导航栏：超级智能体 HOT 宣传标识 */
+.navbar__item.navbar-super-agent-hot > .navbar__link::before,
+.navbar__link.navbar-super-agent-hot::before {
+  content: '🔥 HOT';
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  padding: 0 6px;
+  min-width: 42px;
+  height: 18px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff7a18 0%, #ff3d3d 100%);
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  vertical-align: middle;
+  box-shadow: 0 6px 16px rgba(255, 88, 59, 0.24);
+}
+
+@media (max-width: 996px) {
+  .navbar__item.navbar-super-agent-hot > .navbar__link::before,
+  .navbar__link.navbar-super-agent-hot::before {
+    margin-right: 8px;
+  }
+}
+
 .dropdown__menu {
   overflow: visible;
 }
