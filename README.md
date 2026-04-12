@@ -36,7 +36,7 @@
 
 ## 这是什么？
 
-**JavaUp** 是一套精心打造的 Java 全栈技术知识库，累计 **100万+字** 深度技术文章，覆盖 Java 全栈技术体系，包含 **超级八股文系列** 和 **五大实战项目**。
+**JavaUp** 是一套精心打造的 Java 全栈技术知识库，累计 **100万+字** 深度技术文章，覆盖 Java 全栈技术体系，包含 **超级八股文系列** 和 **六大实战项目**。
 
 无论你是准备面试的求职者，还是想要系统提升技术能力的开发者，这里都能找到你需要的内容。
 
@@ -625,17 +625,18 @@
 
 ---
 
-# 🛠️ 五大实战项目
+# 🛠️ 六大实战项目
 
 每个项目都有独特的技术亮点，绝不是平平无奇的CRUD！
 
-| 项目名称 | 核心特点 | 适用场景 | 查看详情 |
-|---------|---------|----------|----------|
-| **黑马点评Plus** | 缓存优化、锁机制深度优化、秒杀系统设计 | 电商/O2O业务 | [👉 点击查看](https://javaup.chat/hmdp-plus/overview/project-intro) |
-| **大麦** | 高并发抢票、分库分表、防刷体系 | 票务/秒杀场景 | [👉 点击查看](https://javaup.chat/damai/overview/project-intro) |
-| **大麦AI** | AI智能分析、大模型对接、智能助手 | AI应用开发 | [👉 点击查看](https://javaup.chat/damai-ai/overview/project-intro) |
-| **流量切换** | 微服务负载均衡、灰度发布、权重控制 | 微服务治理 | [👉 点击查看](https://javaup.chat/link-flow/business-intro/getting-started-overview) |
-| **数据中台** | 任务调度、动态数据源、实时监测 | 数据处理 | [👉 点击查看](https://javaup.chat/dock-data-center/business-intro/info) |
+| 项目名称          | 核心特点 | 适用场景 | 查看详情 |
+|---------------|---------|----------|----------|
+| **超级 AI 智能体** | ReAct Agent、RAG检索增强、MCP工具协议、Skills能力扩展 | AI工程化落地 | [👉 点击查看](https://javaup.chat/super-agent/overview/project-intro) |
+| **黑马点评 Plus** | 缓存优化、锁机制深度优化、秒杀系统设计 | 电商/O2O业务 | [👉 点击查看](https://javaup.chat/hmdp-plus/overview/project-intro) |
+| **大麦**        | 高并发抢票、分库分表、防刷体系 | 票务/秒杀场景 | [👉 点击查看](https://javaup.chat/damai/overview/project-intro) |
+| **大麦 AI**     | AI智能分析、大模型对接、智能助手 | AI应用开发 | [👉 点击查看](https://javaup.chat/damai-ai/overview/project-intro) |
+| **流量切换**      | 微服务负载均衡、灰度发布、权重控制 | 微服务治理 | [👉 点击查看](https://javaup.chat/link-flow/business-intro/getting-started-overview) |
+| **数据中台**      | 任务调度、动态数据源、实时监测 | 数据处理 | [👉 点击查看](https://javaup.chat/dock-data-center/business-intro/info) |
 
 **项目文档数量 500+，总字数 50万+，持续更新中！**
 
