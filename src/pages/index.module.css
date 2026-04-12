@@ -1,115 +1,112 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
-
-/* 全局统一背景（本页） */
+/* =====================
+   全局页面背景
+   ===================== */
 :global(.home-page) {
-  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  background: #fffbf5;
 }
 
 /* =====================
-   Hero 区域样式
+   Hero 区域
    ===================== */
 .heroSection {
-  padding: 5rem 0 3rem;
+  padding: 5rem 0 3.5rem;
   text-align: center;
-  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
   position: relative;
   overflow: hidden;
+  background: #fffbf5;
 }
 
+/* 几何装饰 — 暖色圆形 */
 .heroSection::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  top: -60px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(249, 115, 22, 0.08);
+  pointer-events: none;
+}
+
+.heroSection::after {
+  content: '';
+  position: absolute;
+  bottom: -30px;
+  left: -50px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(251, 191, 36, 0.1);
   pointer-events: none;
 }
 
 .heroContent {
   position: relative;
   z-index: 1;
-  max-width: 800px;
+  max-width: 720px;
   margin: 0 auto;
 }
 
 .heroTitle {
-  font-size: clamp(2.5rem, 4vw + 0.8rem, 3.2rem);
+  font-size: clamp(2.5rem, 4vw + 0.8rem, 3.5rem);
   font-weight: 900;
-  color: #ffffff;
+  color: #1e293b;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+  letter-spacing: -0.02em;
 }
 
 .heroTitleHighlight {
-  background: linear-gradient(90deg, #ffd700, #ffeb3b, #fff176);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  text-shadow: none;
+  color: #f97316;
 }
 
 .heroSubtitle {
-  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem);
-  color: rgba(255,255,255,0.9);
+  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.4rem);
+  color: #475569;
   margin-bottom: 2rem;
-  line-height: 1.6;
+  line-height: 1.7;
 }
 
-.heroSubtitle strong {
-  color: #ffffff;
-}
-
-/* Star 横幅引导 */
+/* Star 引导行 */
 .starBanner {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  padding: 0.75rem 1.5rem;
-  background: rgba(255,255,255,0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 50px;
-  max-width: fit-content;
-  margin: 0 auto;
   flex-wrap: wrap;
 }
 
 .starBannerText {
-  color: rgba(255,255,255,0.9);
+  color: #64748b;
   font-size: 0.95rem;
-  font-weight: 500;
 }
 
 .starBannerLinks {
   display: flex;
-  gap: 0.75rem;
+  gap: 0.6rem;
 }
 
 .starLink {
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 0.4rem 0.9rem;
-  background: rgba(255,255,255,0.95);
-  color: #1a1a1a;
+  gap: 0.35rem;
+  padding: 0.4rem 0.85rem;
+  background: #ffffff;
+  color: #1e293b;
   font-weight: 600;
   font-size: 0.85rem;
-  border-radius: 20px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 
 .starLink:hover {
-  background: #ffffff;
-  transform: scale(1.05);
+  border-color: #f97316;
+  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.12);
   text-decoration: none;
-  color: #1a1a1a;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  color: #1e293b;
 }
 
 .starLinkIcon {
@@ -117,327 +114,294 @@
   height: 16px;
 }
 
-/* Project Sections */
-.projectSection {
-  padding: 6rem 0;
+/* =====================
+   超级八股文区块
+   ===================== */
+.baguSection {
+  padding: 4rem 0;
+  background: #ffffff;
   position: relative;
+}
+
+.baguSection .baguHeader,
+.baguSection .baguModules,
+.baguSection .baguActions,
+.baguSection .wechatCard {
   opacity: 0;
-  transform: translateY(50px);
-  transition: all 0.8s ease;
-  background: transparent;
+  transform: translateY(24px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
-.projectSection.animate {
-  opacity: 1;
-  transform: translateY(0);
-}
+.baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
+.baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
+.baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.25s; }
+.baguSection.isVisible .wechatCard { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
 
-.projectContent {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.projectSectionReverse .projectContent {
-  grid-template-columns: 1fr 1fr;
-}
-
-.projectSectionReverse .projectText {
-  order: 2;
-}
-
-.projectSectionReverse .projectImage {
-  order: 1;
-}
-
-.projectText {
-  padding: 2rem;
-}
-
-.projectHeader {
-  margin-bottom: 2rem;
-}
-
-.titleWithSubtitle {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 1.5rem;
-  padding-top: 1rem;
-  padding-right: 2rem;
-}
-
-.projectTitle {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin-bottom: 0;
-  color: #1a1a1a;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  display: inline-block;
-  position: relative;
-}
-
-.projectSubtitle {
-  position: absolute;
-  top: -0.8rem;
-  right: 0;
-  background: linear-gradient(45deg, #ff6b6b, #ee5a24);
-  color: white;
-  padding: 0.3rem 0.8rem;
-  border-radius: 15px;
-  font-weight: 600;
-  font-size: 0.75rem;
-  box-shadow: 0 2px 10px rgba(238, 90, 36, 0.3);
-  transform: rotate(8deg);
-  z-index: 10;
-  white-space: nowrap;
-}
-
-.projectDescription {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #4a5568;
-  margin-bottom: 2rem;
-}
-
-.projectFeatures {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.8rem;
+.baguHeader {
+  text-align: center;
   margin-bottom: 2.5rem;
 }
 
-.featureTag {
-  background: rgba(255,255,255,0.9);
-  color: #2d3748;
-  padding: 0.5rem 1rem;
-  border-radius: 25px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  border: 2px solid rgba(45, 55, 72, 0.1);
-  transition: all 0.3s ease;
+.baguTitle {
+  font-size: clamp(2rem, 3vw + 0.5rem, 2.8rem);
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.6rem;
 }
 
-.featureTag:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  border-color: rgba(45, 55, 72, 0.2);
-}
-
-.projectLinks {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.projectButton {
-  padding: 0.8rem 1.5rem;
-  border-radius: 25px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.projectButton:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-}
-
-.projectImage {
-  position: relative;
-}
-
-.projectImg {
-  width: 100%;
-  height: auto;
-  min-height: 350px;
-  max-height: 500px;
-  object-fit: contain;
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-  transition: all 0.3s ease;
-}
-
-.projectImg:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-}
-
-/* Stats Section */
-.statsSection {
-  padding: 4rem 0;
-  background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
-  color: white;
-}
-
-.statsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  max-width: 800px;
+.baguSubtitle {
+  font-size: clamp(1rem, 1.1vw + 0.5rem, 1.25rem);
+  color: #64748b;
+  line-height: 1.7;
+  max-width: 600px;
   margin: 0 auto;
 }
 
-.statItem {
+/* 知识模块卡片 */
+.baguModules {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1rem;
+  max-width: 1100px;
+  margin: 0 auto 2.5rem;
+}
+
+.baguModuleCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem 1rem;
   text-align: center;
-  padding: 2rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
 }
 
-.statNumber {
-  font-size: 3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(45deg, #ffd89b, #19547b);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.baguModuleCard:hover {
+  border-color: #f97316;
+  box-shadow: 0 4px 16px rgba(249, 115, 22, 0.1);
 }
 
-.statLabel {
-  font-size: 1.1rem;
-  opacity: 0.9;
+.baguModuleIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 0.6rem;
+  color: var(--icon-color, #f97316);
+}
+
+.baguModuleIcon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.baguModuleTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.25rem 0;
+}
+
+.baguModuleDesc {
+  font-size: 0.8rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.4;
+}
+
+/* 按钮组 + 公众号卡片 */
+.baguBottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.baguActions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  max-width: 380px;
+}
+
+.baguBtnPrimary {
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 10px;
+  background: #f97316 !important;
+  border-color: #f97316 !important;
+  color: #fff !important;
+  transition: background 0.2s, opacity 0.2s;
+}
+
+.baguBtnPrimary:hover {
+  background: #ea580c !important;
+  opacity: 0.95;
+  color: #fff !important;
+}
+
+.baguBtnOutline {
+  background: #fff;
+  border: 1.5px solid #f97316;
+  color: #1e293b;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.baguBtnOutline:hover {
+  background: #fff7ed;
+}
+
+.baguBtnContribute {
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  color: #1e293b;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.baguBtnContribute:hover {
+  border-color: #f97316;
+  background: #fff7ed;
+  color: #1e293b;
+}
+
+.baguBtnStar {
+  background: #fbbf24;
+  border: none;
+  color: #1e293b;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: background 0.2s;
+}
+
+.baguBtnStar:hover {
+  background: #f59e0b;
+  color: #1e293b;
+}
+
+/* 公众号卡片 */
+.wechatCard {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  background: #ffffff;
+  border: 1.5px solid #e2e8f0;
+  border-left: 4px solid #f97316;
+  padding: 1.25rem 1.5rem;
+  border-radius: 14px;
+  transition: box-shadow 0.2s;
+}
+
+.wechatCard:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.wechatCardImg {
+  width: 110px;
+  height: 110px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+.wechatCardInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.wechatCardTitle {
+  font-size: 0.95rem;
+  color: #64748b;
   font-weight: 500;
 }
 
-/* Responsive Design */
-@media screen and (max-width: 1200px) {
+.wechatCardName {
+  font-size: 1.2rem;
+  color: #f97316;
+  font-weight: 800;
 }
 
-@media screen and (max-width: 996px) {
-  .hero {
-    min-height: 40vh;
-    padding: 2rem 0;
-  }
-
-  .titleContainer {
-    min-height: 150px;
-  }
-
-  
-
-  .projectContent {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .projectSectionReverse .projectText,
-  .projectSectionReverse .projectImage {
-    order: unset;
-  }
-
-  .projectSection {
-    padding: 4rem 0;
-  }
-
-  .projectTitle {
-    font-size: 2rem;
-  }
-
-  .projectSubtitle {
-    top: -0.5rem;
-    right: 0;
-    font-size: 0.7rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 12px;
-  }
-
-  .titleWithSubtitle {
-    padding-top: 0.8rem;
-    padding-right: 1.5rem;
-  }
-
-  .heroButtons {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .projectLinks, .showcaseActions {
-    justify-content: center;
-  }
-
-  .statsGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media screen and (max-width: 576px) {
-  .titleContainer {
-    min-height: 130px;
-  }
-
-  
-
-  .projectTitle {
-    font-size: 1.8rem;
-  }
-
-  .projectSubtitle {
-    top: -0.4rem;
-    right: 0;
-    font-size: 0.65rem;
-    padding: 0.2rem 0.5rem;
-    border-radius: 10px;
-  }
-
-  .titleWithSubtitle {
-    padding-top: 0.6rem;
-    padding-right: 1rem;
-  }
-
-  .projectImg, .showcaseImage {
-    min-height: 250px;
-    max-height: 350px;
-  }
-
-  .projectText {
-    padding: 1rem;
-  }
-
-  .statsGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .statNumber {
-    font-size: 2.5rem;
-  }
+.wechatCardDesc {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  font-weight: 400;
 }
 
 /* =====================
-   Showcase 新布局样式
+   实战项目分隔区
+   ===================== */
+.projectsDivider {
+  padding: 4rem 0 2.5rem;
+  background: #fffbf5;
+  text-align: center;
+}
+
+.dividerTitle {
+  font-size: clamp(2rem, 3vw + 0.5rem, 2.8rem);
+  font-weight: 800;
+  color: #1e293b;
+  margin-bottom: 0.75rem;
+}
+
+.dividerDesc {
+  font-size: clamp(1rem, 1.1vw + 0.5rem, 1.2rem);
+  color: #64748b;
+  max-width: 700px;
+  margin: 0 auto 1.5rem;
+  line-height: 1.7;
+}
+
+.dividerHighlight {
+  color: #f97316;
+  font-weight: 700;
+}
+
+.dividerLine {
+  width: 60px;
+  height: 3px;
+  background: #f97316;
+  border-radius: 2px;
+  margin: 0 auto;
+}
+
+/* =====================
+   Showcase 布局（保留核心结构）
    ===================== */
 .showcaseSection {
-  padding: 5.5rem 0; /* 增大上下留白 */
+  padding: 5rem 0;
   background: transparent;
 }
 
-/* 滚动进入动效：初始状态隐藏，进入视口后逐步显现 */
 .showcaseMedia,
 .showcaseText,
 .showcaseActions {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .isVisible .showcaseMedia { opacity: 1; transform: translateY(0); transition-delay: 0.05s; }
-.isVisible .showcaseText { opacity: 1; transform: translateY(0); transition-delay: 0.15s; }
-.isVisible .showcaseActions { opacity: 1; transform: translateY(0); transition-delay: 0.30s; }
-
-/* 移除相邻项目之间的额外白色空隙，靠内部 padding 保持呼吸感 */
+.isVisible .showcaseText { opacity: 1; transform: translateY(0); transition-delay: 0.12s; }
+.isVisible .showcaseActions { opacity: 1; transform: translateY(0); transition-delay: 0.22s; }
 
 .showcaseContainer { max-width: 1500px; padding: 0 0.5rem; }
 
 .showcaseRow {
   display: grid;
-  grid-template-columns: 1.5fr 0.9fr; /* 图片再大一些 */
-  gap: 0.75rem; /* 左右间距更小 */
+  grid-template-columns: 1.5fr 0.9fr;
+  gap: 0.75rem;
   align-items: center;
 }
 
 .showcaseRowReverse { grid-template-columns: 0.9fr 1.5fr; }
-
 .showcaseRowReverse .showcaseMedia { order: 2; }
 .showcaseRowReverse .showcaseText { order: 1; }
 
@@ -451,339 +415,119 @@
 
 .showcaseImage {
   width: 100%;
-  height: auto;            /* 按比例缩放，显示完整 */
-  max-height: 92vh;        /* 视口内尽量大 */
-  object-fit: contain;     /* 保证完整显示 */
-  display: block;          /* 去除基线空白 */
+  height: auto;
+  max-height: 92vh;
+  object-fit: contain;
+  display: block;
   border-radius: 16px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
-.showcaseText { padding: 0 0.5rem; }
+.showcaseText { padding: 0 0.5rem; max-width: 700px; }
 
 .showcaseHeader {
   position: relative;
-  display: inline-block;   /* 以标题真实宽度作为定位基准 */
-  padding-top: 1.2rem;     /* 充分为角标预留空间，避免覆盖标题 */
-  padding-right: 2.2rem;   /* 充分为角标预留右侧空间 */
+  display: inline-block;
+  padding-top: 1.2rem;
+  padding-right: 2.2rem;
   margin-bottom: 1rem;
 }
 
 .showcaseTitle {
   font-size: clamp(1.8rem, 2vw + 0.5rem, 2.4rem);
   font-weight: 800;
-  color: #0f172a;
-  line-height: 1.1;     /* 避免 emoji 造成高度不一致 */
+  color: #1e293b;
+  line-height: 1.15;
   display: inline-block;
   margin: 0 0 0.75rem 0;
 }
 
 .showcaseKicker {
   position: absolute;
-  top: -0.8rem;         /* 悬浮在标题右上角之外，不遮挡 */
+  top: -0.8rem;
   right: -0.6rem;
-  font-size: 1rem;
-  background: linear-gradient(45deg,#f43f5e,#fb923c);
+  font-size: 0.85rem;
+  background: #f97316;
   color: #fff;
-  padding: 0.25rem 0.6rem;
-  border-radius: 12px;
-  box-shadow: 0 6px 16px rgba(244,63,94,.28);
-  transform: rotate(6deg);
+  padding: 0.2rem 0.55rem;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
+  transform: rotate(4deg);
   white-space: nowrap;
 }
 
 .showcaseDesc {
-  font-size: clamp(1rem, 0.9vw + 0.7rem, 1.35rem);
+  font-size: clamp(1rem, 0.9vw + 0.7rem, 1.3rem);
   line-height: 1.85;
-  color: #334155;
+  color: #475569;
   margin-bottom: 1.25rem;
 }
 
 .showcaseTags {
   display: flex;
   flex-wrap: wrap;
-  gap: .6rem;
-  margin-bottom: .75rem;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .showcaseTag {
-  background: #f1f5f9;
-  color: #0f172a;
-  padding: .6rem 1rem;
+  background: #ffffff;
+  color: #1e293b;
+  padding: 0.5rem 0.9rem;
+  border-radius: 8px;
+  font-size: clamp(0.85rem, 0.5vw + 0.6rem, 1rem);
+  border: 1px solid #e5e7eb;
+}
+
+.showcaseActions { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 0.25rem; margin-bottom: 1rem; }
+
+.showcaseBtn {
   border-radius: 10px;
-  font-size: clamp(0.9rem, 0.5vw + 0.6rem, 1.05rem);
-  border: 1px solid #e2e8f0;
+  padding: 1.1rem 1.8rem;
+  min-width: 280px;
+  text-align: center;
+  font-size: clamp(1rem, 0.8vw + 0.7rem, 1.25rem);
+  font-weight: 600;
+  transition: opacity 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
 }
 
-.showcaseActions { display: flex; gap: .8rem; flex-wrap: wrap; justify-content: flex-start; margin-top: .25rem; }
-
-.showcaseBtn { border-radius: 12px; padding: 1.25rem 2rem; min-width: 300px; text-align: center; box-shadow: 0 10px 24px rgba(0,0,0,.1); font-size: clamp(1.05rem, 0.8vw + 0.7rem, 1.35rem); transition: transform 0.35s ease, box-shadow 0.35s ease; }
-.showcaseBtn:hover { transform: translateY(-2px) scale(1.06); box-shadow: 0 14px 32px rgba(0,0,0,0.18); }
-.showcaseBtn:active { transform: translateY(0) scale(0.99); }
-.showcaseBtn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(78,205,196,0.35), 0 10px 24px rgba(0,0,0,0.12); }
-
-/* 让按钮与标题左边对齐，形成强视觉锚点 */
-.showcaseText { padding: 0 0.5rem; max-width: 700px; }
-
-/* 标签与按钮的间距拉开，增强层级 */
-.showcaseActions { margin-bottom: 1rem; }
-
-@media screen and (max-width: 1200px) {
-  .showcaseTag { padding: .55rem .9rem; }
-  .showcaseBtn { padding: 1.1rem 1.6rem; min-width: 280px; }
-  .showcaseText { max-width: 600px; }
-  .showcaseImage { height: auto; max-height: 70vh; }
+.showcaseBtn:hover {
+  opacity: 0.9;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
-/* XXL 大屏优化（≥1600px） */
+.showcaseBtn:focus-visible {
+  outline: 2px solid #f97316;
+  outline-offset: 2px;
+}
+
+/* =====================
+   响应式
+   ===================== */
 @media screen and (min-width: 1600px) {
   .showcaseContainer { max-width: 1680px; }
-  .showcaseTag { padding: .7rem 1.1rem; }
-  .showcaseBtn { padding: 1.3rem 2rem; min-width: 340px; }
   .showcaseImage { max-height: 88vh; }
+}
+
+@media screen and (max-width: 1200px) {
+  .baguModules { grid-template-columns: repeat(3, 1fr); }
+  .showcaseImage { max-height: 70vh; }
+  .showcaseText { max-width: 600px; }
 }
 
 @media screen and (max-width: 996px) {
   .showcaseRow,
   .showcaseRowReverse { grid-template-columns: 1fr; }
-  .showcaseBtn { min-width: 260px; font-size: 1.1rem; }
+  .showcaseRowReverse .showcaseMedia,
+  .showcaseRowReverse .showcaseText { order: unset; }
+  .showcaseBtn { min-width: 260px; }
   .showcaseText { max-width: 560px; }
-  .showcaseImage { height: auto; max-height: 65vh; object-fit: contain; }
+  .showcaseImage { max-height: 65vh; }
   .showcaseKicker { right: 0; }
-  .showcaseSection { padding: 4.5rem 0; }
-}
-
-@media screen and (max-width: 576px) {
-  .showcaseTag { padding: .5rem .8rem; }
-  .showcaseBtn { min-width: 240px; padding: 1rem 1.4rem; font-size: 1.05rem; }
-  .showcaseText { max-width: 520px; }
-  .showcaseImage { height: auto; max-height: 60vh; object-fit: contain; }
   .showcaseSection { padding: 4rem 0; }
-}
-
-/* =====================
-   超级八股文区块样式
-   ===================== */
-.baguSection {
-  padding: 4rem 0;
-  background: #ffffff;
-  position: relative;
-}
-
-/* 滞后动效 */
-.baguSection .baguHeader,
-.baguSection .baguModules,
-.baguSection .baguActions,
-.baguSection .wechatCard {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
-}
-
-.baguSection.isVisible .baguHeader { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
-.baguSection.isVisible .baguModules { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-.baguSection.isVisible .baguActions { opacity: 1; transform: translateY(0); transition-delay: 0.3s; }
-.baguSection.isVisible .wechatCard { opacity: 1; transform: translateY(0); transition-delay: 0.35s; }
-
-.baguHeader {
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-.baguTitle {
-  font-size: clamp(2.2rem, 3.5vw + 0.5rem, 3.2rem);
-  font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 0.75rem;
-}
-
-.baguSubtitle {
-  font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.4rem);
-  color: #475569;
-  line-height: 1.7;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-/* 知识模块卡片 */
-.baguModules {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 1rem;
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-}
-
-.baguModuleCard {
-  background: #f8fafc;
-  border-radius: 12px;
-  padding: 1.25rem 0.75rem;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  border-left: 3px solid var(--accent-color, #4ecdc4);
-}
-
-.baguModuleCard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
-
-.baguModuleIcon {
-  font-size: 2rem;
-  display: block;
-  margin-bottom: 0.5rem;
-}
-
-.baguModuleTitle {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #0f172a;
-  margin: 0 0 0.25rem 0;
-}
-
-.baguModuleDesc {
-  font-size: 0.8rem;
-  color: #64748b;
-  margin: 0;
-  line-height: 1.4;
-}
-
-/* 功能按钮组 - 2x2 网格布局 */
-.baguBottom {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2.5rem;
-  flex-wrap: wrap;
-}
-
-.baguActions {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1rem;
-  max-width: 400px;
-}
-
-.baguBtnPrimary {
-  padding: 0.85rem 1.5rem;
-  font-weight: 600;
-  border-radius: 12px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-  transition: all 0.3s ease;
-}
-
-.baguBtnPrimary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-}
-
-.baguBtnOutline {
-  background: white;
-  border: 2px solid #4ecdc4;
-  color: #0f172a;
-  padding: 0.85rem 1.5rem;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-
-.baguBtnOutline:hover {
-  background: #f0fdfa;
-  border-color: #45b7d1;
-  transform: translateY(-2px);
-}
-
-.baguBtnContribute {
-  background: linear-gradient(135deg, #4ecdc4 0%, #45b7d1 100%);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(78, 205, 196, 0.3);
-  transition: all 0.3s ease;
-}
-
-.baguBtnContribute:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(78, 205, 196, 0.4);
-  color: white;
-}
-
-.baguBtnStar {
-  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-  border: none;
-  color: #1a1a1a;
-  padding: 0.75rem 1.5rem;
-  font-weight: 600;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(251, 191, 36, 0.3);
-  transition: all 0.3s ease;
-}
-
-.baguBtnStar:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(251, 191, 36, 0.4);
-  color: #1a1a1a;
-}
-
-/* 公众号小卡片样式 */
-.wechatCard {
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  background: linear-gradient(135deg, #1e88e5 0%, #1565c0 100%);
-  padding: 1.25rem 1.75rem;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.wechatCard:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 14px 36px rgba(30, 136, 229, 0.45);
-}
-
-.wechatCardImg {
-  width: 120px;
-  height: 120px;
-  border-radius: 12px;
-  background: white;
-  padding: 6px;
-  flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-.wechatCardInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.wechatCardTitle {
-  font-size: 1.15rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 700;
-}
-
-.wechatCardName {
-  font-size: 1.3rem;
-  color: #ffd700;
-  font-weight: 800;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.wechatCardDesc {
-  font-size: 0.9rem;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 500;
-}
-
-/* 响应式 - 八股文区块 */
-@media screen and (max-width: 1200px) {
-  .baguModules {
-    grid-template-columns: repeat(3, 1fr);
-  }
 }
 
 @media screen and (max-width: 900px) {
@@ -791,82 +535,29 @@
     flex-direction: column;
     gap: 2rem;
   }
-  
-  .baguActions {
-    max-width: 400px;
-  }
 }
 
 @media screen and (max-width: 768px) {
-  .baguModules {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  .heroSection {
-    padding: 3rem 0 2rem;
-  }
+  .baguModules { grid-template-columns: repeat(2, 1fr); }
+  .heroSection { padding: 3.5rem 0 2.5rem; }
   .starBanner {
     flex-direction: column;
-    gap: 0.75rem;
-    padding: 1rem;
+    gap: 0.6rem;
   }
+}
+
+@media screen and (max-width: 576px) {
+  .showcaseImage { max-height: 60vh; }
+  .showcaseBtn { min-width: 240px; padding: 0.9rem 1.3rem; }
+  .showcaseText { max-width: 520px; }
+  .showcaseSection { padding: 3.5rem 0; }
 }
 
 @media screen and (max-width: 480px) {
   .baguActions {
     grid-template-columns: 1fr;
-    max-width: 280px;
+    max-width: 260px;
   }
-  
-  .wechatCard {
-    padding: 1rem 1.25rem;
-  }
-  
-  .wechatCardImg {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .wechatCardName {
-    font-size: 1.15rem;
-  }
-}
-
-/* 实战项目分隔区 */
-.projectsDivider {
-  padding: 4rem 0 3rem;
-  background: #ffffff;
-  text-align: center;
-}
-
-.dividerTitle {
-  font-size: clamp(2.2rem, 3.5vw + 0.5rem, 3.2rem);
-  font-weight: 900;
-  color: #0f172a;
-  margin-bottom: 1rem;
-}
-
-.dividerDesc {
-  font-size: clamp(1.1rem, 1.2vw + 0.5rem, 1.4rem);
-  color: #475569;
-  max-width: 900px;
-  margin: 0 auto;
-  line-height: 1.7;
-  white-space: nowrap;
-}
-
-.dividerHighlight {
-  color: #ff6b6b;
-  font-weight: 700;
-  position: relative;
-}
-
-.dividerHighlight::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #ff6b6b, #4ecdc4);
-  border-radius: 2px;
+  .wechatCard { padding: 1rem; }
+  .wechatCardImg { width: 90px; height: 90px; }
 }
