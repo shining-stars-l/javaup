@@ -19,6 +19,24 @@ const baguModules = [
 // 项目数据配置
 const projects = [
   {
+    id: 'super-agent',
+    title: '🧠 超级智能体项目',
+    subtitle: '深入剖析 AI 底层与工程化落地！',
+    description: '面向企业级场景打造的 AI 智能体对话平台，完整覆盖 Agent 智能体、RAG 检索增强、MCP 工具协议、Skills 能力扩展、会话记忆管理与文档全生命周期治理，帮助你真正从“会调 API”进阶到“会做 AI 系统”。',
+    features: [
+      '🤖 ReAct Agent 智能体',
+      '📚 RAG 检索增强生成',
+      '🔌 MCP 工具协议集成',
+      '🧩 Skills 能力扩展',
+      '🧠 会话记忆管理',
+      '🗂️ 文档全生命周期治理'
+    ],
+    image: '/img/super-agent/架构图/架构流程图.png',
+    links: [
+      { label: '🎯 点击查看项目详情', to: '/super-agent/overview/project-intro' }
+    ]
+  },
+  {
     id: 'hmdp-plus',
     title: '🎟️ 黑马点评 Plus 项目',
     subtitle: '升级为生产级的实战版本！',
