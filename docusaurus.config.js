@@ -230,7 +230,7 @@ var _hmt = _hmt || [];
             to: '/super-agent/overview/project-intro',
             activeBaseRegex: '^/super-agent(?:/|$)',
             position: 'left',
-            label: '超级智能体',
+            label: '超级 AI 智能体',
             className: 'navbar-super-agent-hot',
           },
           {
@@ -266,7 +266,7 @@ var _hmt = _hmt || [];
               {
                 type: 'docSidebar',
                 sidebarId: 'superAISidebar',
-                label: '超级智能体（深入剖析AI底层和深度实战）',
+                label: '超级 AI 智能体（深入剖析AI底层和深度实战）',
               },
             ],
           },

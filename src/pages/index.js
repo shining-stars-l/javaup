@@ -56,7 +56,7 @@ const baguModules = [
 const projects = [
   {
     id: 'super-agent',
-    title: '超级智能体项目',
+    title: '超级 AI 智能体项目',
     subtitle: '深入剖析 AI 底层与工程化落地',
     description: '面向企业级场景打造的 AI 智能体对话平台，完整覆盖 Agent 智能体、RAG 检索增强、MCP 工具协议、Skills 能力扩展、会话记忆管理与文档全生命周期治理，帮助你真正从"会调 API"进阶到"会做 AI 系统"。',
     features: ['ReAct Agent 智能体', 'RAG 检索增强生成', 'MCP 工具协议集成', 'Skills 能力扩展', '会话记忆管理', '文档全生命周期治理'],
@@ -143,7 +143,9 @@ function HeroSection() {
             JavaUp <span className={styles.heroTitleHighlight}>技术 & 实战</span>
           </Heading>
           <p className={styles.heroSubtitle}>
-            深度技术知识体系 + 生产级实战项目，已助力众多小伙伴斩获大厂岗位
+            <strong>深度技术知识体系 + 全面细致的 AI 实战知识 + 生产级实战项目</strong>
+            <br />
+            <strong>已助力众多小伙伴斩获大厂岗位</strong>
           </p>
           <div className={styles.starBanner}>
             <span className={styles.starBannerText}>觉得有帮助？欢迎点个 Star 支持</span>
@@ -176,7 +178,7 @@ function BaguSection() {
         <div className={styles.baguHeader}>
           <Heading as="h2" className={styles.baguTitle}>超级八股文系列</Heading>
           <p className={styles.baguSubtitle}>
-            不只是概念背诵，更是深度原理剖析 + 代码示例 + 流程图解
+            <strong>不只是概念背诵，更是深度原理剖析 + 代码示例 + 流程图解，涵盖全面技术核心与 AI 应用</strong>
           </p>
         </div>
 
@@ -231,7 +233,7 @@ function ProjectsDivider() {
       <div className="container">
         <Heading as="h2" className={styles.dividerTitle}>实战项目展示</Heading>
         <p className={styles.dividerDesc}>
-          <span className={styles.dividerHighlight}>实战项目</span> 提供生产级别的可落地方案，理论与实践结合，助你 <span className={styles.dividerHighlight}>快速进阶</span>
+          <span className={styles.dividerHighlight}>实战项目</span> <strong>提供生产级别的可落地方案，理论与实践结合，助你</strong> <span className={styles.dividerHighlight}>快速进阶</span>
         </p>
       </div>
     </div>
