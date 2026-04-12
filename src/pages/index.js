@@ -143,7 +143,7 @@ function HeroSection() {
             JavaUp <span className={styles.heroTitleHighlight}>技术 & 实战</span>
           </Heading>
           <p className={styles.heroSubtitle}>
-            用心整理的 Java 技术知识库 + 生产级实战项目
+            深度技术知识体系 + 生产级实战项目，已助力众多小伙伴斩获大厂岗位
           </p>
           <div className={styles.starBanner}>
             <span className={styles.starBannerText}>觉得有帮助？欢迎点个 Star 支持</span>
@@ -233,7 +233,6 @@ function ProjectsDivider() {
         <p className={styles.dividerDesc}>
           <span className={styles.dividerHighlight}>实战项目</span> 提供生产级别的可落地方案，理论与实践结合，助你 <span className={styles.dividerHighlight}>快速进阶</span>
         </p>
-        <div className={styles.dividerLine} />
       </div>
     </div>
   );

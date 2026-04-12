@@ -2,7 +2,7 @@
    全局页面背景
    ===================== */
 :global(.home-page) {
-  background: #fffbf5;
+  background: #ffffff;
 }
 
 /* =====================
@@ -49,7 +49,7 @@
 }
 
 .heroTitle {
-  font-size: clamp(2.5rem, 4vw + 0.8rem, 3.5rem);
+  font-size: clamp(3rem, 5vw + 1rem, 4.2rem);
   font-weight: 900;
   color: #1e293b;
   margin-bottom: 1rem;
@@ -340,7 +340,7 @@
    ===================== */
 .projectsDivider {
   padding: 4rem 0 2.5rem;
-  background: #fffbf5;
+  background: #ffffff;
   text-align: center;
 }
 
