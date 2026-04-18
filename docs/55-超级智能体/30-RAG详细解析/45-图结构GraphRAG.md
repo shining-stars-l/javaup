@@ -149,7 +149,7 @@ docker run -d \
 
 ### 示例中项目地址
 
-- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目地址：[https://github.com/java-up-up/super-agent](https://github.com/java-up-up/super-agent)
 - 项目模块：`ai-example-spring-ai-rag-neo4j`
 
 ### 引入依赖

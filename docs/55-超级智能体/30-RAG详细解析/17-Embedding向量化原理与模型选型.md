@@ -449,7 +449,7 @@ public class ProductSearchService {
 
 ### 示例中项目地址
 
-- 项目地址：[https://gitee.com/shining-stars-l/super-ai-hub](https://gitee.com/shining-stars-l/super-ai-hub)
+- 项目地址：[https://github.com/java-up-up/super-agent](https://github.com/java-up-up/super-agent)
 - 项目模块：`ai-example-demo-rag`
 
 运行前，直接改 `main` 方法开头这三个参数即可：
