@@ -27,11 +27,11 @@ export default function VipInline({
           </li>
           <li>
             <span className={styles.highlight}>讲解文档</span>
-            ：黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的从0到1的550+详细文档
+            ：超级AI智能体、黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的从0到1的详细文档
           </li>
           <li>
             <span className={styles.highlight}>讲解视频</span>
-            ：黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的核心业务详细讲解
+            ：超级AI智能体、黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的核心业务详细讲解
           </li>
           <li>
             <span className={styles.highlight}>1 对 1 解答</span>
