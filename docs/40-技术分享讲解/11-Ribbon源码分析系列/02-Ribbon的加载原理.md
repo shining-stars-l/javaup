@@ -35,7 +35,6 @@ public class RibbonClientConfiguration {
 	@RibbonClientName
 	private String name = "client";
 
-	// TODO: maybe re-instate autowired load balancers: identified by name they could be
 	// associated with ribbon clients
 
 	@Autowired
