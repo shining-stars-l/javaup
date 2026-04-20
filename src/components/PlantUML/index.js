@@ -1,4 +1,5 @@
 import React from 'react';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
 function normalizeSize(value) {
@@ -28,6 +29,7 @@ export default function PlantUML({
   maxWidth,
   align = 'center',
 }) {
+  const resolvedSrc = useBaseUrl(src);
   const resolvedWidth = normalizeSize(width);
   const resolvedMaxWidth = normalizeSize(maxWidth);
   const figureStyle = {
@@ -42,7 +44,7 @@ export default function PlantUML({
     >
       <img
         className={styles.image}
-        src={src}
+        src={resolvedSrc}
         alt={title}
         loading="lazy"
         referrerPolicy="no-referrer"

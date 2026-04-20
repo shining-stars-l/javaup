@@ -8,6 +8,7 @@
 .docusaurus
 .cache-loader
 .indexnow
+/static/generated/plantuml
 
 # Misc
 .DS_Store
