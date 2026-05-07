@@ -113,4 +113,31 @@ Super Agent 定义了 6 种 SSE 事件类型，每种事件都是一个 JSON 字
 
 其中 `type` 和 `content` 是必有字段，`timestamp` 是事件产生的时间戳，`conversationId` 和 `exchangeId` 是可选的会话元信息——有了它们，前端就能知道每条事件归属哪个会话、哪个轮次。
 
+引用和推荐事件会多一个 `count` 字段，告诉前端这批数据一共有多少条：
+
+```json
+{
+  "type": "reference",
+  "content": [
+    { "title": "文档A", "sectionPath": "第三章/3.1", "snippet": "..." },
+    { "title": "文档B", "sectionPath": "第五章/5.2", "snippet": "..." }
+  ],
+  "count": 2,
+  "timestamp": "2025-03-15T08:30:05.456Z",
+  "conversationId": "abc123",
+  "exchangeId": 1001
+}
+```
+
+这些元信息由 `StreamEventMetadata` 这个 record 承载：
+
+```java
+// StreamEventMetadata.java —— SSE 事件元数据
+public record StreamEventMetadata(
+    String conversationId,  // 会话 ID
+    Long exchangeId         // 轮次 ID
+) {
+}
+```
+
 <VipInline />
