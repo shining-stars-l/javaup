@@ -227,6 +227,13 @@ var _hmt = _hmt || [];
             ],
           },
           {
+            to: '/ai-interview/llm-intro/llm-basics',
+            activeBaseRegex: '^/ai-interview(?:/|$)',
+            position: 'left',
+            label: 'AI大模型面试详解',
+            className: 'navbar-ai-interview-highlight',
+          },
+          {
             to: '/super-agent/overview/project-intro',
             activeBaseRegex: '^/super-agent(?:/|$)',
             position: 'left',
@@ -266,7 +273,7 @@ var _hmt = _hmt || [];
               {
                 type: 'docSidebar',
                 sidebarId: 'superAISidebar',
-                label: '超级 AI 智能体（深入剖析AI底层和深度实战）',
+                label: '超级 AI 智能体（企业级智能体项目实战）',
               },
             ],
           },

@@ -164,7 +164,8 @@
 /* Paid badge style for premium content */
 /* Usage: assign the doc frontmatter sidebar_class_name: has-paid-badge */
 .menu__link.has-paid-badge::after,
-.menu__list-item.has-paid-badge > .menu__link::after {
+.menu__list-item.has-paid-badge > .menu__link::after,
+.menu__list-item.has-paid-badge > .menu__list-item-collapsible > .menu__link > span::after {
   content: '付费💎';
   margin-left: 6px;
   padding: 0 6px;
@@ -174,6 +175,18 @@
   font-weight: 600;
   background-color: #5575f6; /* primary blue - same as "开始学习" button */
   color: #fff;
+}
+
+.menu__list-item.has-paid-badge > .menu__list-item-collapsible > .menu__link > span::after {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 10px;
+  padding: 0 9px;
+  font-size: 13px;
+  line-height: 22px;
+  border-radius: 11px;
+  font-weight: 700;
+  vertical-align: middle;
 }
 
 /* Must-see badge style for essential service pages */
@@ -238,6 +251,20 @@
 /* 确保下拉菜单可以正常显示 */
 .navbar__item.dropdown {
   overflow: visible;
+}
+
+/* 顶部导航栏：AI 大模型面试详解重点入口 */
+.navbar__item.navbar-ai-interview-highlight > .navbar__link,
+.navbar__link.navbar-ai-interview-highlight {
+  color: #ff6f91 !important;
+  transition: color 180ms ease;
+}
+
+.navbar__item.navbar-ai-interview-highlight > .navbar__link:hover,
+.navbar__link.navbar-ai-interview-highlight:hover,
+.navbar__item.navbar-ai-interview-highlight > .navbar__link--active,
+.navbar__link.navbar-ai-interview-highlight.navbar__link--active {
+  color: #e85b7d !important;
 }
 
 /* 顶部导航栏：超级智能体 HOT 宣传标识 */
