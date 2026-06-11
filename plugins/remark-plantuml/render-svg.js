@@ -57,6 +57,38 @@ function normalizePlantUmlCode(code) {
   return code.replace(/\r\n?/g, '\n').trimEnd();
 }
 
+/**
+ * 将已废弃的 skinparam padding 转换为新版 PlantUML 要求的 CSS style 写法。
+ * 例如 `skinparam padding 6` → `<style>root { Padding 6 }</style>`
+ */
+function migrateSkinparamPadding(code) {
+  const paddingMatch = code.match(/^\s*skinparam\s+padding\s+(\d+)\s*$/im);
+  if (!paddingMatch) {
+    return code;
+  }
+
+  const paddingValue = paddingMatch[1];
+
+  // 移除原始的 skinparam padding 行
+  let result = code.replace(/^\s*skinparam\s+padding\s+\d+\s*\n?/im, '');
+
+  // 如果已有 <style> 块，将 padding 规则插入其中
+  if (/<style>/i.test(result)) {
+    result = result.replace(
+      /(<style>\s*\n?)/i,
+      `$1  root {\n    Padding ${paddingValue}\n  }\n`,
+    );
+  } else {
+    // 没有 <style> 块，在 @startuml 之后插入
+    result = result.replace(
+      /(@startuml[^\n]*\n)/i,
+      `$1<style>\n  root {\n    Padding ${paddingValue}\n  }\n</style>\n`,
+    );
+  }
+
+  return result;
+}
+
 function createDiagramHash(code) {
   return createHash('sha256').update(code, 'utf8').digest('hex').slice(0, 20);
 }
@@ -319,11 +351,12 @@ function shouldDisableServerFallback() {
 }
 
 async function renderSvg(code) {
+  const migratedCode = migrateSkinparamPadding(code);
   const configuredJarPath = getConfiguredPlantUmlJarPath();
 
   if (configuredJarPath) {
     try {
-      return await renderWithLocalJar(code, configuredJarPath);
+      return await renderWithLocalJar(migratedCode, configuredJarPath);
     } catch (error) {
       if (shouldDisableServerFallback()) {
         throw error;
@@ -331,7 +364,7 @@ async function renderSvg(code) {
     }
   }
 
-  return renderWithPlantUmlServer(code);
+  return renderWithPlantUmlServer(migratedCode);
 }
 
 async function writeSvgAsset(code, filePath) {

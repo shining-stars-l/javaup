@@ -227,7 +227,7 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            to: '/ai-interview/llm-intro/llm-basics',
+            to: '/ai-interview/quick-review/study-roadmap',
             activeBaseRegex: '^/ai-interview(?:/|$)',
             position: 'left',
             label: 'AI大模型面试详解',
