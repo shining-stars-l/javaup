@@ -4,7 +4,7 @@ description: "使用Spring AI框架实战开发MCP Server，涵盖Stdio、SSE、
 keywords: ["MCP Server开发", "Spring AI MCP", "智能体工具服务", "MCP实战", "工具服务开发"]
 ---
 
-# Spring AI构建MCP服务端实战
+# SpringAI构建MCP服务端实战
 
 :::tip 实战项目推荐
 MCP 服务端负责把能力暴露出去，超级 AI 智能体则展示了这些能力被 Agent 系统消费后的整体效果：工具发现、调用、结果回填和链路观测可以连起来看。

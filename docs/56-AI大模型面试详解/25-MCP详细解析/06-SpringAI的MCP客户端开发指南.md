@@ -4,7 +4,7 @@ description: "使用Spring AI开发MCP Client，掌握配置注入与手动构�
 keywords: ["MCP Client开发", "Spring AI MCP客户端", "智能助手集成", "MCP工具调用", "多Server集成"]
 ---
 
-# Spring AI MCP客户端开发指南
+# SpringAI的MCP客户端开发指南
 
 :::tip 实战项目推荐
 MCP 客户端要解决的是如何发现并调用外部工具。超级 AI 智能体可以作为客户端能力进入业务系统后的完整参考，重点看工具调用如何和会话、RAG、动态 Agent 协同。

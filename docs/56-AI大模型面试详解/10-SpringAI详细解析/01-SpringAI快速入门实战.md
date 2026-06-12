@@ -4,7 +4,7 @@ description: "从零开始搭建Spring AI项目，手把手教你完成第一次
 keywords: ["Spring AI", "ChatClient", "DeepSeek", "大模型对话", "流式输出", "Flux", "AI开发入门"]
 ---
 
-# Spring AI快速入门实战
+# SpringAI快速入门实战
 
 :::tip 实战项目推荐
 这一章的 Spring AI 入门代码，可以继续在超级 AI 智能体里看到完整项目级用法：ChatClient、流式输出、Advisor、RAG、工具调用和会话记忆都被组合进真实业务流程。

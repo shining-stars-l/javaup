@@ -4,7 +4,7 @@ description: "从零开始在Spring AI中实现工具调用，掌握@Tool注解�
 keywords: ["Spring AI", "工具调用", "@Tool注解", "函数式接口", "ChatClient", "工具定义", "Bean注册"]
 ---
 
-# Spring AI工具调用实战
+# SpringAI工具调用实战
 
 :::tip 实战项目推荐
 Spring AI 的工具调用示例跑通后，可以继续看超级 AI 智能体如何把工具纳入真实 Agent：包括参数生成、执行结果回填、链路记录和与知识检索的协同。

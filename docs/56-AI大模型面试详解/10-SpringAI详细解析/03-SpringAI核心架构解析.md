@@ -4,7 +4,7 @@ description: "深入剖析Spring AI的核心架构设计：ChatModel与ChatClien
 keywords: ["Spring AI架构", "ChatModel", "ChatClient", "Prompt", "ChatResponse", "Message", "ChatOptions"]
 ---
 
-# Spring AI核心架构解析
+# SpringAI核心架构解析
 
 :::tip 实战项目推荐
 理解 Spring AI 的抽象之后，可以在超级 AI 智能体里看这些抽象如何协作：模型调用、消息、Advisor、记忆、工具调用和检索增强最终都服务于一条完整会话链路。

@@ -4,7 +4,7 @@ description: "Spring AI开发面试速查：覆盖核心架构、统一抽象层
 keywords: ["Spring AI面试", "Java AI开发", "ChatClient", "流式输出", "Advisor", "结构化输出", "对话记忆"]
 ---
 
-# Spring AI开发面试速查
+# SpringAI开发面试速查
 
 :::tip 对应模块
 本文对应 [Spring AI详细解析](/ai-interview/spring-ai-detail/quick-start) 模块全部文档的面试考点提炼。这是本项目独有的Java/Spring生态AI开发内容。
