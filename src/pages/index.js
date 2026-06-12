@@ -38,6 +38,11 @@ const Icons = {
       <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>
     </svg>
   ),
+  Sparkles: (props) => (
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" {...props}>
+      <path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .962 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.962 0z"/><path d="M20 3v4"/><path d="M22 5h-4"/><path d="M4 17v2"/><path d="M5 18H3"/>
+    </svg>
+  ),
 };
 
 // PLACEHOLDER_MODULES_AND_PROJECTS
@@ -50,6 +55,7 @@ const baguModules = [
   { icon: Icons.Network, title: '分布式架构', desc: '微服务、分库分表、事务', color: '#22c55e' },
   { icon: Icons.Cpu, title: '基础内功', desc: '操作系统、网络、数据结构', color: '#eab308' },
   { icon: Icons.Target, title: '方案设计', desc: '秒杀、缓存、限流熔断', color: '#a855f7' },
+  { icon: Icons.Sparkles, title: 'AI 大模型', desc: 'Agent、RAG、MCP、提示工程', color: '#f97316', highlight: true },
 ];
 
 // 项目数据（去掉 emoji 前缀）
@@ -186,7 +192,7 @@ function BaguSection() {
           {baguModules.map((mod, idx) => {
             const IconComp = mod.icon;
             return (
-              <div key={idx} className={styles.baguModuleCard}>
+              <div key={idx} className={clsx(styles.baguModuleCard, { [styles.baguModuleCardAi]: mod.highlight })}>
                 <span className={styles.baguModuleIcon} style={{ '--icon-color': mod.color }}>
                   <IconComp />
                 </span>

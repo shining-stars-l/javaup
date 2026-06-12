@@ -163,7 +163,7 @@
 /* 知识模块卡片 */
 .baguModules {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(7, 1fr);
   gap: 1rem;
   max-width: 1100px;
   margin: 0 auto 2.5rem;
@@ -182,6 +182,60 @@
 .baguModuleCard:hover {
   border-color: #f97316;
   box-shadow: 0 4px 16px rgba(249, 115, 22, 0.1);
+}
+
+/* AI 模块：尺寸与其他卡片一致，样式更醒目 */
+.baguModuleCardAi {
+  position: relative;
+  border: none;
+  background: linear-gradient(135deg, #f97316 0%, #fb923c 50%, #ec4899 100%);
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.35);
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  animation: aiCardGlow 2.6s ease-in-out infinite;
+}
+
+.baguModuleCardAi::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.45) 50%, transparent 70%);
+  transform: translateX(-120%);
+  animation: aiCardShine 3.2s ease-in-out infinite;
+}
+
+.baguModuleCardAi:hover {
+  border: none;
+  transform: translateY(-4px);
+  box-shadow: 0 14px 34px rgba(236, 72, 153, 0.45);
+}
+
+@keyframes aiCardGlow {
+  0%, 100% { box-shadow: 0 8px 24px rgba(249, 115, 22, 0.35); }
+  50% { box-shadow: 0 8px 30px rgba(236, 72, 153, 0.55); }
+}
+
+@keyframes aiCardShine {
+  0% { transform: translateX(-120%); }
+  60%, 100% { transform: translateX(120%); }
+}
+
+.baguModuleCardAi .baguModuleIcon {
+  color: #ffffff !important;
+  position: relative;
+  z-index: 1;
+}
+
+.baguModuleCardAi .baguModuleTitle {
+  color: #ffffff;
+  position: relative;
+  z-index: 1;
+}
+
+.baguModuleCardAi .baguModuleDesc {
+  color: rgba(255, 255, 255, 0.92);
+  position: relative;
+  z-index: 1;
 }
 
 .baguModuleIcon {
@@ -516,7 +570,7 @@
 }
 
 @media screen and (max-width: 1200px) {
-  .baguModules { grid-template-columns: repeat(3, 1fr); }
+  .baguModules { grid-template-columns: repeat(4, 1fr); }
   .showcaseImage { max-height: 70vh; }
   .showcaseText { max-width: 600px; }
 }
