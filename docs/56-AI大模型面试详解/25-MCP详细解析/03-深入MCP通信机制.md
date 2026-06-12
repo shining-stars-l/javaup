@@ -6,6 +6,12 @@ keywords: ["JSON-RPC", "MCP通信协议", "MCP数据层", "RPC协议", "智能�
 
 # 深入MCP通信机制
 
+:::tip 实战项目推荐
+理解 JSON-RPC 和 MCP 消息结构后，可以进一步看超级 AI 智能体如何把外部能力接入 Agent 链路，并通过执行阶段记录观察工具调用前后的状态变化。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 在设计一个通信协议时，有很多选择：RESTful API、GraphQL、gRPC、自定义二进制协议......MCP最终选择了JSON-RPC。这个选择背后有什么考量？
 
 先来看看JSON-RPC的几个特点：

@@ -6,6 +6,12 @@ keywords: ["Naive RAG", "Advanced RAG", "Modular RAG", "RAG架构", "架构选�
 
 # RAG三代进化史与架构选型
 
+:::tip 实战项目推荐
+超级 AI 智能体更接近 Advanced RAG / Modular RAG 的实践：它把文档处理、问题改写、路由、混合检索、重排序、回答生成和评测观测拆成可组合链路。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 还记得诺基亚那个年代吗？手机只能打电话发短信，拍照是奢侈功能，像素还低得可怜。后来有了智能机，拍照能力一代比一代强——从单摄到双摄，从双摄到三摄，从普通拍照到AI算法加持。
 
 RAG技术的演进也是类似的路子。

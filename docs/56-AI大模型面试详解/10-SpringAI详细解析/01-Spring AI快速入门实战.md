@@ -6,6 +6,12 @@ keywords: ["Spring AI", "ChatClient", "DeepSeek", "大模型对话", "流式输�
 
 # Spring AI快速入门实战
 
+:::tip 实战项目推荐
+这一章的 Spring AI 入门代码，可以继续在超级 AI 智能体里看到完整项目级用法：ChatClient、流式输出、Advisor、RAG、工具调用和会话记忆都被组合进真实业务流程。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 很多人第一次接触大模型开发，脑子里都会冒出一个问题：在Java项目里怎么跟AI对话？是不是要自己拼HTTP请求、解析JSON、处理各种异常？
 
 其实完全不用这么麻烦。Spring官方团队专门搞了一套叫Spring AI的框架，目的就是让Java开发者能像调用普通Service一样调用大模型。今天咱们就从零开始，跑通第一个AI对话程序。

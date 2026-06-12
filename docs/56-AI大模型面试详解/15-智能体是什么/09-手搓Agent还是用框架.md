@@ -6,6 +6,12 @@ keywords: ["手搓Agent", "Agent框架", "Spring AI", "LangChain", "工程选型
 
 # 手搓Agent还是用框架
 
+:::tip 实战项目推荐
+这篇讨论选框架还是手写，超级 AI 智能体提供了一个折中参考：核心链路保持可控，同时复用 Spring AI 等成熟能力，把透明度、扩展性和工程效率结合起来。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 ## 这道题背后在考什么
 
 面试中经常会被问到"你们项目里为什么不直接用LangChain/Spring AI的Agent封装"——这个问题看起来在问技术选型，实际上是在考你对**工程控制权**的理解深度。

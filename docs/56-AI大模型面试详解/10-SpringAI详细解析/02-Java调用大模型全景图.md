@@ -6,6 +6,12 @@ keywords: ["Java大模型", "Spring AI", "Spring AI Alibaba", "LangChain4j", "�
 
 # Java调用大模型全景图
 
+:::tip 实战项目推荐
+Java 调用大模型有很多层次，超级 AI 智能体选择用 Spring AI 把模型调用、RAG、工具和 Agent 编排整合起来。它适合作为“Java AI 应用怎么落地”的完整案例。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 作为Java开发者，当你决定在项目中集成大模型能力时，第一个问题往往是：我该选哪个框架？
 
 市面上的选择还真不少：可以自己用HTTP客户端硬撸，也可以用Spring AI这种官方框架，还有阿里云搞的Spring AI Alibaba，以及从Python圈子移植过来的LangChain4j。

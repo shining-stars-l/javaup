@@ -6,6 +6,12 @@ keywords: ["SKILL.md", "Frontmatter", "Instruction", "技能元数据", "技能�
 
 # SKILL.md核心配置深度剖析
 
+:::tip 实战项目推荐
+SKILL.md 负责让 Agent 用很低成本识别能力边界。超级 AI 智能体里的动态 Agent 和能力路由场景，适合对照理解技能描述、触发条件和执行资源为什么重要。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 上一篇我们看了整个Skill的目录结构，知道了SKILL.md是唯一的必选文件。但"必选"这两个字背后的分量远不止于此——**一个Skill好不好用，90%取决于SKILL.md写得怎么样**。
 
 你可以把references、scripts想象成一个战士的装备和武器，而SKILL.md就是这个战士的大脑和经验。武器再好，如果脑子不清楚什么时候用什么武器、该用什么战术，战斗力一样上不去。

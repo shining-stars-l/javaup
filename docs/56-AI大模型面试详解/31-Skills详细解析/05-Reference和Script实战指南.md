@@ -6,6 +6,12 @@ keywords: ["Reference", "Script", "技能参考文档", "技能脚本", "Skills�
 
 # Reference和Script实战指南
 
+:::tip 实战项目推荐
+Reference 和 Script 分别解决“按需读资料”和“稳定执行动作”。超级 AI 智能体把知识检索、工具调用和 Agent 执行结合起来，适合理解这些资源如何服务真实任务。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 前面几篇我们从整体到局部，已经把Agent Skills的核心框架讲清楚了。但在实际使用中，很多人遇到的困惑集中在两个问题上：
 
 1. **Reference和直接把内容写在Instruction里有什么区别？什么情况下该拆出来？**

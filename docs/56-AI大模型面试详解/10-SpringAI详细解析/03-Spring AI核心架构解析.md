@@ -6,6 +6,12 @@ keywords: ["Spring AI架构", "ChatModel", "ChatClient", "Prompt", "ChatResponse
 
 # Spring AI核心架构解析
 
+:::tip 实战项目推荐
+理解 Spring AI 的抽象之后，可以在超级 AI 智能体里看这些抽象如何协作：模型调用、消息、Advisor、记忆、工具调用和检索增强最终都服务于一条完整会话链路。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 用Spring AI写代码很简单，几行就能跑起来。但如果你想用好它，或者遇到问题能快速定位，就得搞清楚底层的架构设计。
 
 这篇文章会带你深入Spring AI的核心组件，理解它们之间的关系和协作方式。

@@ -6,6 +6,12 @@ keywords: ["Advisor", "拦截器", "责任链模式", "AOP", "SimpleLoggerAdviso
 
 # Advisor拦截器机制揭秘
 
+:::tip 实战项目推荐
+Advisor 的价值在于把横切能力放进模型调用链路。超级 AI 智能体把会话记忆、链路观测、检索增强等能力组合进对话流程，适合对照理解 Advisor 思想在项目中的用法。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 在前面的章节中，我们多次用到了Advisor，比如SimpleLoggerAdvisor用来打印日志。但Advisor到底是什么？能做什么？怎么自己写一个？
 
 这篇文章来彻底搞清楚Spring AI的Advisor机制。

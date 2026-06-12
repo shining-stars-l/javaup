@@ -6,6 +6,12 @@ keywords: ["Spring AI", "Spring AI Alibaba", "TokenTextSplitter", "RecursiveChar
 
 # 分片代码实战：Spring系列
 
+:::tip 实战项目推荐
+这一章的 Spring 分片代码可以在超级 AI 智能体里继续延伸：项目把分片结果接入知识库、向量检索和回答生成，形成完整的文档处理闭环。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 前面讲了分块策略的理论和ChunkViz可视化实验，这篇开始写具体的实现代码。
 
 Java生态中主要有三个框架支持文档分片：

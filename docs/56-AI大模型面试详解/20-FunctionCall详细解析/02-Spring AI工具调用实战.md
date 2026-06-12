@@ -6,6 +6,12 @@ keywords: ["Spring AI", "工具调用", "@Tool注解", "函数式接口", "ChatC
 
 # Spring AI工具调用实战
 
+:::tip 实战项目推荐
+Spring AI 的工具调用示例跑通后，可以继续看超级 AI 智能体如何把工具纳入真实 Agent：包括参数生成、执行结果回填、链路记录和与知识检索的协同。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 上一节我们搞明白了工具调用是怎么回事。现在的问题是：在Spring AI里，具体怎么把自己的方法变成大模型能调用的工具？
 
 Spring AI给我们提供了两种路子：

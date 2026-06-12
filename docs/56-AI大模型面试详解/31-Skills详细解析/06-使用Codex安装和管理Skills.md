@@ -6,6 +6,12 @@ keywords: ["Codex", "Skills安装", "UI UX Pro Max", "技能管理", "uipro-cli"
 
 # 使用Codex安装和管理Skills
 
+:::tip 实战项目推荐
+Skills 管理是 Agent 能力扩展的入口。超级 AI 智能体则展示了扩展能力进入业务系统后的样子：动态 Agent、MCP、工具调用和知识库能力共同支撑复杂任务。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 前面几篇我们从原理层面把Agent Skills讲透了，这一篇进入实操环节——以一个真实的开源Skill为例，演示如何在Codex中完成安装和管理。
 
 我们选用的案例是 **UI UX Pro Max**，这是目前社区里比较受欢迎的一个设计类Skill，非常适合用来演示完整的安装流程。

@@ -6,6 +6,12 @@ keywords: ["MCP技术选型", "MCP与RPC", "MCP与A2A", "智能体协议对比",
 
 # MCP与相关技术的关系
 
+:::tip 实战项目推荐
+MCP、Function Call、Agent 和 RAG 不是互相替代，而是处在不同层次。超级 AI 智能体把这些能力放在同一个系统里，适合用来理解它们在工程架构中的分工。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 当你开始在项目中引入MCP时，可能会遇到这样的疑问：
 
 - "我们已经有RPC框架了，还需要MCP吗？"

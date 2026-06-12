@@ -6,6 +6,12 @@ keywords: ["Skills目录结构", "SKILL.md", "Reference", "Script", "技能模�
 
 # Skills目录结构全景图
 
+:::tip 实战项目推荐
+目录结构只是 Skills 的外壳，真正关键是它如何被 Agent 发现、加载和执行。超级 AI 智能体可以作为能力扩展场景的参考，理解技能包如何进入实际任务链路。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 上一篇我们聊到，Agent Skills本质上是一种"按需取用的能力模块"。那这个模块在物理层面到底长什么样呢？
 
 答案可能会让你有点意外——**它就是一个文件夹**。

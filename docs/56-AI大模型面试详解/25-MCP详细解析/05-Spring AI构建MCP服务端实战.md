@@ -6,6 +6,12 @@ keywords: ["MCP Server开发", "Spring AI MCP", "智能体工具服务", "MCP实
 
 # Spring AI构建MCP服务端实战
 
+:::tip 实战项目推荐
+MCP 服务端负责把能力暴露出去，超级 AI 智能体则展示了这些能力被 Agent 系统消费后的整体效果：工具发现、调用、结果回填和链路观测可以连起来看。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 ## 实战目标
 
 这一篇我们动手搭建一个真实可用的MCP Server。为了让示例更有实际意义，我们以"智能办公助手"为场景，开发以下工具：

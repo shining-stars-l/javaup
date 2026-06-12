@@ -6,6 +6,12 @@ keywords: ["ToolCallback", "FunctionToolCallback", "MethodToolCallback", "Spring
 
 # ToolCallback源码解析
 
+:::tip 实战项目推荐
+ToolCallback 是工具能力进入 Spring AI 的统一抽象。超级 AI 智能体在业务链路里使用工具调用思想，把模型决策、工具执行和结果追踪连接起来，适合从源码继续看到业务落点。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 上一节我们知道了Spring AI提供两种定义工具的方式：`@Tool`注解和`Function` Bean。那你有没有好奇过：这两种方式在底层有什么区别？Spring AI拿到你的工具定义后，内部是怎么调用的？
 
 这一节我们就来扒一扒源码，搞清楚这些问题。

@@ -6,6 +6,12 @@ keywords: ["Transformer", "Self-Attention", "多头注意力", "MQA", "GQA", "Fl
 
 # Transformer与注意力机制深度解析
 
+:::tip 实战项目推荐
+Transformer 和注意力机制解释了模型为什么能理解上下文，而超级 AI 智能体展示的是应用层如何管理上下文：包括会话记忆、检索片段拼装、问题改写和路由决策。两者结合起来，面试里更容易从原理聊到系统设计。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 要理解Transformer，我们要先知道一个前提的问题：为什么RNN和LSTM这样的架构被淘汰了？
 
 ### RNN的核心问题

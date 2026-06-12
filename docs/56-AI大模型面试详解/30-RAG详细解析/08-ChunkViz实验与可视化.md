@@ -6,6 +6,12 @@ keywords: ["ChunkViz", "分块可视化", "递归分块", "固定大小分块", 
 
 # ChunkViz实验与可视化
 
+:::tip 实战项目推荐
+ChunkViz 适合观察分块效果，而超级 AI 智能体进一步把分块结果放进完整 RAG 链路里验证：入库、检索、排序、回答和引用都能连起来看。
+
+项目详细介绍：**[什么是超级 AI 智能体？](/super-agent/overview/project-intro)**
+:::
+
 上一篇讲了分块策略的理论，但光看文字描述可能还不够直观。
 
 这篇用一个免费的在线工具——[ChunkViz](https://chunkviz.up.railway.app/)，来可视化地展示不同分块策略的效果，让你亲眼看到"切大了"和"切小了"的区别。
