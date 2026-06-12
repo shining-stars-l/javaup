@@ -211,8 +211,8 @@ function BaguSection() {
             <Link className={clsx('button button--outline button--lg', styles.baguBtnOutline)} to="/how-to-study/intro/super-baguwen">
               查看全部目录
             </Link>
-            <Link className={clsx('button button--lg', styles.baguBtnContribute)} to="/how-to-study/contribute/guide">
-              参与项目贡献
+            <Link className={clsx('button button--lg', styles.baguBtnContribute)} to="/ai-interview/quick-review/study-roadmap">
+              查看AI面试详解
             </Link>
             <Link className={clsx('button button--lg', styles.baguBtnStar)} to="/how-to-study/intro/full-service">
               加入知识星球
