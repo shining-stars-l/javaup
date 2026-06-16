@@ -122,7 +122,7 @@ const config = {
                 tagName: 'meta',
                 attributes: {
                   name: 'baidu-site-verification',
-                  content: 'codeva-prhSSm3vTX',
+                  content: 'codeva-qE4UdeHpNO',
                 },
               },
               {
