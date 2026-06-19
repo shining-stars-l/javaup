@@ -295,11 +295,15 @@ var _hmt = _hmt || [];
             position: 'right',
             items: [
               {
-                label: 'Gitee',
+                label: 'Super Agent GitHub',
+                href: 'https://github.com/java-up-up/super-agent',
+              },
+              {
+                label: 'JavaUp 文档 Gitee',
                 href: 'https://gitee.com/java-up-up/javaup',
               },
               {
-                label: 'GitHub',
+                label: 'JavaUp 文档 GitHub',
                 href: 'https://github.com/shining-stars-l/javaup',
               },
             ],
