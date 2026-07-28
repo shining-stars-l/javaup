@@ -12,7 +12,7 @@ import VipInline from '@site/src/components/VipInline';
 ### 搭建 prometheus 和 grafana
 大麦AI需要从 prometheus 来获取对应的数据，grafana 是用来可视化显示，所以需要把这这两个搭建好，搭建教程：
 
-[项目集成prometheus和grafana | JavaUp 技术&实战](/damai/getting-started/prometheus-grafana)
+[项目集成prometheus和grafana](/damai/getting-started/prometheus-grafana)
 
 # 项目功能实现
 ## 1. 项目架构概述

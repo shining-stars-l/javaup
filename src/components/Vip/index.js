@@ -40,9 +40,9 @@ export default function Vip({
   return (
     <div className={styles.overlay}>
       <div className={styles.wrapper} role="dialog" aria-modal="true">
-        <p className={styles.title}>该文档仅对 “JavaUp项目实战&技术讲解” 星球用户可见</p>
+        <p className={styles.title}>该文档仅对“「码力全开」项目实战&技术讲解”星球用户可见</p>
         <div className={styles.content}>
-          <p>JavaUp 项目实战&技术讲解的星球内容包括:</p>
+          <p>「码力全开」项目实战&技术讲解的星球内容包括:</p>
           <p><span className={styles.highlight}>- 超级八股文</span>: 100万+字的全栈技术知识库，涵盖技术核心、数据库、中间件、分布式等深度剖析的讲解</p>
           <p><span className={styles.highlight}>- 讲解的文档</span>: 超级AI智能体、黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的从0到1的详细文档</p>
           <p><span className={styles.highlight}>- 讲解的视频</span>: 超级AI智能体、黑马点评Plus、大麦、大麦pro、大麦AI、流量切换、数据中台的核心业务详细讲解</p>
@@ -74,5 +74,4 @@ export default function Vip({
     </div>
   );
 }
-
 

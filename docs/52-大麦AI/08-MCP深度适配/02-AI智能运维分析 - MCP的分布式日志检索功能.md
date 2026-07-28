@@ -19,7 +19,7 @@ import VipInline from '@site/src/components/VipInline';
 
 搭建教程地址：
 
-[如何安装项目需要的中间件环境 | JavaUp 技术&实战](/damai/getting-started/install-dependencies)
+[如何安装项目需要的中间件环境](/damai/getting-started/install-dependencies)
 
 ### 访问ELK
 搭建好ELK后，启动大麦项目的服务，就可以将日志上报给ELK了，接着进入Kibana中，来创建日志视图进行查看日志

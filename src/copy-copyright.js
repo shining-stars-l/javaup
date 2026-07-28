@@ -9,7 +9,7 @@ if (ExecutionEnvironment.canUseDOM) {
     // 网站名称
     siteName: 'JavaUp',
     // 网站域名
-    siteDomain: 'javuap.chat',
+    siteDomain: 'javaup.chat',
     // 协议类型
     license: 'MIT协议',
     // 最小触发字符数（复制内容超过这个长度才追加版权信息）

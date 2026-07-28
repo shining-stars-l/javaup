@@ -62,11 +62,11 @@ const baguModules = [
 const projects = [
   {
     id: 'super-agent',
-    title: '超级 AI 智能体项目',
+    title: 'Nexus Agent 智能体项目',
     subtitle: '深入剖析 AI 底层与工程化落地',
-    description: '面向企业级场景打造的 AI 智能体对话平台，完整覆盖 Agent 智能体、RAG 检索增强、MCP 工具协议、Skills 能力扩展、会话记忆管理与文档全生命周期治理，帮助你真正从"会调 API"进阶到"会做 AI 系统"。',
-    features: ['ReAct Agent 智能体', 'RAG 检索增强生成', 'MCP 工具协议集成', 'Skills 能力扩展', '会话记忆管理', '文档全生命周期治理'],
-    image: '/img/super-agent/架构图/架构流程图.png',
+    description: '执行问题理解、执行编排、可信检索和证据治理打造的生产级 AI 系统。通过前置编排和多个 ReAct Agent 执行器处理。向量、关键词、结构化表格、知识图谱、层级结构树完成检索召回，融合与精排。',
+    features: ['前置编排决策', 'RAG 检索增强生成','ReAct Agent 执行器分流', '五路检索与融合精排', '多级知识图谱', '层级结构树', '交叉编码器精排','Skills 能力扩展','Harness 治理'],
+    image: '/img/super-agent/架构图/架构流程图(pro)(动态).svg',
     links: [{ label: '查看项目详情', to: '/super-agent/overview/project-intro' }]
   },
   {
@@ -146,7 +146,10 @@ function HeroSection() {
       <div className="container">
         <div className={styles.heroContent}>
           <Heading as="h1" className={styles.heroTitle}>
-            JavaUp <span className={styles.heroTitleHighlight}>技术 & 实战</span>
+            <span className={styles.heroBrand}>「 码力全开 」</span>
+            <span className={styles.heroTitleHighlight}>
+              深挖技术 · 项目实战 · AI 进阶
+            </span>
           </Heading>
           <p className={styles.heroSubtitle}>
             <strong>深度技术知识体系 + 全面细致的 AI 实战知识 + 生产级实战项目</strong>
@@ -257,8 +260,12 @@ function ShowcaseSection({ project, index }) {
     <section ref={sectionRef} className={styles.showcaseSection}>
       <div className={clsx('container', styles.showcaseContainer)}>
         <div className={clsx(styles.showcaseRow, { [styles.showcaseRowReverse]: !isEven })}>
-          <div className={styles.showcaseMedia}>
-            <img src={project.image} alt={project.title} className={styles.showcaseImage} />
+          <div className={clsx(styles.showcaseMedia, { [styles.superAgentMedia]: project.id === 'super-agent' })}>
+            <img
+              src={project.image}
+              alt={project.title}
+              className={clsx(styles.showcaseImage, { [styles.superAgentImage]: project.id === 'super-agent' })}
+            />
           </div>
           <div className={styles.showcaseText}>
             <div className={styles.showcaseHeader}>
@@ -285,7 +292,7 @@ function ShowcaseSection({ project, index }) {
 
 export default function Home() {
   return (
-    <Layout title="Java技术知识库与实战项目" description="超级八股文知识体系 + 高并发架构、AI智能分析等生产级项目实战教程">
+    <Layout title="「码力全开」技术&项目" description="200万+字技术知识库、AI大模型面试详解与8套生产级实战项目，覆盖高并发架构、数据中台和企业级智能体">
       <div className="home-page">
         <main>
           <HeroSection />

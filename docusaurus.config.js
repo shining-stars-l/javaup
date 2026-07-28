@@ -11,9 +11,9 @@ import plantUmlRemarkPlugin from './plugins/remark-plantuml/index.js';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  title: 'JavaUp 技术&实战',
-  tagline: '亮点十足的实战项目，已经帮助超多的小伙伴在技术上实现了up！拿到了offer！',
-  favicon: 'img/favicon.ico',
+  title: '码力全开',
+  tagline: '深挖技术、项目实战与 AI 进阶，把原理讲透，把项目做实。',
+  favicon: 'img/favicon.svg',
   // 激活 mermaid
   markdown: {
     mermaid: true,
@@ -174,14 +174,9 @@ var _hmt = _hmt || [];
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      // Replace with your project's social card
       image: 'img/logo.png',
       navbar: {
-        title: 'JavaUp 技术&实战',
-        logo: {
-          alt: 'JavaUP Logo',
-          src: 'img/logo.png',
-        },
+        title: '「码力全开」技术&项目',
         items: [
           // {
           //   type: 'docSidebar',
@@ -237,7 +232,7 @@ var _hmt = _hmt || [];
             to: '/super-agent/overview/project-intro',
             activeBaseRegex: '^/super-agent(?:/|$)',
             position: 'left',
-            label: '超级 AI 智能体',
+            label: 'Nexus Agent AI',
             className: 'navbar-super-agent-hot',
           },
           {
@@ -273,7 +268,7 @@ var _hmt = _hmt || [];
               {
                 type: 'docSidebar',
                 sidebarId: 'superAISidebar',
-                label: '超级 AI 智能体（企业级智能体项目实战）',
+                label: 'Nexus Agent AI（企业级智能体项目实战）',
               },
             ],
           },
@@ -295,15 +290,15 @@ var _hmt = _hmt || [];
             position: 'right',
             items: [
               {
-                label: 'Super Agent GitHub',
+                label: 'Nexus Agent',
                 href: 'https://github.com/java-up-up/super-agent',
               },
               {
-                label: 'JavaUp 文档 Gitee',
+                label: 'Gitee',
                 href: 'https://gitee.com/java-up-up/javaup',
               },
               {
-                label: 'JavaUp 文档 GitHub',
+                label: 'GitHub',
                 href: 'https://github.com/shining-stars-l/javaup',
               },
             ],

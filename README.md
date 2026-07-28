@@ -24,19 +24,19 @@
 
 # ⭐ 请给个Star
 
-如果觉得 **JavaUp** 的内容对你有帮助，还请点个免费的 **Star**，这是对我最大的鼓励！
+如果觉得 **码力全开** 的内容对你有帮助，还请点个免费的 **Star**，这是对我最大的鼓励！
 
 感谢各位一起同行，共勉！
 
 ---
 
-# JavaUp · 技术进阶与实战
+# 码力全开 · 技术进阶与实战
 
 **👉 推荐在线阅读**（体验更好，速度更快）：[javaup.chat](https://javaup.chat/)
 
 ## 这是什么？
 
-**JavaUp** 是一套精心打造的后端全栈技术知识库，累计 **200万+字** 深度技术文章，覆盖 Java 全栈技术体系，包含 **AI大模型面试详解** 、**超级八股文系列** 、 **六大实战项目**。
+**码力全开** 是一套精心打造的后端技术知识库，累计 **200万+字** 深度技术文章，覆盖后端开发、数据库、中间件、分布式架构与 AI 应用，包含 **AI大模型面试详解**、**超级八股文系列**和 **8套生产级实战项目**。
 
 无论你是准备面试的求职者，还是想要系统提升技术能力的开发者，这里都能找到你需要的内容。
 
@@ -749,18 +749,19 @@
 
 ---
 
-# 🛠️ 六大实战项目
+# 🛠️ 企业实战项目
 
 每个项目都有独特的技术亮点，绝不是平平无奇的CRUD！
 
-| 项目名称          | 核心特点 | 适用场景 | 查看详情 |
-|---------------|---------|----------|----------|
-| **超级 AI 智能体** | ReAct Agent、RAG检索增强、MCP工具协议、Skills能力扩展 | AI工程化落地 | [👉 点击查看](https://javaup.chat/super-agent/overview/project-intro) |
-| **黑马点评 Plus** | 缓存优化、锁机制深度优化、秒杀系统设计 | 电商/O2O业务 | [👉 点击查看](https://javaup.chat/hmdp-plus/overview/project-intro) |
-| **大麦**        | 高并发抢票、分库分表、防刷体系 | 票务/秒杀场景 | [👉 点击查看](https://javaup.chat/damai/overview/project-intro) |
-| **大麦 AI**     | AI智能分析、大模型对接、智能助手 | AI应用开发 | [👉 点击查看](https://javaup.chat/damai-ai/overview/project-intro) |
-| **流量切换**      | 微服务负载均衡、灰度发布、权重控制 | 微服务治理 | [👉 点击查看](https://javaup.chat/link-flow/business-intro/getting-started-overview) |
-| **数据中台**      | 任务调度、动态数据源、实时监测 | 数据处理 | [👉 点击查看](https://javaup.chat/dock-data-center/business-intro/info) |
+| 项目名称                   | 核心特点 | 适用场景 | 查看详情 |
+|------------------------|---------|----------|----------|
+| **Nexus Agent AI 智能体** | ReAct Agent、RAG检索增强、MCP工具协议、Skills能力扩展 | AI工程化落地 | [👉 点击查看](https://javaup.chat/super-agent/overview/project-intro) |
+| **Nexus Agent Pro 完全体** | Nexus Agent 的重构升级，知识图谱、层级精确分析 等重磅功能 | AI精细生产级别 | [👉 点击查看](https://javaup.chat/super-agent/overview/hybrid-retrieval) |
+| **黑马点评 Plus**          | 缓存优化、锁机制深度优化、秒杀系统设计 | 电商/O2O业务 | [👉 点击查看](https://javaup.chat/hmdp-plus/overview/project-intro) |
+| **大麦**                 | 高并发抢票、分库分表、防刷体系 | 票务/秒杀场景 | [👉 点击查看](https://javaup.chat/damai/overview/project-intro) |
+| **大麦 AI**              | AI智能分析、大模型对接、智能助手 | AI应用开发 | [👉 点击查看](https://javaup.chat/damai-ai/overview/project-intro) |
+| **流量切换**               | 微服务负载均衡、灰度发布、权重控制 | 微服务治理 | [👉 点击查看](https://javaup.chat/link-flow/business-intro/getting-started-overview) |
+| **数据中台**               | 任务调度、动态数据源、实时监测 | 数据处理 | [👉 点击查看](https://javaup.chat/dock-data-center/business-intro/info) |
 
 **项目文档数量 500+，总字数 50万+，持续更新中！**
 

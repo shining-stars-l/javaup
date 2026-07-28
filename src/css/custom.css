@@ -230,10 +230,14 @@
 }
 
 /* 导航栏标题不换行 */
+.navbar__brand {
+  flex-shrink: 0;
+}
+
 .navbar__title {
   white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 /* 单个导航项不换行 */

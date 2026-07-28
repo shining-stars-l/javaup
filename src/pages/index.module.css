@@ -16,6 +16,13 @@
   background: #fffbf5;
 }
 
+.heroSection :global(.container) {
+  width: 100%;
+  max-width: 1720px;
+  padding-right: 1.5rem;
+  padding-left: 1.5rem;
+}
+
 /* 几何装饰 — 暖色圆形 */
 .heroSection::before {
   content: '';
@@ -44,11 +51,17 @@
 .heroContent {
   position: relative;
   z-index: 1;
-  max-width: 760px;
+  width: 100%;
+  max-width: 1680px;
   margin: 0 auto;
 }
 
 .heroTitle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.12em;
   font-size: clamp(3.5rem, 6vw + 1rem, 5rem);
   font-weight: 900;
   color: #1e293b;
@@ -56,9 +69,20 @@
   letter-spacing: -0.02em;
 }
 
+.heroBrand {
+  color: #1e293b;
+  font-weight: 900;
+  -webkit-text-stroke: 1px #1e293b;
+  paint-order: stroke fill;
+  white-space: nowrap;
+}
+
 .heroTitleHighlight {
   color: #f97316;
   display: inline-block;
+  font-size: 0.58em;
+  font-weight: 900;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 
@@ -446,6 +470,19 @@
   display: block;
   border-radius: 16px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.superAgentMedia {
+  box-sizing: border-box;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+}
+
+.showcaseImage.superAgentImage {
+  max-height: none;
+  border-radius: 10px;
+  box-shadow: none;
 }
 
 .showcaseText { padding: 0 0.5rem; max-width: 700px; }
