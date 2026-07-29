@@ -561,6 +561,24 @@
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
+.showcaseExternalBtn {
+  border-color: #f97316;
+  background: #fff7ed;
+  color: #c2410c;
+}
+
+.showcaseExternalBtn:hover {
+  background: #ffedd5;
+  color: #9a3412;
+}
+
+.showcaseExternalIcon {
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-size: 0.95em;
+  line-height: 1;
+}
+
 .showcaseBtn:focus-visible {
   outline: 2px solid #f97316;
   outline-offset: 2px;
@@ -602,6 +620,8 @@
 @media screen and (max-width: 768px) {
   .baguModules { grid-template-columns: repeat(2, 1fr); }
   .heroSection { padding: 3.5rem 0 2.5rem; }
+  .heroTitleHighlight,
+  .baguSubtitle { white-space: normal; }
   .starBanner {
     flex-direction: column;
     gap: 0.6rem;

@@ -273,6 +273,29 @@ var _hmt = _hmt || [];
             ],
           },
           {
+            type: 'dropdown',
+            label: '在线体验',
+            position: 'left',
+            className: 'navbar-online-experience',
+            items: [
+              {
+                label: '大麦项目',
+                href: 'https://damai-javaup.chat',
+                target: '_blank',
+              },
+              {
+                label: '大麦 Pro 后台管理',
+                href: 'http://damai-manage-javaup.chat',
+                target: '_blank',
+              },
+              {
+                label: 'Nexus Agent Pro',
+                href: 'http://super-agent-javaup.chat',
+                target: '_blank',
+              },
+            ],
+          },
+          {
             type: 'docSidebar',
             sidebarId: 'howToStudySidebar',
             position: 'left',

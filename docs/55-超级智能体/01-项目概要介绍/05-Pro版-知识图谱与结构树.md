@@ -155,4 +155,4 @@ Nexus Agent Pro 项目是本人根据大厂的真实开发思路，花费了很�
 
 普通版本的 Nexus Agent 项目依然还是正常开源，本人也依然会继续进行优化。开源地址为： [👉 点击这里跳转到 Nexus Agent](https://github.com/java-up-up/nexus-agent)
 
-已经加入星球的小伙伴，可以按照以下指示来申请和学习 Nexus Agent Pro：[👉 点击这里学习 Nexus Agent Pro](https://github.com/java-up-up/nexus-agent) (todo)
+已经加入星球的小伙伴，可以按照以下指示来申请和学习 Nexus Agent Pro：[👉 点击这里学习 Nexus Agent Pro](https://articles.zsxq.com/id_jaib6bgwlisp.html)

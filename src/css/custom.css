@@ -271,6 +271,21 @@
   color: #e85b7d !important;
 }
 
+/* 顶部导航栏：在线体验入口 */
+.navbar__item.navbar-online-experience > .navbar__link,
+.navbar__link.navbar-online-experience {
+  color: #1e293b !important;
+  font-weight: 700;
+  transition: color 180ms ease;
+}
+
+.navbar__item.navbar-online-experience > .navbar__link:hover,
+.navbar__link.navbar-online-experience:hover,
+.navbar__item.navbar-online-experience > .navbar__link--active,
+.navbar__link.navbar-online-experience.navbar__link--active {
+  color: #1e293b !important;
+}
+
 /* 顶部导航栏：超级智能体 HOT 宣传标识 */
 .navbar__item.navbar-super-agent-hot > .navbar__link::before,
 .navbar__link.navbar-super-agent-hot::before {

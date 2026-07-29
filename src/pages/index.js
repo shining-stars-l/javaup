@@ -67,7 +67,10 @@ const projects = [
     description: '执行问题理解、执行编排、可信检索和证据治理打造的生产级 AI 系统。通过前置编排和多个 ReAct Agent 执行器处理。向量、关键词、结构化表格、知识图谱、层级结构树完成检索召回，融合与精排。',
     features: ['前置编排决策', 'RAG 检索增强生成','ReAct Agent 执行器分流', '五路检索与融合精排', '多级知识图谱', '层级结构树', '交叉编码器精排','Skills 能力扩展','Harness 治理'],
     image: '/img/super-agent/架构图/架构流程图(pro)(动态).svg',
-    links: [{ label: '查看项目详情', to: '/super-agent/overview/project-intro' }]
+    links: [
+      { label: '查看项目详情', to: '/super-agent/overview/project-intro' },
+      { label: '体验 Nexus Agent Pro', href: 'http://super-agent-javaup.chat', external: true },
+    ]
   },
   {
     id: 'hmdp-plus',
@@ -85,7 +88,11 @@ const projects = [
     description: '应对海量并发的完整解决方案，如：分库分表、缓存策略、限流降级、分布式锁等。从中间件的深度定制到架构组件的精心设计，每一个细节都经过实战验证。',
     features: ['高并发架构设计', '分库分表解决方案', '各种锁优化策略', '多级缓存的管理', '限流降级机制', '性能监控体系'],
     image: '/img/damai/项目架构图(动态优化).gif',
-    links: [{ label: '查看项目详情', to: '/damai/overview/project-intro' }]
+    links: [
+      { label: '查看项目详情', to: '/damai/overview/project-intro' },
+      { label: '体验大麦用户端', href: 'https://damai-javaup.chat', external: true },
+      { label: '体验大麦 Pro 后台', href: 'http://damai-manage-javaup.chat', external: true },
+    ]
   },
   // PLACEHOLDER_MORE_PROJECTS
   {
@@ -277,11 +284,35 @@ function ShowcaseSection({ project, index }) {
               {project.features.map((f, i) => <span key={i} className={styles.showcaseTag}>{f}</span>)}
             </div>
             <div className={styles.showcaseActions}>
-              {project.links.map((link, i) => (
-                <Link key={i} to={link.to} className={clsx('button', i === 0 ? 'button--primary' : 'button--outline', styles.showcaseBtn)}>
-                  {link.label}
-                </Link>
-              ))}
+              {project.links.map((link, i) => {
+                const className = clsx(
+                  'button',
+                  i === 0 ? 'button--primary' : 'button--outline',
+                  styles.showcaseBtn,
+                  { [styles.showcaseExternalBtn]: link.external },
+                );
+
+                if (link.external) {
+                  return (
+                    <a
+                      key={i}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={className}
+                    >
+                      {link.label}
+                      <span className={styles.showcaseExternalIcon} aria-hidden="true">↗</span>
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link key={i} to={link.to} className={className}>
+                    {link.label}
+                  </Link>
+                );
+              })}
             </div>
           </div>
         </div>
