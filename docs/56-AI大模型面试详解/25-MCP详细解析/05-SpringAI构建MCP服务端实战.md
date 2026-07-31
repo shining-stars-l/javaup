@@ -38,7 +38,7 @@ Spring AI从1.0版本开始提供MCP Server的Boot Starter，主要有三个：
 
 ## 示例中项目地址
 
-- 项目地址：[https://github.com/java-up-up/super-agent](https://github.com/java-up-up/super-agent)
+- 项目地址：[https://github.com/java-up-up/nexus-agent](https://github.com/java-up-up/nexus-agent)
 - 项目模块：`ai-example-spring-ai-office-mcp-server`
 
 ### Maven依赖

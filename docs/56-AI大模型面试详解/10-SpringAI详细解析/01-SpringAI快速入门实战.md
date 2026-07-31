@@ -61,7 +61,7 @@ Spring AI就是来解决这些问题的。它把各种大模型的API差异屏�
 
 ### 示例中项目地址
 
-- 项目地址：[https://github.com/java-up-up/super-agent](https://github.com/java-up-up/super-agent)
+- 项目地址：[https://github.com/java-up-up/nexus-agent](https://github.com/java-up-up/nexus-agent)
 - 项目模块：`ai-example-spring-ai`
 
 ## 搭建项目骨架

@@ -314,7 +314,7 @@ var _hmt = _hmt || [];
             items: [
               {
                 label: 'Nexus Agent',
-                href: 'https://github.com/java-up-up/super-agent',
+                href: 'https://github.com/java-up-up/nexus-agent',
               },
               {
                 label: 'Gitee',

@@ -374,7 +374,7 @@ step4 -down-> output
 
 ### 示例中项目地址
 
-- 项目地址：[https://github.com/java-up-up/super-agent](https://github.com/java-up-up/super-agent)
+- 项目地址：[https://github.com/java-up-up/nexus-agent](https://github.com/java-up-up/nexus-agent)
 - 项目模块：`ai-example-spring-ai-rag`
 
 ### 方式一：Spring AI一键集成
