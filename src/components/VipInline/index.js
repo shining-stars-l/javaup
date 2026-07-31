@@ -43,7 +43,7 @@ const SERVICES = [
 
 export default function VipInline({
   className,
-  imageSrc = '/img/person/knowledge _planet_horizontal_version.jpg',
+  imageSrc = '/img/知识星球/knowledge_planet_horizontal_version.png',
   usageGuideLink = 'https://articles.zsxq.com/id_5wwmxks5u358.html',
   ctaTo = '/how-to-study/intro/full-service',
 }) {

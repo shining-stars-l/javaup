@@ -4,7 +4,7 @@ import styles from './index.module.css';
 
 export default function Vip({
   show = true,
-  imageSrc = '/img/person/knowledge _planet_horizontal_version.jpg',
+  imageSrc = '/img/知识星球/knowledge_planet_horizontal_version.png',
   usageGuideLink = 'https://articles.zsxq.com/id_5wwmxks5u358.html',
 }) {
   // 锁定背景滚动
