@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/netty-source/netty-pipeline-part-1
+title: "Netty中pipeline分析_1：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Netty中pipeline分析1"
+pagination_label: "Netty中pipeline分析1"
+description: "概述。内容进一步围绕Netty中pipeline分析_1等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Netty中pipeline分析_1
@@ -13,11 +17,11 @@ slug: /tech-sharing/netty-source/netty-pipeline-part-1
 - 事件是通过`handler`对象进行处理的, 里面封装着事件的处理逻辑.而每个`handler`, 是由`HandlerContext`进行包装的, 里面封装了对事件传输的操作。
 - 每一个`channel`绑定一个`pipeline`, 那么`pipeline`和`handler`又是什么关系? 
    - `pipeline`可以理解成是一个双向链表, 只是存放的并不是数据而是`HandlerContext`, 而`HandlerContext`又包装了`handler`, 事件传输时, 从头结点(或者尾节点)开始, 找到下一个`HandlerContext`, 执行`Handler`的业务逻辑, 然后再继续往下走, 直到执行到尾节点(或者头结点, 反向)为止。
-  ![](/img/technologySharing/netty/channel.webp)
+  ![概述：channel](/img/technologySharing/netty/channel.webp)
 
 ## 继承关系
 
-![](/img/technologySharing/netty/继承关系.png)
+![继承关系](/img/technologySharing/netty/继承关系.png)
 
 - 如果属于`ChannelInboundHandler`的子类, 则属于`Inbound`类型的`handler`。
 - 如果属于`ChannelOutboundHandler`的子类, 则属于`Outbound`类型的`handler`。

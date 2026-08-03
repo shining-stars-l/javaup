@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/basic/redisson-lock
-description: "介绍基于SETNX分布式锁的问题以及Redisson的解决方案，包括可重入、重试、超时释放、主从一致性等问题的处理。"
+title: "分布式锁-Redission：Redisson、可重入锁、看门狗、Redis客户端详解"
+sidebar_label: "分布式锁-Redission"
+pagination_label: "分布式锁-Redission"
+description: "介绍基于SETNX分布式锁的问题以及Redisson的解决方案，包括可重入、重试、超时释放、主从一致性等问题的处理。内容进一步围绕可重入锁、看门狗、Redis客户端等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，…"
 keywords: ["Redisson", "可重入锁", "看门狗", "分布式锁", "Redis客户端"]
 ---
 # 分布式锁-Redission

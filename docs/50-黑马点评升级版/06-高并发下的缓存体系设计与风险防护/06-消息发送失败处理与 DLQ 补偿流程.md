@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/cache-architecture/message-dlq-compensation
-description: "详细讲解MQ消息发送失败后的处理流程，包括死信队列设计、失败重试策略以及补偿机制的实现。"
+title: "消息发送失败处理与 DLQ 补偿流程：死信队列、消息补偿、失败重试、Kafka发送失败详解"
+sidebar_label: "消息发送失败处理与 DLQ 补偿流程"
+pagination_label: "消息发送失败处理与 DLQ 补偿流程"
+description: "详细讲解MQ消息发送失败后的处理流程，包括死信队列设计、失败重试策略以及补偿机制的实现。内容进一步围绕DLQ、消息补偿、Kafka发送失败等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工…"
 keywords: ["死信队列", "DLQ", "消息补偿", "失败重试", "Kafka发送失败"]
 ---
 

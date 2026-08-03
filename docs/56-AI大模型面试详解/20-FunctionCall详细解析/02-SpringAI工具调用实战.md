@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/function-call/spring-ai-tool-calling-practice
-description: "从零开始在Spring AI中实现工具调用，掌握@Tool注解和函数式接口两种定义方式，学会控制工具的执行时机"
+title: "SpringAI工具调用实战：Spring AI、@Tool注解、函数式接口、ChatClient详解"
+sidebar_label: "SpringAI工具调用实战"
+pagination_label: "SpringAI工具调用实战"
+description: "从零开始在Spring AI中实现工具调用，掌握@Tool注解和函数式接口两种定义方式，学会控制工具的执行时机。内容进一步围绕ChatClient、工具定义、Bean注册等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识…"
 keywords: ["Spring AI", "工具调用", "@Tool注解", "函数式接口", "ChatClient", "工具定义", "Bean注册"]
 ---
 

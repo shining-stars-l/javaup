@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/spring-events
-description: "Spring事件机制讲解，围绕ApplicationEventPublisher与ApplicationListener实现应用内解耦通信，支持异步通知与事件驱动扩展。"
+title: "Spring的事件发布与监听：Spring事件、ApplicationEventPublisher详解"
+sidebar_label: "Spring的事件发布与监听"
+pagination_label: "Spring的事件发布与监听"
+description: "Spring事件机制讲解，围绕ApplicationEventPublisher与ApplicationListener实现应用内解耦通信，支持异步通知与事件驱动扩展。内容进一步围绕观察者模式、事件监听等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术…"
 keywords: ["Spring事件", "ApplicationEventPublisher", "ApplicationListener", "事件驱动", "异步通知", "应用内解耦", "观察者模式", "事件监听"]
 ---
 
@@ -12,7 +15,7 @@ Spring的事件发布与监听机制其实就是设计模式中的观察者模�
 
 
 
-# 事件定义
+## 事件定义
 首先肯定要有个时间嘛，先创建一个 TestEvent 并继承 ApplicationEvent，只有继承了 ApplicationEvent，才可以表示这是一个事件
 
 ```java
@@ -58,7 +61,7 @@ public class TestEventHandler implements ApplicationListener<TestEvent> {
 
 而 onApplicationEvent 方法中的参数就是刚才自定义的事件了
 
-# 事件发送者
+## 事件发送者
 事件的发送需要使用Spring中的上下文，这里我就再写一个发送者
 
 ```java

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-source/springboot-part-2
+title: "SpringBoot常用注解的执行原理_2：核心原理、实现机制、源码分析、工程实践详解"
+sidebar_label: "SpringBoot常用注解的执行原理2"
+pagination_label: "SpringBoot常用注解的执行原理2"
+description: "Springboot注解Configuration、Bean、Component、ComponentScan、Import、ImportResource。内容进一步围绕SpringBoot常用注解的执行原理_2等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建…"
 ---
 
 
@@ -540,7 +544,7 @@ public class AutoConfigurationImportSelector implements DeferredImportSelector, 
 3. 在此方法中会执行`getCandidateConfigurations(annotationMetadata, attributes)`
 4. 在`SpringFactoriesLoader.loadFactoryNames(EnableAutoConfiguration.class)`中会去加载`META-INF/spring.factories`文件，key为`org.springframework.boot.autoconfigure.EnableAutoConfiguration`，value为要加载的配置类。我们进入`spring-cloud-starter-alibaba-nacos-discovery`源码包的结构
 
-![](/img/technologySharing/spring/spring-cloud-starter-alibaba-nacos-discovery源码包的结构.png)
+![AutoConfigurationImportSelector：spring cloud starter alibaba nacos discovery源码包的结构](/img/technologySharing/spring/spring-cloud-starter-alibaba-nacos-discovery源码包的结构.png)
 能看到nacos的配置类都在此。
 
 回到**ConfigurationClassParser.getImports()**

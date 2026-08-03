@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/sentinel/sentinel
+title: "Sentinel介绍：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计、性能优化详解"
+sidebar_label: "Sentinel介绍"
+pagination_label: "Sentinel介绍"
+description: "官网地址。内容进一步围绕Sentinel介绍等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Sentinel介绍
@@ -7,11 +11,11 @@ slug: /tech-sharing/sentinel/sentinel
 [官网地址](https://sentinelguard.io/zh-cn/index.html)
 
 Sentinel 和 Hystrix 的原则是一致的: 当调用链路中某个资源出现不稳定，例如，表现为 timeout，异常比例升高的时候，则对这个资源的调用进行限制，并让请求快速失败，避免影响到其它的资源，最终产生雪崩的效果。
-![](/img/technologySharing/sentinel/调用链路图.png)
+![Sentinel介绍：调用链路图](/img/technologySharing/sentinel/调用链路图.png)
 
 ## Sentinel 和 Hystrix的对比
 
-![](/img/technologySharing/sentinel/Sentinel和Hystrix的对比.png)
+![Sentinel 和 Hystrix的对比：Sentinel和Hystrix的对比](/img/technologySharing/sentinel/Sentinel和Hystrix的对比.png)
 
 ## 熔断降级设计理念
 
@@ -54,7 +58,7 @@ Sentinel 的使用可以分为两个部分:
 ### push模式
 
 生产环境下一般更常用的是 push 模式的数据源。对于 push 模式的数据源,如远程配置中心（ZooKeeper, Nacos, Apollo等等），推送的操作不应由 Sentinel 客户端进行，而应该经控制台统一进行管理，直接进行推送，数据源仅负责获取配置中心推送的配置并更新到本地。因此推送规则正确做法应该是 **配置中心控制台/Sentinel 控制台 → 配置中心 → Sentinel 数据源 → Sentinel**，而不是经 Sentinel 数据源推送至配置中心。这样的流程就非常清晰了：
-![](https://user-images.githubusercontent.com/9434884/53381986-a0b73f00-39ad-11e9-90cf-b49158ae4b6f.png#id=Yykf5&originHeight=876&originWidth=1506&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
+![push模式：53381986 a0b73f00 39ad 11e9 90cf b49158ae4b6f](https://user-images.githubusercontent.com/9434884/53381986-a0b73f00-39ad-11e9-90cf-b49158ae4b6f.png#id=Yykf5&originHeight=876&originWidth=1506&originalType=binary&ratio=1&rotation=0&showTitle=false&status=done&style=none&title=)
 
 我们提供了 ZooKeeper, Apollo, Nacos 等的动态数据源实现。以 ZooKeeper 为例子，如果要使用第三方的配置中心作为配置管理，您需要做下面的几件事情:
 

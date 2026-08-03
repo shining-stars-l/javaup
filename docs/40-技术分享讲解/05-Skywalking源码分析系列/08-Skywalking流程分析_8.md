@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/skywalking-source/skywalking-part-8
+title: "Skywalking流程分析_8：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Skywalking流程分析8"
+pagination_label: "Skywalking流程分析8"
+description: "前言。内容进一步围绕Skywalking流程分析_8等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Skywalking流程分析_8
@@ -117,7 +121,7 @@ public class InterceptorInstanceLoader {
 
 `PoolingAddDruidDataSourceInterceptor`要修改`DruidDataSourceStatManager`的字节码，两个类需要能交互，前提就是`PoolingAddDruidDataSourceInterceptor`能通过某种方式访问到`DruidDataSourceStatManager`
 
-![](/img/technologySharing/skywalkiing/类加载.png)
+![类加载](/img/technologySharing/skywalkiing/类加载.png)
 让`AgentClassLoader`的父类加载器指向加载druid的`AppClassLoader`，当`PoolingAddDruidDataSourceInterceptor`去操作`DruidDataSourceStatManager`类时，通过双亲委派机制，`AgentClassLoader`的父类加载器`AppClassLoader`能加载到`DruidDataSourceStatManager`
 
 

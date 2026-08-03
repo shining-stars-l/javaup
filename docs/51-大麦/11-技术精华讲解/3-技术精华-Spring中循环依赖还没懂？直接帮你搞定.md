@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/spring-circular-dependency
-description: "围绕《Spring中循环依赖还没懂？直接帮你搞定》，重点讲解1级缓存、2级缓存、3级缓存、对象加载流程与三级缓存解决循环依赖机制等技术实现与源码细节。"
+title: "Spring中循环依赖还没懂？直接帮你搞定：Spring循环依赖、1级缓存、2级缓存详解"
+sidebar_label: "Spring中循环依赖还没懂？直接帮你搞定"
+pagination_label: "Spring中循环依赖还没懂？直接帮你搞定"
+description: "围绕《Spring中循环依赖还没懂？直接帮你搞定》，重点讲解1级缓存、2级缓存、3级缓存、对象加载流程与三级缓存解决循环依赖机制等技术实现与源码细节。内容进一步围绕Spring循环依赖、a和b对象加载、缓存提前暴露、单例Bean创建、三级缓存机制等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Spring循环依赖", "1级缓存", "2级缓存", "3级缓存", "a和b对象加载", "缓存提前暴露", "单例Bean创建", "三级缓存机制"]
 ---
 

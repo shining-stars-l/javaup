@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/skills/codex-install
-description: "以UI UX Pro Max技能为例，手把手演示如何在Codex中安装、配置和使用Agent Skills，涵盖CLI安装、项目级/全局安装、目录结构解读和日常管理的完整流程"
+title: "使用Codex安装和管理Skills：Skills安装、UI UX Pro Max详解"
+sidebar_label: "使用Codex安装和管理Skills"
+pagination_label: "使用Codex安装和管理Skills"
+description: "以UI UX Pro Max技能为例，手把手演示如何在Codex中安装、配置和使用Agent Skills，涵盖CLI安装、项目级/全局安装、目录结构解读和日常管理的完整流程。内容进一步围绕Skills安装、技能管理、uipro-cli、Agent Skills使用等关键主题展开。通过原理拆解、实现步骤与适用场景说明…"
 keywords: ["Codex", "Skills安装", "UI UX Pro Max", "技能管理", "uipro-cli", "Agent Skills使用"]
 ---
 

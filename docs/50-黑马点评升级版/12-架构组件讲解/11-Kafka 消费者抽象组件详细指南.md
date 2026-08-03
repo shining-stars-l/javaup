@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/components/kafka-consumer
-description: "详细介绍 Kafka消费者抽象组件的设计，包括消费超时、失败处理、幂等消费等机制。"
+title: "Kafka 消费者抽象组件详细指南：Kafka消费者、MQ组件、消息消费、超时处理详解"
+sidebar_label: "Kafka 消费者抽象组件详细指南"
+pagination_label: "Kafka 消费者抽象组件详细指南"
+description: "详细介绍 Kafka消费者抽象组件的设计，包括消费超时、失败处理、幂等消费等机制。内容进一步围绕MQ组件、消息消费、超时处理等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。"
 keywords: ["Kafka消费者", "MQ组件", "消息消费", "超时处理", "幂等消费"]
 ---
 

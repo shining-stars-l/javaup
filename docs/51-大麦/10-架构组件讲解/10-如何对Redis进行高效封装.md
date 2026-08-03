@@ -1,6 +1,9 @@
 ---
 slug: /damai/architecture-components/redis-wrapper
-description: "围绕《如何对Redis进行高效封装》，重点讲解Redis封装、缓存Key约定、统一API、序列化处理与完整使用示例等技术实现与工程落地细节。"
+title: "如何对Redis进行高效封装：Redis封装、缓存Key约定、统一API、序列化处理详解"
+sidebar_label: "如何对Redis进行高效封装"
+pagination_label: "如何对Redis进行高效封装"
+description: "围绕《如何对Redis进行高效封装》，重点讲解Redis封装、缓存Key约定、统一API、序列化处理与完整使用示例等技术实现与工程落地细节。内容进一步围绕RedisTemplate封装、缓存读写操作、键值规范管理等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践…"
 keywords: ["Redis封装", "缓存Key约定", "统一API", "序列化处理", "RedisTemplate封装", "完整使用示例", "缓存读写操作", "键值规范管理"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/quick-review/mcp-protocol
-description: "MCP协议面试速查：覆盖协议设计理念、与Function Calling的区别、三种传输模式、调用链路源码、企业级开发等考点"
+title: "MCP协议面试速查：MCP面试、Model Context Protocol、传输模式详解"
+sidebar_label: "MCP协议面试速查"
+pagination_label: "MCP协议面试速查"
+description: "MCP协议面试速查：覆盖协议设计理念、与Function Calling的区别、三种传输模式、调用链路源码、企业级开发等考点。内容进一步围绕MCP面试、Model Context Protocol、stdio、SSE、MCP Server等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["MCP面试", "Model Context Protocol", "MCP协议", "传输模式", "stdio", "SSE", "MCP Server"]
 ---
 

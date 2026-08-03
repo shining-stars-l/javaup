@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/graph-executor/graph-then-evidence-executor
-description: 详细讲解 GraphThenEvidenceExecutor#execute 方法的完整执行流程，包括前置校验、结构图定位、证据校验、关键词提取和答案渲染的全过程。
+title: "GraphThenEvidenceExecutor 执行器的流程：图定位取证、execute详解"
+sidebar_label: "GraphThenEvidenceExecutor 执行器的流程"
+pagination_label: "GraphThenEvidenceExecutor 执行器的流程"
+description: "详细讲解 GraphThenEvidenceExecutor#execute 方法的完整执行流程，包括前置校验、结构图定位、证据校验、关键词提取和答案渲染的全过程。内容进一步围绕GRAPH_THEN_EVIDENCE、图定位取证、编号项查询、条目搜索、buildGraphResult等关键主题展开。"
 keywords: [GraphThenEvidenceExecutor, GRAPH_THEN_EVIDENCE, 图定位取证, execute, 编号项查询, 条目搜索, 证据校验, buildGraphResult]
 ---
 

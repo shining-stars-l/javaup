@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/react-agent-executor/tavily-search-tool
-description: 讲解 ReactAgent 唯一的工具 TavilySearchTool 的完整执行流程，包括参数校验、查询增强、API 调用、结果处理、引用收集以及 thinking 事件推送。
+title: "Tavily联网搜索工具的执行流程：TavilySearchTool、tavily_search详解"
+sidebar_label: "Tavily联网搜索工具的执行流程"
+pagination_label: "Tavily联网搜索工具的执行流程"
+description: "讲解 ReactAgent 唯一的工具 TavilySearchTool 的完整执行流程，包括参数校验、查询增强、API 调用、结果处理、引用收集以及 thinking 事件推送。内容进一步围绕联网搜索、tavily_search、工具执行、SearchReference、ToolContext等关键主题展开。"
 keywords: [TavilySearchTool, 联网搜索, tavily_search, 工具执行, SearchReference, ToolContext, 工具追踪, thinking事件]
 ---
 

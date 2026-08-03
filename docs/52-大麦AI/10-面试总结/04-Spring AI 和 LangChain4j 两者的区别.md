@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/interview/SpringAIAndLangChain4j
-description: "Spring AI与LangChain4j对比分析，从框架抽象、生态集成、工具调用与向量检索支持等维度说明两者在Java AI工程中的适配差异。"
+title: "Spring AI 和 LangChain4j 两者的区别：框架对比、生态集成、抽象层能力详解"
+sidebar_label: "Spring AI 和 LangChain4j 两者的区别"
+pagination_label: "Spring AI 和 LangChain4j 两者的区别"
+description: "Spring AI与LangChain4j对比分析，从框架抽象、生态集成、工具调用与向量检索支持等维度说明两者在Java AI工程中的适配差异。内容进一步围绕框架对比、抽象层能力等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["Spring AI", "LangChain4j", "框架对比", "生态集成", "抽象层能力", "工具调用", "向量检索支持", "Java AI工程"]
 ---
 

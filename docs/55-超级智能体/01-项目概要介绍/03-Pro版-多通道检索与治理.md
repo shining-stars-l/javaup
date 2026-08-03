@@ -1,7 +1,10 @@
 ---
 slug: /super-agent/overview/hybrid-retrieval
+title: "Pro版：多通道检索与治理：Nexus Agent Pro、混合检索、加权融合、RRF详解"
+sidebar_label: "Pro版：多通道检索与治理"
+pagination_label: "Pro版：多通道检索与治理"
 sidebar_class_name: has-new-badge
-description: 深入拆解 Nexus Agent Pro 的多通道混合检索——向量、关键词、表格、知识图谱、结构树五路并行召回，加权融合、交叉编码器精排、父子块聚合，以及证据预算控制、无证据拒答和引用修复的完整证据治理链路。
+description: "深入拆解 Nexus Agent Pro 的多通道混合检索——向量、关键词、表格、知识图谱、结构树五路并行召回，加权融合、交叉编码器精排、父子块聚合，以及证据预算控制、无证据拒答和引用修复的完整证据治理链路。内容进一步围绕多通道检索、weighted fusion、RRF、cross-encoder、rerank等关…"
 keywords: [Nexus Agent Pro, 多通道检索, 混合检索, 加权融合, weighted fusion, RRF, cross-encoder, rerank, 父子块, 证据预算, 无证据短路, 引用修复, RAG]
 ---
 
@@ -135,7 +138,7 @@ Nexus Agent Pro 的检索链路是**多通道并行召回 + 加权融合 + 交�
 
 下图从功能视角串起了完整链路：五通道同时查找、合并重复证据、计算统一融合分、补全上下文、选出前 24 条进行交叉编码器精排、在精排失败时保留融合排序，以及最终挑选回答证据。观测面板会记录各通道命中数、候选数量变化、融合分、精排分和排名前后的变化。
 
-![](/img/super-agent/structure/交叉编码器精排.png)
+![交叉编码器精排](/img/super-agent/structure/交叉编码器精排.png)
 
 ## 父子块聚合：小块检索、大块回答
 

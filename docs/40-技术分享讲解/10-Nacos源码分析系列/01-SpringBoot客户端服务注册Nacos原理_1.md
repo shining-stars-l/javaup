@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/springboot-nacos-part-1
+title: "SpringBoot客户端服务注册Nacos原理_1：核心原理、实现机制、源码分析详解"
+sidebar_label: "SpringBoot客户端服务注册Nacos原理1"
+pagination_label: "SpringBoot客户端服务注册Nacos原理1"
+description: "- nacos:2.0.3。内容进一步围绕SpringBoot客户端服务注册Nacos原理_1等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方…"
 ---
 
 # SpringBoot客户端服务注册Nacos原理_1
@@ -18,7 +22,7 @@ slug: /tech-sharing/nacos-source/springboot-nacos-part-1
     <version>2.2.7.RELEASE</version>
 </dependency>
 ```
-![](/img/technologySharing/nacos/spring-cloud-starter-alibaba-nacos-discovery.png)
+![根据springboot自动装配原理：spring cloud starter alibaba nacos discovery](/img/technologySharing/nacos/spring-cloud-starter-alibaba-nacos-discovery.png)
 
 **spring.factories**
 
@@ -175,7 +179,7 @@ public abstract class AbstractAutoServiceRegistration<R extends Registration>
 ```
 
 可以看到结构：
-![](/img/technologySharing/nacos/结构.png)
+![AbstractAutoServiceRegistration:：结构](/img/technologySharing/nacos/结构.png)
 
 1. 可见`NacosAutoServiceRegistration`的父类`AbstractAutoServiceRegistration`实现了`ApplicationListener`接口。
 2. 所以要找`onApplicationEvent`方法，spring容器启动后会执行这个方法。

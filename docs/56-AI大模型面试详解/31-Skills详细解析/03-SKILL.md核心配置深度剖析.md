@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/skills/skill-md
-description: "深入拆解SKILL.md文件的两大核心组成——Frontmatter元数据和Instruction指令正文，结合实战案例讲解编写技巧和常见误区"
+title: "SKILL.md核心配置深度剖析：Frontmatter、Instruction、技能元数据详解"
+sidebar_label: "SKILL.md核心配置深度剖析"
+pagination_label: "SKILL.md核心配置深度剖析"
+description: "深入拆解SKILL.md文件的两大核心组成——Frontmatter元数据和Instruction指令正文，结合实战案例讲解编写技巧和常见误区。内容进一步围绕技能元数据、技能指令、Skills编写规范等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面…"
 keywords: ["SKILL.md", "Frontmatter", "Instruction", "技能元数据", "技能指令", "Skills编写规范"]
 ---
 

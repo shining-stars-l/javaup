@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/react-agent-executor/execute-main-flow
-description: 逐行讲解 ReactAgentExecutor#execute 方法的核心执行流程，包括 thinking 事件推送、调试轨迹记录、链路追踪开启、ReactAgent 流式调用以及完成和异常处理。
+title: "execute方法的核心执行流程：核心流程、thinking事件、调试轨迹、链路追踪详解"
+sidebar_label: "execute方法的核心执行流程"
+pagination_label: "execute方法的核心执行流程"
+description: "逐行讲解 ReactAgentExecutor#execute 方法的核心执行流程，包括 thinking 事件推送、调试轨迹记录、链路追踪开启、ReactAgent 流式调用以及完成和异常处理。内容进一步围绕execute方法、核心流程、thinking事件、reactAgent.stream、doOnComple…"
 keywords: [execute方法, 核心流程, thinking事件, 调试轨迹, 链路追踪, reactAgent.stream, doOnComplete, doOnError, GraphRunnerException]
 ---
 

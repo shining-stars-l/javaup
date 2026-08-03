@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/first-chat/chatclient-deep-dive
-description: "ChatClient调用机制深度解析，说明请求组装、提示词注入、Advisor链执行、工具调用与响应输出的关键节点，明确其在AI网关层的核心职责。"
+title: "ChatClient的作用详细解析：请求组装、System Prompt、Advisor执行链详解"
+sidebar_label: "ChatClient的作用详细解析"
+pagination_label: "ChatClient的作用详细解析"
+description: "ChatClient调用机制深度解析，说明请求组装、提示词注入、Advisor链执行、工具调用与响应输出的关键节点，明确其在AI网关层的核心职责。内容进一步围绕System Prompt、Advisor执行链、流式响应、上下文参数等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["ChatClient", "请求组装", "System Prompt", "Advisor执行链", "工具调用", "流式响应", "上下文参数", "AI网关层"]
 ---
 

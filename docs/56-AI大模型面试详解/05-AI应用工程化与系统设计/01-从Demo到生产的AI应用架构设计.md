@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/system-design/ai-app-architecture
-description: "从一个简单的大模型对话 Demo 出发，一步步拆解生产级 AI 应用需要面对的真实挑战，搞清楚分层架构、交互模式选择、Prompt 管理等核心设计问题"
+title: "从Demo到生产的AI应用架构设计：生产级架构、Prompt管理、模型网关、AI系统设计详解"
+sidebar_label: "从Demo到生产的AI应用架构设计"
+pagination_label: "从Demo到生产的AI应用架构设计"
+description: "从一个简单的大模型对话 Demo 出发，一步步拆解生产级 AI 应用需要面对的真实挑战，搞清楚分层架构、交互模式选择、Prompt 管理等核心设计问题。内容进一步围绕AI应用架构、生产级架构、Prompt管理、模型网关、AI系统设计等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["AI应用架构", "生产级架构", "Prompt管理", "模型网关", "AI系统设计", "分层架构"]
 ---
 

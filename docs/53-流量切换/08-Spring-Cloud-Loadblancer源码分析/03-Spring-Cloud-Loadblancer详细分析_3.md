@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/loadbalancer-analysis/sclb-analysis-3
-description: "Spring Cloud LoadBalancer源码分析第三篇，拆解Feign发起调用时的实例选择、请求重写与HTTP执行路径，定位负载均衡关键节点。"
+title: "Spring-Cloud-Loadblancer详细分析_3：Feign调用路径、实例选择详解"
+sidebar_label: "Spring-Cloud-Loadblancer详细分析3"
+pagination_label: "Spring-Cloud-Loadblancer详细分析3"
+description: "Spring Cloud LoadBalancer源码分析第三篇，拆解Feign发起调用时的实例选择、请求重写与HTTP执行路径，定位负载均衡关键节点。内容进一步围绕Feign调用路径、阻塞式负载均衡、HTTP执行链、服务调用、客户端拦截等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Feign调用路径", "实例选择", "请求重写", "阻塞式负载均衡", "HTTP执行链", "服务调用", "客户端拦截", "源码分析"]
 ---
 
@@ -236,7 +239,7 @@ public class LoadBalancerClientConfiguration {
 ```
 
 ## RoundRobinLoadBalancer结构图
-![](/img/technologySharing/Spring-Cloud-Loadblancer/RoundRobinLoadBalancer结构图.png)
+![RoundRobinLoadBalancer结构图](/img/technologySharing/Spring-Cloud-Loadblancer/RoundRobinLoadBalancer结构图.png)
 所以`loadBalancerClientFactory.getInstance(serviceId)`返回的就是`RoundRobinLoadBalancer`，然后就会调用此策略进行执行
 
 ## RoundRobinLoadBalancer.choose

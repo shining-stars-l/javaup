@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-source/springboot-bean
+title: "Springboot事件和bean的生命周期执行机制：核心原理、实现机制、源码分析详解"
+sidebar_label: "Springboot事件和bean的生命周期执行机制"
+pagination_label: "Springboot事件和bean的生命周期执行机制"
+description: "@PostConstruct执行机制。内容进一步围绕Springboot事件和bean的生命周期执行机制等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日…"
 ---
 
 
@@ -587,11 +591,11 @@ public void started(ConfigurableApplicationContext context) {
 }
 ```
 
-# 总结
+## 总结
 
 - 执行顺序，1 @PostConstruct执行 2 ContextRefreshedEvent事件 3 ApplicationStartedEvent事件
 
-# 细节问题
+## 细节问题
 
 在实际项目中发现ContextRefreshedEvent事件先于@PostConstruct执行，并且会执行多次。
 

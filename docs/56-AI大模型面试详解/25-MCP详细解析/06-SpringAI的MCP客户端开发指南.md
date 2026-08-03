@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/client-development
-description: "使用Spring AI开发MCP Client，掌握配置注入与手动构建两种方式，实现智能助手对接多个MCP Server"
+title: "SpringAI的MCP客户端开发指南：MCP Client开发、Spring AI MCP客户端详解"
+sidebar_label: "SpringAI的MCP客户端开发指南"
+pagination_label: "SpringAI的MCP客户端开发指南"
+description: "使用Spring AI开发MCP Client，掌握配置注入与手动构建两种方式，实现智能助手对接多个MCP Server。内容进一步围绕MCP Client开发、Spring AI MCP客户端、智能助手集成、MCP工具调用、多Server集成等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["MCP Client开发", "Spring AI MCP客户端", "智能助手集成", "MCP工具调用", "多Server集成"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/llm-intro/transformer-attention-deep-dive
-description: "深入剖析Transformer核心组件：Self-Attention的运作机制、多头注意力的优化演进（MQA/GQA/Flash Attention）、位置编码方案对比（RoPE/ALiBi）、分词器原理与选型"
+title: "Transformer与注意力机制深度解析：Self-Attention、多头注意力详解"
+sidebar_label: "Transformer与注意力机制深度解析"
+pagination_label: "Transformer与注意力机制深度解析"
+description: "深入剖析Transformer核心组件：Self-Attention的运作机制、多头注意力的优化演进（MQA/GQA/Flash Attention）、位置编码方案对比（RoPE/ALiBi）、分词器原理与选型。内容进一步围绕BPE、Tokenizer等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落…"
 keywords: ["Transformer", "Self-Attention", "多头注意力", "MQA", "GQA", "Flash Attention", "RoPE", "位置编码", "分词器", "BPE", "Tokenizer"]
 ---
 

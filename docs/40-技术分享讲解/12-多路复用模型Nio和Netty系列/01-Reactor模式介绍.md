@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nio-netty/reactor
+title: "Reactor模式介绍：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Reactor模式介绍"
+pagination_label: "Reactor模式介绍"
+description: "Reactor模式的角色构成（Reactor模式一共有5中角色构成）。内容进一步围绕Reactor模式介绍等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为…"
 ---
 
 # Reactor模式介绍

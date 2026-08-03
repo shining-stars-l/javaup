@@ -323,7 +323,10 @@ function ShowcaseSection({ project, index }) {
 
 export default function Home() {
   return (
-    <Layout title="「码力全开」技术&项目" description="200万+字技术知识库、AI大模型面试详解与8套生产级实战项目，覆盖高并发架构、数据中台和企业级智能体">
+    <Layout
+      title="码力全开：Java技术知识库、AI大模型面试详解、高并发架构与生产级项目实战开发者学习平台"
+      description="码力全开提供200万+字Java技术知识库、AI大模型面试详解与8套生产级实战项目，系统覆盖Java基础、JVM、并发编程、Spring生态、数据库、高并发架构、数据中台与企业级智能体。内容结合核心原理、源码分析、系统设计、项目落地和面试准备，帮助开发者建立完整技术体系并持续积累可复用的工程实践经验。"
+    >
       <div className="home-page">
         <main>
           <HeroSection />

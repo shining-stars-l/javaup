@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/design/gateway-design
-description: "Gateway侧流量治理机制讲解，围绕全局过滤器、请求头改写、路由参数注入与转发前判定，实现入口流量的精细化控制。"
+title: "Gateway服务的详细设计：Gateway过滤器、请求头改写、路由参数注入、入口流量治理详解"
+sidebar_label: "Gateway服务的详细设计"
+pagination_label: "Gateway服务的详细设计"
+description: "Gateway侧流量治理机制讲解，围绕全局过滤器、请求头改写、路由参数注入与转发前判定，实现入口流量的精细化控制。内容进一步围绕Gateway过滤器、入口流量治理、全局过滤链、灰度路由、反向代理等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["Gateway过滤器", "请求头改写", "路由参数注入", "入口流量治理", "全局过滤链", "灰度路由", "转发前判定", "反向代理"]
 ---
 
@@ -28,7 +31,7 @@ import VipInline from '@site/src/components/VipInline';
 
 而本文将详细讲解Gateway服务功能的设计
 
-# GatewayWorkAutoConfiguration
+## GatewayWorkAutoConfiguration
 首先看配置类，知道都加载了哪些
 ```java
 public class GatewayWorkAutoConfiguration {

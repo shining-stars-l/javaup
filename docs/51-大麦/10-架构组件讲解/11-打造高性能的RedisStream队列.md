@@ -1,6 +1,9 @@
 ---
 slug: /damai/architecture-components/redis-stream
-description: "围绕《打造高性能的RedisStream队列》，重点讲解RedisStream、消费组、分组消费、广播消费、消息监听与序列化处理等技术实现与工程落地细节。"
+title: "打造高性能的RedisStream队列：消费组、分组消费、广播消费、消息监听、消息发送详解"
+sidebar_label: "打造高性能的RedisStream队列"
+pagination_label: "打造高性能的RedisStream队列"
+description: "围绕《打造高性能的RedisStream队列》，重点讲解RedisStream、消费组、分组消费、广播消费、消息监听与序列化处理等技术实现与工程落地细节。内容进一步围绕消息发送、消息处理器等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["RedisStream队列", "消费组", "分组消费", "广播消费", "消息监听", "消息发送", "序列化处理", "消息处理器"]
 ---
 

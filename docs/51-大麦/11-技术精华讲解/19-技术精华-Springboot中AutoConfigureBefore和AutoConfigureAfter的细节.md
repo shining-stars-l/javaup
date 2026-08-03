@@ -1,6 +1,6 @@
 ---
 slug: /damai/tech-highlights/springboot-autoconfigure-order
-description: "围绕《Springboot中AutoConfigureBefore和AutoConfigureAfter的细节》，重点讲解spring.factories、AutoConfigureBefore、AutoConfigureAfter、自动装配顺序与参数匹配规则等技术实现与源码细节。"
+description: "围绕《Springboot中AutoConfigureBefore和AutoConfigureAfter的细节》，重点讲解spring.factories、AutoConfigureBefore、AutoConfigureAfter、自动装配顺序与参数匹配规则等技术实现与源码细节。内容进一步围绕配置类加载顺序、Aut…"
 keywords: ["AutoConfigureBefore", "AutoConfigureAfter", "spring.factories", "自动装配顺序", "配置类加载顺序", "AutoConfiguration", "参数匹配规则", "装配依赖关系"]
 ---
 

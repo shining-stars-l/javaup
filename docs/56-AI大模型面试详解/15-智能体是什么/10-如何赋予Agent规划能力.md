@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/agent/planning-capability
-description: "从CoT到ToT再到GoT，拆解LLM规划能力的三层演进逻辑：理解每种机制在解决什么问题、工程上怎么选、以及Plan-and-Execute模式如何落地"
+title: "如何赋予Agent规划能力：CoT思维链、ToT思维树、GoT思维图、Plan and Execute详解"
+sidebar_label: "如何赋予Agent规划能力"
+pagination_label: "如何赋予Agent规划能力"
+description: "从CoT到ToT再到GoT，拆解LLM规划能力的三层演进逻辑：理解每种机制在解决什么问题、工程上怎么选、以及Plan-and-Execute模式如何落地。内容进一步围绕CoT思维链、ToT思维树、GoT思维图、Plan and Execute、推理模式等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落…"
 keywords: ["CoT思维链", "ToT思维树", "GoT思维图", "规划能力", "Plan and Execute", "推理模式"]
 ---
 

@@ -1,7 +1,10 @@
 ---
 slug: /damai/damai-pro/load-testing
+title: "大麦pro动态压测介绍：Jmeter、阶梯加压、性能测试、延迟关单、核心原理、实现机制详解"
+sidebar_label: "大麦pro动态压测介绍"
+pagination_label: "大麦pro动态压测介绍"
 sidebar_class_name: has-new-badge
-description: "大麦pro动态压测功能的详细介绍，包括延迟关单的分区数与消费线程数参数调优、节目详情的Jmeter阶梯加压测试、生成订单的CSV动态参数随机下单压测，全面模拟生产环境的实际业务场景。"
+description: "大麦pro动态压测功能的详细介绍，包括延迟关单的分区数与消费线程数参数调优、节目详情的Jmeter阶梯加压测试、生成订单的CSV动态参数随机下单压测，全面模拟生产环境的实际业务场景。内容进一步围绕性能测试等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技…"
 keywords: ["动态压测", "Jmeter", "阶梯加压", "性能测试", "延迟关单"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/quick-review/spring-ai
-description: "Spring AI开发面试速查：覆盖核心架构、统一抽象层、流式输出、结构化输出、Advisor拦截器、对话记忆系统等Java AI开发考点"
+title: "SpringAI开发面试速查：Spring AI面试、Java AI开发、ChatClient详解"
+sidebar_label: "SpringAI开发面试速查"
+pagination_label: "SpringAI开发面试速查"
+description: "Spring AI开发面试速查：覆盖核心架构、统一抽象层、流式输出、结构化输出、Advisor拦截器、对话记忆系统等Java AI开发考点。内容进一步围绕Spring AI面试、ChatClient等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试…"
 keywords: ["Spring AI面试", "Java AI开发", "ChatClient", "流式输出", "Advisor", "结构化输出", "对话记忆"]
 ---
 

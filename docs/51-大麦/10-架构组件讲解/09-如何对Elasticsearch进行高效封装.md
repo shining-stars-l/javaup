@@ -1,6 +1,9 @@
 ---
 slug: /damai/architecture-components/elasticsearch-wrapper
-description: "围绕《如何对Elasticsearch进行高效封装》，重点讲解全文搜索、复杂查询构建、聚合分析、实时搜索与Elasticsearch 7.x type变更适配等技术实现与工程落地细节。"
+title: "如何对Elasticsearch进行高效封装：Elasticsearch封装、全文搜索详解"
+sidebar_label: "如何对Elasticsearch进行高效封装"
+pagination_label: "如何对Elasticsearch进行高效封装"
+description: "围绕《如何对Elasticsearch进行高效封装》，重点讲解全文搜索、复杂查询构建、聚合分析、实时搜索与Elasticsearch 7.x type变更适配等技术实现与工程落地细节。内容进一步围绕Elasticsearch封装、自动装配、索引检索等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Elasticsearch封装", "全文搜索", "复杂查询构建", "聚合分析", "实时搜索", "7.x type变更", "自动装配", "索引检索"]
 ---
 
@@ -114,7 +117,7 @@ Elasticsearch6.x之前一个index下可以有多个不同的type，而在7.x开�
 
 
 
-# 操作
+## 操作
 
 
 Springboot提供了对Elasticsearch的操作，需要添加以下依赖

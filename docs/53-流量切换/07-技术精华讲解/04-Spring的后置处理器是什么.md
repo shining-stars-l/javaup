@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/spring-post-processors
-description: "Spring后置处理器体系讲解，覆盖BeanFactoryPostProcessor与BeanPostProcessor的执行时机和扩展能力，用于实现容器级增强。"
+title: "Spring的后置处理器是什么：BeanFactoryPostProcessor、Spring容器扩展详解"
+sidebar_label: "Spring的后置处理器是什么"
+pagination_label: "Spring的后置处理器是什么"
+description: "Spring后置处理器体系讲解，覆盖BeanFactoryPostProcessor与BeanPostProcessor的执行时机和扩展能力，用于实现容器级增强。内容进一步围绕Spring容器扩展、Bean生命周期、自动代理、启动增强、容器钩子等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["BeanFactoryPostProcessor", "BeanPostProcessor", "Spring容器扩展", "Bean生命周期", "后置处理器", "自动代理", "启动增强", "容器钩子"]
 ---
 

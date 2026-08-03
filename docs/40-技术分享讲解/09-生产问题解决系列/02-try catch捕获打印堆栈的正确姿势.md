@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/production-issues/try-catch
+title: "try catch捕获打印堆栈的正确姿势：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "try catch捕获打印堆栈的正确姿势"
+pagination_label: "try catch捕获打印堆栈的正确姿势"
+description: "当开启多线程后，线程内的方法出现异常时异常是不会抛到主线程的，这时可以进行try catch并打印堆栈的方法进行处理。当出现问题后能快速定位有问题的代码位置。内容进一步围绕try catch捕获打印堆栈的正确姿势等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践…"
 ---
 
 # try catch捕获打印堆栈的正确姿势

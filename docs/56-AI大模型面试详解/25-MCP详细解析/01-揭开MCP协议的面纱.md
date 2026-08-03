@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/introduction
-description: "全面认识MCP协议，理解它如何让智能体获得与外部世界交互的能力，掌握其核心架构与运作原理"
+title: "揭开MCP协议的面纱：Model Context Protocol、智能体工具调用详解"
+sidebar_label: "揭开MCP协议的面纱"
+pagination_label: "揭开MCP协议的面纱"
+description: "全面认识MCP协议，理解它如何让智能体获得与外部世界交互的能力，掌握其核心架构与运作原理。内容进一步围绕Model Context Protocol、智能体工具调用、MCP架构、智能体能力扩展等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["MCP协议", "Model Context Protocol", "智能体工具调用", "MCP架构", "智能体能力扩展"]
 ---
 

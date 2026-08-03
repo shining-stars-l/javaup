@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-4
+title: "Spring事务执行流程分析_4：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析4"
+pagination_label: "Spring事务执行流程分析4"
+description: "可以看到通过@Import导入了TransactionManagementConfigurationSelector组件。内容进一步围绕Spring事务执行流程分析_4等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体…"
 ---
 
 # Spring事务执行流程分析_4
@@ -164,7 +168,7 @@ private static BeanDefinition registerOrEscalateApcAsRequired(
 ```
 
 可以看到注册了名字`org.springframework.aop.config.internalAutoProxyCreator`，类型`org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator`的bean
-![](/img/technologySharing/spring/InfrastructureAdvisorAutoProxyCreator.png)
+![AopConfigUtils#registerOrEscalateApcAsRequired：InfrastructureAdvisorAutoProxyCreator](/img/technologySharing/spring/InfrastructureAdvisorAutoProxyCreator.png)
 `AutoProxyRegistrar`的作用分析完毕，接下来分析`ProxyTransactionManagementConfiguration`
 
 ### ProxyTransactionManagementConfiguration
@@ -239,8 +243,8 @@ public class ProxyTransactionManagementConfiguration extends AbstractTransaction
 ```
 
 ### 相关继承结构：
-![](/img/technologySharing/spring/BeanFactoryTransactionAttributeSourceAdvisor.png)
-![](/img/technologySharing/spring/TransactionInterceptor.png)
+![相关继承结构：：BeanFactoryTransactionAttributeSourceAdvisor](/img/technologySharing/spring/BeanFactoryTransactionAttributeSourceAdvisor.png)
+![相关继承结构：：TransactionInterceptor](/img/technologySharing/spring/TransactionInterceptor.png)
 
 ### 此时beanDefinitionMap中的存储bean情况：
-![](/img/technologySharing/spring/此时beanDefinitionMap中的存储bean情况.png)
+![此时beanDefinitionMap中的存储bean情况](/img/technologySharing/spring/此时beanDefinitionMap中的存储bean情况.png)

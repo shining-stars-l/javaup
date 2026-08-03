@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/quick-review/skills-system
-description: "Skills体系面试速查：覆盖Skills设计动机、目录结构、SKILL.md配置、四层渐进式加载、与MCP的区别等考点"
+title: "Skills体系面试速查：Skills面试、能力模块、分层加载、SKILL.md、上下文管理详解"
+sidebar_label: "Skills体系面试速查"
+pagination_label: "Skills体系面试速查"
+description: "Skills体系面试速查：覆盖Skills设计动机、目录结构、SKILL.md配置、四层渐进式加载、与MCP的区别等考点。内容进一步围绕Skills面试、能力模块、分层加载、上下文管理、Codex等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要…"
 keywords: ["Skills面试", "能力模块", "分层加载", "SKILL.md", "上下文管理", "Codex", "Agent Skills"]
 ---
 

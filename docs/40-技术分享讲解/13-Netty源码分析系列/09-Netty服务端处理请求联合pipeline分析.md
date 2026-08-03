@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/netty-source/netty-pipeline
+title: "Netty服务端处理请求联合pipeline分析：核心原理、实现机制、源码分析、工程实践详解"
+sidebar_label: "Netty服务端处理请求联合pipeline分析"
+pagination_label: "Netty服务端处理请求联合pipeline分析"
+description: "在之前的章节中，有很多内容没有详细分析，此章节来将之前的没有详细分析的内容进行讲解。内容进一步围绕Netty服务端处理请求联合pipeline分析等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统…"
 ---
 
 # Netty服务端处理请求联合pipeline分析

@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/springai-vector-support
-description: "Spring AI向量检索能力讲解，聚焦VectorStore统一接口、文档写入与相似度查询API，以及在项目中接入RAG能力的配置与调用方式。"
+title: "SpringAI对向量数据库的支持：Spring AI、VectorStore、文档写入详解"
+sidebar_label: "SpringAI对向量数据库的支持"
+pagination_label: "SpringAI对向量数据库的支持"
+description: "Spring AI向量检索能力讲解，聚焦VectorStore统一接口、文档写入与相似度查询API，以及在项目中接入RAG能力的配置与调用方式。内容进一步围绕EmbeddingModel、向量库适配、RAG集成、检索接口等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、…"
 keywords: ["Spring AI", "VectorStore", "文档写入", "相似度查询", "EmbeddingModel", "向量库适配", "RAG集成", "检索接口"]
 ---
 

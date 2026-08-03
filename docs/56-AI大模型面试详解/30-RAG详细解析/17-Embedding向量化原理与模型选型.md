@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/embedding
-description: "Embedding是RAG的核心魔法，它让机器能够理解文字的'意思'。本文从相亲匹配的角度解读向量化原理，并讲解如何选择和使用向量模型"
+title: "Embedding向量化原理与模型选型：向量模型、语义相似度、余弦相似度、Spring AI详解"
+sidebar_label: "Embedding向量化原理与模型选型"
+pagination_label: "Embedding向量化原理与模型选型"
+description: "Embedding是RAG的核心魔法，它让机器能够理解文字的'意思'。本文从相亲匹配的角度解读向量化原理，并讲解如何选择和使用向量模型。内容进一步围绕语义相似度、余弦相似度、Spring AI等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["Embedding", "向量化", "向量模型", "语义相似度", "余弦相似度", "Spring AI"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /damai/knowledge/gateway-hystrix-pitfalls
-description: "详细分析Gateway集成Hystrix的踩坑经历，包括配置生效条件、线程池与信号量隔离模式的差异、源码级分析默认SEMAPHORE问题及正确的THREAD模式配置方法"
+title: "Gateway集成Hystrix遇到的巨坑问题：Gateway Hystrix、熔断配置详解"
+sidebar_label: "Gateway集成Hystrix遇到的巨坑问题"
+pagination_label: "Gateway集成Hystrix遇到的巨坑问题"
+description: "详细分析Gateway集成Hystrix的踩坑经历，包括配置生效条件、线程池与信号量隔离模式的差异、源码级分析默认SEMAPHORE问题及正确的THREAD模式配置方法。内容进一步围绕Gateway Hystrix、熔断配置、隔离策略等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Gateway Hystrix", "熔断配置", "SEMAPHORE", "THREAD模式", "隔离策略"]
 ---
 
@@ -214,7 +217,7 @@ private static final class ExecutionIsolationStrategyHystrixProperty implements 
 ```
 <br/>
 
-# gateway调用方式时，选择hystrix的隔离策略
+## gateway调用方式时，选择hystrix的隔离策略
 上面分析了隔离策略的赋值方式，然后就到了隔离策略的判断逻辑
 
 **AbstractCommand#executeCommandWithSpecifiedIsolation**

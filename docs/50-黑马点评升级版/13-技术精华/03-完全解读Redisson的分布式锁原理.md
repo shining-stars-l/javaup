@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/tech-essentials/redisson-lock-principle
-description: "全面剖析Redisson分布式锁的实现原理，涵盖构建过程、加锁Lua脚本、看门狗自动续约机制、锁的可重入性实现、阻塞等待逻辑及释放锁流程，深入理解分布式环境下Redis锁的互斥性、防死锁特性及主从同步可能带来的问题。"
+title: "完全解读Redisson的分布式锁原理：看门狗机制、Lua脚本、锁可重入、核心原理详解"
+sidebar_label: "完全解读Redisson的分布式锁原理"
+pagination_label: "完全解读Redisson的分布式锁原理"
+description: "全面剖析Redisson分布式锁的实现原理，涵盖构建过程、加锁Lua脚本、看门狗自动续约机制、锁的可重入性实现、阻塞等待逻辑及释放锁流程，深入理解分布式环境下Redis锁的互斥性、防死锁特性及主从同步可能带来的问题。内容进一步围绕看门狗机制、锁可重入等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Redisson", "分布式锁", "看门狗机制", "Lua脚本", "锁可重入"]
 ---
 # 完全解读Redisson的分布式锁原理

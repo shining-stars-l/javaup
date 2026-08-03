@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/spring-ai-detail/quick-start
-description: "从零开始搭建Spring AI项目，手把手教你完成第一次与大模型的对话，涵盖依赖配置、ChatClient使用、流式响应及日志调试全流程"
+title: "SpringAI快速入门实战：Spring AI、ChatClient、DeepSeek详解"
+sidebar_label: "SpringAI快速入门实战"
+pagination_label: "SpringAI快速入门实战"
+description: "从零开始搭建Spring AI项目，手把手教你完成第一次与大模型的对话，涵盖依赖配置、ChatClient使用、流式响应及日志调试全流程。内容进一步围绕DeepSeek、大模型对话、流式输出、Flux、AI开发入门等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实…"
 keywords: ["Spring AI", "ChatClient", "DeepSeek", "大模型对话", "流式输出", "Flux", "AI开发入门"]
 ---
 

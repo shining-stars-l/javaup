@@ -1,7 +1,10 @@
 ---
 slug: /super-agent/overview/engineering-practice
+title: "Pro版：工程化技术概括：Nexus Agent Pro、Nexus Agent、rag-tools详解"
+sidebar_label: "Pro版：工程化技术概括"
+pagination_label: "Pro版：工程化技术概括"
 sidebar_class_name: has-new-badge
-description: 全面展示 Nexus Agent Pro 的工程化能力——从 Java + Python 混合架构、分层设计、集群安全、设计模式实战到可扩展性设计，以及与普通 Agent 项目的全方位对比和完整技术栈一览，让你真正理解什么才叫企业级 AI 系统。
+description: "全面展示 Nexus Agent Pro 的工程化能力——从 Java + Python 混合架构、分层设计、集群安全、设计模式实战到可扩展性设计，以及与普通 Agent 项目的全方位对比和完整技术栈一览，让你真正理解什么才叫企业级 AI 系统。内容进一步围绕Java Python 混合架构、rag-tools、全链…"
 keywords: [Nexus Agent Pro, Nexus Agent, 工程化, Java Python 混合架构, rag-tools, 设计模式, 集群安全, 可扩展性, 技术栈, 企业级, 全链路追踪, Redis, Spring AI]
 ---
 
@@ -28,7 +31,7 @@ keywords: [Nexus Agent Pro, Nexus Agent, 工程化, Java Python 混合架构, ra
 
 可以从能力分层的角度来看整体工程结构。更好地理解 **前端层、接口与流式层、会话编排、检索与证据链、文档解析知识构建、Python 算法服务、存储与基础设施、平台服务、模型扩展设施**，能直观看到 Nexus Agent Pro 的工程复杂度主要分布在哪些层面。
 
-![](/img/super-agent/structure/super-agent-capacity-pro.png)
+![工程能力分层：super agent capacity pro](/img/super-agent/structure/super-agent-capacity-pro.png)
 
 能看到每一层都有清晰职责：前端层负责用户交互和运营控制台，接口与流式层负责请求接入、鉴权、SSE 和任务中断，核心链路负责从记忆到检索再到生成的主流程，底层基础设施则支撑数据存储、异步处理、图谱导航、工具扩展和全链路观测。
 

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/netty-source/netty-part-3
+title: "Netty启动初始化分析_3：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Netty启动初始化分析3"
+pagination_label: "Netty启动初始化分析3"
+description: "5.2 真正的绑定端口号逻辑doBind0。内容进一步围绕Netty启动初始化分析_3等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、…"
 ---
 
 # Netty启动初始化分析_3
@@ -262,4 +266,4 @@ private int select(long deadlineNanos) throws IOException {
 -  `runAllTasks`以此循环处理任务队列中的任务 
 
 至此完成了流程图中`Boss Group`中的部分
-![](/img/technologySharing/netty/流程图.png)
+![总结：流程图](/img/technologySharing/netty/流程图.png)

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/skywalking-source/skywalking-part-3
+title: "Skywalking流程分析_3：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Skywalking流程分析3"
+pagination_label: "Skywalking流程分析3"
+description: "前文将SkyWalkingAgent.premain中的：。内容进一步围绕Skywalking流程分析_3等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为…"
 ---
 
 # Skywalking流程分析_3

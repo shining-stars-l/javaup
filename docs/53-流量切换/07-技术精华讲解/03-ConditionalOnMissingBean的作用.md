@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/conditionalonmissingbean
-description: "ConditionalOnMissingBean条件装配机制讲解，说明默认Bean兜底策略与覆盖扩展方式，提升Starter在不同项目中的兼容性。"
+title: "ConditionalOnMissingBean的作用：条件装配、默认Bean兜底详解"
+sidebar_label: "ConditionalOnMissingBean的作用"
+pagination_label: "ConditionalOnMissingBean的作用"
+description: "ConditionalOnMissingBean条件装配机制讲解，说明默认Bean兜底策略与覆盖扩展方式，提升Starter在不同项目中的兼容性。内容进一步围绕Bean覆盖扩展、Starter兼容性、Spring Boot自动配置、装配条件、依赖解耦等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["ConditionalOnMissingBean", "条件装配", "默认Bean兜底", "Bean覆盖扩展", "Starter兼容性", "Spring Boot自动配置", "装配条件", "依赖解耦"]
 ---
 

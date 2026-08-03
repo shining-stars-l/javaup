@@ -1,6 +1,9 @@
 ---
 slug: /damai/knowledge/threadlocal-guide
-description: "ThreadLocal全面攻略，深入讲解ThreadLocal、InheritableThreadLocal、TransmittableThreadLocal的用法与原理，分析线程池场景下的数据传递问题及内存泄漏防范"
+title: "ThreadLocal全攻略：InheritableThreadLocal、线程本地变量详解"
+sidebar_label: "ThreadLocal全攻略"
+pagination_label: "ThreadLocal全攻略"
+description: "ThreadLocal全面攻略，深入讲解ThreadLocal、InheritableThreadLocal、TransmittableThreadLocal的用法与原理，分析线程池场景下的数据传递问题及内存泄漏防范。内容进一步围绕线程本地变量等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["ThreadLocal", "InheritableThreadLocal", "TransmittableThreadLocal", "线程本地变量", "内存泄漏"]
 ---
 
@@ -241,7 +244,7 @@ public class Thread implements Runnable {
    get()和set()方法内部会调用 `Thread.currentThread()` 获取当前线程，然后在该线程的 `ThreadLocalMap` 中查找或设置对应的值。
 
 
-![](/img/technologySharing/threadlocal/ThreadLocal.png)
+![ThreadLocal](/img/technologySharing/threadlocal/ThreadLocal.png)
 
 ### 内存泄露问题
 
@@ -250,7 +253,7 @@ public class Thread implements Runnable {
    - jdk1.8环境下的 ThreadLocal 采取嗅探机制，将调用 get 或 set 方法时，会主动探测是否含有 key 为空的 value 没有被回收的情况，如果有会主动清理。但我们依旧要在使用完后主动的调用 remove
 
 
-![](/img/technologySharing/threadlocal/ThreadLocal内存溢出.png)
+![内存泄露问题：ThreadLocal内存溢出](/img/technologySharing/threadlocal/ThreadLocal内存溢出.png)
 
 
 
@@ -397,7 +400,7 @@ private ThreadLocalMap(ThreadLocalMap parentMap) {
 
 到这里就将父线程中的值复制到子线程中了
 
-![](/img/technologySharing/threadlocal/InheritableThreadLocal.png)
+![子线程初始化：InheritableThreadLocal](/img/technologySharing/threadlocal/InheritableThreadLocal.png)
 
 
 
@@ -407,4 +410,4 @@ private ThreadLocalMap(ThreadLocalMap parentMap) {
 
 因为 `TransmittableThreadLocal` 继承了 `InheritableThreadLocal`，所以是含有 `InheritableThreadLocal` 功能的，原理也比较简单，直接原理图就能概括
 
-![](/img/technologySharing/threadlocal/TransmittableThreadLocal.png)
+![TransmittableThreadLocal](/img/technologySharing/threadlocal/TransmittableThreadLocal.png)

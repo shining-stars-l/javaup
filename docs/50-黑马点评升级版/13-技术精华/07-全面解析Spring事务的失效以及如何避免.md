@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/tech-essentials/spring-transaction-failure
-description: "全面解析Spring声明式事务@Transactional失效的七大常见原因，包括方法访问级别、同类自调用、异常处理、事务管理器配置等问题，通过三个实际案例深入分析事务代理对象的执行流程，帮助开发者避免事务失效陷阱。"
+title: "全面解析Spring事务的失效以及如何避免：Transactional失效、事务代理详解"
+sidebar_label: "全面解析Spring事务的失效以及如何避免"
+pagination_label: "全面解析Spring事务的失效以及如何避免"
+description: "全面解析Spring声明式事务@Transactional失效的七大常见原因，包括方法访问级别、同类自调用、异常处理、事务管理器配置等问题，通过三个实际案例深入分析事务代理对象的执行流程，帮助开发者避免事务失效陷阱。内容进一步围绕Spring事务、事务传播行为、AOP原理等关键主题展开。通过原理拆解、实现步骤与适用场…"
 keywords: ["Spring事务", "Transactional失效", "事务代理", "事务传播行为", "AOP原理"]
 ---
 # 全面解析Spring事务的失效以及如何避免

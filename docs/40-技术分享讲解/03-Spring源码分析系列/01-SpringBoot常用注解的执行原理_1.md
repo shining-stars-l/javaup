@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-source/springboot-part-1
+title: "SpringBoot常用注解的执行原理_1：核心原理、实现机制、源码分析、工程实践详解"
+sidebar_label: "SpringBoot常用注解的执行原理1"
+pagination_label: "SpringBoot常用注解的执行原理1"
+description: "Springboot注解Configuration、Bean、Component、ComponentScan、Import、ImportResource。内容进一步围绕SpringBoot常用注解的执行原理_1等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建…"
 ---
 
 

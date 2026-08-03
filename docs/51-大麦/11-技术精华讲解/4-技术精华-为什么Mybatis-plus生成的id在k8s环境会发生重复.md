@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/mybatis-plus-id-duplicate
-description: "围绕《为什么Mybatis-plus生成的id在k8s环境会发生重复》，重点讲解Mybatis-plus主键生成、k8s环境ID重复、雪花算法、workerId分配与分布式ID冲突规避等技术实现与源码细节。"
+title: "为什么Mybatis-plus生成的id在k8s环境会发生重复：ID重复、雪花算法详解"
+sidebar_label: "为什么Mybatis-plus生成的id在k8s环境会发生重复"
+pagination_label: "为什么Mybatis-plus生成的id在k8s环境会发生重复"
+description: "围绕《为什么Mybatis-plus生成的id在k8s环境会发生重复》，重点讲解Mybatis-plus主键生成、k8s环境ID重复、雪花算法、workerId分配与分布式ID冲突规避等技术实现与源码细节。内容进一步围绕dataCenterId等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Mybatis-plus", "k8s", "ID重复", "雪花算法", "workerId", "dataCenterId", "分布式ID", "ID冲突规避"]
 ---
 

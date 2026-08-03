@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/conversation-list/advisor-order
-description: "多个Advisor执行顺序解析，讲解order优先级对before/after回调链的影响，并给出标题更新与会话记忆协同的时序控制方法。"
+title: "多个Advisor的执行顺序：Advisor执行顺序、order优先级、before回调链详解"
+sidebar_label: "多个Advisor的执行顺序"
+pagination_label: "多个Advisor的执行顺序"
+description: "多个Advisor执行顺序解析，讲解order优先级对before/after回调链的影响，并给出标题更新与会话记忆协同的时序控制方法。内容进一步围绕before回调链、拦截器时序、标题更新时机、Spring AI等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实…"
 keywords: ["Advisor执行顺序", "order优先级", "before回调链", "after回调链", "拦截器时序", "标题更新时机", "会话记忆协同", "Spring AI"]
 ---
 

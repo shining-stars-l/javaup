@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/hallucination-control
-description: "RAG系统上线后最容易被用户投诉的就是'AI在胡说'。本文从幻觉的产生链路出发，拆解检索侧和生成侧两种完全不同的病因，给出从低成本到高可靠的四级防控手段"
+title: "RAG系统幻觉治理实战：RAG幻觉、Faithfulness、检索质量门控、Prompt约束详解"
+sidebar_label: "RAG系统幻觉治理实战"
+pagination_label: "RAG系统幻觉治理实战"
+description: "RAG系统上线后最容易被用户投诉的就是'AI在胡说'。本文从幻觉的产生链路出发，拆解检索侧和生成侧两种完全不同的病因，给出从低成本到高可靠的四级防控手段。内容进一步围绕RAG幻觉、幻觉治理、Faithfulness、检索质量门控、Prompt约束等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["RAG幻觉", "幻觉治理", "Faithfulness", "检索质量门控", "Prompt约束", "引用溯源", "Rerank阈值", "结构化输出"]
 ---
 

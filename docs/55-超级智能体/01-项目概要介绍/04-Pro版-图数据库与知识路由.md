@@ -1,7 +1,10 @@
 ---
 slug: /super-agent/overview/neo4j-knowledge-routing
+title: "Pro版：图数据库知识路由：Neo4j、影子路由、文档结构图谱、三级漏斗、路由质量观测详解"
+sidebar_label: "Pro版：图数据库知识路由"
+pagination_label: "Pro版：图数据库知识路由"
 sidebar_class_name: has-new-badge
-description: 深入了解 Nexus Agent Pro 如何用 Neo4j 图数据库构建文档结构图谱，以及知识路由三级漏斗（领域→主题→文档）和影子路由质量观测机制的设计思路与工程实现。
+description: "深入了解 Nexus Agent Pro 如何用 Neo4j 图数据库构建文档结构图谱，以及知识路由三级漏斗（领域→主题→文档）和影子路由质量观测机制的设计思路与工程实现。内容进一步围绕Neo4j、图数据库、知识路由、影子路由、文档结构图谱等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: [Neo4j, 图数据库, 知识路由, 影子路由, 文档结构图谱, 三级漏斗, 路由质量观测, Nexus Agent Pro]
 ---
 
@@ -20,7 +23,7 @@ Nexus Agent Pro 用了两个手段来解决这个问题：
 
 如果把文档入库、图谱建模、知识路由、混合检索、证据生成和影子路由放到一条线上看，会更容易理解这部分为什么叫“知识闭环”：
 
-![](/img/super-agent/structure/super-agent-knowledge-closed-loop.png)
+![Pro版：图数据库知识路由：super agent knowledge closed loop](/img/super-agent/structure/super-agent-knowledge-closed-loop.png)
 
 这条闭环里，前半段负责把原始文档加工成可检索、可导航、可路由的知识资产；中间通过"领域 → 主题 → 文档"三级漏斗缩小检索范围；后半段通过向量检索、关键词检索、父子块聚合和证据控制生成可靠回答。最后，影子路由会把系统推荐结果和用户实际选择记录下来，持续反哺知识路由质量评估。
 
@@ -508,9 +511,9 @@ stop
 
 这两张项目截图是观测面板中"这轮回答的关键结果"视图。可以看到一次完整对话的核心决策链路：前置编排的诊断结果、检索执行情况、预处理阶段的各项判定，以及最终走了哪条路（比如"统一多通道检索、检索意图是结构导航"）。这些信息把知识路由、问题路由、检索引擎三者的协作过程完整呈现了出来：
 
-![](/img/super-agent/pro/检索汇流工作台.png)
+![知识路由和检索链路是怎么串起来的：检索汇流工作台](/img/super-agent/pro/检索汇流工作台.png)
 
-![](/img/super-agent/pro/执行阶段时间线.png)
+![知识路由和检索链路是怎么串起来的：执行阶段时间线](/img/super-agent/pro/执行阶段时间线.png)
 
 ## 面试中怎么聊这块
 

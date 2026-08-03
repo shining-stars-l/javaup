@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/graph-rag
-description: "传统RAG擅长单跳问答，但遇到需要跨文档推理的关系型问题就力不从心了。Graph RAG用知识图谱把散落的信息串成网，让RAG具备多跳推理能力"
+title: "图结构：Graph RAG：知识图谱、Neo4j、Cypher、多跳推理、图数据库详解"
+sidebar_label: "图结构：Graph RAG"
+pagination_label: "图结构：Graph RAG"
+description: "传统RAG擅长单跳问答，但遇到需要跨文档推理的关系型问题就力不从心了。Graph RAG用知识图谱把散落的信息串成网，让RAG具备多跳推理能力。内容进一步围绕Neo4j、Cypher、Spring Data Neo4j、图数据库、RAG优化等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Graph RAG", "知识图谱", "Neo4j", "Cypher", "多跳推理", "Spring Data Neo4j", "图数据库", "RAG优化"]
 ---
 
@@ -148,7 +151,7 @@ docker run -d \
 
 启动后访问 `http://localhost:7474` 可以打开Neo4j的Web管理界面，直接在里面写Cypher查询。
 
-![](/img/super-agent/项目启动讲解/Neo4j界面.png)
+![Docker部署Neo4j：Neo4j界面](/img/super-agent/项目启动讲解/Neo4j界面.png)
 
 ## Spring Boot集成Neo4j实战
 

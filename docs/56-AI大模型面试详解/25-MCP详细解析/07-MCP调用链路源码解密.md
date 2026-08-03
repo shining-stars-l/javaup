@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/source-code-analysis
-description: "结合 office-mcp-client 与 office-mcp-server，深入剖析 Spring AI MCP 的真实调用链路"
+title: "MCP调用链路源码解密：MCP源码分析、Spring AI源码、工具调用原理、ChatModel详解"
+sidebar_label: "MCP调用链路源码解密"
+pagination_label: "MCP调用链路源码解密"
+description: "结合 office-mcp-client 与 office-mcp-server，深入剖析 Spring AI MCP 的真实调用链路。内容进一步围绕MCP源码分析、Spring AI源码、工具调用原理、ChatModel、SyncMcpToolCallback等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关…"
 keywords: ["MCP源码分析", "Spring AI源码", "工具调用原理", "ChatModel", "SyncMcpToolCallback"]
 ---
 

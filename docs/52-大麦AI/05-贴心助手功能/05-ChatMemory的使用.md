@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/assistant/chat-memory
-description: "ChatMemory使用指南，讲解会话记忆的写入、读取与删除策略，以及在多轮对话中通过记忆窗口控制上下文长度和响应质量。"
+title: "ChatMemory的使用：会话记忆、历史读取、记忆删除、上下文窗口、Token裁剪详解"
+sidebar_label: "ChatMemory的使用"
+pagination_label: "ChatMemory的使用"
+description: "ChatMemory使用指南，讲解会话记忆的写入、读取与删除策略，以及在多轮对话中通过记忆窗口控制上下文长度和响应质量。内容进一步围绕历史读取、记忆删除、上下文窗口、Token裁剪、记忆管理等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["ChatMemory", "会话记忆", "历史读取", "记忆删除", "上下文窗口", "Token裁剪", "多轮对话", "记忆管理"]
 ---
 

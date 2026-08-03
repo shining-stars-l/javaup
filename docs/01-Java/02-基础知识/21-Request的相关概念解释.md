@@ -1,6 +1,9 @@
 ---
 slug: /java/base/request-concepts
-description: "讲解Spring Web中Request相关核心概念:HttpServletRequest的请求参数/请求头/会话管理等功能;ServletRequestAttributes对Servlet API的Spring封装;RequestContextHolder基于ThreadLocal的请求上下文存储机制;分析三者协作关系及跨层获取请求数据的最佳实践。"
+title: "Request的相关概念解释：HttpServletRequest、ThreadLocal详解"
+sidebar_label: "Request的相关概念解释"
+pagination_label: "Request的相关概念解释"
+description: "讲解Spring Web中Request相关核心概念:HttpServletRequest的请求参数/请求头/会话管理等功能;ServletRequestAttributes对Servlet API的Spring封装;RequestContextHolder基于ThreadLocal的请求上下文存储机制;分析三者协作…"
 keywords: ["HttpServletRequest", "RequestContextHolder", "ServletRequestAttributes", "ThreadLocal", "Spring MVC", "请求上下文"]
 ---
 

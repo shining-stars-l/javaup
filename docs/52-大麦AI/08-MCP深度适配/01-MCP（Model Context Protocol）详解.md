@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/mcp/detail
-description: "MCP协议核心原理讲解，覆盖模型与外部系统通信的标准化方式、核心参与者职责与请求协作机制，帮助构建可扩展的AI工具生态。"
+title: "MCP（Model Context Protocol）：MCP协议、工具注册、资源发现详解"
+sidebar_label: "MCP（Model Context Protocol）详解"
+pagination_label: "MCP（Model Context Protocol）详解"
+description: "MCP协议核心原理讲解，覆盖模型与外部系统通信的标准化方式、核心参与者职责与请求协作机制，帮助构建可扩展的AI工具生态。内容进一步围绕Model Context Protocol、工具注册、资源发现、协议协作、AI外部系统集成等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查…"
 keywords: ["MCP协议", "Model Context Protocol", "工具注册", "资源发现", "协议协作", "AI外部系统集成", "标准化上下文", "Agent能力扩展"]
 ---
 

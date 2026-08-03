@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/spring-ai-detail/advisor-mechanism
-description: "全面解析Spring AI的Advisor拦截器机制：从AOP设计思想到责任链模式，深入分析内置Advisor源码，手把手教你自定义Advisor实现日志、鉴权等功能"
+title: "Advisor拦截器机制揭秘：责任链模式、AOP、SimpleLoggerAdvisor详解"
+sidebar_label: "Advisor拦截器机制揭秘"
+pagination_label: "Advisor拦截器机制揭秘"
+description: "全面解析Spring AI的Advisor拦截器机制：从AOP设计思想到责任链模式，深入分析内置Advisor源码，手把手教你自定义Advisor实现日志、鉴权等功能。内容进一步围绕SimpleLoggerAdvisor、SafeGuardAdvisor等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何…"
 keywords: ["Advisor", "拦截器", "责任链模式", "AOP", "SimpleLoggerAdvisor", "SafeGuardAdvisor", "自定义Advisor"]
 ---
 

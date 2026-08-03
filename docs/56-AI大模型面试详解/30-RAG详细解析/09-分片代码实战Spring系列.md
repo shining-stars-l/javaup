@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/spring-splitter
-description: "Spring AI和Spring AI Alibaba的文档分片代码实战，包含TokenTextSplitter、自定义Overlap分片器、RecursiveCharacterTextSplitter的完整示例和执行结果"
+title: "分片代码实战：Spring系列：Spring AI、Spring AI Alibaba详解"
+sidebar_label: "分片代码实战：Spring系列"
+pagination_label: "分片代码实战：Spring系列"
+description: "Spring AI和Spring AI Alibaba的文档分片代码实战，包含TokenTextSplitter、自定义Overlap分片器、RecursiveCharacterTextSplitter的完整示例和执行结果。内容进一步围绕Spring AI、Spring AI Alibaba、TokenTextSpl…"
 keywords: ["Spring AI", "Spring AI Alibaba", "TokenTextSplitter", "RecursiveCharacterTextSplitter", "文档分片"]
 ---
 

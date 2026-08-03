@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/threading-details/reactor-multithread-data-loss
-description: "Reactor与多线程场景下的数据透传治理，讲解ThreadLocal失效根因与Reactor Context替代方案，解决链路标签与路由参数丢失问题。"
+title: "多线程和Reactor模式下解决数据丢失：Reactor Context、ThreadLocal失效详解"
+sidebar_label: "多线程和Reactor模式下解决数据丢失"
+pagination_label: "多线程和Reactor模式下解决数据丢失"
+description: "Reactor与多线程场景下的数据透传治理，讲解ThreadLocal失效根因与Reactor Context替代方案，解决链路标签与路由参数丢失问题。内容进一步围绕上下文透传、路由参数传递、响应式编程、数据丢失治理、并发场景等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查…"
 keywords: ["Reactor Context", "ThreadLocal失效", "上下文透传", "链路标签", "路由参数传递", "响应式编程", "数据丢失治理", "并发场景"]
 ---
 

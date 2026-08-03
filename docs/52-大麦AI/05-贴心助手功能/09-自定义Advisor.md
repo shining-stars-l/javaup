@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/assistant/custom-advisor
-description: "自定义Advisor实战，讲解如何扩展请求前后回调、注入会话上下文并写入历史数据，同时通过优先级控制保证拦截链协同执行。"
+title: "自定义Advisor：拦截器扩展、before回调、after回调、会话上下文注入详解"
+sidebar_label: "自定义Advisor"
+pagination_label: "自定义Advisor"
+description: "自定义Advisor实战，讲解如何扩展请求前后回调、注入会话上下文并写入历史数据，同时通过优先级控制保证拦截链协同执行。内容进一步围绕拦截器扩展、before回调、after回调、会话上下文注入、历史写入等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技…"
 keywords: ["自定义Advisor", "拦截器扩展", "before回调", "after回调", "会话上下文注入", "历史写入", "执行优先级", "Builder模式"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/mcp/log
-description: "MCP分布式日志检索实战，讲解AI助手如何通过ELK链路查询多服务日志，实现故障定位、异常聚合与智能化运维排障分析。"
+title: "AI智能运维分析 - MCP的分布式日志检索功能：MCP日志检索、ELK、故障定位详解"
+sidebar_label: "AI智能运维分析 - MCP的分布式日志检索功能"
+pagination_label: "AI智能运维分析 - MCP的分布式日志检索功能"
+description: "MCP分布式日志检索实战，讲解AI助手如何通过ELK链路查询多服务日志，实现故障定位、异常聚合与智能化运维排障分析。内容进一步围绕MCP日志检索、Elasticsearch查询、智能排障、运维分析等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要…"
 keywords: ["MCP日志检索", "ELK", "Elasticsearch查询", "分布式日志", "故障定位", "异常聚合", "智能排障", "运维分析"]
 ---
 

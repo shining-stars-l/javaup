@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/markdown-parsing
-description: "Markdown知识文档解析机制讲解，覆盖资源扫描、内容切分、Document构建与元数据提取，并为向量入库提供标准化文本预处理。"
+title: "MarkDown的解析：Markdown解析、MarkdownLoader、文档切分详解"
+sidebar_label: "MarkDown的解析"
+pagination_label: "MarkDown的解析"
+description: "Markdown知识文档解析机制讲解，覆盖资源扫描、内容切分、Document构建与元数据提取，并为向量入库提供标准化文本预处理。内容进一步围绕Markdown解析、MarkdownLoader、文档切分、ResourcePatternResolver、Document对象等关键主题展开。通过原理拆解、实现步骤与适用…"
 keywords: ["Markdown解析", "MarkdownLoader", "文档切分", "ResourcePatternResolver", "Document对象", "元数据提取", "向量入库预处理", "批量加载"]
 ---
 

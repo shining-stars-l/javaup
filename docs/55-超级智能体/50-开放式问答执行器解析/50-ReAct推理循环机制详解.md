@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/react-agent-executor/react-loop
-description: 深入讲解 ReactAgent 底层的 ReAct 推理循环机制，包括图结构、Think/Act/Observe 三步循环、条件边路由决策、循环终止条件，以及一个完整的搜索问答循环轨迹示例。
+title: "ReAct推理循环机制：ReAct循环、Think-Act-Observe、ReactAgent详解"
+sidebar_label: "ReAct推理循环机制详解"
+pagination_label: "ReAct推理循环机制详解"
+description: "深入讲解 ReactAgent 底层的 ReAct 推理循环机制，包括图结构、Think/Act/Observe 三步循环、条件边路由决策、循环终止条件，以及一个完整的搜索问答循环轨迹示例。内容进一步围绕ReAct循环、Think-Act-Observe、AgentLlmNode、AgentToolNode、make…"
 keywords: [ReAct循环, 推理循环, Think-Act-Observe, ReactAgent, AgentLlmNode, AgentToolNode, makeModelToTools, 条件边路由, 循环终止, 图结构]
 ---
 

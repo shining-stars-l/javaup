@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/assistant/function-calling
-description: "Function Calling应用讲解，说明模型如何基于工具描述选择函数、构造参数并触发后端能力，实现从自然语言到业务动作的自动编排。"
+title: "Function Calling的具体应用：工具调用、函数选择、参数构造、JSON Schema详解"
+sidebar_label: "Function Calling的具体应用"
+pagination_label: "Function Calling的具体应用"
+description: "Function Calling应用讲解，说明模型如何基于工具描述选择函数、构造参数并触发后端能力，实现从自然语言到业务动作的自动编排。内容进一步围绕工具调用、函数选择、参数构造、JSON Schema、业务编排等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践…"
 keywords: ["Function Calling", "工具调用", "函数选择", "参数构造", "JSON Schema", "业务编排", "模型决策", "自动化执行"]
 ---
 

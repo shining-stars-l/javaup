@@ -1,12 +1,15 @@
 ---
 slug: /link-flow/loadbalancer-analysis/sclb-analysis-1
-description: "Spring Cloud LoadBalancer源码分析第一篇，围绕Feign调用入口拆解负载均衡客户端初始化、工厂装配与调用链衔接机制。"
+title: "Spring-Cloud-Loadblancer详细分析_1：Feign集成、客户端初始化详解"
+sidebar_label: "Spring-Cloud-Loadblancer详细分析1"
+pagination_label: "Spring-Cloud-Loadblancer详细分析1"
+description: "Spring Cloud LoadBalancer源码分析第一篇，围绕Feign调用入口拆解负载均衡客户端初始化、工厂装配与调用链衔接机制。内容进一步围绕Feign集成、LoadBalancerClientFactory、负载均衡调用链、自动装配、服务实例选择等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方…"
 keywords: ["Spring Cloud LoadBalancer", "Feign集成", "LoadBalancerClientFactory", "客户端初始化", "负载均衡调用链", "自动装配", "服务实例选择", "源码分析"]
 ---
 
 # Spring-Cloud-Loadblancer详细分析_1
 
-# 背景
+## 背景
 
 从SpringCloud 2020 版本之后，组件移除了除 Eureka 以外，所有 Netflix 的相关，包括最常用的 Ribbon Hystrix 等，所以 SpringCloud 在 spring-cloud-commons 提供了Loadbalancer 用来替代 Ribbon。本系列就来介绍Loadbalancer 的执行流程
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/evolution
-description: "从Naive RAG到Advanced RAG再到Modular RAG，了解RAG技术的三代演进历程，掌握不同场景下的架构选型策略"
+title: "RAG三代进化史与架构选型：Naive RAG、Advanced RAG、Modular RAG详解"
+sidebar_label: "RAG三代进化史与架构选型"
+pagination_label: "RAG三代进化史与架构选型"
+description: "从Naive RAG到Advanced RAG再到Modular RAG，了解RAG技术的三代演进历程，掌握不同场景下的架构选型策略。内容进一步围绕RAG架构、RAG演进等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识…"
 keywords: ["Naive RAG", "Advanced RAG", "Modular RAG", "RAG架构", "架构选型", "RAG演进"]
 ---
 

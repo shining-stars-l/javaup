@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/autoconfigurebefore
-description: "AutoConfigureBefore注解机制解析，讲解自动装配顺序控制与依赖前置注册方式，避免自定义Bean被默认配置覆盖。"
+title: "AutoConfigureBefore的作用：自动装配顺序、Bean前置注册、装配优先级详解"
+sidebar_label: "AutoConfigureBefore的作用"
+pagination_label: "AutoConfigureBefore的作用"
+description: "AutoConfigureBefore注解机制解析，讲解自动装配顺序控制与依赖前置注册方式，避免自定义Bean被默认配置覆盖。内容进一步围绕Bean前置注册、装配优先级、Spring Boot、Starter扩展、条件装配等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路…"
 keywords: ["AutoConfigureBefore", "自动装配顺序", "Bean前置注册", "装配优先级", "Spring Boot", "Starter扩展", "条件装配", "依赖编排"]
 ---
 

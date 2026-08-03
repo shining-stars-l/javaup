@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/design/web-service-design
-description: "Web服务侧流量治理机制讲解，聚焦服务实例元数据识别、请求上下文消费与本地路由判定，确保下游调用命中目标实例。"
+title: "Web服务的详细设计：Web服务治理、实例元数据识别、上下文消费、本地路由判定、服务实例过滤详解"
+sidebar_label: "Web服务的详细设计"
+pagination_label: "Web服务的详细设计"
+description: "Web服务侧流量治理机制讲解，聚焦服务实例元数据识别、请求上下文消费与本地路由判定，确保下游调用命中目标实例。内容进一步围绕Web服务治理、服务实例过滤、灰度命中、请求隔离、负载均衡协同等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["Web服务治理", "实例元数据识别", "上下文消费", "本地路由判定", "服务实例过滤", "灰度命中", "请求隔离", "负载均衡协同"]
 ---
 
@@ -27,7 +30,7 @@ import VipInline from '@site/src/components/VipInline';
 ```
 而本文将详细讲解web服务功能的设计
 
-# ServiceWorkContextAutoConfiguration
+## ServiceWorkContextAutoConfiguration
 
 首先看配置类，知道都加载了哪些
 ```java

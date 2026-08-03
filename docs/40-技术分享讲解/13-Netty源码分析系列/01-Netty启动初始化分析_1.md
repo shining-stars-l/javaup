@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/netty-source/netty-part-1
+title: "Netty启动初始化分析_1：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Netty启动初始化分析1"
+pagination_label: "Netty启动初始化分析1"
+description: "代码示例。内容进一步围绕Netty启动初始化分析_1等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Netty启动初始化分析_1
@@ -37,8 +41,8 @@ public class MyServer {
 
 - 默认情况下 `bossGroup` 和 `workerGroup` 中的线程个数都为cpu核数的2倍
 - 每一个 NioEventLoop 包含如下的属性（比如自己的 Selector、任务队列、执行器等）
-![](/img/technologySharing/netty/bossGroup1.png)
-![](/img/technologySharing/netty/bossGroup2.png)
+![首先看下执行后的结构：bossGroup1](/img/technologySharing/netty/bossGroup1.png)
+![首先看下执行后的结构：bossGroup2](/img/technologySharing/netty/bossGroup2.png)
 
 ### EventLoopGroup
 

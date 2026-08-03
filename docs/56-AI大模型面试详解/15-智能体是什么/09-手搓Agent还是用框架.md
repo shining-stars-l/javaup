@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/agent/handcode-vs-framework
-description: "从项目演进的视角拆解Agent开发中'手搓'与'用框架'的选型逻辑：框架的甜蜜期和翻车时刻、手写代码的核心价值、以及生产环境中最务实的折中策略"
+title: "手搓Agent还是用框架：Agent框架、Spring AI、LangChain、工程选型详解"
+sidebar_label: "手搓Agent还是用框架"
+pagination_label: "手搓Agent还是用框架"
+description: "从项目演进的视角拆解Agent开发中'手搓'与'用框架'的选型逻辑：框架的甜蜜期和翻车时刻、手写代码的核心价值、以及生产环境中最务实的折中策略。内容进一步围绕手搓Agent、Agent框架、Spring AI、LangChain、工程选型等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["手搓Agent", "Agent框架", "Spring AI", "LangChain", "工程选型", "可观测性"]
 ---
 

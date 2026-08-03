@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/request-concepts
-description: "Request核心概念梳理，涵盖请求行、请求头、请求体与参数绑定机制，帮助理解网关与微服务之间的协议交互语义。"
+title: "Request的相关概念解释：HTTP Request、请求行、请求头、请求体、参数绑定详解"
+sidebar_label: "Request的相关概念解释"
+pagination_label: "Request的相关概念解释"
+description: "Request核心概念梳理，涵盖请求行、请求头、请求体与参数绑定机制，帮助理解网关与微服务之间的协议交互语义。内容进一步围绕HTTP Request、协议语义、网关交互、微服务通信等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["HTTP Request", "请求行", "请求头", "请求体", "参数绑定", "协议语义", "网关交互", "微服务通信"]
 ---
 

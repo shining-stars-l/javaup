@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/redisson-lock
-description: "围绕《完全解读Redisson的分布式锁原理》，重点讲解Redisson分布式锁、for update对比、tryLock加锁、看门狗机制与锁释放流程等技术实现与源码细节。"
+title: "完全解读Redisson的分布式锁原理：Redisson分布式锁、for update详解"
+sidebar_label: "完全解读Redisson的分布式锁原理"
+pagination_label: "完全解读Redisson的分布式锁原理"
+description: "围绕《完全解读Redisson的分布式锁原理》，重点讲解Redisson分布式锁、for update对比、tryLock加锁、看门狗机制与锁释放流程等技术实现与源码细节。内容进一步围绕锁续期、Redis锁、可重入锁等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: ["Redisson分布式锁", "for update", "看门狗机制", "tryLock", "锁续期", "锁释放", "Redis锁", "可重入锁"]
 ---
 

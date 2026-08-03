@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/rag-chatclient
-description: "RAG版ChatClient构建实战，覆盖知识库加载、检索顾问装配、系统提示词约束与调用时序，形成规则问答的完整执行链。"
+title: "创建RAG的ChatClient：RAG ChatClient、知识库加载、检索顾问详解"
+sidebar_label: "创建RAG的ChatClient"
+pagination_label: "创建RAG的ChatClient"
+description: "RAG版ChatClient构建实战，覆盖知识库加载、检索顾问装配、系统提示词约束与调用时序，形成规则问答的完整执行链。内容进一步围绕RAG ChatClient、向量检索、执行时序、Spring AI等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术…"
 keywords: ["RAG ChatClient", "知识库加载", "检索顾问", "系统提示词", "向量检索", "执行时序", "规则问答", "Spring AI"]
 ---
 

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/springboot-issues/springboot
+title: "SpringBoot灵活的映射配置信息：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "SpringBoot灵活的映射配置信息"
+pagination_label: "SpringBoot灵活的映射配置信息"
+description: "在用@ConfigurationProperties最常用的功能是用此注解对类进行修饰，设置好prefix前缀，这样在springboot的配置文件中，配置信息的key和value就会对应的配置到类中的属性上。内容进一步围绕SpringBoot灵活的映射配置信息等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关…"
 ---
 
 
@@ -113,7 +117,7 @@ spring:
 
 **当灰度和生产使用同一个注册中心来做环境隔离的负载均衡功能正好可以利用这一点。**
 
-# 思路
+## 思路
 
 - 先设置一个灰度标识，利用这种灵活的配置特性放到`eureka`或`nacos`中服务列表中
 

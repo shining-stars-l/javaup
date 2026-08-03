@@ -97,6 +97,9 @@ const config = {
           editLocalizedFiles: false
         },
         blog: false, // 禁用博客功能（不使用博客目录）
+        pages: {
+          exclude: ['**/helloReact.*', '**/markdown-page.*'],
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -104,7 +107,7 @@ const config = {
         sitemap: {
           changefreq: 'weekly',
           priority: 0.5,
-          ignorePatterns: ['/tags/**'],
+          ignorePatterns: ['/tags/**', '/search', '/search/**'],
           filename: 'sitemap.xml',
         },
       }),

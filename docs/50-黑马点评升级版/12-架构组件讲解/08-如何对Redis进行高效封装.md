@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/components/redis-wrapper
-description: "讲解如何对Redis进行高效封装，解决对象转换、键管理等痛点，提供统一的缓存操作接口。"
+title: "如何对Redis进行高效封装：Redis封装、键管理、缓存组件、对象转换、RedisTemplate详解"
+sidebar_label: "如何对Redis进行高效封装"
+pagination_label: "如何对Redis进行高效封装"
+description: "讲解如何对Redis进行高效封装，解决对象转换、键管理等痛点，提供统一的缓存操作接口。内容进一步围绕Redis封装、缓存组件、RedisTemplate等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用…"
 keywords: ["Redis封装", "键管理", "缓存组件", "对象转换", "RedisTemplate"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /damai/architecture-config/json-converter
-description: "围绕《打造专属JSON转换器解锁数据处理新姿势》，重点讲解Gateway、注解、Jackson序列化、JSON转换器定制、long精度处理等技术实现与工程落地细节。"
+title: "打造专属JSON转换器解锁数据处理新姿势：Gateway、注解、Jackson序列化详解"
+sidebar_label: "打造专属JSON转换器解锁数据处理新姿势"
+pagination_label: "打造专属JSON转换器解锁数据处理新姿势"
+description: "围绕《打造专属JSON转换器解锁数据处理新姿势》，重点讲解Gateway、注解、Jackson序列化、JSON转换器定制、long精度处理等技术实现与工程落地细节。内容进一步围绕日期格式转换、空值序列化、多字段报错处理等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项…"
 keywords: ["Gateway", "注解", "Jackson序列化", "JSON转换器定制", "long精度处理", "日期格式转换", "空值序列化", "多字段报错处理"]
 ---
 

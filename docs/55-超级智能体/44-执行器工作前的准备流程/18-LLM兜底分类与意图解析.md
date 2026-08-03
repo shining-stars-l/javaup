@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors-prepare/llm-intent-classification
-description: 详细讲解 shouldUseLlmQuestionIntent 的触发条件、classifyQuestionIntentWithModel 的 LLM 调用流程、parseQuestionIntentResult 的结构化解析逻辑，以及置信度阈值控制和异常回退机制。
+title: "LLM 兜底分类与意图解析：shouldUseLlmQuestionIntent、LLM兜底分类详解"
+sidebar_label: "LLM 兜底分类与意图解析"
+pagination_label: "LLM 兜底分类与意图解析"
+description: "详细讲解 shouldUseLlmQuestionIntent 的触发条件、classifyQuestionIntentWithModel 的 LLM 调用流程、parseQuestionIntentResult 的结构化解析逻辑，以及置信度阈值控制和异常回退机制。内容进一步围绕LLM兜底分类、GRAPH_ONLY_…"
 keywords: [shouldUseLlmQuestionIntent, classifyQuestionIntentWithModel, parseQuestionIntentResult, LLM兜底分类, 置信度阈值, GRAPH_ONLY_INTENT_CONFIDENCE_THRESHOLD, resolveModelGraphOnlyAction]
 ---
 

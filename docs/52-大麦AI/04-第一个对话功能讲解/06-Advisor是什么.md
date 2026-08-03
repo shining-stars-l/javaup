@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/first-chat/what-is-advisor
-description: "Advisor机制入门，解释Spring AI拦截器链在请求前后处理中的作用，包含执行顺序、上下文增强与响应后处理等关键技术点。"
+title: "Advisor是什么：Advisor拦截器、before回调、after回调、执行顺序详解"
+sidebar_label: "Advisor是什么"
+pagination_label: "Advisor是什么"
+description: "Advisor机制入门，解释Spring AI拦截器链在请求前后处理中的作用，包含执行顺序、上下文增强与响应后处理等关键技术点。内容进一步围绕Advisor拦截器、before回调、after回调、请求增强、会话上下文等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项…"
 keywords: ["Advisor拦截器", "before回调", "after回调", "执行顺序", "请求增强", "响应后处理", "会话上下文", "Spring AI"]
 ---
 

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/nacos/client
+title: "Nacos客户端获取服务原理：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Nacos客户端获取服务原理"
+pagination_label: "Nacos客户端获取服务原理"
+description: "NacosNamingService.selectInstances(String serviceName, String groupName, List clusters, boolean healthy, boolean subscribe)。内容进一步围绕Nacos客户端获取服务原理等关键主题展开。"
 ---
 
 # Nacos客户端获取服务原理
@@ -84,7 +88,7 @@ public ServiceInfo subscribe(String serviceName, String groupName, String cluste
 3. 不能获取到，基于grpc协议直接从服务端查询，然后更新到缓存中
 4. 能获取到，直接获取缓存中的服务
 5. 将获取到的服务返回
-![](/img/technologySharing/nacos/订阅模式.png)
+![订阅模式](/img/technologySharing/nacos/订阅模式.png)
 
 ## serviceInfoUpdateService.scheduleUpdateIfAbsent(serviceName, groupName, clusters)定时任务
 
@@ -178,7 +182,7 @@ public void run() {
 - 计算下次要执行的时间
 - 循环执行
 - 默认间隔时间为6秒，当发生异常时会延长，但不会超过1分钟
-![](/img/technologySharing/nacos/定时任务.png)
+![总结：：定时任务](/img/technologySharing/nacos/定时任务.png)
 
 ## serviceInfoHolder.processServiceInfo(serviceObj)更新缓存
 
@@ -216,7 +220,7 @@ public ServiceInfo processServiceInfo(ServiceInfo serviceInfo) {
 }
 ```
 
-![](/img/technologySharing/nacos/serviceInfoHolder.processServiceInfo.png)
+![serviceInfoHolder.processServiceInfo](/img/technologySharing/nacos/serviceInfoHolder.processServiceInfo.png)
 ### 事件发布机制 NotifyCenter.publishEvent(new InstancesChangeEvent(...))
 
 这部分的讲解在`nacos服务端服务注册原理_4`中。

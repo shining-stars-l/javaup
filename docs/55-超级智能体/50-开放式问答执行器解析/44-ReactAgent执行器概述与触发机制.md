@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/react-agent-executor/overview-and-trigger
-description: 当用户在聊天界面选择"开发问题"时，系统会将请求路由到 ReactAgentExecutor 执行器，本篇讲解这个执行器的定位、触发条件以及整体执行流程概览。
+title: "ReactAgent执行器概述与触发机制：ReactAgentExecutor、开放式问答详解"
+sidebar_label: "ReactAgent执行器概述与触发机制"
+pagination_label: "ReactAgent执行器概述与触发机制"
+description: "当用户在聊天界面选择\"开发问题\"时，系统会将请求路由到 ReactAgentExecutor 执行器，本篇讲解这个执行器的定位、触发条件以及整体执行流程概览。内容进一步围绕开放式问答、REACT_AGENT、执行器触发、ConversationExecutor、执行模式等关键主题展开。通过原理拆解、实现步骤与适用场景…"
 keywords: [ReactAgentExecutor, 开放式问答, REACT_AGENT, 执行器触发, ConversationExecutor, 执行模式, Agent自主推理]
 ---
 

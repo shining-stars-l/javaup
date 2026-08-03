@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-3
+title: "Spring事务执行流程分析_3：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析3"
+pagination_label: "Spring事务执行流程分析3"
+description: "AbstractApplicationContext#refresh ->。内容进一步围绕Spring事务执行流程分析_3等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。"
 ---
 
 # Spring事务执行流程分析_3
@@ -10,7 +14,7 @@ slug: /tech-sharing/spring-tx-source/spring-part-3
 经过此方法向容器中真正注册了`AspectJAwareAdvisorAutoProxyCreator`对象
 
 singletonObjects的map缓存中存放了名字为 `org.springframework.aop.config.internalAutoProxyCreator`，类型为`AspectJAwareAdvisorAutoProxyCreator`的对象
-![](/img/technologySharing/spring/AspectJAwareAdvisorAutoProxyCreator.png)
+![Spring事务执行流程分析3：AspectJAwareAdvisorAutoProxyCreator](/img/technologySharing/spring/AspectJAwareAdvisorAutoProxyCreator.png)
 
 ## 初始化剩下的单实例（非懒加载的）
 
@@ -184,7 +188,7 @@ public List<Advisor> findAdvisorBeans() {
 ```
 
 执行到这里容器中真正创建好的对象：
-![](/img/technologySharing/spring/容器中真正创建好的对象.png)
+![BeanFactoryAdvisorRetrievalHelper#findAdvisorBeans：容器中真正创建好的对象](/img/technologySharing/spring/容器中真正创建好的对象.png)
 这时`DefaultBeanFactoryPointcutAdvisor#0`对象中的advice属性还是空的
 
 ## bookService对象的创建
@@ -300,7 +304,7 @@ protected List<Advisor> findEligibleAdvisors(Class<?> beanClass, String beanName
 }
 ```
 
-![](/img/technologySharing/spring/eligibleAdvisors.png)
+![AbstractAdvisorAutoProxyCreator#findEligibleAdvisors：eligibleAdvisors](/img/technologySharing/spring/eligibleAdvisors.png)
 
 ### AbstractAdvisorAutoProxyCreator#findAdvisorsThatCanApply
 
@@ -555,4 +559,4 @@ public Object getProxy(@Nullable ClassLoader classLoader) {
 执行到这里创建了jdk的代理对象
 
 回到`AbstractAutowireCapableBeanFactory#initializeBean`将代理对象返回
-![](/img/technologySharing/spring/AbstractAutowireCapableBeanFactoryInitializeBean.png)
+![JdkDynamicAopProxy#getProxy(@Nullable ClassLoader classLoader)：AbstractAutowireCapableBeanFactoryIni](/img/technologySharing/spring/AbstractAutowireCapableBeanFactoryInitializeBean.png)

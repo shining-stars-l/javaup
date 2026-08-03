@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/assistant/chatclient-creation
-description: "ChatClient创建优化实践，讲解按业务场景拆分客户端Bean、统一依赖注入与配置解耦，提升AI能力的可扩展性与可维护性。"
+title: "ChatClient的创建优化：ChatClient优化、场景化Bean、依赖注入详解"
+sidebar_label: "ChatClient的创建优化"
+pagination_label: "ChatClient的创建优化"
+description: "ChatClient创建优化实践，讲解按业务场景拆分客户端Bean、统一依赖注入与配置解耦，提升AI能力的可扩展性与可维护性。内容进一步围绕ChatClient优化、场景化Bean、能力隔离、资源复用、Spring AI工程化等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查…"
 keywords: ["ChatClient优化", "场景化Bean", "依赖注入", "配置解耦", "能力隔离", "可扩展性", "资源复用", "Spring AI工程化"]
 ---
 

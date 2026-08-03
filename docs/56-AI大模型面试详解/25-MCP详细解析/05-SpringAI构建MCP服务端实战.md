@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/server-development
-description: "使用Spring AI框架实战开发MCP Server，涵盖Stdio、SSE、Streamable HTTP三种模式的完整配置与代码示例"
+title: "SpringAI构建MCP服务端实战：MCP Server开发、Spring AI MCP详解"
+sidebar_label: "SpringAI构建MCP服务端实战"
+pagination_label: "SpringAI构建MCP服务端实战"
+description: "使用Spring AI框架实战开发MCP Server，涵盖Stdio、SSE、Streamable HTTP三种模式的完整配置与代码示例。内容进一步围绕MCP Server开发、Spring AI MCP、智能体工具服务、MCP实战、工具服务开发等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["MCP Server开发", "Spring AI MCP", "智能体工具服务", "MCP实战", "工具服务开发"]
 ---
 

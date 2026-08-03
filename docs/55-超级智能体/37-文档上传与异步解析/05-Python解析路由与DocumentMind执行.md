@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/document-upload-parsing/python-routing-and-document-mind-execution
-description: 按 parse_document 的真实执行顺序讲解 Base64 解码、文件类型归一化、本地解析与阿里云 Document Mind 路由，以及云任务提交、轮询、分页取回和 layout 标准化。
+title: "Python 解析路由与 Document Mind 执行：Python文档解析、OCR详解"
+sidebar_label: "Python 解析路由与 Document Mind 执行"
+pagination_label: "Python 解析路由与 Document Mind 执行"
+description: "按 parse_document 的真实执行顺序讲解 Base64 解码、文件类型归一化、本地解析与阿里云 Document Mind 路由，以及云任务提交、轮询、分页取回和 layout 标准化。内容进一步围绕Python文档解析、NativeTextParser、AliyunDocMindParser、OCR、云…"
 keywords: [Python文档解析, parse_document, NativeTextParser, AliyunDocMindParser, OCR, layout, Document Mind, 云解析, 文件类型路由]
 ---
 

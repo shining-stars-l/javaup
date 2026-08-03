@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/chunkviz
-description: "用ChunkViz可视化工具直观感受不同分块策略的效果差异，通过实验对比固定大小分块与递归分块的优劣"
+title: "ChunkViz实验与可视化：分块可视化、递归分块、固定大小分块、RAG、核心原理详解"
+sidebar_label: "ChunkViz实验与可视化"
+pagination_label: "ChunkViz实验与可视化"
+description: "用ChunkViz可视化工具直观感受不同分块策略的效果差异，通过实验对比固定大小分块与递归分块的优劣。内容进一步围绕分块可视化、RAG等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实…"
 keywords: ["ChunkViz", "分块可视化", "递归分块", "固定大小分块", "RAG"]
 ---
 

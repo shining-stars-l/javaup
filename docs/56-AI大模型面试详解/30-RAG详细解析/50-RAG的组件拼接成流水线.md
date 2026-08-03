@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/modular-rag
-description: "前面讲的改写、检索、重排序都是单独的模块，Spring AI的Modular RAG把这些模块用一条流水线串起来。本文拆解每个组件的用法，并给出完整的组装实战"
+title: "RAG的组件拼接成流水线：Modular RAG、Spring AI、QueryTransformer详解"
+sidebar_label: "RAG的组件拼接成流水线"
+pagination_label: "RAG的组件拼接成流水线"
+description: "前面讲的改写、检索、重排序都是单独的模块，Spring AI的Modular RAG把这些模块用一条流水线串起来。本文拆解每个组件的用法，并给出完整的组装实战。内容进一步围绕RetrievalAugmentationAdvisor、QueryTransformer、QueryExpander、DocumentJoin…"
 keywords: ["Modular RAG", "Spring AI", "RetrievalAugmentationAdvisor", "QueryTransformer", "QueryExpander", "DocumentJoiner", "LangChain4j", "RAG流水线"]
 ---
 

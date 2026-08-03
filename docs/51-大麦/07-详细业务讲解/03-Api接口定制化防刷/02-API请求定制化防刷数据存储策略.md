@@ -1,6 +1,9 @@
 ---
 slug: /damai/business/api-anti-bot/storage
-description: "围绕《API请求定制化防刷数据存储策略》，重点讲解Gateway、Kafka、幂等、Kafka Topic等技术实现与工程落地细节。"
+title: "API请求定制化防刷数据存储策略：Gateway、Kafka、幂等、Kafka Topic详解"
+sidebar_label: "API请求定制化防刷数据存储策略"
+pagination_label: "API请求定制化防刷数据存储策略"
+description: "围绕《API请求定制化防刷数据存储策略》，重点讲解Gateway、Kafka、幂等、Kafka Topic等技术实现与工程落地细节。内容进一步围绕Gateway、Kafka、幂等、Kafka Topic等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术…"
 keywords: ["Gateway", "Kafka", "幂等", "Kafka Topic"]
 ---
 

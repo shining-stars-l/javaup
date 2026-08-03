@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/tika-in-action
-description: "从一次RAG故障排查切入，拆解文件格式的底层真相，串讲Tika的五步处理流水线，对比三种集成方式的选型实战"
+title: "搞懂Tika才能做好RAG文档解析：Apache Tika、MIME检测、Magic Number详解"
+sidebar_label: "搞懂Tika才能做好RAG文档解析"
+pagination_label: "搞懂Tika才能做好RAG文档解析"
+description: "从一次RAG故障排查切入，拆解文件格式的底层真相，串讲Tika的五步处理流水线，对比三种集成方式的选型实战。内容进一步围绕Apache Tika、文档解析、MIME检测、Magic Number、RAG知识库等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议…"
 keywords: ["Apache Tika", "文档解析", "MIME检测", "Magic Number", "RAG知识库", "文本抽取", "元数据", "OCR", "Spring AI"]
 ---
 

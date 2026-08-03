@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/nacos-part-3
+title: "Nacos服务端服务注册原理_3：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Nacos服务端服务注册原理3"
+pagination_label: "Nacos服务端服务注册原理3"
+description: "ClientServiceIndexesManager.onEvent(Event event)。内容进一步围绕Nacos服务端服务注册原理_3等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设…"
 ---
 
 # Nacos服务端服务注册原理_3

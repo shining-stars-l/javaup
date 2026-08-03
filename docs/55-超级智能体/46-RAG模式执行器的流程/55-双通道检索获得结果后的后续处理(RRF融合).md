@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors/channel-retrieval-rrf
-description: 讲解双通道检索获得候选文档后的 RRF 融合流程，包括证据闸门过滤、resolveScore 分数解析、通道轨迹构建、RRF 倒数排名融合算法的原理与实现。
+title: "双通道检索获得结果后的后续处理(RRF 融合)：RRF融合、证据闸门、resolveScore详解"
+sidebar_label: "双通道检索获得结果后的后续处理(RRF 融合)"
+pagination_label: "双通道检索获得结果后的后续处理(RRF 融合)"
+description: "讲解双通道检索获得候选文档后的 RRF 融合流程，包括证据闸门过滤、resolveScore 分数解析、通道轨迹构建、RRF 倒数排名融合算法的原理与实现。内容进一步围绕RRF融合、CandidateHolder、accumulateRrf等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: [RRF融合, 证据闸门, resolveScore, 通道轨迹, 倒数排名融合, CandidateHolder, accumulateRrf]
 ---
 

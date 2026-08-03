@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/system-design/llm-api-engineering
-description: "拆解一次生产级大模型 API 调用的完整链路，搞清楚流式输出原理、重试策略、限流降级、结构化返回等工程细节"
+title: "大模型API调用的工程化实践：LLM API、流式输出、SSE、重试策略、限流降级详解"
+sidebar_label: "大模型API调用的工程化实践"
+pagination_label: "大模型API调用的工程化实践"
+description: "拆解一次生产级大模型 API 调用的完整链路，搞清楚流式输出原理、重试策略、限流降级、结构化返回等工程细节。内容进一步围绕LLM API、SSE、结构化输出、大模型调用等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体…"
 keywords: ["LLM API", "流式输出", "SSE", "重试策略", "限流降级", "结构化输出", "大模型调用"]
 ---
 

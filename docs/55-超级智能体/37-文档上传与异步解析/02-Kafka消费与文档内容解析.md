@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/document-upload-parsing/kafka-consume-and-tika-text-extraction
-description: 从 Kafka 消费者接收解析路由消息开始，逐层拆解异步解析主流程的前半段：消息反序列化、任务状态推进、MinIO 文件下载、Tika 文本提取与清洗，每一步都贴出关键源码并配合讲解。
+title: "Kafka 消费与文本内容解析：Kafka消费、consumeParseRoute详解"
+sidebar_label: "Kafka 消费与文本内容解析"
+pagination_label: "Kafka 消费与文本内容解析"
+description: "从 Kafka 消费者接收解析路由消息开始，逐层拆解异步解析主流程的前半段：消息反序列化、任务状态推进、MinIO 文件下载、Tika 文本提取与清洗，每一步都贴出关键源码并配合讲解。内容进一步围绕Kafka消费、consumeParseRoute、handleParseRoute、DocumentAsyncProc…"
 keywords: [Kafka消费, consumeParseRoute, handleParseRoute, DocumentAsyncProcessService, Tika, 文档解析, 文本提取, extractRawText, cleanupText, 异步处理]
 ---
 

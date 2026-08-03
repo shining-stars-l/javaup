@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/ribbon-source/ribbon-part-3
+title: "Ribbon的执行原理_3：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Ribbon的执行原理3"
+pagination_label: "Ribbon的执行原理3"
+description: "ribbon的执行原理_2 文章中详细分析了ribbon选择负载均衡器并进行执行的过程，本篇文章就实现自定义服务过滤功能来做详细的分析。内容进一步围绕Ribbon的执行原理_3等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 ---
 
 # Ribbon的执行原理_3

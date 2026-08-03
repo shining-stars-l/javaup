@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/production-challenges
-description: "RAG的demo两天就能跑起来，但生产可用可能要调两个月。本文从文档解析、检索调优、效果度量三个维度，系统梳理RAG落地过程中那些Demo阶段看不到的坑"
+title: "RAG生产环境踩坑与调优经验：RAG落地、RAG难点、文档解析、PDF解析、检索调优详解"
+sidebar_label: "RAG生产环境踩坑与调优经验"
+pagination_label: "RAG生产环境踩坑与调优经验"
+description: "RAG的demo两天就能跑起来，但生产可用可能要调两个月。本文从文档解析、检索调优、效果度量三个维度，系统梳理RAG落地过程中那些Demo阶段看不到的坑。内容进一步围绕RAG难点、PDF解析、语义鸿沟、RAG生产、效果迭代等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路…"
 keywords: ["RAG落地", "RAG难点", "文档解析", "PDF解析", "检索调优", "语义鸿沟", "RAG生产", "效果迭代"]
 ---
 
