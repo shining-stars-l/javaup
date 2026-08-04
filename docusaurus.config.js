@@ -57,6 +57,8 @@ const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+  // 与 Nginx 的目录式静态页面保持一致：站内链接、canonical 和 sitemap 均使用尾斜杠。
+  trailingSlash: true,
 
   // Handle broken links
   onBrokenLinks: 'warn', // 'throw' | 'log' | 'warn' | 'ignore'
