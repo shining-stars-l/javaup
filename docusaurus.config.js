@@ -301,10 +301,10 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'howToStudySidebar',
+            type: 'doc',
+            docId: '如何学习/学习介绍/加入星球能提供哪些服务',
             position: 'left',
-            label: '📚️ 如何学习',
+            label: '🌍️ 知识星球',
           },
           {
             type: 'doc',
