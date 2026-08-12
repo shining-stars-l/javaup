@@ -204,6 +204,21 @@
   color: #fff;
 }
 
+/* Recommended badge style for curated learning paths */
+/* Usage: assign the doc frontmatter sidebar_class_name: has-recommend-badge */
+.menu__link.has-recommend-badge::after,
+.menu__list-item.has-recommend-badge > .menu__link::after {
+  content: '推荐⭐';
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 10px;
+  line-height: 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  background-color: #7c3aed;
+  color: #fff;
+}
+
 /* ========== 导航栏响应式优化 ========== */
 
 /* 导航栏整体不换行 */
