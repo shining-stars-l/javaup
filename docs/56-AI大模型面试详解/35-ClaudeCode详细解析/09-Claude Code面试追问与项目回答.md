@@ -473,7 +473,7 @@ void shouldChargeOnceWhenSchedulerAndRetryConsumerRace() throws Exception {
 
 ![重复扣款修复后的状态机与恢复流程](/img/ai-interview/claudecode/charge-recovery-state.png)
 
-## 遇到追问时别急着堆术语
+## 遇到追问时先别急着光说术语
 
 如果面试官继续问“为什么选 Hook”“为什么不用 Agent Teams”“为什么不能只加唯一索引”，先回到这个项目的约束：动作发生在哪个生命周期、任务是否真的能独立、外部扣款是否已经产生副作用。
 
