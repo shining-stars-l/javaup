@@ -40,9 +40,7 @@ Codex 现在可以出现在好几个地方。底层能力相通，操作方式�
 
 我建议第一次使用先选桌面端或 CLI。桌面端比较直观，CLI 更容易理解 Codex 到底在哪个目录工作、执行了什么命令。本文两条路线都会讲，后面的任务方法可以通用。
 
-:::warning 截图提示：Codex四种使用入口
-建议放一张官网或官方文档截图，标出 ChatGPT 桌面端、CLI、IDE 扩展和 Cloud 四个入口。这里是官网截图，不需要画图。
-:::
+![Codex四种使用入口](/img/ai-programming/codex/Codex四种使用入口.png)
 
 ## 安装前准备：先把这四件事确认好
 
@@ -70,6 +68,8 @@ mkdir camping-gear-ledger
 cd camping-gear-ledger
 git init
 ```
+
+![camping-gear-ledger项目截图](/img/ai-programming/codex/camping-gear-ledger项目截图.png)
 
 这个练习项目准备做一个“露营装备借还台账”：记录帐篷、营灯和折叠椅的借出状态，支持按归还日期筛选。场景够小，又能走完页面开发、数据校验和验收流程。
 
@@ -109,11 +109,9 @@ git status --short
 
 ### 第一步，进入官方下载页
 
-打开 [ChatGPT 中的 Codex](https://chatgpt.com/zh-Hans-CN/codex/) 或 [ChatGPT 桌面应用文档](https://learn.chatgpt.com/docs/app)，按系统选择安装包。macOS 页面会区分芯片架构时，按你的 Mac 型号选择，不要从网盘或不明下载站拿安装包。
+打开 [ChatGPT 中的 Codex](https://chatgpt.com/zh-Hans-CN/codex/)，按系统选择安装包。macOS 页面会区分芯片架构时，按你的 Mac 型号选择，不要从网盘或不明下载站拿安装包。
 
-:::warning 截图提示：官方下载入口
-放一张 Codex 官方页面截图，用醒目标记框住“下载 macOS 版”或当前系统对应的下载按钮。
-:::
+![Codex下载页](/img/ai-programming/codex/Codex下载页.png)
 
 ### 第二步，安装并登录
 
@@ -121,9 +119,7 @@ macOS 下载后，把应用拖进“应用程序”；Windows 或 Linux 按安�
 
 如果你准备用 API Key，在登录页选择其他登录方式，再填入 Key。API Key 登录产生的费用走 OpenAI Platform 账户，别把它和 ChatGPT 套餐额度混在一起。
 
-:::warning 截图提示：桌面端登录方式
-放一张登录页截图，分别标出“使用 ChatGPT 登录”和“其他登录方式/API Key”。截图前遮住邮箱、工作区名称和任何凭据。
-:::
+![Chatgpt登录界面](/img/ai-programming/codex/Chatgpt登录界面.png)
 
 ### 第三步，选择Codex并打开练习目录
 
@@ -131,9 +127,7 @@ macOS 下载后，把应用拖进“应用程序”；Windows 或 Linux 按安�
 
 别急着发送“帮我做个网站”。先看对话框附近显示的目录是否正确，再检查权限模式。目录错一层，Codex 读到的项目规则、依赖和 Git 仓库都可能跟着错。
 
-:::warning 截图提示：Codex新建对话与工作目录
-放一张桌面端新建 Codex 对话的截图，标出当前工作目录、模型选择和权限入口。
-:::
+![Codex项目截图](/img/ai-programming/codex/Codex项目截图.png)
 
 ## 路线二：安装Codex CLI
 
@@ -169,6 +163,8 @@ npm install -g @openai/codex
 codex --version
 ```
 
+<img src="/img/ai-programming/codex/Codex-Cli版本截图.png" alt="Codex-Cli版本" width="50%" />
+
 如果 npm 报全局目录没有权限，别顺手给整段命令加 `sudo`。优先修正 Node 的安装方式或 npm 全局目录权限，避免后面更新时出现一部分文件属于 root、一部分属于当前用户的情况。
 
 ### Windows怎么选
@@ -198,9 +194,7 @@ codex login
 
 重点确认当前目录、模型、权限策略、可写范围和上下文余量。这里的信息比“界面看起来登录成功了”更有用。
 
-:::warning 截图提示：CLI首次启动成功
-放一张终端截图，保留 Codex 欢迎界面、当前目录和 `/status` 结果，遮住用户名、绝对路径中的个人信息以及额度详情。
-:::
+<img src="/img/ai-programming/codex/Codex-Cli欢迎页面.png" alt="Codex-Cli欢迎页面" width="100%" />
 
 ### 更新Codex
 
@@ -215,6 +209,8 @@ curl -fsSL https://chatgpt.com/codex/install.sh | sh
 ```bash
 codex update
 ```
+
+<img src="/img/ai-programming/codex/Codex-Cli更新截图.png" alt="Codex-Cli更新" width="50%" />
 
 这个命令只在安装方式支持自更新时生效。如果它提示不支持，就沿用当初的安装方式更新。npm 安装则重新执行 `npm install -g @openai/codex`。
 
@@ -243,10 +239,9 @@ CLI 中输入下面的命令可以查看或切换：
 ```text
 /permissions
 ```
+<img src="/img/ai-programming/codex/Codex-Cli-permissions-1.png" alt="Codex-Cli-permissions" width="100%" />
 
-:::warning 流程图占位（暂不绘制）：权限请求如何被处理
-建议画出“模型提出动作 → Sandbox判断是否在边界内 → 边界内直接执行 / 边界外进入Approval → 用户或Auto-review审核 → 执行或拒绝”的流程。图中要把 Sandbox 和 Approval 分成两层，避免让读者误以为自动审核等于完全放权。
-:::
+<img src="/img/ai-programming/codex/Codex-Cli-permissions-2.png" alt="Codex-Cli-permissions" width="100%" />
 
 ## 第一次完整交付：做一个露营装备借还台账
 
@@ -345,9 +340,7 @@ CLI 还可以输入：
 
 让 Codex 对当前工作区再做一次专门审查。审查适合找遗漏，最终是否接受仍由 diff、测试和运行结果决定。
 
-:::warning 截图提示：一次完整任务的改动审核
-放一张审核面板或 `/diff` 截图，能看到文件列表和某个具体代码块的增删。不要只截“任务完成”四个字。
-:::
+<img src="/img/ai-programming/codex/Codex-Cli-diff命令.png" alt="Codex-Cli-diff命令" width="100%" />
 
 :::warning 流程图占位（暂不绘制）：从打开目录到可验收交付
 建议画成七个节点：“确认目录与Git基线 → 只读调查 → 确认方案 → 设置权限边界 → 实施与阶段反馈 → 测试和运行验证 → 审核diff并决定接受或回退”。在“发现范围变化”和“验证失败”处各画一条回到前面步骤的支线。
@@ -490,9 +483,7 @@ Codex 会从全局到当前工作目录逐层发现规则：
 
 全局文件适合放语言偏好、通用安全边界。项目根目录适合放构建、测试、架构与提交规则。某个服务有特殊约定，再在它的目录里补一层。
 
-:::warning 截图提示：AGENTS.md被Codex读取
-放一张 `/init` 生成文件，或 Codex 汇报当前规则来源的截图。截图里同时展示项目根目录和嵌套目录会更容易理解优先级。
-:::
+<img src="/img/ai-programming/codex/Codex-Cli-init命令结果.png" alt="Codex-Cli-init命令结果" width="100%" />
 
 :::warning 结构图占位（暂不绘制）：Codex规则发现链
 建议用目录树表现“全局 `~/.codex/AGENTS.md` → 仓库根 `AGENTS.md` → 子目录 `AGENTS.override.md` → 当前任务”，并在旁边标注“越接近当前目录，规则越具体”。
@@ -539,9 +530,9 @@ codex mcp --help
 
 先看当前版本支持的 `list`、`add`、`remove` 和登录参数，再照目标服务的官方接入说明配置。别把网上某个过时的一行命令当成所有环境都通用的安装办法。
 
-:::warning 截图提示：Skills与Plugins管理界面
-放一张当前版本的 Skills/Plugins 页面，标出已安装、来源、权限或连接状态。账号名称和组织信息需要打码。
-:::
+<img src="/img/ai-programming/codex/Codex-Cli-skills命令.png" alt="Codex-Cli-skills命令" width="100%" />
+
+<img src="/img/ai-programming/codex/Codex-Cli-skills命令结果.png" alt="Codex-Cli-skills命令结果" width="100%" />
 
 :::warning 结构图占位（暂不绘制）：Codex能力扩展地图
 中心放 Codex，四周分别连接 `AGENTS.md`、Skill、Plugin、MCP。每条边只写一个职责：项目约定、重复流程、安装分发、外部工具。Plugin内部再画出可包含 Skill 与连接器，避免把四个概念画成平级同义词。
