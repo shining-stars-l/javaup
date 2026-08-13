@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/context-budget-and-rot
+slug: /ai-programming/claude-code/context-budget-and-rot
 title: "Claude Code上下文窗口为什么越用越乱"
 sidebar_label: "Claude Code上下文窗口为什么越用越乱"
 pagination_label: "Claude Code上下文窗口为什么越用越乱"

@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/skills-runtime
+slug: /ai-programming/claude-code/skills-runtime
 title: "Claude Code Skills如何把流程变成能力"
 sidebar_label: "Claude Code Skills如何把流程变成能力"
 pagination_label: "Claude Code Skills如何把流程变成能力"

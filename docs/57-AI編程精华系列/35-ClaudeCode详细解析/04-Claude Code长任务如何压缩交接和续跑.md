@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/long-task-handoff
+slug: /ai-programming/claude-code/long-task-handoff
 title: "Claude Code长任务如何压缩交接和续跑"
 sidebar_label: "Claude Code长任务如何压缩交接和续跑"
 pagination_label: "Claude Code长任务如何压缩交接和续跑"

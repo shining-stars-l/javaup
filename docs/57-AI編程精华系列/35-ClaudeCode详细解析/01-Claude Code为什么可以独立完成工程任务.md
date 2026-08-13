@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/engineering-runtime
+slug: /ai-programming/claude-code/engineering-runtime
 title: "Claude Code为什么可以独立完成工程任务"
 sidebar_label: "Claude Code为什么可以独立完成工程任务"
 pagination_label: "Claude Code为什么可以独立完成工程任务"

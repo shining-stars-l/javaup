@@ -227,11 +227,22 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            to: '/ai-interview/quick-review/study-roadmap',
-            activeBaseRegex: '^/ai-interview(?:/|$)',
+            type: 'dropdown',
+            label: 'AI大模型与编程',
             position: 'left',
-            label: 'AI大模型面试详解',
             className: 'navbar-ai-interview-highlight',
+            items: [
+              {
+                to: '/ai-interview/quick-review/study-roadmap',
+                activeBaseRegex: '^/ai-interview(?:/|$)',
+                label: 'AI大模型详解系列',
+              },
+              {
+                to: '/ai-programming/codex/getting-started',
+                activeBaseRegex: '^/ai-programming(?:/|$)',
+                label: 'AI编程精华系列',
+              },
+            ],
           },
           {
             to: '/super-agent/overview/project-intro',

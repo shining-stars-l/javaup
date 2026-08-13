@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/hooks-automation
+slug: /ai-programming/claude-code/hooks-automation
 title: "Claude Code Hooks如何守住自动化边界"
 sidebar_label: "Claude Code Hooks如何守住自动化边界"
 pagination_label: "Claude Code Hooks如何守住自动化边界"

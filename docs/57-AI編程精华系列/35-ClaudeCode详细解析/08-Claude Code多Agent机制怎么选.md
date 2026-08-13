@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/multi-agent-selection
+slug: /ai-programming/claude-code/multi-agent-selection
 title: "Claude Code多Agent机制怎么选"
 sidebar_label: "Claude Code多Agent机制怎么选"
 pagination_label: "Claude Code多Agent机制怎么选"

@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/delivery-workflow
+slug: /ai-programming/claude-code/delivery-workflow
 title: "把一个需求稳定交给Claude Code"
 sidebar_label: "把一个需求稳定交给Claude Code"
 pagination_label: "把一个需求稳定交给Claude Code"

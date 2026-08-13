@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/interview-playbook
+slug: /ai-programming/claude-code/interview-playbook
 title: "Claude Code面试追问与项目回答"
 sidebar_label: "Claude Code面试追问与项目回答"
 pagination_label: "Claude Code面试追问与项目回答"

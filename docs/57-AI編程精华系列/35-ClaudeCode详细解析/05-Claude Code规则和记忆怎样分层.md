@@ -1,5 +1,5 @@
 ---
-slug: /ai-interview/claude-code/rules-and-memory
+slug: /ai-programming/claude-code/rules-and-memory
 title: "Claude Code规则和记忆怎样分层"
 sidebar_label: "Claude Code规则和记忆怎样分层"
 pagination_label: "Claude Code规则和记忆怎样分层"
