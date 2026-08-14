@@ -342,9 +342,7 @@ CLI 还可以输入：
 
 <img src="/img/ai-programming/codex/Codex-Cli-diff命令.png" alt="Codex-Cli-diff命令" width="100%" />
 
-:::warning 流程图占位（暂不绘制）：从打开目录到可验收交付
-建议画成七个节点：“确认目录与Git基线 → 只读调查 → 确认方案 → 设置权限边界 → 实施与阶段反馈 → 测试和运行验证 → 审核diff并决定接受或回退”。在“发现范围变化”和“验证失败”处各画一条回到前面步骤的支线。
-:::
+![从打开目录到可验收交付](/img/ai-programming/codex/codex-delivery-workflow.png)
 
 ## 提示词不需要太长，把四件事说清楚就可以
 
@@ -485,9 +483,7 @@ Codex 会从全局到当前工作目录逐层发现规则：
 
 <img src="/img/ai-programming/codex/Codex-Cli-init命令结果.png" alt="Codex-Cli-init命令结果" width="100%" />
 
-:::warning 结构图占位（暂不绘制）：Codex规则发现链
-建议用目录树表现“全局 `~/.codex/AGENTS.md` → 仓库根 `AGENTS.md` → 子目录 `AGENTS.override.md` → 当前任务”，并在旁边标注“越接近当前目录，规则越具体”。
-:::
+![Codex规则发现链](/img/ai-programming/codex/codex-rules-discovery-chain.png)
 
 ## Skills、Plugins和MCP分别解决什么问题
 
@@ -534,9 +530,7 @@ codex mcp --help
 
 <img src="/img/ai-programming/codex/Codex-Cli-skills命令结果.png" alt="Codex-Cli-skills命令结果" width="100%" />
 
-:::warning 结构图占位（暂不绘制）：Codex能力扩展地图
-中心放 Codex，四周分别连接 `AGENTS.md`、Skill、Plugin、MCP。每条边只写一个职责：项目约定、重复流程、安装分发、外部工具。Plugin内部再画出可包含 Skill 与连接器，避免把四个概念画成平级同义词。
-:::
+![Codex能力扩展地图](/img/ai-programming/codex/codex-capabilities-map.png)
 
 ## 桌面端的几个关键入口：额度、上下文和斜杠命令
 
@@ -939,9 +933,7 @@ Codex 在生成记忆字段时会尝试处理 Secret，但我们不能把它当�
 
 记忆负责减少重复介绍，源码、Git、测试和外部系统负责证明当前事实。两者配合起来才稳。
 
-:::warning 结构图占位（暂不绘制）：Codex三层持久信息与当前上下文
-左侧画“当前对话上下文”，标出小圆圈、`/status`和`/compact`；右侧纵向画“全局 `~/.codex/AGENTS.md` → 项目 `AGENTS.md` → 本地 Memories”。底部单独画源码、Git、测试、监控等当前事实来源，并用校验箭头连接到三层信息。
-:::
+![Codex三层持久信息与当前上下文](/img/ai-programming/codex/codex-memory-context-layers.png)
 
 ## 让桌面端长期用起来更顺手
 
@@ -1047,4 +1039,3 @@ macOS 检查系统设置里的 Screen Recording 和 Accessibility；Windows 确�
 - [OpenAI Docs：Memories](https://learn.chatgpt.com/docs/customization/memories)
 - [OpenAI Docs：AGENTS.md](https://learn.chatgpt.com/docs/agent-configuration/agents-md)
 - [OpenAI Docs：Config Reference](https://learn.chatgpt.com/docs/config-file/config-reference)
-- [公众号参考材料：Codex零基础实战教程](https://mp.weixin.qq.com/s/xwdZjzAN-dNeMJwJacONYA)
