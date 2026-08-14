@@ -11,7 +11,7 @@ keywords: ["Claude Code面试题", "Claude Code原理", "Agent Loop", "上下文
 
 Claude Code 面试很少停在“用过哪些命令”。面试官听到 `/compact`、Skills、Hooks 这些名词后，通常会沿着运行原理、工程边界和真实项目继续追问。
 
-这一篇我换一种讲法：把常见知识点放进一轮连续面试。每个回答后面都补上面试官可能继续追的地方。小伙伴可以先自己说一遍，再对照代码、命令和项目案例检查有没有遗漏。
+这一篇我换一种讲法：把常见知识点放进一轮连续面试。每个回答后面都补上面试官可能继续追问的地方。小伙伴可以先自己说一遍，再对照代码、命令和项目案例检查有没有遗漏。
 
 ## 第一问：你怎么理解Claude Code
 
@@ -473,7 +473,7 @@ void shouldChargeOnceWhenSchedulerAndRetryConsumerRace() throws Exception {
 
 ![重复扣款修复后的状态机与恢复流程](/img/ai-interview/claudecode/charge-recovery-state.png)
 
-## 遇到追问时先别急着光说术语
+## 遇到追问时先别急着只说术语
 
 如果面试官继续问“为什么选 Hook”“为什么不用 Agent Teams”“为什么不能只加唯一索引”，先回到这个项目的约束：动作发生在哪个生命周期、任务是否真的能独立、外部扣款是否已经产生副作用。
 

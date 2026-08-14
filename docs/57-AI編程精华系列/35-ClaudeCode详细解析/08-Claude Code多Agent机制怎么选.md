@@ -85,7 +85,7 @@ model: sonnet
 
 ### Subagent的任务说明要能单独验收
 
-下面这种委派太宽：
+下面这种委派太宽泛了：
 
 ```text
 帮我看看库存为什么错了，顺便修一下。
@@ -226,7 +226,7 @@ Worktree 解决文件隔离，还没有解决逻辑冲突。两个分支如果�
 
 ![共享目录与Git Worktree并行对比图](/img/ai-interview/claudecode/worktree-comparison.png)
 
-## 多Agent的成本怎么算
+## 多Agent的成本要怎么算
 
 每个独立上下文都要读取任务说明、相关代码和返回材料。并行节省的是墙上时间，也就是人实际等待的时间；总 Token 和总计算量通常会上升。
 

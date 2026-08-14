@@ -274,58 +274,87 @@ Windows 去 Releases 页面下载 `CC-Switch-v{版本号}-Windows.msi`；macOS �
 
 ### 添加 DeepSeek 供应商
 
+:::info CC Switch 版本提醒
+从 v3.19.1 开始，新建的 DeepSeek 预设已经改成 Responses API 直连。建议先把 CC Switch 升到最新版，再按下面的步骤操作。
+:::
+
 1. 打开 CC Switch，在应用切换器里切到 **Codex** 面板
 2. 点右上角的 + 打开添加供应商面板
 3. 预设下拉框选 **DeepSeek**，名称和端点会自动填好
 4. 填你的 DeepSeek API Key
 5. 点「添加」
 
-> **【截图占位】** CC Switch 添加供应商面板选择 DeepSeek 预设的界面，这里放 CC Switch 官网或实际使用截图
+<img src="/img/ai-programming/deepseek/cc-switch配置-1.png" alt="cc-switch配置" width="100%" />
+
+<img src="/img/ai-programming/deepseek/cc-switch配置-2.png" alt="cc-switch配置" width="100%" />
+
+<img src="/img/ai-programming/deepseek/cc-switch配置-3.png" alt="cc-switch配置" width="100%" />
+
+<img src="/img/ai-programming/deepseek/cc-switch配置-4.png" alt="cc-switch配置" width="100%" />
 
 首次启动 CC Switch 时，它会把现有 CLI 配置导入成默认供应商，接管之前不会弄丢你原来的配置。
 
-### 「需要本地路由映射」在干什么
+### v3.19.1 之后，预设已经配好了
 
-这里有个细节值得说清楚。Codex 原生只认 Responses API 这一种协议，而 CC Switch 里的 DeepSeek 预设走的是 Chat Completions 协议，两边对不上。所以选择 DeepSeek 这类预设时，「需要本地路由映射」开关和模型映射表会自动配好，不用手动动。
+现在这一步简单多了。DeepSeek 官方接口已经支持 Responses API，CC Switch 里的新预设也跟进了这套配置。小伙伴按上面的 5 步添加就行，高级设置保持默认值。
 
-开启以后，CC Switch 的本地代理会把 Codex 发出的 Responses 请求转成 Chat Completions 再发给 DeepSeek，收到响应（流式 SSE、推理内容、工具调用）再转回 Responses 格式给 Codex。所以有两个前提别漏掉：
+启用后，CC Switch 会把 DeepSeek 的接口地址设为 `https://api.deepseek.com`，通信协议设为 `responses`。模型目录也会自动生成，目前包含 `deepseek-v4-flash` 和 `deepseek-v4-pro`，上下文窗口、思考档位和 `apply_patch` 等信息都已经配好了。
 
-- 本地路由服务要保持开启
-- Codex 接管（应用接管）要打开
+开始前看一下版本：
 
-:::info 注意
+- CC Switch 至少要在 v3.19.1 以上，直接升级到最新版更省心
+- CC Switch v3.19.1 带的 DeepSeek 模型目录要求 Codex CLI 不低于 0.144.0，Codex 也建议直接用最新版
 
-转换发生在 CC Switch 的本地代理上，使用期间本地路由要保持运行。哪天请求报错说格式不对，先检查这两个开关。
+:::tip 以前添加过 DeepSeek 怎么办
+
+CC Switch 升级以后，不会自动修改已经保存的供应商。我建议用最新版预设重新添加一张 DeepSeek 卡片，确认能正常使用后，再把原来的旧卡片停用或删除。
 
 :::
 
-模型映射表也值得看一眼。模型 ID 这一列要填上游真实模型名，比如 `deepseek-v4-flash`；显示名称和上下文窗口可填可不填。这个表会生成 Codex 的 `model_catalog_json`，改完要重启 Codex，`/model` 命令才能列出新模型。这点和官方脚本写 `models.json` 是殊途同归，都是为了把模型名塞进 Codex 的模型目录。
-
-思考能力这块，CC Switch 会按供应商的名称、端点、模型名自动识别 reasoning 接口。DeepSeek 属于支持思考等级的供应商，在 Codex 里调 low / high 推理强度是真正生效的。有些供应商只支持思考开关，调等级没用，这个差异心里有数就行。
+DeepSeek 支持的是 Responses API 里的常用能力，跟 OpenAI 的完整实现还有一些差别。按照 DeepSeek 当前的兼容说明，函数调用、服务端联网搜索和 Codex 使用的 `apply_patch` 都支持；图片、文件输入以及 `background`、`store` 等参数暂不支持。遇到某个高级功能没有反应时，可以先查一下官方兼容表，别急着反复改 CC Switch 配置。
 
 ### 切换、切回与托盘
 
-在供应商卡片上点「启用」，CC Switch 就把配置写进 `~/.codex/auth.json` 和 `~/.codex/config.toml`。注意 Codex 跟 Claude Code 不一样，没有热切换，切换后要关掉终端重新打开才生效。
+在供应商卡片上点「启用」，CC Switch 会把对应的认证信息和配置切换到 `~/.codex/auth.json`、`~/.codex/config.toml`。已经打开的 Codex 进程不会马上读取新配置，所以切完以后退出 Codex，再启动一次。
 
-:::warning 切完记得重启终端
+<img src="/img/ai-programming/deepseek/cc-switch配置-5.png" alt="cc-switch配置" width="100%" />
 
-Codex 切换供应商后必须重启终端，新配置才会加载。发现模型还是旧的，先检查有没有重启。
+:::warning 切完记得重启 Codex
+
+发现模型还是原来的，先确认当前 Codex 已经退出并重新启动。一般不用重启电脑。
 
 :::
 
-想切回 ChatGPT 官方，添加「OpenAI 官方」预设并启用，然后按 Codex 的登录流程重新登一次就行。多个供应商来回切的时候，用系统托盘更快：右键托盘图标，进 Codex 子菜单直接点目标供应商。
+想切回 ChatGPT 官方，添加「OpenAI 官方」预设并启用即可。CC Switch 会保存不同供应商的配置快照，之前导入过的官方登录信息通常会跟着恢复；如果 Codex 提示没有登录，再按页面提示登录一次。
+
+多个供应商来回切的时候，用系统托盘更快：右键托盘图标，进 Codex 子菜单直接点目标供应商。切换完成后，重新打开 Codex 就行。
 
 CC Switch 的设计挺克制，就算卸载了它，Codex 该怎么用还怎么用，不会跟着坏掉。
 
+如果想自己核对一遍，先执行 `codex --version` 看一下 Codex CLI 版本，再打开 `~/.codex/config.toml`，重点看这两项：
+
+```toml
+base_url = "https://api.deepseek.com"
+wire_api = "responses"
+```
+
+官方参考资料：
+
+- [DeepSeek 官方：接入 Codex](https://api-docs.deepseek.com/zh-cn/quick_start/agent_integrations/codex/)
+- [DeepSeek 官方：使用 Responses API](https://api-docs.deepseek.com/zh-cn/guides/responses_api/)
+- [CC Switch v3.19.1 发布说明](https://github.com/farion1231/cc-switch/releases/tag/v3.19.1)
+
 ## 配完怎么确认生效
 
+- **ChatGPT 桌面端**：桌面端的模型选择器显示 Deepseek 的相关模型即为生效
 - **Codex CLI**：进项目目录执行 `codex`，启动信息里显示 `model: deepseek-v4-flash`（或你选的模型）就对了
-- **ChatGPT 桌面端**：Mac 上模型选择器显示「自定义」即为生效；Windows 可能显示「自定义」或「DeepSeek-V4-Flash」，显示「自定义」时实际用的就是你选的 DeepSeek 模型
 - **VS Code 的 Codex 插件**：跟 Codex CLI 共用一份配置，装好插件直接用
 
-> **【截图占位】** Codex CLI 启动信息显示 model: deepseek-v4-flash，这里放终端截图
+![Codex-Deepseek-桌面端](/img/ai-programming/deepseek/Codex-Deepseek-桌面端.png)
 
-## 切换后历史会话不见了？别慌
+![Codex-Deepseek-Cli](/img/ai-programming/deepseek/Codex-Deepseek-Cli.png)
+
+## 切换后历史会话不见了？不要慌
 
 切到 DeepSeek 后之前的会话记录不见了，是正常现象，会话没有丢。Codex 按登录方式分组存放会话：ChatGPT 官方订阅产生的会话和第三方 API（比如 DeepSeek）产生的会话分属两组，界面只显示与当前配置匹配的那一组。
 

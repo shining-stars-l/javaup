@@ -118,7 +118,7 @@ matcher 要尽量收窄。每次工具调用都触发一个耗时脚本，会让
 
 某些事件不支持 matcher，例如 `Stop`、`TaskCreated` 和 `TaskCompleted` 会在每次对应事件上触发。配置前要查当前 Hook Reference，不能默认所有事件都能用同一套筛选方式。
 
-## 五类Handler怎么选
+## 五类Handler要怎么选择
 
 | 类型 | 工作方式 | 适合场景 |
 | --- | --- | --- |
@@ -197,7 +197,7 @@ command="$(jq -r '.tool_input.command // empty' <<<"$input")"
 
 ![Hook输入输出与退出码判定图](/img/ai-interview/claudecode/hook-exit-codes.png)
 
-## 常用生命周期事件怎样选
+## 常用生命周期事件怎样选择
 
 | 事件 | 触发点 | 常见用途 |
 | --- | --- | --- |
@@ -363,7 +363,7 @@ Stop 只是“本轮准备结束”，并不自动等于完整任务已经完成
 
 ![ClaudeCode的Context命令](/img/ai-interview/claudecode/ClaudeCode的hooks命令.png)
 
-## 面试回答怎样落到工程边界
+## 面试回答要怎样落到工程边界上
 
 :::tip 面试回答可以这样组织
 Claude Code Hooks是在生命周期节点自动执行的扩展机制。事件触发后先经过matcher，再把JSON输入交给command、http、mcp_tool、prompt或agent handler。`PreToolUse`适合副作用前拦截，`PostToolUse`适合执行后校验，`Stop`适合完成证据门禁。Command Hook通常用`exit 0`配合结构化stdout，或用`exit 2`加stderr阻断；`exit 1`对大多数事件只算非阻断错误。多个匹配Hook会并行运行，所以脚本要幂等，不能依赖执行顺序。高风险边界仍要结合权限、Sandbox、基础设施权限和CI。
