@@ -286,6 +286,11 @@ var _hmt = _hmt || [];
                 sidebarId: 'superAISidebar',
                 label: 'Nexus Agent AI（企业级智能体项目实战）',
               },
+              {
+                type: 'docSidebar',
+                sidebarId: 'agentUpMemorySidebar',
+                label: 'Agent-Up-Memory（智能体认知引擎）',
+              },
             ],
           },
           {

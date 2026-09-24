@@ -73,6 +73,16 @@ const projects = [
     ]
   },
   {
+    id: 'agent-up-memory',
+    title: '智能体认知引擎',
+    subtitle: '让经验跨越会话与工具',
+    description: '为 AI 客户端提供独立的记忆服务。从会话中提取事实、偏好、约束，经过分层演化，沉淀为可复用的长期记忆。通过自动召回与自动采集，让不同工具可以共享经验，并保留权限和来源追踪。',
+    features: ['跨客户端共享记忆', 'L0–L3 分层演化', 'MCP 六大记忆工具', '自动采集与召回', '项目隔离与权限治理', '记忆审核与来源追踪'],
+    image: '/img/agent-up-memory/架构图/智能体认知引擎(动态).svg',
+    imageAlt: '智能体认知引擎居中，九个外围生态节点通过经验提交与记忆召回箭头连接',
+    links: [{ label: '查看项目详情', to: '/agent-up-memory/overview/project-intro' }],
+  },
+  {
     id: 'hmdp-plus',
     title: '黑马点评 Plus 项目',
     subtitle: '升级为生产级的实战版本',
@@ -261,17 +271,18 @@ function ProjectsDivider() {
 // Showcase 布局（保留核心结构，去掉 emoji）
 function ShowcaseSection({ project, index }) {
   const isEven = index % 2 === 0;
+  const isDiagram = project.id === 'super-agent' || project.id === 'agent-up-memory';
   const sectionRef = useScrollReveal(0.2);
 
   return (
     <section ref={sectionRef} className={styles.showcaseSection}>
       <div className={clsx('container', styles.showcaseContainer)}>
         <div className={clsx(styles.showcaseRow, { [styles.showcaseRowReverse]: !isEven })}>
-          <div className={clsx(styles.showcaseMedia, { [styles.superAgentMedia]: project.id === 'super-agent' })}>
+          <div className={clsx(styles.showcaseMedia, { [styles.superAgentMedia]: isDiagram })}>
             <img
               src={project.image}
-              alt={project.title}
-              className={clsx(styles.showcaseImage, { [styles.superAgentImage]: project.id === 'super-agent' })}
+              alt={project.imageAlt || project.title}
+              className={clsx(styles.showcaseImage, { [styles.superAgentImage]: isDiagram })}
             />
           </div>
           <div className={styles.showcaseText}>

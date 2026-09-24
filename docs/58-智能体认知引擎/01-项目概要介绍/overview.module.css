@@ -1,0 +1,135 @@
+.lead {
+  padding: 1.35rem 1.5rem;
+  margin: 1.4rem 0 1.8rem;
+  border-left: 4px solid #677bc4;
+  border-radius: 0 8px 8px 0;
+  background: #f3f5fc;
+  color: #293451;
+  font-size: 1.08rem;
+  line-height: 1.85;
+}
+
+.lead p:last-child,
+.card p:last-child,
+.example p:last-child {
+  margin-bottom: 0;
+}
+
+.eyebrow {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #4b5e9a;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.card {
+  min-width: 0;
+  padding: 1.15rem 1.25rem;
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  background: #fafbfe;
+  line-height: 1.8;
+}
+
+.cardTitle {
+  display: block;
+  margin-bottom: 0.6rem;
+  color: #344879;
+  font-size: 1.06rem;
+}
+
+.example {
+  margin: 1.5rem 0;
+  padding: 1.2rem 1.4rem;
+  background: #f2f8f6;
+  border: 1px solid #d3e6df;
+  border-radius: 8px;
+  color: #254b43;
+  line-height: 1.85;
+}
+
+.speaker {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: #176c59;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.questions {
+  border: 1px solid #dce2ee;
+  border-radius: 8px;
+  padding: 1rem 1.2rem;
+  margin: 0.8rem 0;
+  background: var(--ifm-background-surface-color);
+}
+
+.questions summary {
+  cursor: pointer;
+  font-weight: 650;
+  line-height: 1.65;
+}
+
+.questions summary:focus-visible {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+.questions[open] summary {
+  margin-bottom: 0.9rem;
+}
+
+.questions > :last-child {
+  margin-bottom: 0;
+}
+
+:global([data-theme='dark']) .lead {
+  background: #232a3a;
+  color: #e1e7f4;
+  border-color: #91a2df;
+}
+
+:global([data-theme='dark']) .card {
+  background: #242830;
+  border-color: #414958;
+}
+
+:global([data-theme='dark']) .eyebrow,
+:global([data-theme='dark']) .cardTitle {
+  color: #b6c7fc;
+}
+
+:global([data-theme='dark']) .example {
+  background: #20322d;
+  border-color: #3d6255;
+  color: #e0eee8;
+}
+
+:global([data-theme='dark']) .speaker {
+  color: #9cddc7;
+}
+
+:global([data-theme='dark']) .questions {
+  border-color: #414958;
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .lead,
+  .example,
+  .card {
+    padding: 1rem;
+  }
+}
