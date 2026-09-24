@@ -64,6 +64,11 @@
   font-weight: 700;
 }
 
+.accent {
+  color: #4259a1;
+  font-weight: 700;
+}
+
 .questions {
   border: 1px solid #dce2ee;
   border-radius: 8px;
@@ -104,7 +109,8 @@
 }
 
 :global([data-theme='dark']) .eyebrow,
-:global([data-theme='dark']) .cardTitle {
+:global([data-theme='dark']) .cardTitle,
+:global([data-theme='dark']) .accent {
   color: #b6c7fc;
 }
 
