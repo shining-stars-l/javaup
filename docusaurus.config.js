@@ -245,11 +245,22 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            to: '/super-agent/overview/project-intro',
-            activeBaseRegex: '^/super-agent(?:/|$)',
+            type: 'dropdown',
+            label: '企业级 AI Agent 项目',
             position: 'left',
-            label: 'Nexus Agent AI',
             className: 'navbar-super-agent-hot',
+            items: [
+              {
+                to: '/super-agent/overview/project-intro',
+                activeBaseRegex: '^/super-agent(?:/|$)',
+                label: 'Nexus Agent AI',
+              },
+              {
+                to: '/agent-up-memory/overview/project-intro',
+                activeBaseRegex: '^/agent-up-memory(?:/|$)',
+                label: 'Agent Up Memory',
+              },
+            ],
           },
           {
             type: 'dropdown',
