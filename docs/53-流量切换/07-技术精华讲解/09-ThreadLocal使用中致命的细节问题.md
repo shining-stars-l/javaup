@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/tech-highlights/threadlocal-pitfalls
-description: "ThreadLocal高风险细节解析，覆盖线程复用导致的数据污染、内存泄漏与清理时机问题，并给出生产级治理策略。"
+title: "ThreadLocal使用中致命的细节问题：内存泄漏、线程复用污染、remove清理详解"
+sidebar_label: "ThreadLocal使用中致命的细节问题"
+pagination_label: "ThreadLocal使用中致命的细节问题"
+description: "ThreadLocal高风险细节解析，覆盖线程复用导致的数据污染、内存泄漏与清理时机问题，并给出生产级治理策略。内容进一步围绕线程复用污染、remove清理、上下文隔离、并发安全、线程池风险等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["ThreadLocal", "内存泄漏", "线程复用污染", "remove清理", "上下文隔离", "并发安全", "线程池风险", "生产治理"]
 ---
 
@@ -10,7 +13,7 @@ import VipInline from '@site/src/components/VipInline';
 
 我们在之前已经讲了很多关于 ThreadLocal 的设计与多线程的解决方案，而本章节介绍一个使用中容易被忽略的细节，保证你看完了后直拍大腿
 
-# BaseParameterHolder
+## BaseParameterHolder
 先设计一个ThreadLocal的工具
 ```java
 public class BaseParameterHolder {

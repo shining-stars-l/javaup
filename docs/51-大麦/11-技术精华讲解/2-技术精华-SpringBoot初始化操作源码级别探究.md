@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/springboot-init-source
-description: "围绕《Springboot初始化操作源码级别探究》，重点讲解AbstractApplicationContext.refresh()、invokeBeanFactoryPostProcessors、BeanFactoryPostProcessor 与容器刷新流程等技术实现与源码细节。"
+title: "SpringBoot 初始化操作源码级别探究：Springboot初始化、初始化执行顺序详解"
+sidebar_label: "SpringBoot 初始化操作源码级别探究"
+pagination_label: "SpringBoot 初始化操作源码级别探究"
+description: "围绕《Springboot初始化操作源码级别探究》，重点讲解AbstractApplicationContext.refresh()、invokeBeanFactoryPostProcessors、BeanFactoryPostProcessor 与容器刷新流程等技术实现与源码细节。内容进一步围绕Applicatio…"
 keywords: ["Springboot初始化", "AbstractApplicationContext.refresh()", "invokeBeanFactoryPostProcessors", "BeanFactoryPostProcessor", "ApplicationContext启动", "初始化执行顺序", "启动源码分析", "容器刷新机制"]
 ---
 

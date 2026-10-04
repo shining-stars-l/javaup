@@ -1,16 +1,20 @@
 ---
 slug: /tech-sharing/sentinel/sentinel-apollo
+title: "Sentinel配置持久化到Apollo：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Sentinel配置持久化到Apollo"
+pagination_label: "Sentinel配置持久化到Apollo"
+description: "sentinel-dashborad的配置默认是存储到内存中的，生产环境肯定不能这样使用，官网支持zookeeper、nacos、apollo的配置，本文就来介绍apollo的持久化。内容进一步围绕Sentinel配置持久化到Apollo等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 ---
 
 # Sentinel配置持久化到Apollo
 
 sentinel-dashborad的配置默认是存储到内存中的，生产环境肯定不能这样使用，官网支持zookeeper、nacos、apollo的配置，本文就来介绍apollo的持久化
 
-# apollo
+## apollo
 
 sentinel-dashboard 整合 apollo 进行规则的持久化配置，主要方式是通过 apollo 开放平台的授权方式进行写入与读取。所以需要先在apollo上开放出授权的token
 
-# sentinel-dashboard
+## sentinel-dashboard
 
 首先将sentinel下载下来然后找到sentinel-dashboard模块，基于1.8.1版本
 
@@ -211,7 +215,7 @@ public class ApolloConfig {
 ```
 
 ### 新建ApolloConfigUtil 用于生成各种规则存储在apollo中的key名称
-![](/img/technologySharing/sentinel/存储在apollo中的key名称.png)
+![存储在apollo中的key名称](/img/technologySharing/sentinel/存储在apollo中的key名称.png)
 
 ```java
 public final class ApolloConfigUtil
@@ -780,7 +784,7 @@ apollo.operator= #操作人，默认apollo
 
 ### 结构
 
-![](/img/technologySharing/sentinel/结构.png)
+![结构](/img/technologySharing/sentinel/结构.png)
 
 ## 服务项目
 

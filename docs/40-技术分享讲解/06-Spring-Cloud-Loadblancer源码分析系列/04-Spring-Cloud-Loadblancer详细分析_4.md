@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/sclb-source/spring-cloud-loadblancer-part-4
+title: "Spring-Cloud-Loadblancer详细分析_4：核心原理、实现机制、源码分析详解"
+sidebar_label: "Spring-Cloud-Loadblancer详细分析4"
+pagination_label: "Spring-Cloud-Loadblancer详细分析4"
+description: "在RoundRobinLoadBalancer.choose中的serviceInstanceListSupplierProvider就是获取服务列表的关键，那么此对象是怎么拿到的呢，让我们回到RoundRobinLoadBalancer的创建过程。内容进一步围绕Spring-Cloud-Loadblancer详细分…"
 ---
 
 # Spring-Cloud-Loadblancer详细分析_4

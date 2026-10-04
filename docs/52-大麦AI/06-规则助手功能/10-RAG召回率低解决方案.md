@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/rag-low-solve
-description: "RAG召回率优化方案，系统分析文档切分、Embedding模型、检索参数与查询表达等影响因素，并给出可落地的调优策略与排查方向。"
+title: "RAG召回率低解决方案：召回率优化、文档切分策略、Embedding模型选择、topK调参详解"
+sidebar_label: "RAG召回率低解决方案"
+pagination_label: "RAG召回率低解决方案"
+description: "RAG召回率优化方案，系统分析文档切分、Embedding模型、检索参数与查询表达等影响因素，并给出可落地的调优策略与排查方向。内容进一步围绕文档切分策略、Embedding模型选择、topK调参、查询改写、检索参数优化等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、…"
 keywords: ["召回率优化", "文档切分策略", "Embedding模型选择", "topK调参", "查询改写", "检索参数优化", "语义召回", "RAG调优"]
 ---
 

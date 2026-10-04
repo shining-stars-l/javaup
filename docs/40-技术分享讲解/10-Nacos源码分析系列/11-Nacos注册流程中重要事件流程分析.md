@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/nacos/event
+title: "Nacos注册流程中重要事件流程分析：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Nacos注册流程中重要事件流程分析"
+pagination_label: "Nacos注册流程中重要事件流程分析"
+description: "当nacos接收到服务的注册或者注销后，要执行一系列的动作，比如添加进nacos的服务中，或者从nacos的服务中剔除，通知订阅此服务的客户端。这些动作都是靠一些事件来执行的，由于本人有业务需求要对nacos进行改造，在之前的文章中有对nacos整个流程都做完整的分析，而此文章的重点是分析整个nacos接收服务注册后…"
 ---
 
 # Nacos注册流程中重要事件流程分析

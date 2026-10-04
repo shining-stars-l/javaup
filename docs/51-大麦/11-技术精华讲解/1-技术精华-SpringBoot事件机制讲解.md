@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/springboot-event
-description: "围绕《Springboot事件机制讲解》，重点讲解@PostConstruct执行机制、ContextRefreshedEvent、ApplicationStartedEvent、SpringApplication#run 与 AbstractApplicationContext#refresh 的事件发布链路等技术实现与源码细节。"
+title: "SpringBoot 事件机制讲解：Springboot事件机制、@PostConstruct详解"
+sidebar_label: "SpringBoot 事件机制讲解"
+pagination_label: "SpringBoot 事件机制讲解"
+description: "围绕《Springboot事件机制讲解》，重点讲解@PostConstruct执行机制、ContextRefreshedEvent、ApplicationStartedEvent、SpringApplication#run 与 AbstractApplicationContext#refresh 的事件发布链路等技术…"
 keywords: ["Springboot事件机制", "@PostConstruct", "ContextRefreshedEvent", "ApplicationStartedEvent", "SpringApplication#run", "AbstractApplicationContext#refresh", "EventPublishingRunListener#started", "事件发布链路"]
 ---
 

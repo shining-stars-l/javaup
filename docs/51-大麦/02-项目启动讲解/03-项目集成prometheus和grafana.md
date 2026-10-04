@@ -1,6 +1,9 @@
 ---
 slug: /damai/getting-started/prometheus-grafana
-description: "详细讲解如何安装prometheus和grafana。"
+title: "项目集成prometheus和grafana：prometheus安装、grafana安装详解"
+sidebar_label: "项目集成prometheus和grafana"
+pagination_label: "项目集成prometheus和grafana"
+description: "详细讲解如何安装prometheus和grafana。内容进一步围绕prometheus安装、grafana安装、Docker等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。"
 keywords: ["prometheus安装", "grafana安装", "Docker"]
 ---
 
@@ -358,7 +361,7 @@ docker logs prometheus
 # 访问 Web UI
 # 浏览器打开：http://localhost:9090
 ```
-![](/img/damai/项目启动讲解/prometheus和grafana/Prometheus.png)
+![Prometheus](/img/damai/项目启动讲解/prometheus和grafana/Prometheus.png)
 
 ### 启动 Grafana
 **macOS / Linux / Windows**
@@ -406,7 +409,7 @@ docker logs grafana
 + 账号：`admin`
 + 密码：`admin123`
 
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-1.png)
+![登录 Grafana：Grafana 1](/img/damai/项目启动讲解/prometheus和grafana/Grafana-1.png)
 
 ### 添加 Prometheus 数据源
 1. 进入 **Connections** → **Data sources** → **Add data source**
@@ -422,35 +425,35 @@ http://prometheus:9090
 4. 点击 **Save & Test**
 5. 确认显示：✅ **Successfully queried the Prometheus API**
 
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-2.png)
+![添加 Prometheus 数据源：Grafana 2](/img/damai/项目启动讲解/prometheus和grafana/Grafana-2.png)
 
 #### 配置 Prometheus 地址
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-3.png)
+![配置 Prometheus 地址：Grafana 3](/img/damai/项目启动讲解/prometheus和grafana/Grafana-3.png)
 
 #### 往下拉到底，进行保存
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-4.png)
+![往下拉到底，进行保存：Grafana 4](/img/damai/项目启动讲解/prometheus和grafana/Grafana-4.png)
 
 #### 点击保存后会接着让你构建仪表板配置
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-5.png)
+![点击保存后会接着让你构建仪表板配置：Grafana 5](/img/damai/项目启动讲解/prometheus和grafana/Grafana-5.png)
 
 #### 导入仪表板配置
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-6.png)
+![导入仪表板配置：Grafana 6](/img/damai/项目启动讲解/prometheus和grafana/Grafana-6.png)
 
 #### 把模板地址粘贴进去
 我这里是用的监控jvm的模板，地址：
 
 https://grafana.com/grafana/dashboards/4701-jvm-micrometer/
 
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-7.png)
+![把模板地址粘贴进去：Grafana 7](/img/damai/项目启动讲解/prometheus和grafana/Grafana-7.png)
 
 #### 继续选择Prometheus
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-8.png)
+![继续选择Prometheus：Grafana 8](/img/damai/项目启动讲解/prometheus和grafana/Grafana-8.png)
 
 #### 选择Import导入
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-9.png)
+![选择Import导入：Grafana 9](/img/damai/项目启动讲解/prometheus和grafana/Grafana-9.png)
 
 #### 能看到相关信息了
-![](/img/damai/项目启动讲解/prometheus和grafana/Grafana-10.png)
+![能看到相关信息了：Grafana 10](/img/damai/项目启动讲解/prometheus和grafana/Grafana-10.png)
 
 ## 导入其他预制的监控模板
 除了 JVM 监控模板外，还可以监控其他的数据。

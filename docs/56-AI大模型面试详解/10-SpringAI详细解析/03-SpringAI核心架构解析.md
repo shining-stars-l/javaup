@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/spring-ai-detail/core-architecture
-description: "深入剖析Spring AI的核心架构设计：ChatModel与ChatClient的关系、Prompt和Message体系、ChatResponse解析，以及Options参数配置的完整指南"
+title: "SpringAI核心架构解析：Spring AI架构、ChatModel、ChatClient详解"
+sidebar_label: "SpringAI核心架构解析"
+pagination_label: "SpringAI核心架构解析"
+description: "深入剖析Spring AI的核心架构设计：ChatModel与ChatClient的关系、Prompt和Message体系、ChatResponse解析，以及Options参数配置的完整指南。内容进一步围绕Spring AI架构、ChatOptions等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落…"
 keywords: ["Spring AI架构", "ChatModel", "ChatClient", "Prompt", "ChatResponse", "Message", "ChatOptions"]
 ---
 

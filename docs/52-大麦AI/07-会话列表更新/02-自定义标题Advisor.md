@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/conversation-list/custom-title-advisor
-description: "自定义标题Advisor实现细节，说明如何在响应后阶段提取摘要、更新会话标题并持久化，同时通过优先级控制保证与记忆Advisor的协同执行。"
+title: "自定义标题Advisor：响应后处理、摘要提取、标题持久化、执行优先级、Advisor协同详解"
+sidebar_label: "自定义标题Advisor"
+pagination_label: "自定义标题Advisor"
+description: "自定义标题Advisor实现细节，说明如何在响应后阶段提取摘要、更新会话标题并持久化，同时通过优先级控制保证与记忆Advisor的协同执行。内容进一步围绕响应后处理、摘要提取、标题持久化、执行优先级、Advisor协同等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项…"
 keywords: ["标题Advisor", "响应后处理", "摘要提取", "标题持久化", "执行优先级", "Advisor协同", "会话列表", "Spring AI扩展"]
 ---
 

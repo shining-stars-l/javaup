@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/skywalking-custom-trace-id
-description: "围绕《只会用Skywalking教你如何自定义分布式链路id》，重点讲解分布式链路ID、自定义traceId、Feign透传、线程池上下文传递与Hystrix线程池模式问题等技术实现与源码细节。"
+title: "只会用Skywalking教你如何自定义分布式链路id：分布式链路ID、Feign透传详解"
+sidebar_label: "只会用Skywalking教你如何自定义分布式链路id"
+pagination_label: "只会用Skywalking教你如何自定义分布式链路id"
+description: "围绕《只会用Skywalking教你如何自定义分布式链路id》，重点讲解分布式链路ID、自定义traceId、Feign透传、线程池上下文传递与Hystrix线程池模式问题等技术实现与源码细节。内容进一步围绕链路追踪、ThreadLocal传递等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["分布式链路ID", "Skywalking", "Feign透传", "线程池上下文传递", "Hystrix线程池模式", "链路追踪", "自定义traceId", "ThreadLocal传递"]
 ---
 

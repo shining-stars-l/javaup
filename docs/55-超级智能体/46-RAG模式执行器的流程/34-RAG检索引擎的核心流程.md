@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors/rag-retrieval-engine
-description: 深入讲解 RagRetrievalEngine 的 retrieve 方法，包括子问题并发检索、通道级超时隔离、证据闸门过滤、RRF 融合、父块提升和 rerank 等核心机制。
+title: "RAG检索引擎的核心流程：RagRetrievalEngine、retrieve方法详解"
+sidebar_label: "RAG检索引擎的核心流程"
+pagination_label: "RAG检索引擎的核心流程"
+description: "深入讲解 RagRetrievalEngine 的 retrieve 方法，包括子问题并发检索、通道级超时隔离、证据闸门过滤、RRF 融合、父块提升和 rerank 等核心机制。内容进一步围绕retrieve方法、子问题检索、RRF融合等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: [RagRetrievalEngine, retrieve方法, 子问题检索, 并发检索, 超时隔离, 证据闸门, RRF融合, 父块提升, rerank]
 ---
 

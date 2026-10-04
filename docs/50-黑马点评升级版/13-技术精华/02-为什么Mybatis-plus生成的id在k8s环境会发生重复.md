@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/tech-essentials/mybatis-plus-id-duplicate-k8s
-description: "深入分析MybatisPlus在K8s容器环境下雪花算法ID重复的根因，详解DefaultIdentifierGenerator初始化流程中datacenterId和workerId的生成策略，揭示容器环境下MAC地址重复和进程ID均为1导致的问题，并提供基于Redis的解决方案。"
+title: "为什么Mybatis-plus生成的id在k8s环境会发生重复：MybatisPlus详解"
+sidebar_label: "为什么Mybatis-plus生成的id在k8s环境会发生重复"
+pagination_label: "为什么Mybatis-plus生成的id在k8s环境会发生重复"
+description: "深入分析MybatisPlus在K8s容器环境下雪花算法ID重复的根因，详解DefaultIdentifierGenerator初始化流程中datacenterId和workerId的生成策略，揭示容器环境下MAC地址重复和进程ID均为1导致的问题，并提供基于Redis的解决方案。内容进一步围绕分布式ID等关键主题展…"
 keywords: ["MybatisPlus", "K8s", "雪花算法ID重复", "分布式ID", "容器环境"]
 ---
 # 为什么Mybatis-plus生成的id在k8s环境会发生重复

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/enterprise-practices
-description: "MCP企业级开发中的认证鉴权、SSE重连、工具过滤、跳过模型总结等高级技巧，以及主流客户端接入配置"
+title: "MCP企业级开发进阶技巧：MCP认证、SSE重连、工具过滤、returnDirect详解"
+sidebar_label: "MCP企业级开发进阶技巧"
+pagination_label: "MCP企业级开发进阶技巧"
+description: "MCP企业级开发中的认证鉴权、SSE重连、工具过滤、跳过模型总结等高级技巧，以及主流客户端接入配置。内容进一步围绕MCP认证、returnDirect、Cline配置、Cursor MCP等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["MCP认证", "SSE重连", "工具过滤", "returnDirect", "Cline配置", "Cursor MCP"]
 ---
 

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/nacos-part-4
+title: "Nacos服务端服务注册原理_4：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Nacos服务端服务注册原理4"
+pagination_label: "Nacos服务端服务注册原理4"
+description: "在nacos服务端服务注册原理_3文章分析到了当服务端接收到服务注册和注销后，通过一系列的事件发布后和处理后，最后会通过grpc再通知给对应的订阅服务的客户端，这篇文章就来分析客户端接收服务端相应的过程。内容进一步围绕Nacos服务端服务注册原理_4等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 ---
 
 # Nacos服务端服务注册原理_4
@@ -339,7 +343,7 @@ public ServiceInfo processServiceInfo(ServiceInfo serviceInfo) {
 3. 然后执行`InstancesChangeNotifier.onEvent(InstancesChangeEvent event)`
 
 ### InstancesChangeNotifier.onEvent(InstancesChangeEvent event)
-![](/img/technologySharing/nacos/InstancesChangeNotifier.onEvent.png)
+![InstancesChangeNotifier.onEvent](/img/technologySharing/nacos/InstancesChangeNotifier.onEvent.png)
 
 可以看到for循环中的`listener`就是`NacosWatch`中的`eventListener`，然后就执行onEvent中的逻辑了。
 

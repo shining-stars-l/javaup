@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/react-agent-executor/bean-configuration
-description: 讲解 ReactAgent Bean 的完整装配过程，包括模型配置、工具注册、状态持久化、Hook 限流机制和拦截器链的组装逻辑。
+title: "ReactAgent的Bean配置与组件装配：ChatAgentConfiguration详解"
+sidebar_label: "ReactAgent的Bean配置与组件装配"
+pagination_label: "ReactAgent的Bean配置与组件装配"
+description: "讲解 ReactAgent Bean 的完整装配过程，包括模型配置、工具注册、状态持久化、Hook 限流机制和拦截器链的组装逻辑。内容进一步围绕Bean配置、ChatAgentConfiguration、Tavily搜索、MysqlSaver、Hook限流等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如…"
 keywords: [ReactAgent, Bean配置, ChatAgentConfiguration, Tavily搜索, MysqlSaver, Hook限流, 拦截器链, 并行工具调用]
 ---
 

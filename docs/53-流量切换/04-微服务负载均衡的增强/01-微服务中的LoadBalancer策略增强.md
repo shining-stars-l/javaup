@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/lb-enhancement/lb-strategy-enhancement
-description: "微服务LoadBalancer增强方案，讲解在默认负载均衡基础上引入路由标签过滤与优先级判定，实现面向发布场景的实例选择策略。"
+title: "微服务中的LoadBalancer策略增强：LoadBalancer增强、实例选择策略详解"
+sidebar_label: "微服务中的LoadBalancer策略增强"
+pagination_label: "微服务中的LoadBalancer策略增强"
+description: "微服务LoadBalancer增强方案，讲解在默认负载均衡基础上引入路由标签过滤与优先级判定，实现面向发布场景的实例选择策略。内容进一步围绕服务发现、负载均衡定制、发布治理、流量调度等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["LoadBalancer增强", "实例选择策略", "路由标签过滤", "优先级判定", "服务发现", "负载均衡定制", "发布治理", "流量调度"]
 ---
 
@@ -23,7 +26,7 @@ import VipInline from '@site/src/components/VipInline';
 比如说请求调用规则 路由参数 version=2，意思是只能调用版本是2的服务实例。假设B1版本是1、B2版本是2、B3版本是2。那么link-flow就会将B1过滤掉，留下B2和B3，接着再从B2和B3中执行负载均衡。
 所以我们要在原有的 SpringCloud 逻辑中，添加 link-flow 的功能。
 
-# LoadBalancer负载均衡配置
+## LoadBalancer负载均衡配置
 原有的负载均衡配置
 ```java
 @Configuration(proxyBeanMethods = false)

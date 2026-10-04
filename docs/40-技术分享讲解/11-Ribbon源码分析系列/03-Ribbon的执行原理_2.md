@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/ribbon-source/ribbon-part-2
+title: "Ribbon的执行原理_2：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "Ribbon的执行原理2"
+pagination_label: "Ribbon的执行原理2"
+description: "RibbonLoadBalancerClient.getServer(ILoadBalancer loadBalancer, Object hint)。内容进一步围绕Ribbon的执行原理_2等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 ---
 
 # Ribbon的执行原理_2
@@ -147,7 +151,7 @@ public static <T> UnmodifiableIterator<T> filter(
 - 组合模式，能将多个过滤器包含在其中。
 - 它还具有“回退”到更多（不止一个）不同谓词之一的功能。如果主的Predicate产生的过滤服务器太少，它将一个接一个地尝试fallback的Predicate，直到过滤服务器的数量超过一定数量的阈值或百分比阈值。
 
-![](/img/technologySharing/ribbon/CompositePredicate.png)
+![CompositePredicate](/img/technologySharing/ribbon/CompositePredicate.png)
 **参数说明**
 
 - `delegate` primary首选的Predicate断言器。注意：它可能是一个，也可能是多个断言器组成的一个chain
@@ -379,7 +383,7 @@ RibbonServer ribbonServer = new RibbonServer(serviceId, server,
 				serverIntrospector(serviceId).getMetadata(server));
 ```
 
-# execute(String serviceId, ServiceInstance serviceInstance, LoadBalancerRequest request)
+## execute(String serviceId, ServiceInstance serviceInstance, LoadBalancerRequest request)
 
 到目前为止，`loadBalancer.execute`方法中分析完了：
 

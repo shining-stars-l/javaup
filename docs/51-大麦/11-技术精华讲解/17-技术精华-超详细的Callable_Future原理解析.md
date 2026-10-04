@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/callable-future
-description: "围绕《超详细的Callable_Future原理解析》，重点讲解Callable、Future、FutureTask、RunnableFuture 关系与异步任务执行模型等技术实现与源码细节。"
+title: "超详细的Callable_Future原理解析：FutureTask、RunnableFuture详解"
+sidebar_label: "超详细的CallableFuture原理解析"
+pagination_label: "超详细的CallableFuture原理解析"
+description: "围绕《超详细的Callable_Future原理解析》，重点讲解Callable、Future、FutureTask、RunnableFuture 关系与异步任务执行模型等技术实现与源码细节。内容进一步围绕异步任务模型、阻塞获取结果、任务取消、并发控制等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落…"
 keywords: ["Callable", "Future", "FutureTask", "RunnableFuture", "异步任务模型", "阻塞获取结果", "任务取消", "并发控制"]
 ---
 

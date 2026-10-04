@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-6
+title: "Spring事务执行流程分析_6：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析6"
+pagination_label: "Spring事务执行流程分析6"
+description: "执行案例中的bookService.addUser(user);会调用到JdkDynamicAopProxy#invoke方法。内容进一步围绕Spring事务执行流程分析_6等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 ---
 
 # Spring事务执行流程分析_6
@@ -748,7 +752,7 @@ private static Object doGetResource(Object actualKey) {
 ```
 
 执行完回到`AbstractPlatformTransactionManager#getTransaction`方法中，执行完了`Object transaction = doGetTransaction()`因为第一次进入事务，所以`connectionHolder`为空
-![](/img/technologySharing/spring/transaction.png)
+![TransactionSynchronizationManager#doGetResource：transaction](/img/technologySharing/spring/transaction.png)
 
 接下来进行事务的开启
 ### AbstractPlatformTransactionManager#startTransaction

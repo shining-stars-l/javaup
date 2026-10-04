@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/autoconfigure-vs-configuration
-description: "围绕《到底为什么要使用自动装配而不是Configuration》，重点讲解自动装配机制、spring.factories、AutoConfigurationImportSelector、checkExcludedClasses 与条件装配等技术实现与源码细节。"
+title: "到底为什么要使用自动装配而不是Configuration：spring.factories详解"
+sidebar_label: "到底为什么要使用自动装配而不是Configuration"
+pagination_label: "到底为什么要使用自动装配而不是Configuration"
+description: "围绕《到底为什么要使用自动装配而不是Configuration》，重点讲解自动装配机制、spring.factories、AutoConfigurationImportSelector、checkExcludedClasses 与条件装配等技术实现与源码细节。内容进一步围绕配置类加载、装配顺序等关键主题展开。"
 keywords: ["自动装配", "Configuration", "spring.factories", "AutoConfigurationImportSelector", "checkExcludedClasses", "条件装配", "配置类加载", "装配顺序"]
 ---
 

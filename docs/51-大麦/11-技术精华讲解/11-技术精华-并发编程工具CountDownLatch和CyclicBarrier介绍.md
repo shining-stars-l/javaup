@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/countdownlatch-cyclicbarrier
-description: "围绕《并发编程工具CountDownLatch和CyclicBarrier介绍》，重点讲解CountDownLatch、CyclicBarrier、Semaphore 以及线程协同与并发同步控制等技术实现与工程实践。"
+title: "并发编程工具CountDownLatch和CyclicBarrier介绍：Semaphore详解"
+sidebar_label: "并发编程工具CountDownLatch和CyclicBarrier介绍"
+pagination_label: "并发编程工具CountDownLatch和CyclicBarrier介绍"
+description: "围绕《并发编程工具CountDownLatch和CyclicBarrier介绍》，重点讲解CountDownLatch、CyclicBarrier、Semaphore 以及线程协同与并发同步控制等技术实现与工程实践。内容进一步围绕并发同步工具、线程门栓、await与countDown、栅栏同步、并发控制等关键主题展开。"
 keywords: ["CountDownLatch", "CyclicBarrier", "Semaphore", "并发同步工具", "线程门栓", "await与countDown", "栅栏同步", "并发控制"]
 ---
 

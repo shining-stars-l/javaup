@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/tech-relationship
-description: "深入分析MCP与RPC、A2A等相关技术的关系，帮助开发者在实际项目中做出正确的技术选型决策"
+title: "MCP与相关技术的关系：MCP技术选型、MCP与RPC、MCP与A2A、智能体协议对比详解"
+sidebar_label: "MCP与相关技术的关系"
+pagination_label: "MCP与相关技术的关系"
+description: "深入分析MCP与RPC、A2A等相关技术的关系，帮助开发者在实际项目中做出正确的技术选型决策。内容进一步围绕MCP技术选型、MCP与A2A、智能体协议对比、技术架构设计等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体…"
 keywords: ["MCP技术选型", "MCP与RPC", "MCP与A2A", "智能体协议对比", "技术架构设计"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /damai/business/gateway/request-flow
-description: "围绕《业务讲解-Gateway处理请求的流程》，重点讲解Gateway、过滤器、traceId、公钥、私钥等技术实现与工程落地细节。"
+title: "业务讲解-Gateway处理请求的流程：过滤器、traceId、公钥、私钥、验签、Token详解"
+sidebar_label: "业务讲解-Gateway处理请求的流程"
+pagination_label: "业务讲解-Gateway处理请求的流程"
+description: "围绕《业务讲解-Gateway处理请求的流程》，重点讲解Gateway、过滤器、traceId、公钥、私钥等技术实现与工程落地细节。内容进一步围绕验签、Token、MyBatis等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["Gateway", "过滤器", "traceId", "公钥", "私钥", "验签", "Token", "MyBatis"]
 ---
 

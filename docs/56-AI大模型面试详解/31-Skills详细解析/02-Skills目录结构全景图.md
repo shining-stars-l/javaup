@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/skills/structure
-description: "从工程设计视角拆解Agent Skills的目录结构，理解每个组件存在的意义，以及这套结构为什么能让智能体高效工作"
+title: "Skills目录结构全景图：SKILL.md、Reference、Script、技能模块设计详解"
+sidebar_label: "Skills目录结构全景图"
+pagination_label: "Skills目录结构全景图"
+description: "从工程设计视角拆解Agent Skills的目录结构，理解每个组件存在的意义，以及这套结构为什么能让智能体高效工作。内容进一步围绕Skills目录结构、SKILL.md、Reference、Script、技能模块设计等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: ["Skills目录结构", "SKILL.md", "Reference", "Script", "技能模块设计", "智能体工程化"]
 ---
 
@@ -316,7 +319,7 @@ Agent -> Agent : 汇总结果并输出
 ```
 ### Anthropic官方的Skill结构示意图
 
-![](/img/super-agent/skills/Anthropic官方的Skill结构示意图.png)
+![Anthropic官方的Skill结构示意图](/img/super-agent/skills/Anthropic官方的Skill结构示意图.png)
 
 ## 总结一下
 

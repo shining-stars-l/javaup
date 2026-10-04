@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/quick-review/rag-pipeline
-description: "RAG全链路面试速查：覆盖文档解析、分片策略、向量化、检索算法、混合搜索、重排序、幻觉治理、效果评估、生产踩坑等全流程考点"
+title: "RAG全链路面试速查：RAG面试、检索增强生成、向量检索、文档分片、Embedding详解"
+sidebar_label: "RAG全链路面试速查"
+pagination_label: "RAG全链路面试速查"
+description: "RAG全链路面试速查：覆盖文档解析、分片策略、向量化、检索算法、混合搜索、重排序、幻觉治理、效果评估、生产踩坑等全流程考点。内容进一步围绕RAG面试、检索增强生成、向量检索、文档分片、Embedding等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术…"
 keywords: ["RAG面试", "检索增强生成", "向量检索", "文档分片", "Embedding", "混合搜索", "重排序", "GraphRAG"]
 ---
 

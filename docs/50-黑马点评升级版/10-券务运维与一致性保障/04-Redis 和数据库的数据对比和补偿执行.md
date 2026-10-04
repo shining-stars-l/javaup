@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/ops-consistency/redis-db-compare-compensation
-description: "讲解Redis与数据库库存不一致时的对比与补偿流程，确保订单与日志的最终一致性。"
+title: "Redis 和数据库的数据对比和补偿执行：数据对账、Redis一致性、库存比对、数据异常详解"
+sidebar_label: "Redis 和数据库的数据对比和补偿执行"
+pagination_label: "Redis 和数据库的数据对比和补偿执行"
+description: "讲解Redis与数据库库存不一致时的对比与补偿流程，确保订单与日志的最终一致性。内容进一步围绕数据对账、补偿执行、Redis一致性、库存比对、数据异常等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到…"
 keywords: ["数据对账", "补偿执行", "Redis一致性", "库存比对", "数据异常"]
 ---
 

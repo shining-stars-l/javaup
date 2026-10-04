@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/sse-chat-lifecycle/stream-api-and-sse-protocol
-description: 深入拆解 Super Agent 的 /api/chat/stream 接口和 SSE 事件协议，从 Sink 创建、事件格式化、线程安全推送到流关闭的完整链路，配合源码逐段讲清楚每种事件类型的结构、推送时机和错误处理机制。
+title: "stream 接口与 SSE 事件协议：Server-Sent Events、流式输出详解"
+sidebar_label: "stream 接口与 SSE 事件协议"
+pagination_label: "stream 接口与 SSE 事件协议"
+description: "深入拆解 Super Agent 的 /api/chat/stream 接口和 SSE 事件协议，从 Sink 创建、事件格式化、线程安全推送到流关闭的完整链路，配合源码逐段讲清楚每种事件类型的结构、推送时机和错误处理机制。内容进一步围绕Server-Sent Events、流式输出、StreamEventWrite…"
 keywords: [SSE, Server-Sent Events, stream, 流式输出, StreamEventWriter, SinkEmitHelper, ExecutorEventSupport, Sink, 事件协议, 流关闭]
 ---
 

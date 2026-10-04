@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nio-netty/nio-netty-part-1
+title: "NIO和Netty总结_1：核心原理、实现机制、源码分析、工程实践、应用场景、系统设计详解"
+sidebar_label: "NIO和Netty总结1"
+pagination_label: "NIO和Netty总结1"
+description: "nio重要的概念。内容进一步围绕NIO和Netty总结_1等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # NIO和Netty总结_1
@@ -84,14 +88,14 @@ public abstract class Selector implements Closeable {
 
 ### 结构图
 
-![](/img/technologySharing/netty/结构图.png)
+![结构图](/img/technologySharing/netty/结构图.png)
 
 ### `channel` `ChannelPipeline` `ChannelHandler` `ChannelHandlerContext` 的关系
 
 1. 每个`channel`里会创建一个`ChannelPipeline`(是一个双向链表)
 2. 每创建一个`ChannelHandler`都会有对应的一个`ChannelHandlerContext`(其实`ChannelHandler`是`ChannelHandlerContext`成员对象)
 3. 将每个`ChannelHandler`对应的`ChannelHandlerContext`都会添加到`ChannelPipeline`的链表中
-![](/img/technologySharing/netty/ChannelHandlerContext.webp)
+![ChannelHandlerContext](/img/technologySharing/netty/ChannelHandlerContext.webp)
 
 ### initChannel官方介绍
 

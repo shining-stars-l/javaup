@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/rag-rules-retrieval
-description: "规则RAG检索全链路拆解，从自动装配、文档加载切分、向量化入库到Controller请求处理，完整说明生产级规则问答是如何被执行的。"
+title: "对规则实现RAG检索：自动装配、文档加载、文本切分、向量化入库、Controller入口详解"
+sidebar_label: "对规则实现RAG检索"
+pagination_label: "对规则实现RAG检索"
+description: "规则RAG检索全链路拆解，从自动装配、文档加载切分、向量化入库到Controller请求处理，完整说明生产级规则问答是如何被执行的。内容进一步围绕文本切分、Controller入口、检索召回、提示词拼接、RAG执行链等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: ["自动装配", "文档加载", "文本切分", "向量化入库", "Controller入口", "检索召回", "提示词拼接", "RAG执行链"]
 ---
 

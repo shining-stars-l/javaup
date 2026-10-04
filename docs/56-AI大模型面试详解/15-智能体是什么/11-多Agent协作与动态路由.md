@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/agent/multi-agent-routing
-description: "多Agent系统从协作通信到动态路由的完整设计思路：消息传递与共享状态各自的取舍、路由策略的三种实现、以及Handoff模式在什么场景下值得用"
+title: "多Agent协作与动态路由：共享状态、消息传递、Handoff、Orchestrator详解"
+sidebar_label: "多Agent协作与动态路由"
+pagination_label: "多Agent协作与动态路由"
+description: "多Agent系统从协作通信到动态路由的完整设计思路：消息传递与共享状态各自的取舍、路由策略的三种实现、以及Handoff模式在什么场景下值得用。内容进一步围绕多Agent协作、Orchestrator、Agent编排等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: ["多Agent协作", "动态路由", "共享状态", "消息传递", "Handoff", "Orchestrator", "Agent编排"]
 ---
 

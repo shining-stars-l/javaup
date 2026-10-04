@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/nacos-source/springboot-nacos-part-2
+title: "SpringBoot客户端服务注册Nacos原理_2：核心原理、实现机制、源码分析详解"
+sidebar_label: "SpringBoot客户端服务注册Nacos原理2"
+pagination_label: "SpringBoot客户端服务注册Nacos原理2"
+description: "上文中讲到了。内容进一步围绕SpringBoot客户端服务注册Nacos原理_2等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定…"
 ---
 
 # SpringBoot客户端服务注册Nacos原理_2
@@ -54,7 +58,7 @@ public interface NamingService {
 
 ## Instance结构
 
-![](/img/technologySharing/nacos/Instance结构.png)
+![Instance结构](/img/technologySharing/nacos/Instance结构.png)
 
 可以看到Instance就是服务实例，包括了ip地址、port端口号、weight权重、healthy健康、ephemeral是否临时节点、clusterName集群名字等。
 

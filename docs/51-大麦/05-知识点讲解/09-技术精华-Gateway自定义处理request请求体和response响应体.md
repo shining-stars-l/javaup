@@ -1,12 +1,15 @@
 ---
 slug: /damai/knowledge/gateway-request-response-custom
-description: "详解Gateway中自定义处理request请求体和response响应体的实现方法，解决请求体过长截取、异常处理等问题，提供生产环境可用的完整代码示例"
+title: "Gateway自定义处理request请求体和response响应体：Gateway过滤器详解"
+sidebar_label: "Gateway自定义处理request请求体和response响应体"
+pagination_label: "Gateway自定义处理request请求体和response响应体"
+description: "详解Gateway中自定义处理request请求体和response响应体的实现方法，解决请求体过长截取、异常处理等问题，提供生产环境可用的完整代码示例。内容进一步围绕Gateway过滤器、请求体处理、响应体修改、GlobalFilter、ServerHttpRequestDecorator等关键主题展开。"
 keywords: ["Gateway过滤器", "请求体处理", "响应体修改", "GlobalFilter", "ServerHttpRequestDecorator"]
 ---
 
 # Gateway自定义处理request请求体和response响应体
 
-# 介绍
+## 介绍
 本人最近将网关 Zuul 升级到 Gateway，Gateway 特点这里不多说了，Gateway 和 Zuul 的区别很大，其底层使用了 Netty 和响应式编程，而不是Zuul常规的 Servlet 方式
 
 原先的 Zuul 网关里有对请求体验证签名和加密的逻辑，要把这些逻辑迁移到 Gateway 中，这个过程中遇到的问题太多，例如 处理中异常如何处理、请求体或响应体过长会被拦截等等
@@ -16,7 +19,7 @@ keywords: ["Gateway过滤器", "请求体处理", "响应体修改", "GlobalFilt
 
 <br/>
 
-# 处理请求体内容
+## 处理请求体内容
 ```java
 @Component
 @Slf4j
@@ -102,7 +105,7 @@ public class RequestValidationFilter implements GlobalFilter, Ordered {
 ```
 <br/>
 
-# 处理响应体内容
+## 处理响应体内容
 ```java
 /**
  * 参考 {@link org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBodyGatewayFilterFactory}

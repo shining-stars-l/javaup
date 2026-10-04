@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/skywalking-source/skywalking-part-1
+title: "Skywalking流程分析_1：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Skywalking流程分析1"
+pagination_label: "Skywalking流程分析1"
+description: "skywalking作为目前最常用的APM监控，其重要性不可言喻，本人也是针对公司业务做了很多定制化的改造，其内部的原理设计很是巧妙，尤其是自定义agentClassLoader类加载的部分更是值得去借鉴这种思想。本系列将skywalking内部原理进行剖析，让大家更加容易体会启动的精髓。内容进一步围绕Skywalk…"
 ---
 
 

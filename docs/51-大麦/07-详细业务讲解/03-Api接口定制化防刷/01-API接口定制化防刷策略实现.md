@@ -1,6 +1,9 @@
 ---
 slug: /damai/business/api-anti-bot/strategy
-description: "围绕《API接口定制化防刷策略实现》，重点讲解Gateway、过滤器、Redis、Lua脚本、幂等等技术实现与工程落地细节。"
+title: "API接口定制化防刷策略实现：Gateway、过滤器、Redis、Lua脚本、幂等详解"
+sidebar_label: "API接口定制化防刷策略实现"
+pagination_label: "API接口定制化防刷策略实现"
+description: "围绕《API接口定制化防刷策略实现》，重点讲解Gateway、过滤器、Redis、Lua脚本、幂等等技术实现与工程落地细节。内容进一步围绕熔断、错误码规范、数据库等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并…"
 keywords: ["Gateway", "过滤器", "Redis", "Lua脚本", "幂等", "熔断", "错误码规范", "数据库"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /dock-data-center/basic-dimension/kafka
-description: "Kafka消费升级任务讲解，覆盖消息反序列化、异常跳过、确认提交与升级执行器委派，保障维度升级链路稳定推进。"
+title: "kafka消费采集数据完成升级：Kafka消费、消息反序列化、异常跳过、ACK确认详解"
+sidebar_label: "kafka消费采集数据完成升级"
+pagination_label: "kafka消费采集数据完成升级"
+description: "Kafka消费升级任务讲解，覆盖消息反序列化、异常跳过、确认提交与升级执行器委派，保障维度升级链路稳定推进。内容进一步围绕ACK确认、可观测日志、消息驱动任务等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结…"
 keywords: ["Kafka消费", "消息反序列化", "异常跳过", "ACK确认", "升级执行器", "维度升级链路", "可观测日志", "消息驱动任务"]
 ---
 
@@ -16,7 +19,7 @@ import VipInline from '@site/src/components/VipInline';
 
 在数据的升级中，将消息发送到了 kafka 中，本章节会详细讲解从 kafka 中消费到消息后，后续的执行过程
 
-# Kafka消费消息
+## Kafka消费消息
 
 org.javaup.kafka.UpDimensionConsumer#consumerUpDimensionMessage
 

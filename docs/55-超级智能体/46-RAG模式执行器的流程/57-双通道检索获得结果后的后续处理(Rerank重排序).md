@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors/channel-retrieval-rerank
-description: 讲解 RAG 检索流程中的 Rerank 重排序环节，包括粗排与精排的区别、HttpDocumentRerankPostProcessor 的 HTTP 调用实现、请求响应格式、异常兜底机制，以及最终裁剪和证据返回。
+title: "双通道检索获得结果后的后续处理(Rerank 重排序)：跨编码器、精排、relevance_score详解"
+sidebar_label: "双通道检索获得结果后的后续处理(Rerank 重排序)"
+pagination_label: "双通道检索获得结果后的后续处理(Rerank 重排序)"
+description: "讲解 RAG 检索流程中的 Rerank 重排序环节，包括粗排与精排的区别、HttpDocumentRerankPostProcessor 的 HTTP 调用实现、请求响应格式、异常兜底机制，以及最终裁剪和证据返回。内容进一步围绕跨编码器、relevance_score等关键主题展开。通过原理拆解、实现步骤与适用场景…"
 keywords: [Rerank, 重排序, 跨编码器, HttpDocumentRerankPostProcessor, 精排, relevance_score, 最终裁剪]
 ---
 

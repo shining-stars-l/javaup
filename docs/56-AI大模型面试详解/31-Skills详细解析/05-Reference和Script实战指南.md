@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/skills/reference-script
-description: "从实战角度深入讲解Agent Skills中Reference和Script两个可选组件的设计思路、典型用法、编写技巧，以及它们与MCP工具的本质区别"
+title: "Reference和Script实战指南：技能参考文档、技能脚本、Skills实战详解"
+sidebar_label: "Reference和Script实战指南"
+pagination_label: "Reference和Script实战指南"
+description: "从实战角度深入讲解Agent Skills中Reference和Script两个可选组件的设计思路、典型用法、编写技巧，以及它们与MCP工具的本质区别。内容进一步围绕技能参考文档、技能脚本、Skills实战、Script与MCP区别等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: ["Reference", "Script", "技能参考文档", "技能脚本", "Skills实战", "Script与MCP区别"]
 ---
 

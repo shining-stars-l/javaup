@@ -1,7 +1,10 @@
 ---
 slug: /super-agent/overview/graphrag-raptor
+title: "Pro版：知识图谱与结构树：Nexus Agent Pro、GraphRAG、实体关系抽取详解"
+sidebar_label: "Pro版：知识图谱与结构树"
+pagination_label: "Pro版：知识图谱与结构树"
 sidebar_class_name: has-new-badge
-description: 深入讲解 Nexus Agent Pro 的两大高级检索能力——知识图谱检索（实体、关系、社区抽取，跨文档关联）和结构树检索（递归聚类、层层摘要、质量把关），以及它们如何补齐向量检索搞不定的关系类和全局总结类问题。
+description: "深入讲解 Nexus Agent Pro 的两大高级检索能力——知识图谱检索（实体、关系、社区抽取，跨文档关联）和结构树检索（递归聚类、层层摘要、质量把关），以及它们如何补齐向量检索搞不定的关系类和全局总结类问题。内容进一步围绕GraphRAG、实体关系抽取、社区报告、RAPTOR、层级摘要等关键主题展开。"
 keywords: [Nexus Agent Pro, 知识图谱, GraphRAG, 实体关系抽取, 社区报告, 结构树, RAPTOR, 层级摘要, 递归聚类, 摘要树, 跨文档检索, RAG]
 ---
 

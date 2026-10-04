@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/interview-summary/expired-strategy
-description: "详细讲解Redis的Key过期设置方式、过期判断机制、删除策略以及内存淮汰策略，帮助理解Redis内存管理。"
+title: "Redis 过期删除与内存淘汰策略总结：Redis过期删除、内存淮汰、TTL、删除策略详解"
+sidebar_label: "Redis 过期删除与内存淘汰策略总结"
+pagination_label: "Redis 过期删除与内存淘汰策略总结"
+description: "详细讲解Redis的Key过期设置方式、过期判断机制、删除策略以及内存淮汰策略，帮助理解Redis内存管理。内容进一步围绕Redis过期删除、TTL、面试总结等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结…"
 keywords: ["Redis过期删除", "内存淮汰", "TTL", "删除策略", "面试总结"]
 ---
 

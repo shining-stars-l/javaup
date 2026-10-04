@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-2
+title: "Spring事务执行流程分析_2：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析2"
+pagination_label: "Spring事务执行流程分析2"
+description: "org.springframework.context.support.AbstractApplicationContext#refresh ->。内容进一步围绕Spring事务执行流程分析_2等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 ---
 
 # Spring事务执行流程分析_2
@@ -493,4 +497,4 @@ private RootBeanDefinition parseAttributeSource(Element attrEle, ParserContext p
 6. BeanDefinitionHolder包含AbstractBeanDefinition 标签元素tx:advice的bean
 
 ### 到目前位置beanFactory中的beanDefinitionMap中所有注册的元素
-![](/img/technologySharing/spring/beanFactory中的beanDefinitionMap中所有注册的元素.png)
+![beanFactory中的beanDefinitionMap中所有注册的元素](/img/technologySharing/spring/beanFactory中的beanDefinitionMap中所有注册的元素.png)

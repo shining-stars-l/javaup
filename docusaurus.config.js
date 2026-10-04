@@ -57,6 +57,8 @@ const config = {
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
+  // 与 Nginx 的目录式静态页面保持一致：站内链接、canonical 和 sitemap 均使用尾斜杠。
+  trailingSlash: true,
 
   // Handle broken links
   onBrokenLinks: 'warn', // 'throw' | 'log' | 'warn' | 'ignore'
@@ -97,6 +99,9 @@ const config = {
           editLocalizedFiles: false
         },
         blog: false, // 禁用博客功能（不使用博客目录）
+        pages: {
+          exclude: ['**/helloReact.*', '**/markdown-page.*'],
+        },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -104,7 +109,7 @@ const config = {
         sitemap: {
           changefreq: 'weekly',
           priority: 0.5,
-          ignorePatterns: ['/tags/**'],
+          ignorePatterns: ['/tags/**', '/search', '/search/**'],
           filename: 'sitemap.xml',
         },
       }),
@@ -222,18 +227,40 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            to: '/ai-interview/quick-review/study-roadmap',
-            activeBaseRegex: '^/ai-interview(?:/|$)',
+            type: 'dropdown',
+            label: 'AI大模型与编程',
             position: 'left',
-            label: 'AI大模型面试详解',
             className: 'navbar-ai-interview-highlight',
+            items: [
+              {
+                to: '/ai-interview/quick-review/study-roadmap',
+                activeBaseRegex: '^/ai-interview(?:/|$)',
+                label: 'AI大模型详解系列',
+              },
+              {
+                to: '/ai-programming/codex/getting-started',
+                activeBaseRegex: '^/ai-programming(?:/|$)',
+                label: 'AI编程精华系列',
+              },
+            ],
           },
           {
-            to: '/super-agent/overview/project-intro',
-            activeBaseRegex: '^/super-agent(?:/|$)',
+            type: 'dropdown',
+            label: '企业级 AI Agent 项目',
             position: 'left',
-            label: 'Nexus Agent AI',
             className: 'navbar-super-agent-hot',
+            items: [
+              {
+                to: '/super-agent/overview/project-intro',
+                activeBaseRegex: '^/super-agent(?:/|$)',
+                label: 'Nexus Agent AI',
+              },
+              {
+                to: '/agent-up-memory/overview/project-intro',
+                activeBaseRegex: '^/agent-up-memory(?:/|$)',
+                label: 'Agent Up Memory',
+              },
+            ],
           },
           {
             type: 'dropdown',
@@ -270,6 +297,11 @@ var _hmt = _hmt || [];
                 sidebarId: 'superAISidebar',
                 label: 'Nexus Agent AI（企业级智能体项目实战）',
               },
+              {
+                type: 'docSidebar',
+                sidebarId: 'agentUpMemorySidebar',
+                label: 'Agent-Up-Memory（智能体认知引擎）',
+              },
             ],
           },
           {
@@ -296,10 +328,10 @@ var _hmt = _hmt || [];
             ],
           },
           {
-            type: 'docSidebar',
-            sidebarId: 'howToStudySidebar',
+            type: 'doc',
+            docId: '如何学习/学习介绍/加入星球能提供哪些服务',
             position: 'left',
-            label: '📚️ 如何学习',
+            label: '🌍️ 知识星球',
           },
           {
             type: 'doc',

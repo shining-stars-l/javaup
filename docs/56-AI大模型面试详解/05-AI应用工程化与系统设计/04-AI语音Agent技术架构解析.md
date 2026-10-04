@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/system-design/ai-voice-agent
-description: "从底层音频处理到实时语音对话的完整技术链路，搞清楚 VAD、ASR、TTS 的工作原理和工程挑战，理解延迟优化和打断处理的设计思路"
+title: "AI语音Agent技术架构解析：语音识别、ASR、TTS、VAD、WebRTC、语音合成详解"
+sidebar_label: "AI语音Agent技术架构解析"
+pagination_label: "AI语音Agent技术架构解析"
+description: "从底层音频处理到实时语音对话的完整技术链路，搞清楚 VAD、ASR、TTS 的工作原理和工程挑战，理解延迟优化和打断处理的设计思路。内容进一步围绕AI语音Agent、语音识别、WebRTC、语音合成、实时对话等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议…"
 keywords: ["AI语音Agent", "语音识别", "ASR", "TTS", "VAD", "WebRTC", "语音合成", "实时对话"]
 ---
 

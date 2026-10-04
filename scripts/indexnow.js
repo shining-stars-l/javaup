@@ -1,7 +1,11 @@
 #!/usr/bin/env node
+
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
-const {execSync} = require('child_process');
+const {execFileSync} = require('child_process');
+
+const DEFAULT_KEY_STORE = '.indexnow/key.txt';
 
 function parseArgs(argv) {
   const args = {};
@@ -34,12 +38,14 @@ function parseSiteConfig(configPath) {
   const content = readFile(configPath);
   const urlMatch = content.match(/\burl:\s*['"]([^'"]+)['"]/);
   const baseUrlMatch = content.match(/\bbaseUrl:\s*['"]([^'"]+)['"]/);
+  const trailingSlashMatch = content.match(/\btrailingSlash:\s*(true|false)/);
   if (!urlMatch) {
     throw new Error(`未在 ${configPath} 找到 url 配置`);
   }
   return {
     siteUrl: urlMatch[1].trim(),
     baseUrl: baseUrlMatch ? baseUrlMatch[1].trim() : '/',
+    trailingSlash: trailingSlashMatch ? trailingSlashMatch[1] === 'true' : undefined,
   };
 }
 
@@ -51,8 +57,7 @@ function normalizeBaseUrl(baseUrl) {
   return withLeading.endsWith('/') ? withLeading : `${withLeading}/`;
 }
 
-function parseFrontmatterSlug(filePath) {
-  const content = readFile(filePath);
+function parseFrontmatterSlugContent(content) {
   if (!content.startsWith('---')) {
     return null;
   }
@@ -72,10 +77,15 @@ function parseFrontmatterSlug(filePath) {
   return slug || null;
 }
 
-function buildUrl({siteUrl, baseUrl, slug}) {
+function buildUrl({siteUrl, baseUrl, slug, trailingSlash}) {
   if (/^https?:\/\//i.test(slug)) {
-    return slug;
+    const externalUrl = new URL(slug);
+    if (trailingSlash === true && externalUrl.pathname !== '/' && !externalUrl.pathname.endsWith('/')) {
+      externalUrl.pathname = `${externalUrl.pathname}/`;
+    }
+    return externalUrl.toString();
   }
+
   const normalizedBase = normalizeBaseUrl(baseUrl);
   let pathname = slug.startsWith('/') ? slug : `/${slug}`;
   if (normalizedBase !== '/') {
@@ -84,57 +94,73 @@ function buildUrl({siteUrl, baseUrl, slug}) {
       pathname = `${baseNoTail}${pathname}`;
     }
   }
+  if (trailingSlash === true && pathname !== '/' && !pathname.endsWith('/')) {
+    pathname = `${pathname}/`;
+  } else if (trailingSlash === false && pathname.length > 1) {
+    pathname = pathname.replace(/\/+$/, '');
+  }
   return new URL(pathname, siteUrl).toString();
 }
 
-function listAllDocFiles(docsDir) {
-  const result = [];
-  const stack = [docsDir];
-  while (stack.length > 0) {
-    const current = stack.pop();
-    const entries = fs.readdirSync(current, {withFileTypes: true});
-    entries.forEach((entry) => {
-      const fullPath = path.join(current, entry.name);
-      if (entry.isDirectory()) {
-        stack.push(fullPath);
-      } else if (entry.isFile() && /\.(md|mdx)$/i.test(entry.name)) {
-        result.push(fullPath);
-      }
-    });
-  }
-  return result.sort();
-}
-
-function runGit(command) {
-  return execSync(command, {
+function runGit(args, {trim = true} = {}) {
+  const output = execFileSync('git', args, {
     encoding: 'utf8',
     stdio: ['ignore', 'pipe', 'pipe'],
-  }).trim();
+    maxBuffer: 64 * 1024 * 1024,
+  });
+  return trim ? output.trim() : output;
 }
 
 function resolveDefaultRange() {
   try {
-    runGit('git rev-parse --verify HEAD~1');
+    runGit(['rev-parse', '--verify', 'HEAD~1']);
     return {from: 'HEAD~1', to: 'HEAD'};
   } catch (error) {
     return {from: null, to: 'HEAD'};
   }
 }
 
-function listChangedDocFiles(docsDir, from, to) {
-  const relativeDocsDir = path.relative(process.cwd(), docsDir).replace(/\\/g, '/');
-  const rangePart = from ? `${from} ${to}` : to;
-  const output = runGit(
-    `git diff --name-only --diff-filter=ACMR ${rangePart} -- "${relativeDocsDir}"`
-  );
-  if (!output) {
+function listChangedDocEntries(docsDir, from, to) {
+  if (!from) {
     return [];
   }
-  return output
-    .split('\n')
-    .map((item) => item.trim())
-    .filter((item) => item && /\.(md|mdx)$/i.test(item))
-    .map((item) => path.resolve(process.cwd(), item));
+  const relativeDocsDir = path.relative(process.cwd(), docsDir).replace(/\\/g, '/');
+  const raw = runGit(
+    ['diff', '--name-status', '-z', '--find-renames', from, to, '--', relativeDocsDir],
+    {trim: false}
+  );
+  const tokens = raw.split('\0');
+  const entries = [];
+
+  for (let index = 0; index < tokens.length; ) {
+    const status = tokens[index++];
+    if (!status) {
+      continue;
+    }
+    if (status.startsWith('R') || status.startsWith('C')) {
+      const oldPath = tokens[index++];
+      const newPath = tokens[index++];
+      if (/\.(md|mdx)$/i.test(oldPath) || /\.(md|mdx)$/i.test(newPath)) {
+        entries.push({status: status[0], oldPath, newPath});
+      }
+      continue;
+    }
+    const filePath = tokens[index++];
+    if (!/\.(md|mdx)$/i.test(filePath)) {
+      continue;
+    }
+    entries.push({
+      status: status[0],
+      oldPath: status.startsWith('A') ? null : filePath,
+      newPath: status.startsWith('D') ? null : filePath,
+    });
+  }
+  return entries;
+}
+
+function parseSlugAtRef(ref, filePath) {
+  const content = runGit(['show', `${ref}:${filePath}`], {trim: false});
+  return parseFrontmatterSlugContent(content);
 }
 
 function unique(items) {
@@ -171,6 +197,40 @@ function splitChunks(items, size) {
     chunks.push(items.slice(index, index + size));
   }
   return chunks;
+}
+
+function validateKey(key) {
+  if (!/^[A-Za-z0-9-]{8,128}$/.test(key)) {
+    throw new Error('IndexNow key 必须为 8~128 位，只能包含字母、数字和连字符');
+  }
+  return key;
+}
+
+function resolveKey({rootDir, args, allowGenerate = false}) {
+  const storePath = path.resolve(rootDir, args.keyStore || DEFAULT_KEY_STORE);
+  let key = args.key || process.env.INDEXNOW_KEY;
+  let source = args.key ? '--key' : process.env.INDEXNOW_KEY ? 'INDEXNOW_KEY 环境变量' : null;
+
+  if (!key && fs.existsSync(storePath)) {
+    key = readFile(storePath).trim();
+    source = storePath;
+  }
+  if (!key && allowGenerate) {
+    key = crypto.randomBytes(16).toString('hex');
+    source = '自动生成';
+  }
+  if (!key) {
+    throw new Error(
+      `没有找到 IndexNow key。请先执行 npm run indexnow:key，或设置 INDEXNOW_KEY 环境变量。默认保存位置: ${storePath}`
+    );
+  }
+
+  return {key: validateKey(String(key).trim()), source, storePath};
+}
+
+function persistKey({key, storePath}) {
+  ensureDir(path.dirname(storePath));
+  fs.writeFileSync(storePath, `${key}\n`, {encoding: 'utf8', mode: 0o600});
 }
 
 async function submitIndexNow({endpoint, host, key, keyLocation, urls, chunkSize, dryRun}) {
@@ -213,28 +273,52 @@ async function verifyKeyLocation({keyLocation, key}) {
   const content = (await response.text()).trim();
   if (content !== key) {
     throw new Error(
-      `keyLocation 内容与 --key 不一致。期望: ${key}，实际: ${content || '(空)'}，地址: ${keyLocation}`
+      `keyLocation 内容与本地 key 不一致。期望: ${key}，实际: ${content || '(空)'}，地址: ${keyLocation}`
     );
   }
 }
 
-function generateUrls({docsDir, all, from, to, siteUrl, baseUrl}) {
-  const files = all ? listAllDocFiles(docsDir) : listChangedDocFiles(docsDir, from, to);
+function generateAllUrls({sitemapPath}) {
+  if (!fs.existsSync(sitemapPath)) {
+    throw new Error(`没有找到 ${sitemapPath}，请先执行 npm run build`);
+  }
+  const sitemap = readFile(sitemapPath);
+  const urls = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)]
+    .map((match) => match[1].replace(/&amp;/g, '&').trim())
+    .filter(Boolean);
+  if (urls.length === 0) {
+    throw new Error(`sitemap 中没有 URL: ${sitemapPath}`);
+  }
+  return {scanned: urls.length, skipped: [], urls: unique(urls)};
+}
+
+function generateChangedUrls({docsDir, sitemapPath, from, to, siteUrl, baseUrl, trailingSlash}) {
+  if (!from) {
+    return generateAllUrls({sitemapPath});
+  }
+
+  const entries = listChangedDocEntries(docsDir, from, to);
   const skipped = [];
   const urls = [];
-  files.forEach((filePath) => {
-    const slug = parseFrontmatterSlug(filePath);
-    if (!slug) {
-      skipped.push(filePath);
-      return;
+  for (const entry of entries) {
+    if (entry.oldPath) {
+      const oldSlug = parseSlugAtRef(from, entry.oldPath);
+      if (oldSlug) {
+        urls.push(buildUrl({siteUrl, baseUrl, slug: oldSlug, trailingSlash}));
+      } else {
+        skipped.push(`${from}:${entry.oldPath}`);
+      }
     }
-    urls.push(buildUrl({siteUrl, baseUrl, slug}));
-  });
-  return {
-    files,
-    skipped,
-    urls: unique(urls),
-  };
+    if (entry.newPath) {
+      const newSlug = parseSlugAtRef(to, entry.newPath);
+      if (newSlug) {
+        urls.push(buildUrl({siteUrl, baseUrl, slug: newSlug, trailingSlash}));
+      } else {
+        skipped.push(`${to}:${entry.newPath}`);
+      }
+    }
+  }
+  return {scanned: entries.length, skipped, urls: unique(urls)};
 }
 
 async function main() {
@@ -243,6 +327,7 @@ async function main() {
   const rootDir = process.cwd();
   const docsDir = path.resolve(rootDir, args.docsDir || 'docs');
   const configPath = path.resolve(rootDir, args.config || 'docusaurus.config.js');
+  const sitemapPath = path.resolve(rootDir, args.sitemap || 'build/sitemap.xml');
   const outputPath = path.resolve(rootDir, args.output || '.indexnow/changed-urls.txt');
   const outputFormat = args.format === 'json' ? 'json' : 'text';
   const endpoint = args.endpoint || 'https://api.indexnow.org/indexnow';
@@ -252,69 +337,81 @@ async function main() {
 
   if (command === 'help') {
     console.log(`用法:
-  node scripts/indexnow.js key --key <INDEXNOW_KEY> [--file build/<key>.txt]
-  node scripts/indexnow.js urls [--from HEAD~1 --to HEAD] [--all] [--output .indexnow/changed-urls.txt]
-  node scripts/indexnow.js submit --key <INDEXNOW_KEY> [--input .indexnow/changed-urls.txt] [--dryRun] [--skipVerify]
-  node scripts/indexnow.js publish --key <INDEXNOW_KEY> [--from HEAD~1 --to HEAD] [--all] [--dryRun] [--skipVerify]
+  npm run indexnow:key
+  npm run indexnow:urls -- --from HEAD~1 --to HEAD
+  npm run indexnow:urls -- --all
+  npm run indexnow:submit -- --input .indexnow/changed-urls.txt [--dryRun]
+  npm run indexnow:publish -- --from HEAD~1 --to HEAD [--dryRun]
+  npm run indexnow:publish -- --all [--dryRun]
+
+key 读取顺序:
+  1. --key 参数
+  2. INDEXNOW_KEY 环境变量
+  3. .indexnow/key.txt
+  4. key 命令在都不存在时自动生成新 key
 
 说明:
-  - 开源仓库建议 key 文件放 build/，不要放 static 并提交。
-  - urls 只负责生成 URL 列表。
-  - publish 会先生成 URL 再提交 IndexNow。
-  - submit/publish 正式提交前会自动校验 keyLocation 内容是否与 --key 一致。`);
+  - npm run build 会在 Docusaurus 构建完成后，把 key 文件写入 build/<key>.txt。
+  - --all 直接读取 build/sitemap.xml，确保首页和全部规范 URL 都包含在内。
+  - urls/publish 默认同时读取 Git 变更前后的 slug，改名和删除时会包含旧 URL。
+  - publish 正式提交前会验证线上 https://javaup.chat/<key>.txt。
+  - IndexNow 只通知 Bing 等支持方重新抓取，不能替代旧 URL 到新 URL 的 301。`);
     return;
   }
 
   if (command === 'key') {
-    const key = args.key;
-    if (!key) {
-      throw new Error('缺少 --key');
-    }
-    const filePath = path.resolve(rootDir, args.file || `build/${key}.txt`);
+    const resolved = resolveKey({rootDir, args, allowGenerate: true});
+    persistKey(resolved);
+    const filePath = path.resolve(rootDir, args.file || `build/${resolved.key}.txt`);
     ensureDir(path.dirname(filePath));
-    fs.writeFileSync(filePath, `${key}\n`, 'utf8');
-    console.log(`已生成 key 文件: ${filePath}`);
+    fs.writeFileSync(filePath, `${resolved.key}\n`, 'utf8');
+    console.log(`IndexNow key 来源: ${resolved.source}`);
+    console.log(`持久保存位置: ${resolved.storePath}`);
+    console.log(`构建产物 key 文件: ${filePath}`);
+    console.log(`部署后校验地址: https://javaup.chat/${resolved.key}.txt`);
     return;
   }
 
   if (command === 'urls') {
-    const {siteUrl, baseUrl} = parseSiteConfig(configPath);
-    const result = generateUrls({
-      docsDir,
-      all: Boolean(args.all),
-      from,
-      to,
-      siteUrl: args.siteUrl || siteUrl,
-      baseUrl: args.baseUrl || baseUrl,
-    });
+    const siteConfig = parseSiteConfig(configPath);
+    const result = args.all
+      ? generateAllUrls({sitemapPath})
+      : generateChangedUrls({
+          docsDir,
+          sitemapPath,
+          from,
+          to,
+          siteUrl: args.siteUrl || siteConfig.siteUrl,
+          baseUrl: args.baseUrl || siteConfig.baseUrl,
+          trailingSlash: siteConfig.trailingSlash,
+        });
     writeUrls(outputPath, result.urls, outputFormat);
-    console.log(`扫描文档数: ${result.files.length}`);
+    console.log(`扫描文档/变更数: ${result.scanned}`);
     console.log(`生成 URL 数: ${result.urls.length}`);
-    console.log(`跳过无 slug 文档数: ${result.skipped.length}`);
+    console.log(`跳过无 slug 记录数: ${result.skipped.length}`);
     console.log(`输出文件: ${outputPath}`);
     result.skipped.forEach((item) => console.log(`- 无 slug: ${item}`));
     return;
   }
 
   if (command === 'submit' || command === 'publish') {
-    const key = args.key;
-    if (!key) {
-      throw new Error('缺少 --key');
-    }
-
+    const resolved = resolveKey({rootDir, args});
     let urls = [];
     if (command === 'submit') {
       urls = readUrls(path.resolve(rootDir, args.input || outputPath));
     } else {
-      const {siteUrl, baseUrl} = parseSiteConfig(configPath);
-      const result = generateUrls({
-        docsDir,
-        all: Boolean(args.all),
-        from,
-        to,
-        siteUrl: args.siteUrl || siteUrl,
-        baseUrl: args.baseUrl || baseUrl,
-      });
+      const siteConfig = parseSiteConfig(configPath);
+      const result = args.all
+        ? generateAllUrls({sitemapPath})
+        : generateChangedUrls({
+            docsDir,
+            sitemapPath,
+            from,
+            to,
+            siteUrl: args.siteUrl || siteConfig.siteUrl,
+            baseUrl: args.baseUrl || siteConfig.baseUrl,
+            trailingSlash: siteConfig.trailingSlash,
+          });
       urls = result.urls;
       writeUrls(outputPath, urls, outputFormat);
       console.log(`已生成 URL 文件: ${outputPath}（${urls.length} 条）`);
@@ -329,7 +426,7 @@ async function main() {
 
     const firstUrl = new URL(urls[0]);
     const host = args.host || firstUrl.host;
-    const keyLocation = args.keyLocation || `${firstUrl.origin}/${key}.txt`;
+    const keyLocation = args.keyLocation || `${firstUrl.origin}/${resolved.key}.txt`;
     const chunkSize = Number(args.chunkSize || 1000);
     const dryRun = Boolean(args.dryRun);
     const skipVerify = Boolean(args.skipVerify);
@@ -343,16 +440,17 @@ async function main() {
       throw new Error(`URL host 不一致: ${badHost}`);
     }
 
+    console.log(`IndexNow key 来源: ${resolved.source}`);
     if (!dryRun && !skipVerify) {
       console.log(`校验 keyLocation: ${keyLocation}`);
-      await verifyKeyLocation({keyLocation, key});
+      await verifyKeyLocation({keyLocation, key: resolved.key});
       console.log('keyLocation 校验通过。');
     }
 
     const total = await submitIndexNow({
       endpoint,
       host,
-      key,
+      key: resolved.key,
       keyLocation,
       urls,
       chunkSize,

@@ -1,12 +1,15 @@
 ---
 slug: /dock-data-center/design/starter
-description: "Spring Boot Starter自动装配原理解析，覆盖AutoConfiguration装载、条件注解匹配与自定义Starter扩展方式，提升中台组件接入效率。"
+title: "SpringBoot Starter 自动装配的深度解析：Spring Boot Starter详解"
+sidebar_label: "SpringBoot Starter 自动装配的深度解析"
+pagination_label: "SpringBoot Starter 自动装配的深度解析"
+description: "Spring Boot Starter自动装配原理解析，覆盖AutoConfiguration装载、条件注解匹配与自定义Starter扩展方式，提升中台组件接入效率。内容进一步围绕spring.factories、Bean装载等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查…"
 keywords: ["Spring Boot Starter", "自动装配", "AutoConfiguration", "条件注解", "spring.factories", "自定义Starter", "Bean装载", "组件接入"]
 ---
 
 # SpringBoot Starter 自动装配的深度解析
 
-# 一、痛点回顾：传统 Spring 项目的繁琐配置
+## 一、痛点回顾：传统 Spring 项目的繁琐配置
 
 还记得那些年我们配置 Spring 项目的场景吗？
 
@@ -68,7 +71,7 @@ keywords: ["Spring Boot Starter", "自动装配", "AutoConfiguration", "条件�
 
 这种开发模式就像**手工作坊**——每次搭建项目都要从头做一遍重复劳动，效率低下且容易出错。
 
-# 二、Starter 登场：SpringBoot 的杀手锏功能
+## 二、Starter 登场：SpringBoot 的杀手锏功能
 
 SpringBoot 团队敏锐地意识到了这个痛点，于是提出了革命性的解决方案：**Starter（启动器）**。
 
@@ -109,7 +112,7 @@ SpringBoot 团队敏锐地意识到了这个痛点，于是提出了革命性的
 | 需要深入了解框架才能正确配置 | 开箱即用的默认配置，降低学习曲线           |
 | 项目搭建耗时长，重复劳动多   | 秒级启动，专注业务开发                     |
 
-# 三、揭秘黑盒：自动装配机制完全解析
+## 三、揭秘黑盒：自动装配机制完全解析
 
 Starter 能够"开箱即用"，核心秘密在于 SpringBoot 的 **自动装配（Auto-Configuration）** 机制。让我们逐层剥开这个黑盒。
 ```mermaid
@@ -379,7 +382,7 @@ SpringBoot 会自动将配置文件的值绑定到 `DataSourceProperties` 对象
 应用启动完成，功能可用
 ```
 
-# 四、实战演练：从零构建一个生产级 Starter
+## 四、实战演练：从零构建一个生产级 Starter
 
 理论讲完，我们来动手实践。假设我们要开发一个**短信发送服务的 Starter**，支持阿里云和腾讯云两种实现。
 
@@ -653,7 +656,7 @@ public class AuthController {
 
 这样在 IDEA 或 VSCode 中编辑 `application.yml` 时就会有智能提示和文档说明。
 
-# 五、版本差异：SpringBoot 2.x 与 3.x 的关键变更
+## 五、版本差异：SpringBoot 2.x 与 3.x 的关键变更
 
 | 对比维度     | SpringBoot 2.x              | SpringBoot 3.x                                               |
 | ------------ | --------------------------- | ------------------------------------------------------------ |
@@ -663,7 +666,7 @@ public class AuthController {
 | 多个配置类   | 用逗号或反斜杠换行连接      | 每行一个类                                                   |
 | 性能         | 需解析 Properties 格式      | 直接按行读取，更快                                           |
 
-# 六、官方 Starter 生态全景图
+## 六、官方 Starter 生态全景图
 
 SpringBoot 官方提供了丰富的 Starter 家族，覆盖了几乎所有常见场景。
 
@@ -733,7 +736,7 @@ SpringBoot 官方提供了丰富的 Starter 家族，覆盖了几乎所有常见
 - 官方 Starter：`spring-boot-starter-{name}`
 - 第三方 Starter：`{name}-spring-boot-starter`
 
-# 七、最佳实践与踩坑指南
+## 七、最佳实践与踩坑指南
 
 ## 7.1 自定义 Starter 的最佳实践
 

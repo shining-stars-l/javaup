@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/skywalking-source/skywalking-part-4
+title: "Skywalking流程分析_4：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Skywalking流程分析4"
+pagination_label: "Skywalking流程分析4"
+description: "插件的结构。内容进一步围绕Skywalking流程分析_4等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Skywalking流程分析_4
@@ -7,7 +11,7 @@ slug: /tech-sharing/skywalking-source/skywalking-part-4
 
 之前我们介绍了插件的加载，接下来就是真正开始进行插件的执行了，首先要看下插件的结构是怎么样的，以阿里的`druid`数据源为例
 
-![](/img/technologySharing/skywalkiing/阿里的druid数据源插件.png)
+![插件的结构：阿里的druid数据源插件](/img/technologySharing/skywalkiing/阿里的druid数据源插件.png)
 
 skywalking-plugin.def:
 
@@ -222,7 +226,7 @@ skywalking对这个问题的处理很巧妙，就是判断当前的类加载器�
 ## 类识别
 
 判断是否存在一个或多个类仅同时存在于某一个版本中
-![](/img/technologySharing/skywalkiing/类识别.jpeg)
+![类识别](/img/technologySharing/skywalkiing/类识别.jpeg)
 
 - 在插件生效前会判断当前的版本是否存在对应的类
 - 假设应用中使用的是Spring 5.x，那么Srping-5.x-plugin判断确实存在C类，那么此版本就会生效
@@ -233,7 +237,7 @@ skywalking对这个问题的处理很巧妙，就是判断当前的类加载器�
 ## 方法识别
 
 当判断版本之间的类都相同是，类识别就没有办法了，这时就需要方法识别
-![](/img/technologySharing/skywalkiing/方法识别.png)
+![方法识别](/img/technologySharing/skywalkiing/方法识别.png)
 
 - 如图，假设只有Spring3.x存在A类，Spring4.x和Spring5.x类都相同，但Spring4.x的A类存在`test`方法，返回类型为`Integer`，入参类型为`Integer`、`String`。Spring5.x的A类也存在`test`方法，但返回类型为`String`，入参类型为`String`
 - 在插件生效前就会判断如何当前A类存在`Intger test(Integer,String)`，那么Spring-4.x-plugin生效

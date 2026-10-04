@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors/rag-executor-main-flow
-description: 深入讲解 RagChatExecutor 执行器的 execute 方法主流程，包括检索阶段的启动、异步执行、阶段追踪和错误处理机制。
+title: "RagChatExecutor执行器的主流程：execute方法、RAG检索、异步执行详解"
+sidebar_label: "RagChatExecutor执行器的主流程"
+pagination_label: "RagChatExecutor执行器的主流程"
+description: "深入讲解 RagChatExecutor 执行器的 execute 方法主流程，包括检索阶段的启动、异步执行、阶段追踪和错误处理机制。内容进一步围绕execute方法、RAG检索、弹性线程池、知识问答等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面…"
 keywords: [RagChatExecutor, execute方法, RAG检索, 异步执行, 阶段追踪, 弹性线程池, 知识问答]
 ---
 

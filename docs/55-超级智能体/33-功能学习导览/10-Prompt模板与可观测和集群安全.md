@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/feature-guide/prompt-and-observability
-description: Prompt模板管理与全链路可观测的功能详解，包括StringTemplate4模板引擎、链路追踪、检索观测、集群安全机制。
+title: "Prompt 模板、可观测与集群安全：Prompt模板、StringTemplate4详解"
+sidebar_label: "Prompt 模板、可观测与集群安全"
+pagination_label: "Prompt 模板、可观测与集群安全"
+description: "Prompt模板管理与全链路可观测的功能详解，包括StringTemplate4模板引擎、链路追踪、检索观测、集群安全机制。内容进一步围绕全链路追踪、ConversationTraceRecorder、Redis租约等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: [Prompt模板, StringTemplate4, 全链路追踪, ConversationTraceRecorder, 可观测, Redis租约, 集群安全]
 ---
 

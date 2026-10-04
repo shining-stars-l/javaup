@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/feature-guide/rag-retrieval-engine
-description: RAG检索引擎的功能详解，包括双通道检索、RRF融合、父块提升、Rerank重排序、证据预算控制等核心机制。
+title: "RAG 检索引擎：RAG检索、双通道、向量检索、关键词检索、RRF融合、父块提升、Rerank详解"
+sidebar_label: "RAG 检索引擎"
+pagination_label: "RAG 检索引擎"
+description: "RAG检索引擎的功能详解，包括双通道检索、RRF融合、父块提升、Rerank重排序、证据预算控制等核心机制。内容进一步围绕向量检索、关键词检索等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计…"
 keywords: [RAG检索, 双通道, 向量检索, 关键词检索, RRF融合, 父块提升, Rerank, 证据预算]
 ---
 

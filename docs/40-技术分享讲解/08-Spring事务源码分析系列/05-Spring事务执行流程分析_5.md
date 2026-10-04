@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-5
+title: "Spring事务执行流程分析_5：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析5"
+pagination_label: "Spring事务执行流程分析5"
+description: "依旧进入刷新refresh方法AbstractApplicationContext#refresh ->。内容进一步围绕Spring事务执行流程分析_5等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用…"
 ---
 
 # Spring事务执行流程分析_5
@@ -331,9 +335,9 @@ public @interface EnableTransactionManagement
 解析`@EnableTransactionManagement`注解就是在`processImports(configClass, sourceClass, getImports(sourceClass), filter, true)`这一行中执行的。
 
 ### 此时的beanDefinitionMap：
-![](/img/technologySharing/spring/beanDefinitionMap.png)
+![beanDefinitionMap](/img/technologySharing/spring/beanDefinitionMap.png)
 ### 此时的singletonObjects:
-![](/img/technologySharing/spring/singletonObjects.png)
+![singletonObjects](/img/technologySharing/spring/singletonObjects.png)
 
 ## 执行BeanPostProcessors处理器
 
@@ -456,7 +460,7 @@ public static void registerBeanPostProcessors(
 ```
 
 此时的singletonObjects：
-![](/img/technologySharing/spring/此时的singletonObjects2.png)
+![AbstractApplicationContext#registerBeanPostProcessors：此时的singletonObjects2](/img/technologySharing/spring/此时的singletonObjects2.png)
 
 ## 初始化剩下的单实例（非懒加载的）
 
@@ -737,4 +741,4 @@ txAttr：RuleBasedTransactionAttribute类型， PROPAGATION_REQUIRED,ISOLATION_D
 
 ### 注解形式 事务的初始化流程图
 
-![](/img/technologySharing/spring/注解形式事务的初始化流程图.png)
+![注解形式 事务的初始化流程图：注解形式事务的初始化流程图](/img/technologySharing/spring/注解形式事务的初始化流程图.png)

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/rag/evaluation-metrics
-description: "RAG系统上线后怎么知道它好不好？靠用户投诉太晚了。本文建立一套分层量化指标：检索层看Hit@K和MRR、生成层用RAGAs做自动评分、线上用业务指标做最终验收"
+title: "RAG效果评估与量化指标：RAG评估、Hit@K、MRR、RAGAs、Faithfulness详解"
+sidebar_label: "RAG效果评估与量化指标"
+pagination_label: "RAG效果评估与量化指标"
+description: "RAG系统上线后怎么知道它好不好？靠用户投诉太晚了。本文建立一套分层量化指标：检索层看Hit@K和MRR、生成层用RAGAs做自动评分、线上用业务指标做最终验收。内容进一步围绕RAG评估、Faithfulness、Answer Relevancy、Context Recall、LLM-as-Judge等关键主题展开。"
 keywords: ["RAG评估", "Hit@K", "MRR", "RAGAs", "Faithfulness", "Answer Relevancy", "Context Recall", "LLM-as-Judge", "RAG指标"]
 ---
 

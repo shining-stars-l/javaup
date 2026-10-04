@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/sentinel/sentinel/principles
+title: "Sentinel基本原理以及核心类介绍：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Sentinel基本原理以及核心类介绍"
+pagination_label: "Sentinel基本原理以及核心类介绍"
+description: "架构图。内容进一步围绕Sentinel基本原理以及核心类介绍等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。文中的关键结论也可作为日常开发、方案评审、故障定位与性能优化时的参考。"
 ---
 
 # Sentinel基本原理以及核心类介绍
@@ -120,7 +124,7 @@ CtEntry 为普通的 Entry，在调用 SphU.entry(xxx) 的时候创建。特性�
 
 **Node关系图**
 
-![](/img/technologySharing/sentinel/Node关系图.png)
+![Node关系图](/img/technologySharing/sentinel/Node关系图.png)
 
 ## slot
 
@@ -142,7 +146,7 @@ ClusterNode。
 
 Sentinel槽链中各Slot的执行顺序是固定好的。但并不是绝对不能改变的。Sentinel将ProcessorSlot 作
 为 SPI 接口进行扩展，使得 SlotChain 具备了扩展能力。用户可以自定义Slot并编排Slot 间的顺序。
-![](/img/technologySharing/sentinel/spi机制.png)
+![spi机制](/img/technologySharing/sentinel/spi机制.png)
 
 ### 官网描述
 开发者可以在用同一个 sentinel-core 的基础上自行扩展接口实现，从而可以方便地根据业务需求给 Sentinel 添加自定义的逻辑。目前 Sentinel 提供如下的扩展点：
@@ -153,4 +157,4 @@ Sentinel槽链中各Slot的执行顺序是固定好的。但并不是绝对不�
 - Transport 扩展：提供 CommandHandler、CommandCenter 等接口，用于对心跳发送、监控 API Server 进行扩展。
 - 集群流控扩展：可以方便地定制 token client/server 自定义实现，可参考[对应文档](https://github.com/alibaba/Sentinel/wiki/%E9%9B%86%E7%BE%A4%E6%B5%81%E6%8E%A7#%E6%89%A9%E5%B1%95%E6%8E%A5%E5%8F%A3%E8%AE%BE%E8%AE%A1)
 - 日志扩展：用于自定义 record log Logger，可用于对接 slf4j 等标准日志实现。
-  ![](/img/technologySharing/sentinel/官网描述.png)
+  ![官网描述](/img/technologySharing/sentinel/官网描述.png)

@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/springboot-issues/spring-bean
+title: "Spring中依赖注入的继承bean的细节问题：核心原理、实现机制、源码分析、工程实践详解"
+sidebar_label: "Spring中依赖注入的继承bean的细节问题"
+pagination_label: "Spring中依赖注入的继承bean的细节问题"
+description: "有时我们会对一种类型的bean进行继承，在Spring生成bean的时候，返回类型有时是子类类型，有时会父类类型。那么到底在什么情况下用哪种类型呢？肯定有不少人会忽略这点，本篇文章就是把这个细节讲清楚。内容进一步围绕Spring中依赖注入的继承bean的细节问题等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关…"
 ---
 
 

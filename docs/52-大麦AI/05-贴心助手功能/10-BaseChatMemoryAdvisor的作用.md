@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/assistant/base-chat-memory-advisor
-description: "会话记忆Advisor基类机制解析，说明基于会话上下文实现记忆读写、请求增强和响应后处理的扩展方式，支撑多轮对话能力复用。"
+title: "BaseChatMemoryAdvisor的作用：会话记忆Advisor、上下文读取详解"
+sidebar_label: "BaseChatMemoryAdvisor的作用"
+pagination_label: "BaseChatMemoryAdvisor的作用"
+description: "会话记忆Advisor基类机制解析，说明基于会话上下文实现记忆读写、请求增强和响应后处理的扩展方式，支撑多轮对话能力复用。内容进一步围绕上下文读取、记忆写入、执行链扩展、Spring AI扩展等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["会话记忆Advisor", "上下文读取", "记忆写入", "请求增强", "响应后处理", "执行链扩展", "多轮对话", "Spring AI扩展"]
 ---
 

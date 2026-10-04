@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors-prepare/auto-document-routing-overview
-description: 详细讲解 AUTO_DOCUMENT 模式下的知识范围路由流程，包括路由决策的调用、候选文档的选择、澄清判断逻辑，以及路由追踪记录。
+title: "AUTO_DOCUMENT 模式的知识范围路由：KnowledgeRouteService详解"
+sidebar_label: "AUTODOCUMENT 模式的知识范围路由"
+pagination_label: "AUTODOCUMENT 模式的知识范围路由"
+description: "详细讲解 AUTO_DOCUMENT 模式下的知识范围路由流程，包括路由决策的调用、候选文档的选择、澄清判断逻辑，以及路由追踪记录。内容进一步围绕KnowledgeRouteService、自动路由、澄清机制等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议…"
 keywords: [AUTO_DOCUMENT, 知识范围路由, KnowledgeRouteService, 自动路由, 候选文档, 澄清机制]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /damai/tech-highlights/hystrix-threadlocal-loss
-description: "围绕《详解Hystrix传递ThreadLocal数据失效问题》，重点讲解Hystrix线程隔离、ThreadLocal失效、concurrencyStrategy扩展、wrapCallable包装与SPI机制接入等技术实现与工程实践。"
+title: "详解Hystrix传递ThreadLocal数据失效问题：ThreadLocal失效详解"
+sidebar_label: "详解Hystrix传递ThreadLocal数据失效问题"
+pagination_label: "详解Hystrix传递ThreadLocal数据失效问题"
+description: "围绕《详解Hystrix传递ThreadLocal数据失效问题》，重点讲解Hystrix线程隔离、ThreadLocal失效、concurrencyStrategy扩展、wrapCallable包装与SPI机制接入等技术实现与工程实践。内容进一步围绕上下文传递、Hystrix并发策略等关键主题展开。"
 keywords: ["Hystrix", "ThreadLocal失效", "concurrencyStrategy", "wrapCallable", "SPI机制", "线程隔离", "上下文传递", "Hystrix并发策略"]
 ---
 

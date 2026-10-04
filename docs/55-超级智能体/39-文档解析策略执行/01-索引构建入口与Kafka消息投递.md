@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/document-index-build/sync-entry-and-kafka-dispatch
-description: 从 Controller 接收索引构建请求开始，逐层拆解同步链路：参数校验、任务创建、状态流转、日志记录，直到 Kafka 消息投递，每一步都贴出关键源码并配合讲解。
+title: "索引构建入口与Kafka消息投递：buildIndex、异步消息、任务创建、核心原理详解"
+sidebar_label: "索引构建入口与Kafka消息投递"
+pagination_label: "索引构建入口与Kafka消息投递"
+description: "从 Controller 接收索引构建请求开始，逐层拆解同步链路：参数校验、任务创建、状态流转、日志记录，直到 Kafka 消息投递，每一步都贴出关键源码并配合讲解。内容进一步围绕buildIndex、DocumentManageController、DocumentManageServiceImpl、异步消息、Do…"
 keywords: [索引构建, buildIndex, DocumentManageController, DocumentManageServiceImpl, Kafka, 异步消息, 任务创建, DocumentIndexBuildDto, DocumentKafkaProducer]
 ---
 
@@ -10,7 +13,7 @@ import VipInline from '@site/src/components/VipInline';
 
 这篇文档讲的是：用户在页面上点击"构建索引"之后，后端同步做了哪些事情？从 Controller 接到请求开始，一直到把消息丢进 Kafka 队列，整条同步链路我们一步步拆开来看。
 
-<img src="/img/super-agent/截图/构建索引执行.png" width="100%" />
+<img alt="索引构建入口与Kafka消息投递：构建索引执行" src="/img/super-agent/截图/构建索引执行.png" width="100%" />
 
 先上一张总览流程图，有个整体印象之后再逐段看源码。
 

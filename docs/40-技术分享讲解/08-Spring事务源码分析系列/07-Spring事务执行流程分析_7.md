@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/spring-tx-source/spring-part-7
+title: "Spring事务执行流程分析_7：核心原理、实现机制、源码分析、工程实践、应用场景详解"
+sidebar_label: "Spring事务执行流程分析7"
+pagination_label: "Spring事务执行流程分析7"
+description: "如果update方法中调用了其他的service类的方法，那么这个service类的方法同样也要加上事务，那么以上的逻辑也是要执行一遍，但是这时是在一个线程中，所以在取数据源连接时就会直接取到上一个service方法的连接了。内容进一步围绕Spring事务执行流程分析_7等关键主题展开。通过原理拆解、实现步骤与适用场…"
 ---
 
 # Spring事务执行流程分析_7

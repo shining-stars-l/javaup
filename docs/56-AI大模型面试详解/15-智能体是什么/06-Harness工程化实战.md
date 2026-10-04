@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/agent/harness-engineering
-description: "从工程实践出发，深度讲解Agent Harness的六层架构、上下文利用率瓶颈、系统化构建策略、以及业界真实案例。掌握如何通过系统设计而非单纯模型升级来实现Agent能力的10倍提升。"
+title: "Harness工程化实战：Agent Harness、智能体工程、上下文工程、系统架构详解"
+sidebar_label: "Harness工程化实战"
+pagination_label: "Harness工程化实战"
+description: "从工程实践出发，深度讲解Agent Harness的六层架构、上下文利用率瓶颈、系统化构建策略、以及业界真实案例。掌握如何通过系统设计而非单纯模型升级来实现Agent能力的10倍提升。内容进一步围绕智能体工程、上下文工程、系统架构、多agent协作、提示词工程等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方…"
 keywords: ["Agent Harness", "智能体工程", "上下文工程", "系统架构", "多agent协作", "提示词工程"]
 ---
 

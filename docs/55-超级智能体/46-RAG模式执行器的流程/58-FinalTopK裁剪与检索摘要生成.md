@@ -1,6 +1,9 @@
 ---
 slug: /super-agent/chat-executors/final-topk-and-summary
-description: 讲解 RAG 检索流程中 Rerank 之后的 FinalTopK 裁剪、检索摘要生成、通道轨迹构建，以及 trace 观测记录的触发入口。
+title: "FinalTopK 裁剪与检索摘要生成：summarizeChannelResults详解"
+sidebar_label: "FinalTopK 裁剪与检索摘要生成"
+pagination_label: "FinalTopK 裁剪与检索摘要生成"
+description: "讲解 RAG 检索流程中 Rerank 之后的 FinalTopK 裁剪、检索摘要生成、通道轨迹构建，以及 trace 观测记录的触发入口。内容进一步围绕summarizeChannelResults、buildChannelTraces、上下文预算等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。"
 keywords: [FinalTopK, 检索摘要, summarizeChannelResults, buildChannelTraces, 通道轨迹, 上下文预算]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/llm-intro/moe-deployment-selection
-description: "MoE混合专家架构深度拆解（Router机制、负载均衡、DeepSeek V3实践）、大模型部署框架对比（vLLM/TGI/llama.cpp/SGLang）、评测指标体系、主流模型选型方法论"
+title: "MoE架构与模型部署选型：混合专家、DeepSeek V3、vLLM、TGI、llama.cpp详解"
+sidebar_label: "MoE架构与模型部署选型"
+pagination_label: "MoE架构与模型部署选型"
+description: "MoE混合专家架构深度拆解（Router机制、负载均衡、DeepSeek V3实践）、大模型部署框架对比（vLLM/TGI/llama.cpp/SGLang）、评测指标体系、主流模型选型方法论。内容进一步围绕MMLU等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目…"
 keywords: ["MoE", "混合专家", "DeepSeek V3", "vLLM", "TGI", "llama.cpp", "SGLang", "模型部署", "评测指标", "模型选型", "MMLU", "负载均衡"]
 ---
 

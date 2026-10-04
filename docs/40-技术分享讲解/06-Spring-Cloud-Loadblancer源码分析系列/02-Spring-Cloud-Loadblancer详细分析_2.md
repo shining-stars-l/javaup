@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/sclb-source/spring-cloud-loadblancer-part-2
+title: "Spring-Cloud-Loadblancer详细分析_2：核心原理、实现机制、源码分析详解"
+sidebar_label: "Spring-Cloud-Loadblancer详细分析2"
+pagination_label: "Spring-Cloud-Loadblancer详细分析2"
+description: "@LoadBalancerClients。内容进一步围绕Spring-Cloud-Loadblancer详细分析_2等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。"
 ---
 
 # Spring-Cloud-Loadblancer详细分析_2
@@ -146,14 +150,14 @@ public class LoadBalancerClientConfigurationRegistrar implements ImportBeanDefin
 
 - 当`LoadBalancerClientFactory`实例化的时候，就会获取`LoadBalancerClientSpecification`的对象了
 
-![](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory实例化1.jpg)
-![](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory实例化2.jpg)
+![LoadBalancerClientConfigurationRegistrar：LoadBalancerClientFactory实例化1](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory实例化1.jpg)
+![LoadBalancerClientConfigurationRegistrar：LoadBalancerClientFactory实例化2](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory实例化2.jpg)
 - 可以看到将`LoadBalancerAutoConfiguration`和`BlockingLoadBalancerClientAutoConfiguration`注入，包装成`LoadBalancerClientSpecification`类型
 
 ## LoadBalancerClientFactory
 
 再看一眼`LoadBalancerClientFactory`bean实例生成的过程
-![](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory.jpg)
+![LoadBalancerClientFactory](/img/technologySharing/Spring-Cloud-Loadblancer/LoadBalancerClientFactory.jpg)
 可以看到将`LoadBalancerClientSpecification`类型的`LoadBalancerAutoConfiguration`和`BlockingLoadBalancerClientAutoConfiguration`通过`setConfiguations`方法注入了进入
 
 `setConfiguations`方法是在父类`NamedContextFactory`中执行的，稍微会分析`NamedContextFactory`，这里先分析`LoadBalancerClientFactory`的结构
@@ -283,7 +287,7 @@ public class LoadBalancerClientFactory extends NamedContextFactory<LoadBalancerC
 在`LoadBalancerClientFactory`生成bean的过程中，调用完构造方法后，又执行了`clientFactory.setConfigurations(this.configurations.getIfAvailable(Collections::emptyList))`，此方法是在父类`NamedContextFactory`执行的
 
 看一下`clientFactory.setConfigurations(this.configurations.getIfAvailable(Collections::emptyList))`执行结果
-![](/img/technologySharing/Spring-Cloud-Loadblancer/clientFactory.setConfigurations.png)
+![LoadBalancerClientConfiguration：clientFactory.setConfigurations](/img/technologySharing/Spring-Cloud-Loadblancer/clientFactory.setConfigurations.png)
 
 下面我们要分析父类`NamedContextFactory`，非常的重要
 

@@ -1,6 +1,9 @@
 ---
 slug: /hmdp-plus/components/kafka-producer
-description: "详细介绍 Kafka生产者抽象组件的设计，包括消息发送处理、失败重试、成功回调等机制。"
+title: "Kafka 生产者抽象组件详细指南：Kafka生产者、MQ组件、消息发送、失败重试详解"
+sidebar_label: "Kafka 生产者抽象组件详细指南"
+pagination_label: "Kafka 生产者抽象组件详细指南"
+description: "详细介绍 Kafka生产者抽象组件的设计，包括消息发送处理、失败重试、成功回调等机制。内容进一步围绕MQ组件、设计模式等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结论应用到系统设计与工程实践中。"
 keywords: ["Kafka生产者", "MQ组件", "消息发送", "失败重试", "设计模式"]
 ---
 

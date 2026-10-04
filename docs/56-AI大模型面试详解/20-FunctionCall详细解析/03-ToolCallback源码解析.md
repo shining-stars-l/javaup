@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/function-call/tool-callback-source-analysis
-description: "深入Spring AI源码，探索ToolCallback接口设计、FunctionToolCallback与MethodToolCallback的实现差异，理解工具调用的底层执行机制"
+title: "ToolCallback源码解析：FunctionToolCallback、Spring AI源码详解"
+sidebar_label: "ToolCallback源码解析"
+pagination_label: "ToolCallback源码解析"
+description: "深入Spring AI源码，探索ToolCallback接口设计、FunctionToolCallback与MethodToolCallback的实现差异，理解工具调用的底层执行机制。内容进一步围绕反射调用、函数式接口等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项…"
 keywords: ["ToolCallback", "FunctionToolCallback", "MethodToolCallback", "Spring AI源码", "反射调用", "函数式接口"]
 ---
 

@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/spring-ai-detail/java-llm-landscape
-description: "全面对比Java生态中调用大模型的四种主流方案：原生HTTP、Spring AI、Spring AI Alibaba、LangChain4j，帮你选出最适合项目的技术栈"
+title: "Java调用大模型全景图：Java大模型、Spring AI、Spring AI Alibaba详解"
+sidebar_label: "Java调用大模型全景图"
+pagination_label: "Java调用大模型全景图"
+description: "全面对比Java生态中调用大模型的四种主流方案：原生HTTP、Spring AI、Spring AI Alibaba、LangChain4j，帮你选出最适合项目的技术栈。内容进一步围绕Java大模型、技术选型、框架对比等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项…"
 keywords: ["Java大模型", "Spring AI", "Spring AI Alibaba", "LangChain4j", "技术选型", "框架对比"]
 ---
 

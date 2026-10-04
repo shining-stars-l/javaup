@@ -1,5 +1,9 @@
 ---
 slug: /tech-sharing/springboot-issues/spring-smartlifecycle-lifecycle
+title: "Spring中的SmartLifecycle和Lifecycle：核心原理、实现机制详解"
+sidebar_label: "Spring中的SmartLifecycle和Lifecycle"
+pagination_label: "Spring中的SmartLifecycle和Lifecycle"
+description: "1. Lifecycle是spring提供的生命周期操作的一个接口，用户可以在容器的启动和停止时执行自己的逻辑。内容进一步围绕Spring中的SmartLifecycle和Lifecycle等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 ---
 
 

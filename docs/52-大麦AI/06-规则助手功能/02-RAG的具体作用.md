@@ -1,6 +1,9 @@
 ---
 slug: /damai-ai/rules-assistant/rag-purpose
-description: "RAG作用机制详解，讲解Embedding向量化、相似度检索与上下文拼接生成的关键步骤，说明其如何提升规则问答准确率与稳定性。"
+title: "RAG的具体作用：RAG机制、Embedding向量化、相似度检索、上下文拼接、知识增强生成详解"
+sidebar_label: "RAG的具体作用"
+pagination_label: "RAG的具体作用"
+description: "RAG作用机制详解，讲解Embedding向量化、相似度检索与上下文拼接生成的关键步骤，说明其如何提升规则问答准确率与稳定性。内容进一步围绕RAG机制、知识增强生成、语义召回、规则助手等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。"
 keywords: ["RAG机制", "Embedding向量化", "相似度检索", "上下文拼接", "知识增强生成", "语义召回", "问答准确率", "规则助手"]
 ---
 

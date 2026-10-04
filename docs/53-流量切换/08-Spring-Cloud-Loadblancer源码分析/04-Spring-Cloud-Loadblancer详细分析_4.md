@@ -1,6 +1,9 @@
 ---
 slug: /link-flow/loadbalancer-analysis/sclb-analysis-4
-description: "Spring Cloud LoadBalancer源码分析第四篇，讲解轮询负载策略中的服务列表拉取、缓存协同与实例轮询算法实现细节。"
+title: "Spring-Cloud-Loadblancer详细分析_4：服务列表拉取、实例缓存详解"
+sidebar_label: "Spring-Cloud-Loadblancer详细分析4"
+pagination_label: "Spring-Cloud-Loadblancer详细分析4"
+description: "Spring Cloud LoadBalancer源码分析第四篇，讲解轮询负载策略中的服务列表拉取、缓存协同与实例轮询算法实现细节。内容进一步围绕RoundRobinLoadBalancer、ServiceInstanceListSupplier、实例缓存、负载策略实现、服务实例供应等关键主题展开。"
 keywords: ["RoundRobinLoadBalancer", "ServiceInstanceListSupplier", "服务列表拉取", "实例缓存", "轮询算法", "负载策略实现", "服务实例供应", "源码分析"]
 ---
 

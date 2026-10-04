@@ -1,6 +1,9 @@
 ---
 slug: /damai/knowledge/nacos-core
-description: "Nacos核心知识点深度总结，包括Client模型与连接管理、重试机制、gRPC长连接健康检查、ServiceManager服务管理、集群数据同步、服务注册与发现等核心机制源码级剖析"
+title: "Nacos核心知识点总结：Client模型、gRPC长连接、服务注册发现、集群数据同步详解"
+sidebar_label: "Nacos核心知识点总结"
+pagination_label: "Nacos核心知识点总结"
+description: "Nacos核心知识点深度总结，包括Client模型与连接管理、重试机制、gRPC长连接健康检查、ServiceManager服务管理、集群数据同步、服务注册与发现等核心机制源码级剖析。内容进一步围绕服务注册发现等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建…"
 keywords: ["Nacos核心知识", "Client模型", "gRPC长连接", "服务注册发现", "集群数据同步"]
 ---
 
@@ -18,7 +21,7 @@ ConnectionBasedClientManager负责管理长连接clientId与Client模型的映�
 
 <br/>
 
-# 客户端重试机制
+## 客户端重试机制
 
 由于网络的不稳定，RPC 请求可能失败，那么失败了就得有保障措施，比如说请求重试。
 
@@ -28,7 +31,7 @@ Nacos 中的服务注册的请求重试就是通过 RedoService 实现的。
 
 <br/>
 
-# 健康检查机制
+## 健康检查机制
 
 - 在2.0版本以后，持久实例不变，临时实例而是通过 **长连接** 来判断实例是否健康。
 
@@ -115,7 +118,7 @@ public class ConnectionBasedClientManager extends ClientConnectionEventListener 
 ```
 <br/>
 
-# ServiceManager
+## ServiceManager
 
 ```java
 //ServiceManager是 Nacos的服务管理器，内部维护了两个 ConcurrentHashMap 类型的成员变量，singletonRepository 用来保证Service的单例；
@@ -146,7 +149,7 @@ public Service getSingleton(Service service) {
 
 <br/>
 
-# 集群间的数据同步
+## 集群间的数据同步
 
 为了确保集群间数据一致，不仅仅依赖于`数据发生改变时`的实时同步，后台有`定时任务`做数据同步
 
@@ -156,7 +159,7 @@ public Service getSingleton(Service service) {
 
 <br/>
 
-# 集群接受客户端的注册或注销
+## 集群接受客户端的注册或注销
 
 - 在 `1.x` 中，所有客户端请求会经过 `DistroFilter`，它会判断当前节点是否为责任节点，判断的方法：如果 hash 服务名然后和 nacos 节点数量取模，得到的值就是责任节点的下标。如果当前节点不是责任节点，则转发给责任节点处理，责任节点处理后，由当前节点返回客户端
 
@@ -164,7 +167,7 @@ public Service getSingleton(Service service) {
 
 <br/>
 
-# 注册中心模型
+## 注册中心模型
 
 - `Service`：服务，namespace+group+name=**单例**Service。**Service与Instance不会直接发生关系**，由 ServiceManager 管理 
 
@@ -176,7 +179,7 @@ public Service getSingleton(Service service) {
 
 <br/>
 
-# 模型索引
+## 模型索引
 **Service 与 Instance 没有直接关系**，需要通过遍历所有 Client 注册的服务和实例，得到 Service 下所有 Instance。为了加速查询，提供了两个索引服务
 
 - `ClientServiceIndexesManager`：Service->Client，**服务与发布这个服务** 和 **服务与监听这个服务**的客户端的关联关系

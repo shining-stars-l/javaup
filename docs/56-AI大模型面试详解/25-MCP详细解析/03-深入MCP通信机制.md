@@ -1,6 +1,9 @@
 ---
 slug: /ai-interview/mcp/json-rpc
-description: "深入理解MCP底层的JSON-RPC通信协议，掌握数据层标准化的实现原理与完整生命周期"
+title: "深入MCP通信机制：JSON-RPC、MCP通信协议、MCP数据层、RPC协议、智能体通信机制详解"
+sidebar_label: "深入MCP通信机制"
+pagination_label: "深入MCP通信机制"
+description: "深入理解MCP底层的JSON-RPC通信协议，掌握数据层标准化的实现原理与完整生命周期。内容进一步围绕MCP通信协议、MCP数据层、RPC协议、智能体通信机制等关键主题展开。通过原理拆解、实现步骤与适用场景说明相关方案如何落地。同时补充常见问题、排查思路、项目实践建议与技术面试要点。帮助开发者建立完整知识体系，并将结…"
 keywords: ["JSON-RPC", "MCP通信协议", "MCP数据层", "RPC协议", "智能体通信机制"]
 ---
 
