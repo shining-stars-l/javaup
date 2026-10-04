@@ -6,6 +6,7 @@ import styles from './index.module.css';
 const PROJECTS = [
   'Nexus Agent AI 智能体',
   'Nexus Agent Pro 完全版',
+  'Agent Up Memory',
   '黑马点评Plus',
   '大麦',
   '大麦Pro',
